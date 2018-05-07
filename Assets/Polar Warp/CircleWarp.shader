@@ -4,6 +4,7 @@
 	{
 		_MainTex ("Texture", 2D) = "white" {}
 		_SeaLevel ("Sea Level", Float) = .2
+		_Rotation ("Rotation", Float) = 0
 	}
 	SubShader
 	{
@@ -36,6 +37,7 @@
 			};
 
 			sampler2D _MainTex;
+			float _Rotation;
 			float _SeaLevel;
 			float4 _MainTex_ST;
 			
@@ -53,14 +55,23 @@
 				// sample the texture
 				float3 fromCenter = float3(i.uv.x - .5, i.uv.y - .5, 0);
 
+				float newX = fromCenter.x * sin(_Rotation) - fromCenter.y * cos(_Rotation);
+				float newY = fromCenter.x * cos(_Rotation) + fromCenter.y * sin(_Rotation);
+
+				fromCenter.x = newX;
+				fromCenter.y = newY;
+
 				float3 normalized = normalize(fromCenter);
 				float angle = acos(dot(normalized.xy, float2(0, 1)));
 				float3 check = cross(normalized, float3(0, 1, 0));
 				angle = angle * (check.z >= 0) + (2 * 3.14159 - angle) * (check.z < 0);
 				float d = pow(fromCenter.x*fromCenter.x + fromCenter.y*fromCenter.y, .5) / pow(.5, .5);
 				d = _SeaLevel * log(d / _SeaLevel) / (_SeaLevel * log(1 / _SeaLevel));
-				
-				float2 idk = float2(1 - (angle / (2 * 3.14159)), 1 - d);
+
+				float x = 1 - (angle / (2 * 3.14159));
+				float y = 1 - d;
+
+				float2 idk = float2(x, y);
 
 				fixed4 col = tex2D(_MainTex, idk);
 				// apply fog

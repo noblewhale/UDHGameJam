@@ -7,6 +7,7 @@ using UnityEngine;
 public class Map : MonoBehaviour
 {
     public Tile[] tileSet;
+    public Material polarWarpMaterial;
 
     public int[][] tiles;
     Tile[][] tileObjects;
@@ -30,7 +31,7 @@ public class Map : MonoBehaviour
 	void Start ()
     {
         Camera.main.orthographicSize = (width * tileWidth / Camera.main.aspect) / 2.0f;
-        transform.position = new Vector3(-width * tileWidth / 2, -height * tileHeight / 2);
+        transform.position = new Vector3(-width * tileWidth / 2.0f, -height * tileHeight / 2.0f);
         tileObjects = new Tile[height][];
         tiles = new int[height][];
         for (int y = 0; y < height; y++) tileObjects[y] = new Tile[width];
