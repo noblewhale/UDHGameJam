@@ -23,11 +23,6 @@ public class Map : MonoBehaviour
 
     public event Action OnMapLoaded;
 
-    enum Direction
-    {
-        UP, DOWN, RIGHT, LEFT
-    }
-
 	void Start ()
     {
         Camera.main.orthographicSize = (width * tileWidth / Camera.main.aspect) / 2.0f;
@@ -135,6 +130,38 @@ public class Map : MonoBehaviour
         }
 
         return null;
+    }
+
+    internal void Reveal(int tileX, int tileY, float radius)
+    {
+        tileObjects[tileY][tileX].SetVisible(true);
+        Vector2 center = new Vector2(tileX, tileY);
+        int numRays = 100;
+        for (int r = 0; r < numRays; r++)
+        {
+            float dirX = Mathf.Sin(2 * Mathf.PI * r / numRays);
+            float dirY = Mathf.Cos(2 * Mathf.PI * r / numRays);
+            Vector2 direction = new Vector2(dirX, dirY);
+
+            for (int d = 1; d < radius; d++)
+            {
+                Vector2 relative = center + direction * d;
+
+                int y = (int)relative.y;
+                if (y < 0 || y >= height) break;
+
+                int wrappedX = (int)relative.x;
+                if (wrappedX < 0) wrappedX = width + wrappedX;
+                if (wrappedX >= width) wrappedX = wrappedX - width;
+
+                tileObjects[y][wrappedX].SetVisible(true);
+
+                if (tiles[y][wrappedX] == 2)
+                {
+                    break;
+                }
+            }
+        }
     }
 
     void CreatePathToFloor(Direction dir, int x, int y)
@@ -292,7 +319,7 @@ public class Map : MonoBehaviour
         {
             int w = UnityEngine.Random.Range(3, width / 3);
             int h = UnityEngine.Random.Range(3, height / 3);
-            int x = UnityEngine.Random.Range(0, width - 3);
+            int x = UnityEngine.Random.Range(0, width - 1);
             int y = UnityEngine.Random.Range(0, height - 3);
 
             GenerateRoom(x, y, w, h);
@@ -305,18 +332,21 @@ public class Map : MonoBehaviour
         {
             for (int xi = 0; xi < w; xi++)
             {
-                if (y + yi >= height || x + xi >= width) continue;
+                if (y + yi >= height) continue;
+
+                int wrappedX = x + xi;
+                if (wrappedX >= width) wrappedX = wrappedX - width;
                 
-                if (yi == 0 || yi == h-1 || xi == 0 || xi == w-1 || y+yi == height -1 || x+xi == width -1)
+                if (yi == 0 || yi == h-1 || xi == 0 || xi == w-1 || y+yi == height -1)
                 {
-                    if (tiles[y + yi][x + xi] != 1)
+                    if (tiles[y + yi][wrappedX] != 1)
                     {
-                        tiles[y + yi][x + xi] = 2;
+                        tiles[y + yi][wrappedX] = 2;
                     }
                 }
                 else
                 {
-                    tiles[y + yi][x + xi] = 1;
+                    tiles[y + yi][wrappedX] = 1;
                 }
             }
         }

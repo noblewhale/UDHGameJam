@@ -10,6 +10,7 @@ public class Tile : MonoBehaviour
     Map map;
     public TextMesh glyph;
     public bool isFloodFilled;
+    bool isVisible;
 
     public void Init(Map map, int value, int x, int y)
     {
@@ -19,6 +20,14 @@ public class Tile : MonoBehaviour
         this.map = map;
         this.x = x;
         this.y = y;
+
+        SetVisible(false);
+    }
+
+    public void SetVisible(bool isVisible)
+    {
+        this.isVisible = isVisible;
+        glyph.gameObject.SetActive(isVisible);
     }
 
     public void Update()
