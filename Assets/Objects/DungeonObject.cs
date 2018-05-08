@@ -5,8 +5,8 @@ using UnityEngine;
 public class DungeonObject : MonoBehaviour
 {
     public Map map;
-    public int tileX;
-    public int tileY;
+    public int x;
+    public int y;
     
     public int defense = 1;
     public int health = 1;
@@ -21,7 +21,7 @@ public class DungeonObject : MonoBehaviour
     // Update is called once per frame
     virtual public void Update ()
     {
-        transform.localPosition = new Vector3(tileX * map.tileWidth, tileY * map.tileHeight, transform.localPosition.z);
+        transform.localPosition = new Vector3(x * map.tileWidth, y * map.tileHeight, transform.localPosition.z);
     }
 
     virtual public void Collide() { }
@@ -38,7 +38,7 @@ public class DungeonObject : MonoBehaviour
 
     virtual public void Die()
     {
-        map.tileObjects[tileY][tileX].objectStack.Remove(this);
+        map.tileObjects[y][x].objectStack.Remove(this);
         Destroy(gameObject);
     }
 }

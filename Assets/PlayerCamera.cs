@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerCamera : MonoBehaviour
 {
-    Character owner;
+    Player owner;
 
     public float rotationMaxSpeed = .01f;
     public float rotationLerpFactor = .5f;
@@ -15,12 +15,14 @@ public class PlayerCamera : MonoBehaviour
 
     void Start ()
     {
-        owner = FindObjectOfType<Character>();
+        owner = FindObjectOfType<Player>();
 	}
 	
 	void Update ()
     {
-        float percentOfWidth = (owner.transform.localPosition.x + owner.map.tileWidth / 2) / owner.map.TotalWidth;
+        if (!owner || !owner.identity) return;
+
+        float percentOfWidth = (owner.identity.transform.localPosition.x + owner.map.tileWidth / 2) / owner.map.TotalWidth;
         float targetRotation = 2 * Mathf.PI * (1 - percentOfWidth) - Mathf.PI / 2;
         targetRotation = Mathf.Lerp(rotation, targetRotation, rotationLerpFactor);
         float relativeRotation = targetRotation - rotation;
@@ -33,7 +35,7 @@ public class PlayerCamera : MonoBehaviour
         if (owner.isControllingCamera)
         {
             //Camera.main.transform.position = new Vector3(Camera.main.transform.position.x, transform.position.y + cameraOffset, Camera.main.transform.position.z);
-            Vector2 targetPos = new Vector2(Camera.main.transform.position.x, owner.transform.position.y + cameraOffset);
+            Vector2 targetPos = new Vector2(Camera.main.transform.position.x, owner.identity.transform.position.y + cameraOffset);
             targetPos = Vector2.Lerp(Camera.main.transform.position, targetPos, movementLerpFactor);
             Vector2 relativePos = targetPos - (Vector2)Camera.main.transform.position;
 

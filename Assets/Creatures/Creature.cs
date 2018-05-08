@@ -33,22 +33,22 @@ public class Creature : DungeonObject
 
     public void SetPosition(int x, int y)
     {
-        if (x < tileX) lastDirectionMoved = Direction.LEFT;
-        if (x > tileX) lastDirectionMoved = Direction.RIGHT;
-        if (y < tileY) lastDirectionMoved = Direction.DOWN;
-        if (y > tileY) lastDirectionMoved = Direction.UP;
-        map.tileObjects[tileY][tileX].SetOccupant(null);
+        if (x < base.x) lastDirectionMoved = Direction.LEFT;
+        if (x > base.x) lastDirectionMoved = Direction.RIGHT;
+        if (y < base.y) lastDirectionMoved = Direction.DOWN;
+        if (y > base.y) lastDirectionMoved = Direction.UP;
+        map.tileObjects[base.y][base.x].SetOccupant(null);
         map.tileObjects[y][x].SetOccupant(this);
-        tileX = x;
-        tileY = y;
-        transform.localPosition = new Vector3(tileX * map.tileWidth, tileY * map.tileHeight, transform.localPosition.z);
+        base.x = x;
+        base.y = y;
+        transform.localPosition = new Vector3(base.x * map.tileWidth, base.y * map.tileHeight, transform.localPosition.z);
 
         nextActionTime = TimeManager.time + (ulong)ticksPerMove;
     }
 
     override public void Die()
     {
-        map.tileObjects[tileY][tileX].SetOccupant(null);
+        map.tileObjects[y][x].SetOccupant(null);
         CreatureSpawner.instance.RemoveCreature(this);
         Destroy(gameObject);
     }

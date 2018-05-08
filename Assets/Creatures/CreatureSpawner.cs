@@ -25,13 +25,21 @@ public class CreatureSpawner : MonoBehaviour
         {
             var tile = map.floors[Random.Range(0, map.floors.Count - 1)];
             var creatureType = creatureTypes[Random.Range(0, creatureTypes.Length - 1)];
-            Creature c = Instantiate(creatureType.gameObject).GetComponent<Creature>();
-            c.transform.parent = map.transform;
-            c.SetPosition(tile.x, tile.y);
 
-            allCreatures.Add(c);
+            SpawnCreature(tile.x, tile.y, creatureType);
         }
 	}
+
+    public Creature SpawnCreature(int x, int y, Creature creatureType)
+    {
+        Creature c = Instantiate(creatureType.gameObject).GetComponent<Creature>();
+        c.transform.parent = map.transform;
+        c.SetPosition(x, y);
+
+        allCreatures.Add(c);
+
+        return c;
+    }
 
     public void RemoveCreature(Creature c)
     {

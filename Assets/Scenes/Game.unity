@@ -126,6 +126,7 @@ GameObject:
   - component: {fileID: 519420033}
   - component: {fileID: 519420034}
   - component: {fileID: 519420035}
+  - component: {fileID: 519420030}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -140,6 +141,23 @@ AudioListener:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_Enabled: 1
+--- !u!114 &519420030
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11b8df19616702a47b5b7b3838bac5f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rotationMaxSpeed: 0.05
+  rotationLerpFactor: 0.2
+  movementMaxSpeed: 0.1
+  movementLerpFactor: 0.5
+  cameraOffset: 3
+  rotation: 4.0029964
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0
@@ -382,7 +400,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3c82569596ceec499eadbcabbbbb697, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  time: 0
 --- !u!1 &1185871473
 GameObject:
   m_ObjectHideFlags: 0
@@ -424,19 +441,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ab21a5f222cd8c459167bc7480c59b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tileX: 0
-  tileY: 0
-  defense: 1
-  health: 1
-  isCollidable: 1
-  blocksLineOfSight: 0
-  strength: 0
-  dexterity: 0
-  constitution: 0
-  intelligence: 0
-  charisma: 0
-  ticksPerMove: 1
-  nextActionTime: 0
-  viewDistance: 4
+  playerPrefab: {fileID: 114982603892130690, guid: a4e85b07175714d4e9cd655929f3a45d,
+    type: 2}
+  identity: {fileID: 0}
+  isControllingCamera: 0
   lastMovementFromKeyPressTime: 0
-  cameraOffset: 3
+  map: {fileID: 0}

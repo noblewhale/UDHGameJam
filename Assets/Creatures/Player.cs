@@ -3,23 +3,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Character : Creature
+public class Player : MonoBehaviour
 {
+    public Creature playerPrefab;
+    public Creature identity;
     public bool isControllingCamera = false;
 
     public float lastMovementFromKeyPressTime;
     LinkedList<Direction> commandQueue = new LinkedList<Direction>();
-
+    public Map map;
 
 	// Use this for initialization
-	override protected void Awake ()
+	void Awake ()
     {
-        base.Awake();
-        if (map)
-        {
-            map.OnMapLoaded += OnMapLoaded;
-        }
-        transform.parent = map.transform;
+        map = FindObjectOfType<Map>().GetComponent<Map>();
+        map.OnMapLoaded += OnMapLoaded;
         Camera.main.GetComponent<EntryAnimation>().OnDoneAnimating += OnEntryAnimationFinished;
 	}
     
@@ -31,15 +29,14 @@ public class Character : Creature
     void OnMapLoaded()
     { 
         Tile startTile = map.floors[UnityEngine.Random.Range(0, map.floors.Count - 1)];
-        tileX = startTile.x;
-        tileY = startTile.y;
-        transform.localPosition = new Vector3(tileX * map.tileWidth, tileY * map.tileHeight, transform.localPosition.z);
-        map.Reveal(tileX, tileY, viewDistance);
+
+        identity = CreatureSpawner.instance.SpawnCreature(startTile.x, startTile.y, playerPrefab);
+        map.Reveal(identity.x, identity.y, identity.viewDistance);
         Camera.main.GetComponent<EntryAnimation>().isAnimating = true;
     }
 	
 	// Update is called once per frame
-	override public void Update ()
+	void Update ()
     {
         if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow) || 
             Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow) ||
@@ -85,8 +82,8 @@ public class Character : Creature
 
         if (commandQueue.Count != 0 && (lastMovementFromKeyPressTime == 0 || Time.time - lastMovementFromKeyPressTime > .25f))
         {
-            int newTileX = tileX;
-            int newTileY = tileY;
+            int newTileX = identity.x;
+            int newTileY = identity.y;
             Direction dir = commandQueue.First.Value;
             switch (dir)
             {
@@ -103,8 +100,8 @@ public class Character : Creature
 
             if (!map.tileObjects[newTileY][newTileX].IsCollidable())
             {
-                SetPosition(newTileX, newTileY);
-                TimeManager.Tick(ticksPerMove);
+                identity.SetPosition(newTileX, newTileY);
+                TimeManager.Tick(identity.ticksPerMove);
             }
             else
             {
@@ -112,10 +109,9 @@ public class Character : Creature
                 map.tileObjects[newTileY][newTileX].Collide();
             }
 
-            map.Reveal(tileX, tileY, viewDistance);
+            map.Reveal(identity.x, identity.y, identity.viewDistance);
             
             lastMovementFromKeyPressTime = Time.time;
-            base.Update();
         }
     }
 
@@ -123,9 +119,9 @@ public class Character : Creature
     {
         if (tile.occupant != null)
         {
-            Attack(tile.occupant);
+            identity.Attack(tile.occupant);
 
-            TimeManager.Tick(ticksPerAttack); 
+            TimeManager.Tick(identity.ticksPerAttack); 
         }
     }
 }
