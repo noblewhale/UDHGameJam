@@ -13,12 +13,14 @@ public class Player : MonoBehaviour
     LinkedList<Direction> commandQueue = new LinkedList<Direction>();
     public Map map;
 
+    public Camera mainCamera;
+
 	// Use this for initialization
 	void Awake ()
     {
         map = FindObjectOfType<Map>().GetComponent<Map>();
         map.OnMapLoaded += OnMapLoaded;
-        Camera.main.GetComponent<EntryAnimation>().OnDoneAnimating += OnEntryAnimationFinished;
+        mainCamera.GetComponent<EntryAnimation>().OnDoneAnimating += OnEntryAnimationFinished;
 	}
     
     public void OnEntryAnimationFinished()
@@ -33,8 +35,8 @@ public class Player : MonoBehaviour
         identity = CreatureSpawner.instance.SpawnCreature(startTile.x, startTile.y, playerPrefab);
         map.Reveal(identity.x, identity.y, identity.viewDistance);
 
-        Camera.main.GetComponent<PlayerCamera>().SetRotation(startTile.x, startTile.y, 1, float.MaxValue);
-        Camera.main.GetComponent<EntryAnimation>().isAnimating = true;
+        mainCamera.GetComponent<PlayerCamera>().SetRotation(startTile.x, startTile.y, 1, float.MaxValue);
+        mainCamera.GetComponent<EntryAnimation>().isAnimating = true;
     }
 	
 	// Update is called once per frame

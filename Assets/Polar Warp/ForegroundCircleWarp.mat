@@ -6,7 +6,7 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: CircleWarp
+  m_Name: ForegroundCircleWarp
   m_Shader: {fileID: 4800000, guid: eb683c33160afe44b8bd56651b7382a0, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -66,7 +66,7 @@ Material:
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
-    - _Rotation: 1.8748211
+    - _Rotation: -1.7734798
     - _SeaLevel: 0.0075
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
