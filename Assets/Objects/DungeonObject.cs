@@ -12,6 +12,7 @@ public class DungeonObject : MonoBehaviour
     public int health = 1;
     public bool isCollidable = true;
     public bool blocksLineOfSight = false;
+    public bool coversObjectsBeneath = false;
 
     virtual protected void Awake()
     {
@@ -38,7 +39,7 @@ public class DungeonObject : MonoBehaviour
 
     virtual public void Die()
     {
-        map.tileObjects[y][x].objectStack.Remove(this);
+        map.tileObjects[y][x].objectList.Remove(this);
         Destroy(gameObject);
     }
 }

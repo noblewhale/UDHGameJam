@@ -24,6 +24,10 @@ public class PlayerCamera : MonoBehaviour
 
         float percentOfWidth = (owner.identity.transform.localPosition.x + owner.map.tileWidth / 2) / owner.map.TotalWidth;
         float targetRotation = 2 * Mathf.PI * (1 - percentOfWidth) - Mathf.PI / 2;
+        if (targetRotation - rotation > Mathf.PI)
+        {
+            targetRotation = targetRotation - (2 * Mathf.PI);
+        }
         targetRotation = Mathf.Lerp(rotation, targetRotation, rotationLerpFactor);
         float relativeRotation = targetRotation - rotation;
         if (Mathf.Abs(relativeRotation) > rotationMaxSpeed)

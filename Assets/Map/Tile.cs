@@ -13,7 +13,7 @@ public class Tile : MonoBehaviour
     bool isVisible = true;
     float gapBetweenLayers = .1f;
 
-    public LinkedList<DungeonObject> objectStack = new LinkedList<DungeonObject>();
+    public LinkedList<DungeonObject> objectList = new LinkedList<DungeonObject>();
 
     public Creature occupant;
 
@@ -40,9 +40,14 @@ public class Tile : MonoBehaviour
     public void SetVisible(bool isVisible)
     {
         this.isVisible = isVisible;
-        foreach (var ob in objectStack)
+        bool nextObjectIsVisible = isVisible;
+        foreach (var ob in objectList)
         {
-            ob.gameObject.SetActive(isVisible);
+            ob.gameObject.SetActive(nextObjectIsVisible);
+            if (ob.coversObjectsBeneath)
+            {
+                nextObjectIsVisible = false;
+            }
         }
         if (occupant != null)
         {
@@ -56,7 +61,7 @@ public class Tile : MonoBehaviour
         transform.localPosition = new Vector3(x * map.tileWidth, y * map.tileHeight, 0);
 
         int l = 0;
-        foreach (var ob in objectStack)
+        foreach (var ob in objectList)
         {
             ob.transform.localPosition = new Vector3(ob.transform.localPosition.x, ob.transform.localPosition.y, l * gapBetweenLayers);
             l++;
@@ -68,13 +73,13 @@ public class Tile : MonoBehaviour
         var ob = Instantiate(dungeonObject).GetComponent<DungeonObject>();
         ob.transform.parent = transform;
         ob.transform.localPosition = Vector3.zero;
-        ob.gameObject.SetActive(isVisible);
-        objectStack.AddFirst(ob);
+        objectList.AddFirst(ob);
+        SetVisible(isVisible);
     }
 
     public bool IsCollidable()
     {
-        foreach (var ob in objectStack)
+        foreach (var ob in objectList)
         {
             if (ob.isCollidable) return true;
         }
@@ -84,7 +89,7 @@ public class Tile : MonoBehaviour
 
     public bool DoesBlockLineOfSight()
     {
-        foreach (var ob in objectStack)
+        foreach (var ob in objectList)
         {
             if (ob.blocksLineOfSight) return true;
         }
@@ -93,7 +98,7 @@ public class Tile : MonoBehaviour
 
     public void Collide()
     {
-        foreach (var ob in objectStack)
+        foreach (var ob in objectList)
         {
             if (ob.isCollidable) ob.Collide();
         }
