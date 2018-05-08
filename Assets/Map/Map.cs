@@ -153,6 +153,14 @@ public class Map : MonoBehaviour
         return null;
     }
 
+    public int WrapX(int x)
+    {
+        if (x < 0) x += width;
+        else if (x >= width) x -= width;
+
+        return x;
+    }
+
     internal void Reveal(int tileX, int tileY, float radius)
     {
         tileObjects[tileY][tileX].SetVisible(true);

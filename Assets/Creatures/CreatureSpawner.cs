@@ -8,8 +8,13 @@ public class CreatureSpawner : MonoBehaviour
     Map map;
     public int numCreatesToSpawn = 20;
 
+    public List<Creature> allCreatures = new List<Creature>();
+
+    public static CreatureSpawner instance;
+
     void Start()
     {
+        instance = this;
         map = FindObjectOfType<Map>();
         map.OnMapLoaded += () => InitialSpawn(numCreatesToSpawn);
     }
@@ -23,8 +28,15 @@ public class CreatureSpawner : MonoBehaviour
             Creature c = Instantiate(creatureType.gameObject).GetComponent<Creature>();
             c.transform.parent = map.transform;
             c.SetPosition(tile.x, tile.y);
+
+            allCreatures.Add(c);
         }
 	}
+
+    public void RemoveCreature(Creature c)
+    {
+        allCreatures.Remove(c);
+    }
 	
 	// Update is called once per frame
 	void Update () {

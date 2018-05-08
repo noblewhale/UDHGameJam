@@ -4,11 +4,10 @@ using UnityEngine;
 
 public class DungeonObject : MonoBehaviour
 {
-    protected Map map;
+    public Map map;
     public int tileX;
     public int tileY;
-
-    public int agility = 0;
+    
     public int defense = 1;
     public int health = 1;
     public bool isCollidable = true;

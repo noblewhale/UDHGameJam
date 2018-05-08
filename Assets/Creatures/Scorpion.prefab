@@ -20,6 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4303741926992246}
   - component: {fileID: 114238227866493274}
+  - component: {fileID: 114738938358485978}
   m_Layer: 0
   m_Name: Scorpion
   m_TagString: Untagged
@@ -83,8 +84,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tileX: 0
   tileY: 0
-  agility: 0
-  defense: 1
+  defense: 0
   health: 1
   isCollidable: 1
   blocksLineOfSight: 0
@@ -93,8 +93,23 @@ MonoBehaviour:
   constitution: 0
   intelligence: 0
   charisma: 0
-  lastMoveTime: 0
+  ticksPerMove: 2
+  ticksPerAttack: 1
+  nextActionTime: 0
   viewDistance: 4
+  movementBehaviour: {fileID: 0}
+--- !u!114 &114738938358485978
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1079141470586608}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0a695043c15af24dbb86f167360e1d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  owner: {fileID: 0}
 --- !u!212 &212120512771546160
 SpriteRenderer:
   m_ObjectHideFlags: 1

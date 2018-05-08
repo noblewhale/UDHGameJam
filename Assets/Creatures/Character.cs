@@ -7,6 +7,7 @@ public class Character : Creature
 {
     bool isControllingCamera = false;
 
+    public float lastMovementFromKeyPressTime;
     LinkedList<Direction> commandQueue = new LinkedList<Direction>();
 
     public int cameraOffset = 3;
@@ -46,7 +47,7 @@ public class Character : Creature
             Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow) ||
             Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
         {
-            lastMoveTime = 0;
+            lastMovementFromKeyPressTime = 0;
         }
 
         if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
@@ -83,7 +84,7 @@ public class Character : Creature
             commandQueue.Remove(Direction.LEFT);
         }
 
-        if (commandQueue.Count != 0 && (lastMoveTime == 0 || Time.time - lastMoveTime > .25f))
+        if (commandQueue.Count != 0 && (lastMovementFromKeyPressTime == 0 || Time.time - lastMovementFromKeyPressTime > .25f))
         {
             int newTileX = tileX;
             int newTileY = tileY;
@@ -103,8 +104,8 @@ public class Character : Creature
 
             if (!map.tileObjects[newTileY][newTileX].IsCollidable())
             {
-                tileY = newTileY;
-                tileX = newTileX;
+                SetPosition(newTileX, newTileY);
+                TimeManager.Tick(ticksPerMove);
             }
             else
             {
@@ -114,7 +115,7 @@ public class Character : Creature
 
             map.Reveal(tileX, tileY, viewDistance);
             
-            lastMoveTime = Time.time;
+            lastMovementFromKeyPressTime = Time.time;
             base.Update();
         }
 
@@ -123,7 +124,6 @@ public class Character : Creature
         {
             Camera.main.transform.position = new Vector3(Camera.main.transform.position.x, transform.position.y + cameraOffset, Camera.main.transform.position.z);
         }
-
     }
 
     private void CollideWith(Tile tile)
@@ -131,21 +131,8 @@ public class Character : Creature
         if (tile.occupant != null)
         {
             Attack(tile.occupant);
-        }
-    }
 
-    public void Attack(Creature creature)
-    {
-        float roll = UnityEngine.Random.Range(0, 20);
-        roll += dexterity;
-        if (roll > creature.dexterity)
-        {
-            // Hit, but do we do damange?
-            if (roll > creature.dexterity + creature.defense)
-            {
-                // Got past armor / defense
-                creature.TakeDamage(1);
-            }
+            TimeManager.Tick(ticksPerAttack); 
         }
     }
 }
