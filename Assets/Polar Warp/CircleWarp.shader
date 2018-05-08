@@ -13,7 +13,7 @@
 
 		Pass
 		{ 
-			Cull Off ZWrite Off ZTest Always
+			//Cull Off ZWrite Off ZTest Always
 
 			CGPROGRAM
 			#pragma vertex vert
@@ -52,8 +52,11 @@
 			
 			fixed4 frag (v2f i) : SV_Target
 			{
+				float aspect = 4 / 3.0;
 				// sample the texture
 				float3 fromCenter = float3(i.uv.x - .5, i.uv.y - .5, 0);
+
+				fromCenter.x *= aspect;
 
 				float newX = fromCenter.x * sin(_Rotation) - fromCenter.y * cos(_Rotation);
 				float newY = fromCenter.x * cos(_Rotation) + fromCenter.y * sin(_Rotation);
