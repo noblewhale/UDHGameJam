@@ -17,7 +17,7 @@ public class EntryAnimation : MonoBehaviour
         if (isAnimating)
         {
             Camera.main.transform.position += Vector3.up * Time.deltaTime * 10f;
-            if (Camera.main.transform.position.y > character.transform.position.y + character.cameraOffset)
+            if (Camera.main.transform.position.y > character.transform.position.y + Camera.main.GetComponent<PlayerCamera>().cameraOffset)
             {
                 isAnimating = false;
                 if (OnDoneAnimating != null) OnDoneAnimating();

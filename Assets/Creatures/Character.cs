@@ -5,12 +5,11 @@ using UnityEngine;
 
 public class Character : Creature
 {
-    bool isControllingCamera = false;
+    public bool isControllingCamera = false;
 
     public float lastMovementFromKeyPressTime;
     LinkedList<Direction> commandQueue = new LinkedList<Direction>();
 
-    public int cameraOffset = 3;
 
 	// Use this for initialization
 	override protected void Awake ()
@@ -117,12 +116,6 @@ public class Character : Creature
             
             lastMovementFromKeyPressTime = Time.time;
             base.Update();
-        }
-
-        map.polarWarpMaterial.SetFloat("_Rotation", 2 * Mathf.PI * (1 - (float)(transform.localPosition.x + map.tileWidth / 2) / (map.width * map.tileWidth)) - Mathf.PI / 2);
-        if (isControllingCamera)
-        {
-            Camera.main.transform.position = new Vector3(Camera.main.transform.position.x, transform.position.y + cameraOffset, Camera.main.transform.position.z);
         }
     }
 

@@ -19,6 +19,7 @@ public class Creature : DungeonObject
         }
     }
 
+    public Direction lastDirectionMoved = Direction.UP;
     public ulong nextActionTime = 0;
     public float viewDistance = 4;
 
@@ -32,6 +33,10 @@ public class Creature : DungeonObject
 
     public void SetPosition(int x, int y)
     {
+        if (x < tileX) lastDirectionMoved = Direction.LEFT;
+        if (x > tileX) lastDirectionMoved = Direction.RIGHT;
+        if (y < tileY) lastDirectionMoved = Direction.DOWN;
+        if (y > tileY) lastDirectionMoved = Direction.UP;
         map.tileObjects[tileY][tileX].SetOccupant(null);
         map.tileObjects[y][x].SetOccupant(this);
         tileX = x;

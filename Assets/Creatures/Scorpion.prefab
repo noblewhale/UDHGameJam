@@ -37,8 +37,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4998244153628158}
   - component: {fileID: 212120512771546160}
+  - component: {fileID: 114927599635230080}
   m_Layer: 0
-  m_Name: ScorpionGlyph (1)
+  m_Name: ScorpionGlyph
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -82,6 +83,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bcd10d15a30478449e00ad96e33416d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  map: {fileID: 0}
   tileX: 0
   tileY: 0
   defense: 0
@@ -95,6 +97,7 @@ MonoBehaviour:
   charisma: 0
   ticksPerMove: 2
   ticksPerAttack: 1
+  lastDirectionMoved: 0
   nextActionTime: 0
   viewDistance: 4
   movementBehaviour: {fileID: 0}
@@ -110,6 +113,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: {fileID: 0}
+--- !u!114 &114927599635230080
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1565732633263944}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea2b289583a01d24c8a6248c5bd6a45d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!212 &212120512771546160
 SpriteRenderer:
   m_ObjectHideFlags: 1

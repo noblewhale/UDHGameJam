@@ -19,6 +19,18 @@ public class Map : MonoBehaviour
     public float tileWidth = 1;
     public float tileHeight = 1;
 
+    public float TotalWidth {
+        get {
+            return width * tileWidth;
+        }
+    }
+
+    public float TotalHeight{
+        get {
+            return height * tileHeight;
+        }
+    }
+
     public List<Tile> walls = new List<Tile>();
     public List<Tile> floors = new List<Tile>();
 

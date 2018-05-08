@@ -31,7 +31,7 @@ public class MovementBehaviourRandom : MovementBehaviour
 
         if (adjacentAndOpen.Count > 0)
         {
-            Tile target = adjacentAndOpen[Random.Range(0, adjacentAndOpen.Count - 1)];
+            Tile target = adjacentAndOpen[Random.Range(0, adjacentAndOpen.Count)];
 
             owner.SetPosition(target.x, target.y);
         }
