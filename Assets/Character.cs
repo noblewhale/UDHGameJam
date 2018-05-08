@@ -1,25 +1,24 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Character : MonoBehaviour
+public class Character : Creature
 {
-
-    int tileX;
-    int tileY;
-    Map map;
     bool isControllingCamera = false;
-    float lastMoveTime;
 
     LinkedList<Direction> commandQueue = new LinkedList<Direction>();
 
     public int cameraOffset = 3;
 
 	// Use this for initialization
-	void Awake ()
+	override protected void Awake ()
     {
-        map = FindObjectOfType<Map>();
-        map.OnMapLoaded += OnMapLoaded;
+        base.Awake();
+        if (map)
+        {
+            map.OnMapLoaded += OnMapLoaded;
+        }
         transform.parent = map.transform;
         Camera.main.GetComponent<EntryAnimation>().OnDoneAnimating += OnEntryAnimationFinished;
 	}
@@ -31,16 +30,16 @@ public class Character : MonoBehaviour
 
     void OnMapLoaded()
     { 
-        Tile startTile = map.floors[Random.Range(0, map.floors.Count - 1)];
+        Tile startTile = map.floors[UnityEngine.Random.Range(0, map.floors.Count - 1)];
         tileX = startTile.x;
         tileY = startTile.y;
         transform.localPosition = new Vector3(tileX * map.tileWidth, tileY * map.tileHeight, transform.localPosition.z);
-        map.Reveal(tileX, tileY, 4);
+        map.Reveal(tileX, tileY, viewDistance);
         Camera.main.GetComponent<EntryAnimation>().isAnimating = true;
     }
 	
 	// Update is called once per frame
-	void Update ()
+	override public void Update ()
     {
         if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow) || 
             Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow) ||
@@ -102,26 +101,51 @@ public class Character : MonoBehaviour
             //newTileX = Mathf.Clamp(newTileX, 0, map.width - 1);
             newTileY = Mathf.Clamp(newTileY, 0, map.height - 1);
 
-            if (map.tiles[newTileY][tileX] != 2)
+            if (!map.tileObjects[newTileY][newTileX].IsCollidable())
             {
                 tileY = newTileY;
-            }
-            if (map.tiles[tileY][newTileX] != 2)
-            { 
                 tileX = newTileX;
             }
+            else
+            {
+                CollideWith(map.tileObjects[newTileY][newTileX]);
+                map.tileObjects[newTileY][newTileX].Collide();
+            }
 
-            map.Reveal(tileX, tileY, 3);
-
-            transform.localPosition = new Vector3(tileX * map.tileWidth, tileY * map.tileHeight, transform.localPosition.z);
+            map.Reveal(tileX, tileY, viewDistance);
             
             lastMoveTime = Time.time;
+            base.Update();
         }
 
         map.polarWarpMaterial.SetFloat("_Rotation", 2 * Mathf.PI * (1 - (float)(transform.localPosition.x + map.tileWidth / 2) / (map.width * map.tileWidth)) - Mathf.PI / 2);
         if (isControllingCamera)
         {
             Camera.main.transform.position = new Vector3(Camera.main.transform.position.x, transform.position.y + cameraOffset, Camera.main.transform.position.z);
+        }
+
+    }
+
+    private void CollideWith(Tile tile)
+    {
+        if (tile.occupant != null)
+        {
+            Attack(tile.occupant);
+        }
+    }
+
+    public void Attack(Creature creature)
+    {
+        float roll = UnityEngine.Random.Range(0, 20);
+        roll += dexterity;
+        if (roll > creature.dexterity)
+        {
+            // Hit, but do we do damange?
+            if (roll > creature.dexterity + creature.defense)
+            {
+                // Got past armor / defense
+                creature.TakeDamage(1);
+            }
         }
     }
 }

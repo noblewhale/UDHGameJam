@@ -6,11 +6,12 @@ using UnityEngine;
 
 public class Map : MonoBehaviour
 {
-    public Tile[] tileSet;
+    public Tile tilePrefab;
+    public DungeonObject[] objectSet;
     public Material polarWarpMaterial;
 
     public int[][] tiles;
-    Tile[][] tileObjects;
+    public Tile[][] tileObjects;
 
     public int width = 10;
     public int height = 1;
@@ -23,6 +24,8 @@ public class Map : MonoBehaviour
 
     public event Action OnMapLoaded;
 
+    public float mapGenerationAnimationDelay = 0;
+
 	void Start ()
     {
         Camera.main.orthographicSize = (width * tileWidth / Camera.main.aspect) / 2.0f;
@@ -31,19 +34,18 @@ public class Map : MonoBehaviour
         tiles = new int[height][];
         for (int y = 0; y < height; y++) tileObjects[y] = new Tile[width];
         for (int y = 0; y < height; y++) tiles[y] = new int[width];
-        GenerateMap();
+        StartCoroutine(GenerateMap());
 	}
 
     private void Update()
     {
     }
 
-    void GenerateMap()
+    IEnumerator GenerateMap()
     {
-        GenerateRooms(40);
+        yield return StartCoroutine(GenerateRooms(30));
         UpdateTiles();
-        PostProcessMap();
-        if (OnMapLoaded != null) OnMapLoaded();
+        StartCoroutine(PostProcessMap());
     }
 
     void UpdateTiles()
@@ -55,11 +57,11 @@ public class Map : MonoBehaviour
                 if (tileObjects[y][x] != null && tileObjects[y][x].value != tiles[y][x])
                 {
                     Destroy(tileObjects[y][x].gameObject);
-                    tileObjects[y][x] = Instantiate(tileSet[tiles[y][x]].gameObject).GetComponent<Tile>();
+                    AddTile(x, y);
                 }
                 if (tileObjects[y][x] == null)
                 {
-                    tileObjects[y][x] = Instantiate(tileSet[tiles[y][x]].gameObject).GetComponent<Tile>();
+                    AddTile(x, y);
                 }
                 Tile tile = tileObjects[y][x].GetComponent<Tile>();
                 tile.Init(this, tiles[y][x], x, y);
@@ -68,30 +70,49 @@ public class Map : MonoBehaviour
         }
     }
 
+    void AddTile(int x, int y)
+    {
+        tileObjects[y][x] = Instantiate(tilePrefab, new Vector3(-666, -666, -666), Quaternion.identity).GetComponent<Tile>();
+        if (tiles[y][x] != 0)
+        {
+            tileObjects[y][x].AddObject(objectSet[1]);
+            if (tiles[y][x] != 1)
+            {
+                tileObjects[y][x].AddObject(objectSet[tiles[y][x]]);
+            }
+        }
+        tileObjects[y][x].Init(this, tiles[y][x], x, y);
+    }
+
     void FloodFill(int floodX, int floodY)
     {
-        if (floodX < 0 || floodX >= width || floodY < 0 || floodY >= height) return;
-        if (tileObjects[floodY][floodX].isFloodFilled) return;
+        if (floodY < 0 || floodY >= height) return;
 
-        if (tiles[floodY][floodX] == 1)
+        int wrappedX = floodX;
+        if (wrappedX < 0) wrappedX = width + wrappedX;
+        else if (wrappedX >= width) wrappedX = wrappedX - width;
+
+        if (tileObjects[floodY][wrappedX].isFloodFilled) return;
+
+        if (tiles[floodY][wrappedX] != 2)
         {
-            tileObjects[floodY][floodX].isFloodFilled = true;
-            //tileObjects[floodY][floodX].glyph.color = Color.green;
+            tileObjects[floodY][wrappedX].isFloodFilled = true;
+            //tileObjects[floodY][wrappedX].glyph.color = Color.green;
         }
         else
         {
-            if (tiles[floodY][floodX] == 2)
+            if (tiles[floodY][wrappedX] == 2)
             {
-                //tileObjects[floodY][floodX].glyph.color = Color.red;
-                walls.Add(tileObjects[floodY][floodX]);
+                //tileObjects[floodY][wrappedX].glyph.color = Color.red;
+                walls.Add(tileObjects[floodY][wrappedX]);
             }
             return;
         }
 
-        FloodFill(floodX - 1, floodY);
-        FloodFill(floodX + 1, floodY);
-        FloodFill(floodX, floodY - 1);
-        FloodFill(floodX, floodY + 1);
+        FloodFill(wrappedX - 1, floodY);
+        FloodFill(wrappedX + 1, floodY);
+        FloodFill(wrappedX, floodY - 1);
+        FloodFill(wrappedX, floodY + 1);
     }
     
     Tile FindFloorTile(Direction dir, int x, int y, out int distance)
@@ -135,7 +156,7 @@ public class Map : MonoBehaviour
     internal void Reveal(int tileX, int tileY, float radius)
     {
         tileObjects[tileY][tileX].SetVisible(true);
-        Vector2 center = new Vector2(tileX, tileY);
+        Vector2 center = new Vector2(tileX + tileWidth / 2, tileY + tileWidth / 2);
         int numRays = 100;
         for (int r = 0; r < numRays; r++)
         {
@@ -156,7 +177,7 @@ public class Map : MonoBehaviour
 
                 tileObjects[y][wrappedX].SetVisible(true);
 
-                if (tiles[y][wrappedX] == 2)
+                if (tileObjects[y][wrappedX].DoesBlockLineOfSight())
                 {
                     break;
                 }
@@ -166,7 +187,9 @@ public class Map : MonoBehaviour
 
     void CreatePathToFloor(Direction dir, int x, int y)
     {
-        while (x > 0 && x < width - 1 && y > 0 && y < height - 1)
+        int startX = x;
+        int startY = y;
+        while (x > 0 && x < width && y > 0 && y < height - 1)
         {
             if (tiles[y][x] == 1) break;
 
@@ -203,6 +226,9 @@ public class Map : MonoBehaviour
                 case Direction.LEFT: x--; break;
             }
         }
+
+        SetTile(startX, startY, 3);
+        //tileObjects[startY][startX].isFloodFilled = true;
     }
 
     void SetTile(int x, int y, int value)
@@ -212,7 +238,7 @@ public class Map : MonoBehaviour
         {
             Destroy(tileObjects[y][x].gameObject);
         }
-        tileObjects[y][x] = GameObject.Instantiate(tileSet[value]).GetComponent<Tile>();
+        AddTile(x, y);
         tileObjects[y][x].Init(this, value, x, y);
     }
 
@@ -266,17 +292,17 @@ public class Map : MonoBehaviour
         return true;
     }
 
-    void PostProcessMap()
+    IEnumerator PostProcessMap()
     {
         int floodX = 0, floodY = 0;
-
+        if (mapGenerationAnimationDelay != 0) yield return new WaitForSeconds(mapGenerationAnimationDelay);
         bool floorTileFound = false;
         do
         {
             floorTileFound = false;
             for (floodY = 1; floodY < height - 1; floodY++)
             {
-                for (floodX = 1; floodX < width - 1; floodX++)
+                for (floodX = 0; floodX < width; floodX++)
                 {
                     if (tiles[floodY][floodX] == 1 && !tileObjects[floodY][floodX].isFloodFilled)
                     {
@@ -287,6 +313,8 @@ public class Map : MonoBehaviour
                 if (floorTileFound) break;
             }
 
+            if (mapGenerationAnimationDelay != 0) yield return new WaitForSeconds(mapGenerationAnimationDelay);
+
             if (floorTileFound)
             {
                 Debug.Log(floodX + " " + floodY);
@@ -295,7 +323,12 @@ public class Map : MonoBehaviour
                 while (foundPath)
                 {
                     FloodFill(floodX, floodY);
+
+                    if (mapGenerationAnimationDelay != 0) yield return new WaitForSeconds(mapGenerationAnimationDelay);
+
                     foundPath = CreateConnectingPath(ref floodX, ref floodY);
+
+                    if (mapGenerationAnimationDelay != 0) yield return new WaitForSeconds(mapGenerationAnimationDelay);
                 }
             }
         } while (floorTileFound);
@@ -311,10 +344,13 @@ public class Map : MonoBehaviour
                 if (tiles[y][x] == 2) walls.Add(tileObjects[y][x]);
             }
         }
+        
+        if (OnMapLoaded != null) OnMapLoaded();
     }
 
-    void GenerateRooms(int numRooms)
+    IEnumerator GenerateRooms(int numRooms)
     {
+        if (mapGenerationAnimationDelay != 0) yield return new WaitForSeconds(mapGenerationAnimationDelay * 2);
         for (int n = 0; n < numRooms; n++)
         {
             int w = UnityEngine.Random.Range(3, width / 3);
@@ -323,6 +359,9 @@ public class Map : MonoBehaviour
             int y = UnityEngine.Random.Range(0, height - 3);
 
             GenerateRoom(x, y, w, h);
+            UpdateTiles();
+
+            if (mapGenerationAnimationDelay != 0) yield return new WaitForSeconds(mapGenerationAnimationDelay / 10);
         }
     }
 
