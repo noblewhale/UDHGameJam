@@ -32,6 +32,8 @@ public class Player : MonoBehaviour
 
         identity = CreatureSpawner.instance.SpawnCreature(startTile.x, startTile.y, playerPrefab);
         map.Reveal(identity.x, identity.y, identity.viewDistance);
+
+        Camera.main.GetComponent<PlayerCamera>().SetRotation(startTile.x, startTile.y, 1, float.MaxValue);
         Camera.main.GetComponent<EntryAnimation>().isAnimating = true;
     }
 	

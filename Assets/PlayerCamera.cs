@@ -22,23 +22,9 @@ public class PlayerCamera : MonoBehaviour
     {
         if (!owner || !owner.identity) return;
 
-        float percentOfWidth = (owner.identity.transform.localPosition.x + owner.map.tileWidth / 2) / owner.map.TotalWidth;
-        float targetRotation = 2 * Mathf.PI * (1 - percentOfWidth) - Mathf.PI / 2;
-        if (targetRotation - rotation > Mathf.PI)
-        {
-            targetRotation = targetRotation - (2 * Mathf.PI);
-        }
-        targetRotation = Mathf.Lerp(rotation, targetRotation, rotationLerpFactor);
-        float relativeRotation = targetRotation - rotation;
-        if (Mathf.Abs(relativeRotation) > rotationMaxSpeed)
-        {
-            relativeRotation = Mathf.Sign(relativeRotation) * rotationMaxSpeed;
-        }
-        rotation += relativeRotation;
-        owner.map.polarWarpMaterial.SetFloat("_Rotation", rotation);
+        SetRotation(owner.identity.x, owner.identity.y, rotationLerpFactor, rotationMaxSpeed);
         if (owner.isControllingCamera)
         {
-            //Camera.main.transform.position = new Vector3(Camera.main.transform.position.x, transform.position.y + cameraOffset, Camera.main.transform.position.z);
             Vector2 targetPos = new Vector2(Camera.main.transform.position.x, owner.identity.transform.position.y + cameraOffset);
             targetPos = Vector2.Lerp(Camera.main.transform.position, targetPos, movementLerpFactor);
             Vector2 relativePos = targetPos - (Vector2)Camera.main.transform.position;
@@ -51,5 +37,23 @@ public class PlayerCamera : MonoBehaviour
             targetPos = Camera.main.transform.position + (Vector3)relativePos;
             Camera.main.transform.position = new Vector3(targetPos.x, targetPos.y, Camera.main.transform.position.z);
         }
+    }
+
+    public void SetRotation(int x, int y, float lerpFactor, float maxSpeed)
+    {
+        float percentOfWidth = (float) x / owner.map.width;
+        float targetRotation = 2 * Mathf.PI * (1 - percentOfWidth) - Mathf.PI / 2;
+        if (targetRotation - rotation > Mathf.PI)
+        {
+            targetRotation = targetRotation - (2 * Mathf.PI);
+        }
+        targetRotation = Mathf.Lerp(rotation, targetRotation, lerpFactor);
+        float relativeRotation = targetRotation - rotation;
+        if (Mathf.Abs(relativeRotation) > maxSpeed)
+        {
+            relativeRotation = Mathf.Sign(relativeRotation) * maxSpeed;
+        }
+        rotation += relativeRotation;
+        owner.map.polarWarpMaterial.SetFloat("_Rotation", rotation);
     }
 }

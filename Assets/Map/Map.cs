@@ -176,7 +176,7 @@ public class Map : MonoBehaviour
     internal void Reveal(int tileX, int tileY, float radius)
     {
         tileObjects[tileY][tileX].SetVisible(true);
-        Vector2 center = new Vector2(tileX + tileWidth / 2, tileY + tileWidth / 2);
+        Vector2 center = new Vector2(tileX + tileWidth / 2, tileY + tileHeight / 2);
         int numRays = 100;
         for (int r = 0; r < numRays; r++)
         {
