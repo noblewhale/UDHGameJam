@@ -42,10 +42,10 @@ public class PlayerCamera : MonoBehaviour
     public void SetRotation(int x, int y, float lerpFactor, float maxSpeed)
     {
         float percentOfWidth = (float) x / owner.map.width;
-        float targetRotation = 2 * Mathf.PI * (1 - percentOfWidth) - Mathf.PI / 2;
-        if (targetRotation - rotation > Mathf.PI)
+        float targetRotation = 2 * Mathf.PI * (1 - percentOfWidth);
+        if (Mathf.Abs(targetRotation - rotation) > Mathf.PI)
         {
-            targetRotation = targetRotation - (2 * Mathf.PI);
+            targetRotation = targetRotation - Mathf.Sign(targetRotation - rotation) * (2 * Mathf.PI);
         }
         targetRotation = Mathf.Lerp(rotation, targetRotation, lerpFactor);
         float relativeRotation = targetRotation - rotation;
@@ -54,6 +54,6 @@ public class PlayerCamera : MonoBehaviour
             relativeRotation = Mathf.Sign(relativeRotation) * maxSpeed;
         }
         rotation += relativeRotation;
-        owner.map.polarWarpMaterial.SetFloat("_Rotation", rotation);
+        owner.map.polarWarpMaterial.SetFloat("_Rotation", rotation - Mathf.PI / 2);
     }
 }
