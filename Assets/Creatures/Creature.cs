@@ -5,8 +5,6 @@ using UnityEngine;
 
 public class Creature : DungeonObject
 {
-    public GameObject mainGlyph;
-
     public Race race;
 
     public int mana;

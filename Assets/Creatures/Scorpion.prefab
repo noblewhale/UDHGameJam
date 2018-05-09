@@ -92,6 +92,7 @@ MonoBehaviour:
   isCollidable: 1
   blocksLineOfSight: 0
   coversObjectsBeneath: 0
+  mainGlyph: {fileID: 1565732633263944}
   race: 1
   mana: 0
   strength: 0

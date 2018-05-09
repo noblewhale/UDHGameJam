@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class DungeonObject : MonoBehaviour
 {
+    public GameObject mainGlyph;
     public Map map;
     public int x;
     public int y;
@@ -13,10 +14,16 @@ public class DungeonObject : MonoBehaviour
     public bool isCollidable = true;
     public bool blocksLineOfSight = false;
     public bool coversObjectsBeneath = false;
+    Color originalMainGlyphColor;
 
     virtual protected void Awake()
     {
         map = FindObjectOfType<Map>();
+
+        if (mainGlyph)
+        {
+            originalMainGlyphColor = mainGlyph.GetComponent<SpriteRenderer>().color;
+        }
     }
 
     // Update is called once per frame
@@ -35,6 +42,20 @@ public class DungeonObject : MonoBehaviour
         {
             Die();
         }
+
+        if (mainGlyph)
+        {
+            StartCoroutine(DoDamageFlash());
+        }
+    }
+
+    IEnumerator DoDamageFlash()
+    {
+        mainGlyph.GetComponent<SpriteRenderer>().color = Color.white;
+
+        yield return new WaitForSeconds(.15f);
+
+        mainGlyph.GetComponent<SpriteRenderer>().color = originalMainGlyphColor;
     }
 
     virtual public void Die()
