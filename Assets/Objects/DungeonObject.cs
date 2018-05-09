@@ -15,7 +15,13 @@ public class DungeonObject : MonoBehaviour
     public int quantity;
     public bool canBePickedUp;
 
-    public Dictionary<string, DungeonObject> inventory = new Dictionary<string, DungeonObject>();
+    public Inventory inventory = new Inventory();
+
+    public int Gold {
+        get {
+            return inventory.Gold;
+        }
+    }
 
     public int defense = 1;
     public int health = 1;
@@ -94,10 +100,8 @@ public class DungeonObject : MonoBehaviour
 
     virtual public void DropItems()
     {
-        Debug.Log("Die");
-        foreach (var kv in inventory)
+        foreach (var kv in inventory.items)
         {
-            Debug.Log("Dropping item");
             map.tileObjects[y][x].AddObject(kv.Value);
         }
     }

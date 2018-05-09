@@ -29,7 +29,7 @@ public class StartingLoot : MonoBehaviour
                 var item = Instantiate(dropRate.item.gameObject).GetComponent<DungeonObject>();
                 item.transform.position = new Vector3(-666, -666, -666);
                 item.quantity = quantity;
-                owner.inventory.Add(item.objectName, item);
+                owner.inventory.items.Add(item.objectName, item);
             }
         }
     }

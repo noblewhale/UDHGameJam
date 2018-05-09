@@ -13,9 +13,11 @@ public class StatusPanel : MonoBehaviour
     Player player;
 
     int oldHealth, oldGold;
+    int visualGold;
 
     Coroutine highlightHealthProcess;
     Coroutine highlightGoldProcess;
+    Coroutine incrementGoldProcess;
 
     void Start ()
     {
@@ -32,23 +34,36 @@ public class StatusPanel : MonoBehaviour
             highlightHealthProcess = StartCoroutine(HighlightText(health, Color.red));
             oldHealth = player.identity.health;
         }
-
-        DungeonObject currentGold;
-        bool hasGold = player.identity.inventory.TryGetValue("Gold", out currentGold);
-        if (hasGold)
+        
+        if (player.identity.Gold != oldGold)
         {
-            gold.text = currentGold.quantity.ToString();
+            if (incrementGoldProcess == null)
+            {
+                incrementGoldProcess = StartCoroutine(IncrementGold());
+            }
             if (highlightGoldProcess != null) StopCoroutine(highlightGoldProcess);
             highlightGoldProcess = StartCoroutine(HighlightText(gold, Color.yellow));
-            oldHealth = player.identity.health;
-            oldGold = currentGold.quantity;
+            oldGold = player.identity.Gold;
         }
 
         transform.localPosition = new Vector3(0, -cam.orthographicSize + panelHeight, transform.localPosition.z);
 	}
 
+    IEnumerator IncrementGold()
+    {
+        while(visualGold < player.identity.Gold)
+        {
+            yield return new WaitForSeconds(.1f);
+            visualGold++;
+
+            gold.text = visualGold.ToString();
+        }
+        incrementGoldProcess = null;
+    }
+
     IEnumerator HighlightText(TextMesh textMesh, Color color)
     {
+        if (textMesh == gold) Debug.Log("GOLD");
         float t = 0;
         float duration = 1f;
         while (t < duration)

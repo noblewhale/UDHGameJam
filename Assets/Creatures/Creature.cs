@@ -154,7 +154,7 @@ public class Creature : DungeonObject
             {
                 itemsToRemove.Add(ob);
                 DungeonObject existingOb;
-                bool success = inventory.TryGetValue(ob.objectName, out existingOb);
+                bool success = inventory.items.TryGetValue(ob.objectName, out existingOb);
                 if (success)
                 {
                     existingOb.quantity += ob.quantity;
@@ -162,7 +162,7 @@ public class Creature : DungeonObject
                 }
                 else
                 {
-                    inventory.Add(ob.objectName, ob);
+                    inventory.items.Add(ob.objectName, ob);
                 }
                 ob.transform.position = new Vector3(-666, -666, -666);
             }

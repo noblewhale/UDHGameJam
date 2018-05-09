@@ -332,12 +332,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11b8df19616702a47b5b7b3838bac5f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationMaxSpeed: 0.05
-  rotationLerpFactor: 0.2
-  movementMaxSpeed: 0.1
-  movementLerpFactor: 0.5
+  rotationMaxSpeed: 0.03
+  rotationLerpFactor: 0.1
+  movementMaxSpeed: 0.03
+  movementLerpFactor: 0.4
   cameraOffset: 3
-  rotation: 4.0029964
+  rotation: 6.8912377
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0
@@ -532,7 +532,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 966747907}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -4.13, y: -0.009999752, z: -1}
+  m_LocalPosition: {x: -4.108, y: -0.009999752, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1731070041}
@@ -545,7 +545,7 @@ TextMesh:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 966747907}
-  m_Text: 10
+  m_Text: 0
   m_OffsetZ: 0
   m_CharacterSize: 0.1
   m_LineSpacing: 1

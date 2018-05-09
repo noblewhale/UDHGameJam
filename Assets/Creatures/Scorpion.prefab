@@ -190,9 +190,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemRates:
   - item: {fileID: 114396989050233776, guid: 4f360649838a63a47999700c077dc8e3, type: 2}
-    minQuantity: 1
-    maxQuantity: 3
-    probability: 0.7
+    minQuantity: 4
+    maxQuantity: 6
+    probability: 0.8
 --- !u!212 &212120512771546160
 SpriteRenderer:
   m_ObjectHideFlags: 1
