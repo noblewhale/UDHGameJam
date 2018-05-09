@@ -28,7 +28,7 @@ public class StartingLoot : MonoBehaviour
                 int quantity = UnityEngine.Random.Range(dropRate.minQuantity, dropRate.maxQuantity);
                 var item = Instantiate(dropRate.item.gameObject).GetComponent<DungeonObject>();
                 item.transform.position = new Vector3(-666, -666, -666);
-                item.quanitity = quantity;
+                item.quantity = quantity;
                 owner.inventory.Add(item.objectName, item);
             }
         }

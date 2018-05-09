@@ -112,6 +112,7 @@ public class Player : MonoBehaviour
             if (!map.tileObjects[newTileY][newTileX].IsCollidable())
             {
                 identity.SetPosition(newTileX, newTileY);
+                identity.PickUpAll();
                 TimeManager.Tick(identity.ticksPerMove);
             }
             else

@@ -12,7 +12,8 @@ public class DungeonObject : MonoBehaviour
     public Map map;
     public int x;
     public int y;
-    public int quanitity;
+    public int quantity;
+    public bool canBePickedUp;
 
     public Dictionary<string, DungeonObject> inventory = new Dictionary<string, DungeonObject>();
 

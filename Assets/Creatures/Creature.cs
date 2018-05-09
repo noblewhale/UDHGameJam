@@ -144,6 +144,34 @@ public class Creature : DungeonObject
         }
     }
 
+    public void PickUpAll()
+    {
+        List<DungeonObject> itemsToRemove = new List<DungeonObject>();
+        List<DungeonObject> itemsToDestroy = new List<DungeonObject>();
+        foreach (var ob in map.tileObjects[y][x].objectList)
+        {
+            if (ob.canBePickedUp)
+            {
+                itemsToRemove.Add(ob);
+                DungeonObject existingOb;
+                bool success = inventory.TryGetValue(ob.objectName, out existingOb);
+                if (success)
+                {
+                    existingOb.quantity += ob.quantity;
+                    itemsToDestroy.Add(ob);
+                }
+                else
+                {
+                    inventory.Add(ob.objectName, ob);
+                }
+                ob.transform.position = new Vector3(-666, -666, -666);
+            }
+        }
+
+        foreach (var ob in itemsToRemove) map.tileObjects[y][x].RemoveObject(ob);
+        foreach (var ob in itemsToDestroy) Destroy(ob);
+    }
+
     IEnumerator DoAttackAnimation()
     {
         float t = 0;

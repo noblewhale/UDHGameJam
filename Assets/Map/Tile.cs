@@ -83,6 +83,13 @@ public class Tile : MonoBehaviour
         SetRevealed(isRevealed);
     }
 
+    public void RemoveObject(DungeonObject ob)
+    {
+        ob.transform.parent = null;
+        objectList.Remove(ob);
+        SetRevealed(isRevealed);
+    }
+
     public bool IsCollidable()
     {
         foreach (var ob in objectList)

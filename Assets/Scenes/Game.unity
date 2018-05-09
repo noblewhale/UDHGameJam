@@ -1098,6 +1098,7 @@ MonoBehaviour:
   panelHeight: 0.785
   health: {fileID: 229945033}
   mana: {fileID: 1588244223}
+  gold: {fileID: 966747909}
   highlightAnimation:
     serializedVersion: 2
     m_Curve:
