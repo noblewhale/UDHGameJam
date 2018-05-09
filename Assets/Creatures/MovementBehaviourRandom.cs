@@ -5,10 +5,16 @@ using UnityEngine;
 public class MovementBehaviourRandom : MovementBehaviour
 {
 
+    public Tile nextMoveTarget;
     public override void Move()
     {
+        owner.SetPosition(nextMoveTarget.x, nextMoveTarget.y);
+    }
+
+    public override float ShouldMove()
+    {
         List<Tile> adjacentAndOpen = new List<Tile>();
-        
+
         Tile adjacent;
         if (owner.y < owner.map.height - 1)
         {
@@ -31,14 +37,11 @@ public class MovementBehaviourRandom : MovementBehaviour
 
         if (adjacentAndOpen.Count > 0)
         {
-            Tile target = adjacentAndOpen[Random.Range(0, adjacentAndOpen.Count)];
+            nextMoveTarget = adjacentAndOpen[Random.Range(0, adjacentAndOpen.Count)];
 
-            owner.SetPosition(target.x, target.y);
+            return .5f;
         }
-    }
 
-    public override float ShouldMove()
-    {
-        return .5f;
+        return 0;
     }
 }

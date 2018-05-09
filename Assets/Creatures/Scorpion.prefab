@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4303741926992246}
   - component: {fileID: 114238227866493274}
   - component: {fileID: 114738938358485978}
+  - component: {fileID: 114822529988612696}
   m_Layer: 0
   m_Name: Scorpion
   m_TagString: Untagged
@@ -84,12 +85,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   map: {fileID: 0}
-  tileX: 0
-  tileY: 0
+  x: 0
+  y: 0
   defense: 0
   health: 1
   isCollidable: 1
   blocksLineOfSight: 0
+  coversObjectsBeneath: 0
+  race: 1
+  mana: 0
   strength: 0
   dexterity: 0
   constitution: 0
@@ -97,10 +101,44 @@ MonoBehaviour:
   charisma: 0
   ticksPerMove: 2
   ticksPerAttack: 1
-  lastDirectionMoved: 0
+  attackMovementAnimation:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 1.7493422
+      outSlope: 1.7493422
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.36758068
+    - serializedVersion: 3
+      time: 0.22188756
+      value: 0.19827938
+      inSlope: -0.13197652
+      outSlope: -0.13197652
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.14520471
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  lastDirectionAttackedOrMoved: 0
   nextActionTime: 0
   viewDistance: 4
   movementBehaviour: {fileID: 0}
+  attackBehaviour: {fileID: 0}
 --- !u!114 &114738938358485978
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -113,6 +151,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: {fileID: 0}
+  nextMoveTarget: {fileID: 0}
+--- !u!114 &114822529988612696
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1079141470586608}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 833be36acda985c40b8919bf0b143819, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  owner: {fileID: 0}
+  nextAttackTarget: {fileID: 0}
 --- !u!114 &114927599635230080
 MonoBehaviour:
   m_ObjectHideFlags: 1

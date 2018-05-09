@@ -13,7 +13,7 @@ public class OrientedGlyph : MonoBehaviour
 	
 	void Update ()
     {
-        switch (owner.lastDirectionMoved)
+        switch (owner.lastDirectionAttackedOrMoved)
         {
             case Direction.UP:
                 transform.rotation = Quaternion.Euler(0, 0, 0);

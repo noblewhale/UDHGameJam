@@ -15,14 +15,22 @@ public class Player : MonoBehaviour
 
     public Camera mainCamera;
 
+    public static Player instance;
+
 	// Use this for initialization
 	void Awake ()
     {
+        instance = this;
         map = FindObjectOfType<Map>().GetComponent<Map>();
         map.OnMapLoaded += OnMapLoaded;
         mainCamera.GetComponent<EntryAnimation>().OnDoneAnimating += OnEntryAnimationFinished;
 	}
-    
+
+    void Start()
+    {
+        identity = CreatureSpawner.instance.SpawnCreature(0, 0, playerPrefab);
+    }
+
     public void OnEntryAnimationFinished()
     {
         isControllingCamera = true;
@@ -31,8 +39,7 @@ public class Player : MonoBehaviour
     void OnMapLoaded()
     { 
         Tile startTile = map.floors[UnityEngine.Random.Range(0, map.floors.Count - 1)];
-
-        identity = CreatureSpawner.instance.SpawnCreature(startTile.x, startTile.y, playerPrefab);
+        identity.SetPosition(startTile.x, startTile.y);
         map.Reveal(identity.x, identity.y, identity.viewDistance);
 
         mainCamera.GetComponent<PlayerCamera>().SetRotation(startTile.x, startTile.y, 1, float.MaxValue);

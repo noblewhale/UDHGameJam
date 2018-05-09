@@ -85,9 +85,12 @@ MonoBehaviour:
   x: 0
   y: 0
   defense: 1
-  health: 1
+  health: 10
   isCollidable: 1
   blocksLineOfSight: 0
+  coversObjectsBeneath: 0
+  race: 0
+  mana: 0
   strength: 1
   dexterity: 1
   constitution: 1
@@ -99,6 +102,7 @@ MonoBehaviour:
   nextActionTime: 0
   viewDistance: 4
   movementBehaviour: {fileID: 0}
+  attackBehaviour: {fileID: 0}
 --- !u!212 &212316544962541262
 SpriteRenderer:
   m_ObjectHideFlags: 1

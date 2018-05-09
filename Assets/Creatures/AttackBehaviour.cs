@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class MovementBehaviour : MonoBehaviour
+public abstract class AttackBehaviour : MonoBehaviour
 {
     public Creature owner;
 
@@ -11,6 +11,6 @@ public abstract class MovementBehaviour : MonoBehaviour
         owner = GetComponent<Creature>();
     }
 
-    abstract public float ShouldMove();
-    abstract public void Move();
+    abstract public float ShouldAttack();
+    abstract public void Attack();
 }
