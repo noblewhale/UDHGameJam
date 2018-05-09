@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AttackBehaviourAdjacent : AttackBehaviour
 {
-    public Tile nextAttackTarget;
+    Tile nextAttackTarget;
 
     override public void Attack()
     {

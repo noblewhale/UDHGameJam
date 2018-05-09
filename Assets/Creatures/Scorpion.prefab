@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 114238227866493274}
   - component: {fileID: 114738938358485978}
   - component: {fileID: 114822529988612696}
+  - component: {fileID: 114964953169368100}
   m_Layer: 0
   m_Name: Scorpion
   m_TagString: Untagged
@@ -84,15 +85,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bcd10d15a30478449e00ad96e33416d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  objectName: 
+  glyphs: []
   map: {fileID: 0}
   x: 0
   y: 0
+  quanitity: 0
   defense: 0
   health: 1
   isCollidable: 1
   blocksLineOfSight: 0
   coversObjectsBeneath: 0
-  mainGlyph: {fileID: 1565732633263944}
   race: 1
   mana: 0
   strength: 0
@@ -151,8 +154,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0a695043c15af24dbb86f167360e1d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  owner: {fileID: 0}
-  nextMoveTarget: {fileID: 0}
 --- !u!114 &114822529988612696
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -164,8 +165,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 833be36acda985c40b8919bf0b143819, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  owner: {fileID: 0}
-  nextAttackTarget: {fileID: 0}
 --- !u!114 &114927599635230080
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -177,6 +176,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea2b289583a01d24c8a6248c5bd6a45d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114964953169368100
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1079141470586608}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bca516410f363b04b9ed3e3d3eecd34f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemRates:
+  - item: {fileID: 114396989050233776, guid: 4f360649838a63a47999700c077dc8e3, type: 2}
+    minQuantity: 0
+    maxQuantity: 3
+    probability: 0.7
 --- !u!212 &212120512771546160
 SpriteRenderer:
   m_ObjectHideFlags: 1

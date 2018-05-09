@@ -4,32 +4,50 @@ using UnityEngine;
 
 public class DungeonObject : MonoBehaviour
 {
-    public GameObject mainGlyph;
+    public string objectName;
+
+    public SpriteRenderer[] glyphs;
+    protected Color[] originalGlyphColors;
+    protected Vector3[] originalGlyphPositions;
     public Map map;
     public int x;
     public int y;
-    
+    public int quanitity;
+
+    public Dictionary<string, DungeonObject> inventory = new Dictionary<string, DungeonObject>();
+
     public int defense = 1;
     public int health = 1;
     public bool isCollidable = true;
     public bool blocksLineOfSight = false;
     public bool coversObjectsBeneath = false;
-    Color originalMainGlyphColor;
+    Coroutine damageFlashProcess;
 
     virtual protected void Awake()
     {
         map = FindObjectOfType<Map>();
 
-        if (mainGlyph)
-        {
-            originalMainGlyphColor = mainGlyph.GetComponent<SpriteRenderer>().color;
+        glyphs = GetComponentsInChildren<SpriteRenderer>();
+        originalGlyphColors = new Color[glyphs.Length];
+        originalGlyphPositions = new Vector3[glyphs.Length];
+        for (int i = 0; i < glyphs.Length; i++)
+        { 
+            originalGlyphColors[i] = glyphs[i].color;
+            originalGlyphPositions[i] = glyphs[i].transform.localPosition;
         }
     }
 
     // Update is called once per frame
     virtual public void Update ()
     {
-        transform.localPosition = new Vector3(x * map.tileWidth, y * map.tileHeight, transform.localPosition.z);
+        if (damageFlashProcess == null)
+        {
+            for (int i = 0; i < glyphs.Length; i++)
+            {
+                if (!map.tileObjects[y][x].isInView) glyphs[i].color = originalGlyphColors[i] / 2;
+                else glyphs[i].color = originalGlyphColors[i];
+            }
+        }
     }
 
     virtual public void Collide() { }
@@ -43,24 +61,50 @@ public class DungeonObject : MonoBehaviour
             Die();
         }
 
-        if (mainGlyph)
+        if (glyphs.Length > 0)
         {
-            StartCoroutine(DoDamageFlash());
+            if (damageFlashProcess != null) StopCoroutine(damageFlashProcess);
+            damageFlashProcess = StartCoroutine(DoDamageFlash());
         }
     }
 
     IEnumerator DoDamageFlash()
     {
-        mainGlyph.GetComponent<SpriteRenderer>().color = Color.white;
+        for (int i = 0; i < glyphs.Length; i++)
+        {
+            glyphs[i].color = Color.white;
+        }
 
         yield return new WaitForSeconds(.15f);
 
-        mainGlyph.GetComponent<SpriteRenderer>().color = originalMainGlyphColor;
+        for (int i = 0; i < glyphs.Length; i++)
+        {
+            glyphs[i].color = originalGlyphColors[i];
+        }
+        damageFlashProcess = null;
     }
 
     virtual public void Die()
     {
         map.tileObjects[y][x].objectList.Remove(this);
+        DropItems();
         Destroy(gameObject);
+    }
+
+    virtual public void DropItems()
+    {
+        Debug.Log("Die");
+        foreach (var kv in inventory)
+        {
+            Debug.Log("Dropping item");
+            map.tileObjects[y][x].AddObject(kv.Value);
+        }
+    }
+
+    virtual public void SetPosition(int x, int y)
+    {
+        this.x = x;
+        this.y = y;
+        transform.localPosition = new Vector3(x * map.tileWidth, y * map.tileHeight, transform.localPosition.z);
     }
 }

@@ -81,6 +81,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bcd10d15a30478449e00ad96e33416d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  glyphs: []
+  originalGlyphColors: []
+  originalGlyphPositions: []
   map: {fileID: 0}
   x: 0
   y: 0
@@ -89,7 +92,6 @@ MonoBehaviour:
   isCollidable: 1
   blocksLineOfSight: 0
   coversObjectsBeneath: 0
-  mainGlyph: {fileID: 0}
   race: 0
   mana: 0
   strength: 1
@@ -134,7 +136,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   lastDirectionAttackedOrMoved: 0
   nextActionTime: 0
-  viewDistance: 4
+  viewDistance: 2.8
   movementBehaviour: {fileID: 0}
   attackBehaviour: {fileID: 0}
 --- !u!212 &212316544962541262

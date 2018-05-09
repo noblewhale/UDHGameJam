@@ -10,8 +10,10 @@ public class Tile : MonoBehaviour
     public int value;
     Map map;
     public bool isFloodFilled;
-    bool isVisible = true;
+    bool isRevealed = true;
     float gapBetweenLayers = .1f;
+
+    public bool isInView;
 
     public LinkedList<DungeonObject> objectList = new LinkedList<DungeonObject>();
 
@@ -25,22 +27,19 @@ public class Tile : MonoBehaviour
         this.x = x;
         this.y = y;
 
-        SetVisible(false);
+        SetRevealed(false);
     }
 
     public void SetOccupant(Creature creature)
     {
         occupant = creature;
-        if (occupant != null)
-        {
-            occupant.gameObject.SetActive(isVisible);
-        }
     }
 
-    public void SetVisible(bool isVisible)
+    public void SetRevealed(bool isRevealed)
     {
-        this.isVisible = isVisible;
-        bool nextObjectIsVisible = isVisible;
+        this.isRevealed = isRevealed;
+        SetVisible(isRevealed);
+        bool nextObjectIsVisible = isRevealed;
         foreach (var ob in objectList)
         {
             ob.gameObject.SetActive(nextObjectIsVisible);
@@ -49,10 +48,11 @@ public class Tile : MonoBehaviour
                 nextObjectIsVisible = false;
             }
         }
-        if (occupant != null)
-        {
-            occupant.gameObject.SetActive(isVisible);
-        }
+    }
+
+    public void SetVisible(bool isVisible)
+    {
+        isInView = isVisible;
     }
 
     public void Update()
@@ -68,13 +68,19 @@ public class Tile : MonoBehaviour
         }
     }
 
-    public void AddObject(DungeonObject dungeonObject)
+    public void SpawnAndAddObject(DungeonObject dungeonObject)
     {
         var ob = Instantiate(dungeonObject).GetComponent<DungeonObject>();
+        AddObject(ob);
+    }
+
+    public void AddObject(DungeonObject ob)
+    { 
+        ob.SetPosition(x, y);
         ob.transform.parent = transform;
         ob.transform.localPosition = Vector3.zero;
         objectList.AddFirst(ob);
-        SetVisible(isVisible);
+        SetRevealed(isRevealed);
     }
 
     public bool IsCollidable()

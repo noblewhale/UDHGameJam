@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class MovementBehaviourRandom : MovementBehaviour
 {
+    
+    Tile nextMoveTarget;
 
-    public Tile nextMoveTarget;
     public override void Move()
     {
         owner.SetPosition(nextMoveTarget.x, nextMoveTarget.y);

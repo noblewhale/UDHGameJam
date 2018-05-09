@@ -85,15 +85,15 @@ public class Map : MonoBehaviour
     void AddTile(int x, int y)
     {
         tileObjects[y][x] = Instantiate(tilePrefab, new Vector3(-666, -666, -666), Quaternion.identity).GetComponent<Tile>();
+        tileObjects[y][x].Init(this, tiles[y][x], x, y);
         if (tiles[y][x] != 0)
         {
-            tileObjects[y][x].AddObject(objectSet[1]);
+            tileObjects[y][x].SpawnAndAddObject(objectSet[1]);
             if (tiles[y][x] != 1)
             {
-                tileObjects[y][x].AddObject(objectSet[tiles[y][x]]);
+                tileObjects[y][x].SpawnAndAddObject(objectSet[tiles[y][x]]);
             }
         }
-        tileObjects[y][x].Init(this, tiles[y][x], x, y);
     }
 
     void FloodFill(int floodX, int floodY)
@@ -165,6 +165,14 @@ public class Map : MonoBehaviour
         return null;
     }
 
+    public float WrapX(float x)
+    {
+        if (x < 0) x += width;
+        else if (x >= width) x -= width;
+
+        return x;
+    }
+
     public int WrapX(int x)
     {
         if (x < 0) x += width;
@@ -173,30 +181,40 @@ public class Map : MonoBehaviour
         return x;
     }
 
+    public void ForEachTile(Action<Tile> action)
+    {
+        for (int y = 0; y < height; y++)
+        {
+            for (int x = 0; x < width; x++)
+            {
+                action(tileObjects[y][x]);
+            }
+        }
+    }
+
     internal void Reveal(int tileX, int tileY, float radius)
     {
-        tileObjects[tileY][tileX].SetVisible(true);
-        Vector2 center = new Vector2(tileX + tileWidth / 2, tileY + tileHeight / 2);
-        int numRays = 100;
+        ForEachTile(t => t.isInView = false);
+        tileObjects[tileY][tileX].SetRevealed(true);
+        Vector2 center = new Vector2(tileX + .5f, tileY + .5f);
+        int numRays = 360;
+        float stepSize = .33f;
         for (int r = 0; r < numRays; r++)
         {
             float dirX = Mathf.Sin(2 * Mathf.PI * r / numRays);
             float dirY = Mathf.Cos(2 * Mathf.PI * r / numRays);
             Vector2 direction = new Vector2(dirX, dirY);
 
-            for (int d = 1; d < radius; d++)
+            for (int d = 1; d < radius / stepSize; d++)
             {
-                Vector2 relative = center + direction * d;
+                Vector2 relative = center + direction * d * stepSize;
 
                 int y = (int)relative.y;
                 if (y < 0 || y >= height) break;
 
-                int wrappedX = (int)relative.x;
-                if (wrappedX < 0) wrappedX = width + wrappedX;
-                if (wrappedX >= width) wrappedX = wrappedX - width;
+                int wrappedX = (int)WrapX(relative.x);
 
-                tileObjects[y][wrappedX].SetVisible(true);
-
+                tileObjects[y][wrappedX].SetRevealed(true);
                 if (tileObjects[y][wrappedX].DoesBlockLineOfSight())
                 {
                     break;
@@ -272,28 +290,28 @@ public class Map : MonoBehaviour
         foreach (var wallTile in walls)
         {
             int hallwayLength;
-            Tile floorTile = FindFloorTile(Direction.UP, wallTile.x, wallTile.y, out hallwayLength);
+            FindFloorTile(Direction.UP, wallTile.x, wallTile.y, out hallwayLength);
             if (hallwayLength < minDistance)
             {
                 minTile = wallTile;
                 minDirection = Direction.UP;
                 minDistance = hallwayLength;
             }
-            floorTile = FindFloorTile(Direction.DOWN, wallTile.x, wallTile.y, out hallwayLength);
+            FindFloorTile(Direction.DOWN, wallTile.x, wallTile.y, out hallwayLength);
             if (hallwayLength < minDistance)
             {
                 minTile = wallTile;
                 minDirection = Direction.DOWN;
                 minDistance = hallwayLength;
             }
-            floorTile = FindFloorTile(Direction.RIGHT, wallTile.x, wallTile.y, out hallwayLength);
+            FindFloorTile(Direction.RIGHT, wallTile.x, wallTile.y, out hallwayLength);
             if (hallwayLength < minDistance)
             {
                 minTile = wallTile;
                 minDirection = Direction.RIGHT;
                 minDistance = hallwayLength;
             }
-            floorTile = FindFloorTile(Direction.LEFT, wallTile.x, wallTile.y, out hallwayLength);
+            FindFloorTile(Direction.LEFT, wallTile.x, wallTile.y, out hallwayLength);
             if (hallwayLength < minDistance)
             {
                 minTile = wallTile;

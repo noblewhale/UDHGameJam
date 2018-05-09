@@ -141,6 +141,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 236b56dae3db86748a48973eeb348aea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  objectName: Door
+  glyphs: []
+  originalGlyphColors: []
+  originalGlyphPositions: []
   map: {fileID: 0}
   x: 0
   y: 0

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class AttackBehaviour : MonoBehaviour
 {
-    public Creature owner;
+    protected Creature owner;
 
     virtual public void Awake()
     {

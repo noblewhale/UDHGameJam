@@ -81,6 +81,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ddd0c896d8f310e46a0e98eca91558d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  objectName: Wall
+  glyphs: []
+  originalGlyphColors: []
+  originalGlyphPositions: []
   map: {fileID: 0}
   x: 0
   y: 0
