@@ -34,7 +34,7 @@ public class CreatureSpawner : MonoBehaviour
     {
         Creature c = Instantiate(creatureType.gameObject).GetComponent<Creature>();
         c.transform.parent = map.transform;
-        c.SetPosition(x, y);
+        c.SetPosition(x, y, false);
 
         allCreatures.Add(c);
 

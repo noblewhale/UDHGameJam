@@ -7,6 +7,9 @@ public class TimeManager : MonoBehaviour
     public static ulong time = 0;
 
     public static TimeManager instance;
+    public static bool isBetweenTicks;
+    static Coroutine tickProcess;
+    static int nextTicks;
 
     public void Awake()
     {
@@ -15,7 +18,25 @@ public class TimeManager : MonoBehaviour
 
     public static void Tick(int numTicks)
     {
-        for (int i = 0; i < numTicks; i++)
+        nextTicks = numTicks;
+        if (tickProcess != null) instance.StopCoroutine(tickProcess);
+        tickProcess = instance.StartCoroutine(WaitThenTick());
+    }
+
+    static IEnumerator WaitThenTick()
+    {
+        isBetweenTicks = true;
+        float startTime = Time.time;
+        while (Time.time - startTime < .15f)
+            yield return new WaitForEndOfFrame();
+        isBetweenTicks = false;
+
+        _Tick();
+    }
+
+    private static void _Tick()
+    { 
+        for (int i = 0; i < nextTicks; i++)
         {
             time++;
 
@@ -30,6 +51,19 @@ public class TimeManager : MonoBehaviour
                     creature.ContinueAction();
                 }
             }
+        }
+
+        tickProcess = null;
+    }
+
+    public static void Interrupt()
+    {
+        if (tickProcess != null)
+        {
+            instance.StopCoroutine(tickProcess);
+            tickProcess = null;
+
+            _Tick();
         }
     }
 }

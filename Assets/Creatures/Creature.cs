@@ -63,7 +63,7 @@ public class Creature : DungeonObject
         }
     }
 
-    override public void SetPosition(int x, int y)
+    override public void SetPosition(int x, int y, bool isAction = true)
     {
         if (x < base.x) lastDirectionAttackedOrMoved = Direction.LEFT;
         if (x > base.x) lastDirectionAttackedOrMoved = Direction.RIGHT;
@@ -72,9 +72,12 @@ public class Creature : DungeonObject
         map.tileObjects[base.y][base.x].SetOccupant(null);
         map.tileObjects[y][x].SetOccupant(this);
 
-        base.SetPosition(x, y);
+        base.SetPosition(x, y, isAction);
 
-        nextActionTime = TimeManager.time + (ulong)ticksPerMove;
+        if (isAction)
+        {
+            nextActionTime = TimeManager.time + (ulong)ticksPerMove;
+        }
     }
 
     override public void Die()

@@ -106,7 +106,7 @@ public class DungeonObject : MonoBehaviour
         }
     }
 
-    virtual public void SetPosition(int x, int y)
+    virtual public void SetPosition(int x, int y, bool isAction = true)
     {
         this.x = x;
         this.y = y;

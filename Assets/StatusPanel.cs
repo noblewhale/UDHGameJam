@@ -63,7 +63,6 @@ public class StatusPanel : MonoBehaviour
 
     IEnumerator HighlightText(TextMesh textMesh, Color color)
     {
-        if (textMesh == gold) Debug.Log("GOLD");
         float t = 0;
         float duration = 1f;
         while (t < duration)
