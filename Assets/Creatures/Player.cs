@@ -190,6 +190,10 @@ public class Player : MonoBehaviour
         }
         else 
         {
+            if (tile.ContainsObjectOfType(map.objectSet[3]))
+            {
+                TimeManager.Tick(identity.ticksPerMove);
+            }
             identity.FaceDirection(tile);
             identity.AttackAnimation(.6f, .25f);
         }
