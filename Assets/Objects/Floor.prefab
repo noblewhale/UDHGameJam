@@ -83,11 +83,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectName: Floor
   glyphs: []
-  originalGlyphColors: []
-  originalGlyphPositions: []
   map: {fileID: 0}
   x: 0
   y: 0
+  quantity: 1
+  canBePickedUp: 0
+  isAlwaysLit: 0
   defense: 1
   health: 1
   isCollidable: 0

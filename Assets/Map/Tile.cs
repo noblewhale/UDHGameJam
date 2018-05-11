@@ -30,9 +30,31 @@ public class Tile : MonoBehaviour
         SetRevealed(false);
     }
 
+
+    public bool ContainsObjectOfType(DungeonObject needle)
+    {
+        foreach (var hay in objectList)
+        {
+            if (needle.objectName == hay.objectName) return true;
+        }
+
+        return false;
+    }
+
     public void SetOccupant(Creature creature)
     {
         occupant = creature;
+
+        if (creature != null)
+        {
+            var node = objectList.First;
+            while (node != null)
+            {
+                node.Value.SteppedOn(creature);
+                if (node.Next == null) break;
+                node = node.Next;
+            }
+        }
     }
 
     public void SetRevealed(bool isRevealed)
@@ -74,6 +96,17 @@ public class Tile : MonoBehaviour
         AddObject(ob);
     }
 
+    public void DestroyAllObjects()
+    {
+        foreach (var ob in objectList)
+        {
+            ob.inventory.DestroyAll();
+            Destroy(ob);
+        }
+
+        objectList.Clear();
+    }
+
     public void AddObject(DungeonObject ob)
     { 
         ob.SetPosition(x, y);
@@ -109,13 +142,13 @@ public class Tile : MonoBehaviour
         return false;
     }
 
-    public void Collide()
+    public void Collide(DungeonObject collidingObject)
     {
         foreach (var ob in objectList)
         {
-            if (ob.isCollidable) ob.Collide();
+            if (ob.isCollidable) ob.Collide(collidingObject);
         }
 
-        if (occupant != null && occupant.isCollidable) occupant.Collide();
+        if (occupant != null && occupant.isCollidable) occupant.Collide(collidingObject);
     }
 }

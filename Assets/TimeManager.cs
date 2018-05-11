@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,6 +11,7 @@ public class TimeManager : MonoBehaviour
     public static bool isBetweenTicks;
     static Coroutine tickProcess;
     static int nextTicks;
+    public static event Action OnTick;
 
     public void Awake()
     {
@@ -35,7 +37,9 @@ public class TimeManager : MonoBehaviour
     }
 
     private static void _Tick()
-    { 
+    {
+        if (OnTick != null) OnTick();
+
         for (int i = 0; i < nextTicks; i++)
         {
             time++;

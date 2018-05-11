@@ -113,10 +113,10 @@ PlayerSettings:
   psp2AcquireBGM: 1
   m_SupportedAspectRatios:
     4:3: 1
-    5:4: 1
-    16:10: 1
-    16:9: 1
-    Others: 1
+    5:4: 0
+    16:10: 0
+    16:9: 0
+    Others: 0
   bundleVersion: 0.1
   preloadedAssets: []
   metroInputSource: 0
@@ -283,6 +283,9 @@ PlayerSettings:
     m_Automatic: 1
   - m_BuildTarget: WebGLSupport
     m_APIs: 0b000000
+    m_Automatic: 1
+  - m_BuildTarget: WindowsStandaloneSupport
+    m_APIs: 02000000
     m_Automatic: 1
   m_BuildTargetVRSettings: []
   m_BuildTargetEnableVuforiaSettings: []

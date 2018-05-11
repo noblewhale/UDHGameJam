@@ -10,8 +10,9 @@ public class PlayerCamera : MonoBehaviour
     public float rotationLerpFactor = .5f;
     public float movementMaxSpeed = .1f;
     public float movementLerpFactor = .5f;
-    public int cameraOffset = 3;
+    public float cameraOffset = 3;
     public float rotation;
+    float cameraVelocity;
 
     void Start ()
     {
@@ -22,38 +23,39 @@ public class PlayerCamera : MonoBehaviour
     {
         if (!owner || !owner.identity) return;
 
-        SetRotation(owner.identity.x, owner.identity.y, rotationLerpFactor, rotationMaxSpeed);
+        SetRotation(owner.identity.x, owner.identity.y, rotationLerpFactor * Time.deltaTime * 100, rotationMaxSpeed * Time.deltaTime * 100);
         if (owner.isControllingCamera)
         {
-            Vector2 targetPos = new Vector2(Camera.main.transform.position.x, owner.identity.transform.position.y + cameraOffset);
-            targetPos = Vector2.Lerp(Camera.main.transform.position, targetPos, movementLerpFactor);
-            Vector2 relativePos = targetPos - (Vector2)Camera.main.transform.position;
-
-            if (relativePos.magnitude > movementMaxSpeed)
-            {
-                relativePos = relativePos.normalized * movementMaxSpeed;
-            }
-
-            targetPos = Camera.main.transform.position + (Vector3)relativePos;
-            Camera.main.transform.position = new Vector3(targetPos.x, targetPos.y, Camera.main.transform.position.z);
+            SetY(owner.identity.transform.position.y, movementLerpFactor, movementMaxSpeed);
         }
+    }
+
+    public void SetY(float worldY, float lerpFactor, float maxSpeed)
+    {
+        Vector2 targetPos = new Vector2(Camera.main.transform.position.x, worldY + cameraOffset);
+        targetPos = Vector2.Lerp(Camera.main.transform.position, targetPos, lerpFactor * Time.deltaTime * 100);
+        Vector2 relativePos = targetPos - (Vector2)Camera.main.transform.position;
+
+        if (relativePos.magnitude > maxSpeed * Time.deltaTime * 100)
+        {
+            relativePos = relativePos.normalized * maxSpeed * Time.deltaTime * 100;
+        }
+
+        targetPos = Camera.main.transform.position + (Vector3)relativePos;
+        Camera.main.transform.position = new Vector3(targetPos.x, targetPos.y, Camera.main.transform.position.z);
     }
 
     public void SetRotation(int x, int y, float lerpFactor, float maxSpeed)
     {
         float percentOfWidth = (float) x / owner.map.width;
         float targetRotation = 2 * Mathf.PI * (1 - percentOfWidth);
+        if (rotation < 0) rotation = 2 * Mathf.PI;
+        else if (rotation > 2 * Mathf.PI) rotation = 0;
         if (Mathf.Abs(targetRotation - rotation) > Mathf.PI)
         {
             targetRotation = targetRotation - Mathf.Sign(targetRotation - rotation) * (2 * Mathf.PI);
         }
-        targetRotation = Mathf.Lerp(rotation, targetRotation, lerpFactor);
-        float relativeRotation = targetRotation - rotation;
-        if (Mathf.Abs(relativeRotation) > maxSpeed)
-        {
-            relativeRotation = Mathf.Sign(relativeRotation) * maxSpeed;
-        }
-        rotation += relativeRotation;
+        rotation = Mathf.SmoothDampAngle(rotation, targetRotation, ref cameraVelocity, lerpFactor, maxSpeed);
         owner.map.polarWarpMaterial.SetFloat("_Rotation", rotation - Mathf.PI / 2);
     }
 }

@@ -30,6 +30,19 @@ public class CreatureSpawner : MonoBehaviour
         }
 	}
 
+    public void KillAll()
+    {
+        foreach (var c in allCreatures)
+        {
+            if (c == Player.instance.identity) continue;
+            c.map.tileObjects[c.y][c.x].SetOccupant(null);
+            c.inventory.DestroyAll();
+            Destroy(c.gameObject);
+        }
+
+        allCreatures.Clear();
+    }
+
     public Creature SpawnCreature(int x, int y, Creature creatureType)
     {
         Creature c = Instantiate(creatureType.gameObject).GetComponent<Creature>();

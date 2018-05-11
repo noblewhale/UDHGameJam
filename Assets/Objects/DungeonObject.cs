@@ -1,10 +1,17 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class DungeonObject : MonoBehaviour
 {
     public string objectName;
+
+    [Serializable]
+    public class CreatureEvent : UnityEvent<Creature> { }
+    
+    public CreatureEvent OnSteppedOn;
 
     public SpriteRenderer[] glyphs;
     protected Color[] originalGlyphColors;
@@ -12,8 +19,9 @@ public class DungeonObject : MonoBehaviour
     public Map map;
     public int x;
     public int y;
-    public int quantity;
+    public int quantity = 1;
     public bool canBePickedUp;
+    public bool isAlwaysLit;
 
     public Inventory inventory = new Inventory();
 
@@ -34,7 +42,7 @@ public class DungeonObject : MonoBehaviour
     {
         map = FindObjectOfType<Map>();
 
-        glyphs = GetComponentsInChildren<SpriteRenderer>();
+        glyphs = GetComponentsInChildren<SpriteRenderer>(true);
         originalGlyphColors = new Color[glyphs.Length];
         originalGlyphPositions = new Vector3[glyphs.Length];
         for (int i = 0; i < glyphs.Length; i++)
@@ -49,15 +57,30 @@ public class DungeonObject : MonoBehaviour
     {
         if (damageFlashProcess == null)
         {
-            for (int i = 0; i < glyphs.Length; i++)
+            if (isAlwaysLit)
             {
-                if (!map.tileObjects[y][x].isInView) glyphs[i].color = originalGlyphColors[i] / 2;
-                else glyphs[i].color = originalGlyphColors[i];
+                for (int i = 0; i < glyphs.Length; i++)
+                {
+                    glyphs[i].color = originalGlyphColors[i];
+                }
+            }
+            else
+            {
+                for (int i = 0; i < glyphs.Length; i++)
+                {
+                    if (!map.tileObjects[y][x].isInView) glyphs[i].color = originalGlyphColors[i] / 2;
+                    else glyphs[i].color = originalGlyphColors[i];
+                }
             }
         }
     }
 
-    virtual public void Collide() { }
+    virtual public void Collide(DungeonObject ob) { }
+
+    public void SteppedOn(Creature creature)
+    {
+        OnSteppedOn.Invoke(creature);
+    }
     
     public void TakeDamage(int v)
     {

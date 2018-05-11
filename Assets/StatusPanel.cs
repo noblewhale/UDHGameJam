@@ -10,6 +10,7 @@ public class StatusPanel : MonoBehaviour
     public TextMesh mana;
     public TextMesh gold;
     public AnimationCurve highlightAnimation;
+    public InventoryGUI inventory;
     Player player;
 
     int oldHealth, oldGold;

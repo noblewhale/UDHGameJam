@@ -17,8 +17,7 @@ public class Player : MonoBehaviour
     public Camera mainCamera;
 
     public static Player instance;
-
-	// Use this for initialization
+    
 	void Awake ()
     {
         instance = this;
@@ -29,7 +28,10 @@ public class Player : MonoBehaviour
 
     void Start()
     {
-        identity = CreatureSpawner.instance.SpawnCreature(0, 0, playerPrefab);
+        if (identity == null)
+        {
+            identity = CreatureSpawner.instance.SpawnCreature(0, 0, playerPrefab);
+        }
     }
 
     public void OnEntryAnimationFinished()
@@ -43,8 +45,16 @@ public class Player : MonoBehaviour
         identity.SetPosition(startTile.x, startTile.y, false);
         map.Reveal(identity.x, identity.y, identity.viewDistance);
 
-        mainCamera.GetComponent<PlayerCamera>().SetRotation(startTile.x, startTile.y, 1, float.MaxValue);
-        mainCamera.GetComponent<EntryAnimation>().isAnimating = true;
+        mainCamera.GetComponent<PlayerCamera>().SetRotation(startTile.x, startTile.y, 0, float.MaxValue);
+        if (map.dungeonLevel == 1)
+        {
+            mainCamera.GetComponent<EntryAnimation>().isAnimating = true;
+        }
+        else
+        {
+            Debug.Log("Set Y");
+            mainCamera.GetComponent<PlayerCamera>().SetY(identity.transform.position.y, 1, float.MaxValue);
+        }
     }
 
     string lastInputString = "";
@@ -67,7 +77,7 @@ public class Player : MonoBehaviour
         }
         foreach (var c in Input.inputString)
         {
-            KeyCode k = (KeyCode)Enum.Parse(typeof(KeyCode), c.ToString());
+            KeyCode k = (KeyCode)Enum.Parse(typeof(KeyCode), c.ToString().ToUpper());
             commandQueue.AddIfNotExists(k);
         }
         if (Input.GetKeyDown(KeyCode.UpArrow))
@@ -90,7 +100,7 @@ public class Player : MonoBehaviour
         {
             if (!Input.inputString.Contains(c))
             {
-                KeyCode k = (KeyCode)Enum.Parse(typeof(KeyCode), c.ToString());
+                KeyCode k = (KeyCode)Enum.Parse(typeof(KeyCode), c.ToString().ToUpper());
                 commandQueue.RemoveIfExecuted(k);
             }
         }
@@ -131,12 +141,14 @@ public class Player : MonoBehaviour
                 command = commandQueue.Last.Value;
             }
 
+            bool doSomething = true;
             switch (command.key)
             {
                 case KeyCode.W: newTileY++; break;
                 case KeyCode.S: newTileY--; break;
                 case KeyCode.D: newTileX++; break;
                 case KeyCode.A: newTileX--; break;
+                default: doSomething = false; break;
             }
 
             command.hasExecuted = true;
@@ -144,6 +156,8 @@ public class Player : MonoBehaviour
             {
                 commandQueue.Remove(command);
             }
+
+            if (!doSomething) return;
 
             newTileX = map.WrapX(newTileX);
             newTileY = Mathf.Clamp(newTileY, 0, map.height - 1);
@@ -157,7 +171,7 @@ public class Player : MonoBehaviour
             else
             {
                 CollideWith(map.tileObjects[newTileY][newTileX]);
-                map.tileObjects[newTileY][newTileX].Collide();
+                map.tileObjects[newTileY][newTileX].Collide(identity);
             }
 
             map.Reveal(identity.x, identity.y, identity.viewDistance);
@@ -173,6 +187,11 @@ public class Player : MonoBehaviour
             identity.Attack(tile.occupant);
 
             TimeManager.Tick(identity.ticksPerAttack); 
+        }
+        else 
+        {
+            identity.FaceDirection(tile);
+            identity.AttackAnimation(.6f, .25f);
         }
     }
 }

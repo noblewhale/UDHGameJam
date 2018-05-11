@@ -38,19 +38,40 @@ public class Map : MonoBehaviour
 
     public float mapGenerationAnimationDelay = 0;
 
+    public int dungeonLevel = 1;
+
 	void Start ()
     {
         Camera.main.orthographicSize = (width * tileWidth / Camera.main.aspect) / 2.0f;
         transform.position = new Vector3(-width * tileWidth / 2.0f, -height * tileHeight / 2.0f);
+
+        ClearMap();
+        StartCoroutine(GenerateMap());
+	}
+
+    public void ClearMap()
+    {
+        if (CreatureSpawner.instance)
+        {
+            CreatureSpawner.instance.KillAll();
+        }
+        ForEachTile(t => {
+            t.DestroyAllObjects();
+            Destroy(t.gameObject);
+        });
+        floors.Clear();
+        walls.Clear();
         tileObjects = new Tile[height][];
         tiles = new int[height][];
         for (int y = 0; y < height; y++) tileObjects[y] = new Tile[width];
         for (int y = 0; y < height; y++) tiles[y] = new int[width];
-        StartCoroutine(GenerateMap());
-	}
+    }
 
-    private void Update()
+    public IEnumerator RegenerateMap()
     {
+        dungeonLevel++;
+        ClearMap();
+        yield return StartCoroutine(GenerateMap());
     }
 
     IEnumerator GenerateMap()
@@ -58,6 +79,39 @@ public class Map : MonoBehaviour
         yield return StartCoroutine(GenerateRooms(30));
         UpdateTiles();
         StartCoroutine(PostProcessMap());
+    }
+
+    void PlaceFinalDoor()
+    {
+        var topTilesWithWalls = tileObjects[height - 1].Where(x => x.ContainsObjectOfType(objectSet[2]));
+        var validFinalDoorSpots = new List<Tile>();
+        foreach (var t in topTilesWithWalls)
+        {
+            var tileBeneathWall = tileObjects[height - 2][t.x];
+            if (!tileBeneathWall.IsCollidable())
+            {
+                validFinalDoorSpots.Add(t);
+            }
+        }
+
+        var tile = validFinalDoorSpots[UnityEngine.Random.Range(0, validFinalDoorSpots.Count - 1)];
+        var node = tile.objectList.First;
+        while (node != null)
+        {
+            var nextNode = node.Next;
+            if (node.Value.objectName == "Wall") tile.objectList.Remove(node);
+            node = nextNode;
+        }
+        var lockedDoor = Instantiate(objectSet[3].gameObject).GetComponent<DungeonObject>();
+        lockedDoor.GetComponent<Door>().SetLocked(true);
+        tile.SpawnAndAddObject(objectSet[5]);
+        tile.AddObject(lockedDoor);
+    }
+
+    void PlaceKey()
+    {
+        var tile = floors[UnityEngine.Random.Range(0, floors.Count - 1)];
+        tile.SpawnAndAddObject(objectSet[4]);
     }
 
     void UpdateTiles()
@@ -183,8 +237,11 @@ public class Map : MonoBehaviour
 
     public void ForEachTile(Action<Tile> action)
     {
+        if (tileObjects == null) return;
+        if (tileObjects.Length != height) return;
         for (int y = 0; y < height; y++)
         {
+            if (tileObjects[y].Length != width) return;
             for (int x = 0; x < width; x++)
             {
                 action(tileObjects[y][x]);
@@ -382,7 +439,10 @@ public class Map : MonoBehaviour
                 if (tiles[y][x] == 2) walls.Add(tileObjects[y][x]);
             }
         }
-        
+
+        PlaceKey();
+        PlaceFinalDoor();
+
         if (OnMapLoaded != null) OnMapLoaded();
     }
 

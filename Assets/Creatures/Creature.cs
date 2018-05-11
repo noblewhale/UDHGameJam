@@ -29,12 +29,14 @@ public class Creature : DungeonObject
 
     public MovementBehaviour movementBehaviour;
     public AttackBehaviour attackBehaviour;
+    public Coroutine attackAnimationProcess;
 
     override protected void Awake()
     {
         base.Awake();
         movementBehaviour = GetComponent<MovementBehaviour>();
         attackBehaviour = GetComponent<AttackBehaviour>();
+        TimeManager.OnTick += OnTick;
     }
 
     override public void Update()
@@ -141,9 +143,15 @@ public class Creature : DungeonObject
         }
         nextActionTime = TimeManager.time + (ulong)ticksPerAttack;
 
+        AttackAnimation();
+    }
+
+    public void AttackAnimation(float scale = 1, float duration = .5f)
+    {
         if (attackMovementAnimation.length != 0)
         {
-            StartCoroutine(DoAttackAnimation());
+            if (attackAnimationProcess != null) StopCoroutine(attackAnimationProcess);
+            attackAnimationProcess = StartCoroutine(DoAttackAnimation(scale, duration));
         }
     }
 
@@ -175,17 +183,44 @@ public class Creature : DungeonObject
         foreach (var ob in itemsToDestroy) Destroy(ob);
     }
 
-    IEnumerator DoAttackAnimation()
+    public void FaceDirection(Tile tile)
+    {
+        if (tile.y > y) lastDirectionAttackedOrMoved = Direction.UP;
+        if (tile.y < y) lastDirectionAttackedOrMoved = Direction.DOWN;
+        if (tile.x > x) lastDirectionAttackedOrMoved = Direction.RIGHT;
+        if (tile.x < x) lastDirectionAttackedOrMoved = Direction.LEFT;
+    }
+
+    private void OnDestroy()
+    {
+        TimeManager.OnTick -= OnTick;
+    }
+
+    public void OnTick()
+    {
+        if (attackAnimationProcess != null)
+        {
+            StopCoroutine(attackAnimationProcess);
+            attackAnimationProcess = null;
+            for (int i = 0; i < glyphs.Length; i++)
+            {
+                Vector3 originalPosition = originalGlyphPositions[i];
+                var glyph = glyphs[i];
+                glyph.transform.localPosition = originalPosition;
+            }
+        }
+    }
+
+    IEnumerator DoAttackAnimation(float scale = 1, float duration = .5f)
     {
         float t = 0;
-        float duration = .5f;
         for (int i = 0; i < glyphs.Length; i++)
         {
             var glyph = glyphs[i];
             Vector3 originalPosition = originalGlyphPositions[i];
             while (t < duration)
             {
-                float offset = attackMovementAnimation.Evaluate(t / duration);
+                float offset = attackMovementAnimation.Evaluate(t / duration) * scale;
 
                 switch (lastDirectionAttackedOrMoved)
                 {
@@ -200,5 +235,6 @@ public class Creature : DungeonObject
 
             glyph.transform.localPosition = originalPosition;
         }
+        attackAnimationProcess = null;
     }
 }
