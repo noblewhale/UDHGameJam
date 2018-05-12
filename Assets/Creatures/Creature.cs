@@ -71,10 +71,13 @@ public class Creature : DungeonObject
         if (x > base.x) lastDirectionAttackedOrMoved = Direction.RIGHT;
         if (y < base.y) lastDirectionAttackedOrMoved = Direction.DOWN;
         if (y > base.y) lastDirectionAttackedOrMoved = Direction.UP;
-        map.tileObjects[base.y][base.x].SetOccupant(null);
-        map.tileObjects[y][x].SetOccupant(this);
 
+        int oldX = this.x;
+        int oldY = this.y;
         base.SetPosition(x, y, isAction);
+
+        map.tileObjects[oldY][oldX].SetOccupant(null);
+        map.tileObjects[y][x].SetOccupant(this);
 
         if (isAction)
         {

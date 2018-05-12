@@ -17,6 +17,8 @@ public class Player : MonoBehaviour
     public Camera mainCamera;
 
     public static Player instance;
+
+    public bool isInputEnabled = true;
     
 	void Awake ()
     {
@@ -45,16 +47,23 @@ public class Player : MonoBehaviour
         identity.SetPosition(startTile.x, startTile.y, false);
         map.Reveal(identity.x, identity.y, identity.viewDistance);
 
-        mainCamera.GetComponent<PlayerCamera>().SetRotation(startTile.x, startTile.y, 0, float.MaxValue);
+        mainCamera.GetComponent<PlayerCamera>().SetRotation(startTile.x, startTile.y, float.Epsilon, float.MaxValue);
         if (map.dungeonLevel == 1)
         {
             mainCamera.GetComponent<EntryAnimation>().isAnimating = true;
         }
         else
         {
-            Debug.Log("Set Y");
             mainCamera.GetComponent<PlayerCamera>().SetY(identity.transform.position.y, 1, float.MaxValue);
         }
+    }
+
+    public void ResetInput()
+    {
+        lastMovementFromKeyPressTime = 0;
+        commandQueue.Clear();
+        lastInputString = "";
+        isInputEnabled = true;
     }
 
     string lastInputString = "";
@@ -62,6 +71,8 @@ public class Player : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
     {
+        if (!isInputEnabled) return;
+
         if (Input.inputString != String.Empty ||
             Input.GetKeyDown(KeyCode.UpArrow) ||
             Input.GetKeyDown(KeyCode.DownArrow) ||

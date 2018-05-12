@@ -69,16 +69,24 @@ public class Map : MonoBehaviour
 
     public IEnumerator RegenerateMap()
     {
+        Player.instance.isInputEnabled = false;
+        PlayerCamera cam = Player.instance.mainCamera.GetComponent<PlayerCamera>();
+        float playerPosY = Player.instance.identity.transform.position.y + cam.cameraOffset;
+        while (Mathf.Abs(cam.transform.position.y - playerPosY) > .01f)
+        {
+            yield return new WaitForEndOfFrame();
+        }
         dungeonLevel++;
         ClearMap();
         yield return StartCoroutine(GenerateMap());
+        Player.instance.ResetInput();
     }
 
     IEnumerator GenerateMap()
     {
         yield return StartCoroutine(GenerateRooms(30));
         UpdateTiles();
-        StartCoroutine(PostProcessMap());
+        yield return StartCoroutine(PostProcessMap());
     }
 
     void PlaceFinalDoor()
@@ -249,7 +257,7 @@ public class Map : MonoBehaviour
         }
     }
 
-    internal void Reveal(int tileX, int tileY, float radius)
+    public void Reveal(int tileX, int tileY, float radius)
     {
         ForEachTile(t => t.isInView = false);
         tileObjects[tileY][tileX].SetRevealed(true);
@@ -412,7 +420,6 @@ public class Map : MonoBehaviour
 
             if (floorTileFound)
             {
-                Debug.Log(floodX + " " + floodY);
                 bool foundPath = true;
 
                 while (foundPath)
