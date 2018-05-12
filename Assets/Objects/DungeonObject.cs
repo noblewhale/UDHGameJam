@@ -37,6 +37,7 @@ public class DungeonObject : MonoBehaviour
     public bool blocksLineOfSight = false;
     public bool coversObjectsBeneath = false;
     Coroutine damageFlashProcess;
+    public Color damageFlashColor = Color.red;
 
     virtual protected void Awake()
     {
@@ -102,10 +103,10 @@ public class DungeonObject : MonoBehaviour
     {
         for (int i = 0; i < glyphs.Length; i++)
         {
-            glyphs[i].color = Color.white;
+            glyphs[i].color = damageFlashColor;
         }
 
-        yield return new WaitForSeconds(.15f);
+        yield return new WaitForSeconds(.2f);
 
         for (int i = 0; i < glyphs.Length; i++)
         {

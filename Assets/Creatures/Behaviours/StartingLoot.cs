@@ -25,7 +25,7 @@ public class StartingLoot : MonoBehaviour
 
             if (r <= dropRate.probability)
             {
-                int quantity = UnityEngine.Random.Range(dropRate.minQuantity, dropRate.maxQuantity);
+                int quantity = UnityEngine.Random.Range(dropRate.minQuantity, dropRate.maxQuantity + 1);
                 var item = Instantiate(dropRate.item.gameObject).GetComponent<DungeonObject>();
                 item.transform.position = new Vector3(-666, -666, -666);
                 item.quantity = quantity;

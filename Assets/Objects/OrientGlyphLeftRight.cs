@@ -7,10 +7,10 @@ public class OrientGlyphLeftRight : MonoBehaviour
     Creature owner;
     Vector3 originalScale;
 
-    void Start()
+    void Awake()
     {
         owner = GetComponentInParent<Creature>();
-        originalScale = owner.transform.localScale;
+        originalScale = transform.localScale;
     }
 
     void Update()

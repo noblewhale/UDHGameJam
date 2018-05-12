@@ -261,6 +261,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectName: Door
+  OnSteppedOn:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: DungeonObject+CreatureEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
   glyphs: []
   map: {fileID: 0}
   x: 0

@@ -127,7 +127,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_TypeName: DungeonObject+GameObjectEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+    m_TypeName: DungeonObject+CreatureEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
   glyphs: []
   map: {fileID: 0}

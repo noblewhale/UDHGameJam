@@ -102,7 +102,7 @@ public class Map : MonoBehaviour
             }
         }
 
-        var tile = validFinalDoorSpots[UnityEngine.Random.Range(0, validFinalDoorSpots.Count - 1)];
+        var tile = validFinalDoorSpots[UnityEngine.Random.Range(0, validFinalDoorSpots.Count)];
         var node = tile.objectList.First;
         while (node != null)
         {
@@ -118,7 +118,7 @@ public class Map : MonoBehaviour
 
     void PlaceKey()
     {
-        var tile = floors[UnityEngine.Random.Range(0, floors.Count - 1)];
+        var tile = floors[UnityEngine.Random.Range(0, floors.Count)];
         tile.SpawnAndAddObject(objectSet[4]);
     }
 
@@ -460,8 +460,8 @@ public class Map : MonoBehaviour
         {
             int w = UnityEngine.Random.Range(3, width / 3);
             int h = UnityEngine.Random.Range(3, height / 3);
-            int x = UnityEngine.Random.Range(0, width - 1);
-            int y = UnityEngine.Random.Range(0, height - 3);
+            int x = UnityEngine.Random.Range(0, width);
+            int y = UnityEngine.Random.Range(0, height - 2);
 
             GenerateRoom(x, y, w, h);
             UpdateTiles();

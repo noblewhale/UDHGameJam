@@ -23,8 +23,8 @@ public class CreatureSpawner : MonoBehaviour
     {
         for (int i = 0; i < numCreatesToSpawn; i++)
         {
-            var tile = map.floors[Random.Range(0, map.floors.Count - 1)];
-            var creatureType = creatureTypes[Random.Range(0, creatureTypes.Length - 1)];
+            var tile = map.floors[Random.Range(0, map.floors.Count)];
+            var creatureType = creatureTypes[Random.Range(0, creatureTypes.Length)];
 
             SpawnCreature(tile.x, tile.y, creatureType);
         }

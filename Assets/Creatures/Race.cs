@@ -1,4 +1,4 @@
 ﻿public enum Race
 {
-    HUMAN, INSECT
+    HUMAN, INSECT, RODENT
 }
