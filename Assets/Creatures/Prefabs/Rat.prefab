@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 212004497932549854}
   - component: {fileID: 114833131732465462}
   m_Layer: 0
-  m_Name: Glyph
+  m_Name: RatGlyph
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -5,15 +5,6 @@ public class StartingLoot : MonoBehaviour
 {
     Creature owner;
     
-    [Serializable]
-    public class DropRate
-    {
-        public DungeonObject item;
-        public int minQuantity;
-        public int maxQuantity;
-        public float probability;
-    }
-    
     public DropRate[] itemRates;
 
     virtual public void Start()

@@ -10,6 +10,9 @@ public class Map : MonoBehaviour
     public DungeonObject[] objectSet;
     public Material polarWarpMaterial;
 
+    public BiomeType[] biomeTypes;
+    public List<Biome> biomes = new List<Biome>();
+
     public int[][] tiles;
     public Tile[][] tileObjects;
 
@@ -31,6 +34,7 @@ public class Map : MonoBehaviour
         }
     }
 
+    public List<Tile> tilesInRandomOrder = new List<Tile>();
     public List<Tile> walls = new List<Tile>();
     public List<Tile> floors = new List<Tile>();
 
@@ -444,13 +448,39 @@ public class Map : MonoBehaviour
             {
                 if (tiles[y][x] == 1) floors.Add(tileObjects[y][x]);
                 if (tiles[y][x] == 2) walls.Add(tileObjects[y][x]);
+                tilesInRandomOrder.Add(tileObjects[y][x]);
             }
         }
 
-        PlaceKey();
-        PlaceFinalDoor();
+        floors = floors.OrderBy(a => UnityEngine.Random.value).ToList();
+        walls = walls.OrderBy(a => UnityEngine.Random.value).ToList();
+        tilesInRandomOrder = tilesInRandomOrder.OrderBy(a => UnityEngine.Random.value).ToList();
+
+        //PlaceKey();
+        //PlaceFinalDoor();
+
+        PlaceBiomes();
 
         if (OnMapLoaded != null) OnMapLoaded();
+    }
+
+    void PlaceBiomes()
+    {
+        Biome biome = new Biome();
+        biome.biomeType = biomeTypes[0];
+        biome.area = new Rect(0, 0, width-1, height-1);
+
+        biomes.Add(biome);
+
+        biome = new Biome();
+        biome.biomeType = biomeTypes[1];
+        float w = UnityEngine.Random.Range(3, 5);
+        float h = UnityEngine.Random.Range(3, 5);
+        float x = UnityEngine.Random.Range(0, width - w - 1);
+        float y = UnityEngine.Random.Range(0, height - h - 1);
+        biome.area = new Rect(x, y, w, h);
+
+        biomes.Add(biome);
     }
 
     IEnumerator GenerateRooms(int numRooms)

@@ -477,6 +477,7 @@ GameObject:
   - component: {fileID: 896254849}
   - component: {fileID: 896254850}
   - component: {fileID: 896254851}
+  - component: {fileID: 896254853}
   - component: {fileID: 896254852}
   m_Layer: 0
   m_Name: Map
@@ -519,10 +520,14 @@ MonoBehaviour:
   - {fileID: 114339594333797432, guid: ec62f295ad1d4ac43826cd74addc215c, type: 2}
   - {fileID: 114344298477969240, guid: 20e36c6b7abc41244852cdf24829cf3b, type: 2}
   polarWarpMaterial: {fileID: 2100000, guid: db6ec0255df11e74a819e71884c7a265, type: 2}
+  biomeTypes:
+  - {fileID: 11400000, guid: 65b45c084e5870045a839af3d408f14b, type: 2}
+  - {fileID: 11400000, guid: c5f22687274f57c48a389e16806785b4, type: 2}
   width: 31
   height: 44
   tileWidth: 0.5
   tileHeight: 0.5
+  tilesInRandomOrder: []
   walls: []
   floors: []
   mapGenerationAnimationDelay: 0
@@ -538,10 +543,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53c8642635a676d43ba10f4458003bc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  creatureTypes:
-  - {fileID: 114238227866493274, guid: f02a2f726c804044db74160be50cd6bd, type: 2}
-  - {fileID: 114569763151172050, guid: 8ebb711e68c91c54c9665e17889dffd9, type: 2}
-  numCreatesToSpawn: 20
   allCreatures: []
 --- !u!114 &896254852
 MonoBehaviour:
@@ -552,6 +553,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a3c82569596ceec499eadbcabbbbb697, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &896254853
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 896254848}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c46b97a6ccfbcae42949fac8d482cdb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &966747907
