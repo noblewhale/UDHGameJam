@@ -20,6 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4400215621049882}
   - component: {fileID: 114347597287653226}
+  - component: {fileID: 114403827801046774}
   m_Layer: 0
   m_Name: Dagger
   m_TagString: Untagged
@@ -94,12 +95,27 @@ MonoBehaviour:
   quantity: 1
   canBePickedUp: 1
   isAlwaysLit: 0
+  isWeilded: 0
   defense: 1
   health: 1
   isCollidable: 0
   blocksLineOfSight: 0
   coversObjectsBeneath: 0
   damageFlashColor: {r: 1, g: 0, b: 0, a: 1}
+--- !u!114 &114403827801046774
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1724023987053988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50a1b5f5c9c41e74fa30aab2d58e2841, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minBaseDamage: 1
+  maxBaseDamage: 2
+  enchantmentLevel: 0
 --- !u!212 &212558505335401858
 SpriteRenderer:
   m_ObjectHideFlags: 1

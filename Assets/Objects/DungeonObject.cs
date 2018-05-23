@@ -22,6 +22,8 @@ public class DungeonObject : MonoBehaviour
     public int quantity = 1;
     public bool canBePickedUp;
     public bool isAlwaysLit;
+    
+    public bool isWeilded = false;
 
     public Inventory inventory = new Inventory();
 

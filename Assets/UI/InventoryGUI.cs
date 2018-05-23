@@ -59,24 +59,10 @@ public class InventoryGUI : MonoBehaviour
     void AddSlot(DungeonObject item)
     {
         var slot = Instantiate(slotPrefab.gameObject, transform).GetComponent<InventorySlotGUI>();
-        slot.transform.localRotation = Quaternion.identity;
-        slot.label.text = item.objectName;
-        DungeonObject glyph = Instantiate(item.gameObject, slot.glyphParent).GetComponent<DungeonObject>();
-        glyph.isAlwaysLit = true;
-        SetLayerRecursive(glyph.gameObject, gameObject.layer);
+        slot.Init(item);
 
-        glyph.transform.localPosition = Vector3.zero;
         slots.Add(item.objectName, slot);
 
         UpdateIndexes();
-    }
-    
-    public void SetLayerRecursive(UnityEngine.GameObject go, int layer)
-    {
-        if (go == null) return;
-        foreach (var trans in go.GetComponentsInChildren<Transform>(true))
-        {
-            trans.gameObject.layer = layer;
-        }
     }
 }

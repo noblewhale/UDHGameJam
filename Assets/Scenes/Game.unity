@@ -143,6 +143,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   copyFrom: {fileID: 519420031}
+  offset: 0
 --- !u!114 &112847983
 MonoBehaviour:
   m_ObjectHideFlags: 0

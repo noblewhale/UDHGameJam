@@ -13,6 +13,7 @@ public class Creature : DungeonObject
     public int constitution;
     public int intelligence;
     public int charisma;
+
     public int ticksPerMove = 1;
     public int ticksPerAttack = 1;
     public AnimationCurve attackMovementAnimation;
@@ -30,6 +31,9 @@ public class Creature : DungeonObject
     public MovementBehaviour movementBehaviour;
     public AttackBehaviour attackBehaviour;
     public Coroutine attackAnimationProcess;
+
+    public DungeonObject leftHandObject;
+    public DungeonObject rightHandObject;
 
     override protected void Awake()
     {
@@ -133,6 +137,13 @@ public class Creature : DungeonObject
         else if (creature.x > x) lastDirectionAttackedOrMoved = Direction.RIGHT;
         else if (creature.y < y) lastDirectionAttackedOrMoved = Direction.DOWN;
         else if (creature.y > y) lastDirectionAttackedOrMoved = Direction.UP;
+
+        Weapon weapon = null;
+        if (rightHandObject != null)
+        {
+            weapon = rightHandObject.GetComponent<Weapon>();
+        }
+
         float roll = UnityEngine.Random.Range(0, 20);
         roll += dexterity;
         if (roll > creature.dexterity)
@@ -141,7 +152,15 @@ public class Creature : DungeonObject
             if (roll > creature.dexterity + creature.defense)
             {
                 // Got past armor / defense
-                creature.TakeDamage(1);
+                if (weapon == null)
+                {
+                    creature.TakeDamage(1);
+                }
+                else
+                {
+                    int damage = UnityEngine.Random.Range(weapon.minBaseDamage, weapon.maxBaseDamage + 1);
+                    creature.TakeDamage(damage);
+                }
             }
         }
         nextActionTime = TimeManager.time + (ulong)ticksPerAttack;
@@ -160,13 +179,17 @@ public class Creature : DungeonObject
 
     public void PickUpAll()
     {
-        List<DungeonObject> itemsToRemove = new List<DungeonObject>();
+        List<DungeonObject> itemsToRemoveFromTile = new List<DungeonObject>();
         List<DungeonObject> itemsToDestroy = new List<DungeonObject>();
         foreach (var ob in map.tileObjects[y][x].objectList)
         {
             if (ob.canBePickedUp)
             {
-                itemsToRemove.Add(ob);
+                if (ob.GetComponent<Weapon>() != null)
+                {
+                    WeildRightHand(ob);
+                }
+                itemsToRemoveFromTile.Add(ob);
                 DungeonObject existingOb;
                 bool success = inventory.items.TryGetValue(ob.objectName, out existingOb);
                 if (success)
@@ -182,8 +205,18 @@ public class Creature : DungeonObject
             }
         }
 
-        foreach (var ob in itemsToRemove) map.tileObjects[y][x].RemoveObject(ob);
+        foreach (var ob in itemsToRemoveFromTile) map.tileObjects[y][x].RemoveObject(ob);
         foreach (var ob in itemsToDestroy) Destroy(ob);
+    }
+
+    public void WeildRightHand(DungeonObject ob)
+    {
+        if (rightHandObject != null)
+        {
+            rightHandObject.isWeilded = false;
+        }
+        rightHandObject = ob;
+        ob.isWeilded = true;
     }
 
     public void FaceDirection(Tile tile)

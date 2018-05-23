@@ -16,7 +16,7 @@ MonoBehaviour:
       type: 2}
     probability: 0.9
   items:
-  - item: {fileID: 114347597287653226, guid: 1b5941ecabb59044ea30861fca424ef1, type: 2}
+  - item: {fileID: 114339594333797432, guid: ec62f295ad1d4ac43826cd74addc215c, type: 2}
     minQuantity: 1
     maxQuantity: 1
     probability: 1
