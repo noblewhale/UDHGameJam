@@ -149,7 +149,7 @@ TextMesh:
   m_Anchor: 3
   m_Alignment: 0
   m_TabSize: 4
-  m_FontSize: 13
+  m_FontSize: 11
   m_FontStyle: 0
   m_RichText: 1
   m_Font: {fileID: 12800000, guid: 3fd88f540218aac4ba43a0caf7310808, type: 3}
@@ -170,3 +170,5 @@ MonoBehaviour:
   label: {fileID: 102313401669950558}
   glyphParent: {fileID: 4704341026646444}
   index: 0
+  glyph: {fileID: 0}
+  item: {fileID: 0}
