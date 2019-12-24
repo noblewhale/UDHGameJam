@@ -6,6 +6,11 @@ using UnityEngine;
 
 public class Map : MonoBehaviour
 {
+    public enum TileType
+    { 
+        NOTHING, FLOOR, WALL, DOOR
+    }
+
     public Tile tilePrefab;
     public DungeonObject[] objectSet;
     public Material polarWarpMaterial;
@@ -13,7 +18,7 @@ public class Map : MonoBehaviour
     public BiomeType[] biomeTypes;
     public List<Biome> biomes = new List<Biome>();
 
-    public int[][] tiles;
+    public TileType[][] tiles;
     public Tile[][] tileObjects;
 
     public int width = 10;
@@ -34,9 +39,9 @@ public class Map : MonoBehaviour
         }
     }
 
-    public List<Tile> tilesInRandomOrder = new List<Tile>();
-    public List<Tile> walls = new List<Tile>();
-    public List<Tile> floors = new List<Tile>();
+    List<Tile> tilesInRandomOrder = new List<Tile>();
+    List<Tile> walls = new List<Tile>();
+    List<Tile> floors = new List<Tile>();
 
     public event Action OnMapLoaded;
 
@@ -66,9 +71,9 @@ public class Map : MonoBehaviour
         floors.Clear();
         walls.Clear();
         tileObjects = new Tile[height][];
-        tiles = new int[height][];
+        tiles = new TileType[height][];
         for (int y = 0; y < height; y++) tileObjects[y] = new Tile[width];
-        for (int y = 0; y < height; y++) tiles[y] = new int[width];
+        for (int y = 0; y < height; y++) tiles[y] = new TileType[width];
     }
 
     public IEnumerator RegenerateMap()
@@ -88,43 +93,45 @@ public class Map : MonoBehaviour
 
     IEnumerator GenerateMap()
     {
+        PlaceBiomes();
+
         yield return StartCoroutine(GenerateRooms(30));
         UpdateTiles();
         yield return StartCoroutine(PostProcessMap());
     }
 
-    void PlaceFinalDoor()
-    {
-        var topTilesWithWalls = tileObjects[height - 1].Where(x => x.ContainsObjectOfType(objectSet[2]));
-        var validFinalDoorSpots = new List<Tile>();
-        foreach (var t in topTilesWithWalls)
-        {
-            var tileBeneathWall = tileObjects[height - 2][t.x];
-            if (!tileBeneathWall.IsCollidable())
-            {
-                validFinalDoorSpots.Add(t);
-            }
-        }
+    //void PlaceFinalDoor()
+    //{
+    //    var topTilesWithWalls = tileObjects[height - 1].Where(x => x.ContainsObjectOfType(objectSet[2]));
+    //    var validFinalDoorSpots = new List<Tile>();
+    //    foreach (var t in topTilesWithWalls)
+    //    {
+    //        var tileBeneathWall = tileObjects[height - 2][t.x];
+    //        if (!tileBeneathWall.IsCollidable())
+    //        {
+    //            validFinalDoorSpots.Add(t);
+    //        }
+    //    }
 
-        var tile = validFinalDoorSpots[UnityEngine.Random.Range(0, validFinalDoorSpots.Count)];
-        var node = tile.objectList.First;
-        while (node != null)
-        {
-            var nextNode = node.Next;
-            if (node.Value.objectName == "Wall") tile.objectList.Remove(node);
-            node = nextNode;
-        }
-        var lockedDoor = Instantiate(objectSet[3].gameObject).GetComponent<DungeonObject>();
-        lockedDoor.GetComponent<Door>().SetLocked(true);
-        tile.SpawnAndAddObject(objectSet[5]);
-        tile.AddObject(lockedDoor);
-    }
+    //    var tile = validFinalDoorSpots[UnityEngine.Random.Range(0, validFinalDoorSpots.Count)];
+    //    var node = tile.objectList.First;
+    //    while (node != null)
+    //    {
+    //        var nextNode = node.Next;
+    //        if (node.Value.objectName == "Wall") tile.objectList.Remove(node);
+    //        node = nextNode;
+    //    }
+    //    var lockedDoor = Instantiate(objectSet[3].gameObject).GetComponent<DungeonObject>();
+    //    lockedDoor.GetComponent<Door>().SetLocked(true);
+    //    tile.SpawnAndAddObject(objectSet[5]);
+    //    tile.AddObject(lockedDoor);
+    //}
 
-    void PlaceKey()
-    {
-        var tile = floors[UnityEngine.Random.Range(0, floors.Count)];
-        tile.SpawnAndAddObject(objectSet[4]);
-    }
+    //void PlaceKey()
+    //{
+    //    var tile = floors[UnityEngine.Random.Range(0, floors.Count)];
+    //    tile.SpawnAndAddObject(objectSet[4]);
+    //}
 
     void UpdateTiles()
     { 
@@ -132,7 +139,7 @@ public class Map : MonoBehaviour
         {
             for (int x = 0; x < width; x++)
             {
-                if (tileObjects[y][x] != null && tileObjects[y][x].value != tiles[y][x])
+                if (tileObjects[y][x] != null && tileObjects[y][x].baseType != tiles[y][x])
                 {
                     Destroy(tileObjects[y][x].gameObject);
                     AddTile(x, y);
@@ -152,12 +159,16 @@ public class Map : MonoBehaviour
     {
         tileObjects[y][x] = Instantiate(tilePrefab, new Vector3(-666, -666, -666), Quaternion.identity).GetComponent<Tile>();
         tileObjects[y][x].Init(this, tiles[y][x], x, y);
-        if (tiles[y][x] != 0)
+        if (tiles[y][x] != TileType.NOTHING)
         {
-            tileObjects[y][x].SpawnAndAddObject(objectSet[1]);
-            if (tiles[y][x] != 1)
+            // Pick a floor tile based on biome
+            DungeonObject ob = Biome.GetRandomBaseTile(x, y, biomes, TileType.FLOOR);
+            tileObjects[y][x].SpawnAndAddObject(ob);
+            if (tiles[y][x] != TileType.FLOOR)
             {
-                tileObjects[y][x].SpawnAndAddObject(objectSet[tiles[y][x]]);
+                var type = tiles[y][x];
+                ob = Biome.GetRandomBaseTile(x, y, biomes, type);
+                tileObjects[y][x].SpawnAndAddObject(ob);
             }
         }
     }
@@ -172,14 +183,14 @@ public class Map : MonoBehaviour
 
         if (tileObjects[floodY][wrappedX].isFloodFilled) return;
 
-        if (tiles[floodY][wrappedX] != 2)
+        if (tiles[floodY][wrappedX] != TileType.WALL)
         {
             tileObjects[floodY][wrappedX].isFloodFilled = true;
             //tileObjects[floodY][wrappedX].glyph.color = Color.green;
         }
         else
         {
-            if (tiles[floodY][wrappedX] == 2)
+            if (tiles[floodY][wrappedX] == TileType.WALL)
             {
                 //tileObjects[floodY][wrappedX].glyph.color = Color.red;
                 walls.Add(tileObjects[floodY][wrappedX]);
@@ -200,7 +211,7 @@ public class Map : MonoBehaviour
         distance = int.MaxValue;
         while (x > 0 && x < width -1 && y > 0 && y < height - 1)
         {
-            if (tiles[y][x] == 1)
+            if (tiles[y][x] == TileType.FLOOR)
             {
                 if (!tileObjects[y][x].isFloodFilled)
                 {
@@ -298,32 +309,32 @@ public class Map : MonoBehaviour
         int startY = y;
         while (x > 0 && x < width && y > 0 && y < height - 1)
         {
-            if (tiles[y][x] == 1) break;
+            if (tiles[y][x] == TileType.FLOOR) break;
 
             if (dir == Direction.UP || dir == Direction.DOWN)
             {
                 if (tiles[y][x - 1] == 0)
                 {
-                    SetTile(x - 1, y, 2);
+                    SetTile(x - 1, y, TileType.WALL);
                 }
                 if (tiles[y][x + 1] == 0)
                 {
-                    SetTile(x + 1, y, 2);
+                    SetTile(x + 1, y, TileType.WALL);
                 }
             }
             else
             {
                 if (tiles[y-1][x] == 0)
                 {
-                    SetTile(x, y - 1, 2);
+                    SetTile(x, y - 1, TileType.WALL);
                 }
                 if (tiles[y+1][x] == 0)
                 {
-                    SetTile(x, y + 1, 2);
+                    SetTile(x, y + 1, TileType.WALL);
                 }
             }
 
-            SetTile(x, y, 1);
+            SetTile(x, y, TileType.FLOOR);
 
             switch (dir)
             {
@@ -334,19 +345,19 @@ public class Map : MonoBehaviour
             }
         }
 
-        SetTile(startX, startY, 3);
+        SetTile(startX, startY, TileType.DOOR);
         //tileObjects[startY][startX].isFloodFilled = true;
     }
 
-    void SetTile(int x, int y, int value)
+    void SetTile(int x, int y, TileType baseType)
     {
-        tiles[y][x] = value;
+        tiles[y][x] = baseType;
         if (tileObjects[y][x] != null || tileObjects[y][x].gameObject != null)
         {
             Destroy(tileObjects[y][x].gameObject);
         }
         AddTile(x, y);
-        tileObjects[y][x].Init(this, value, x, y);
+        tileObjects[y][x].Init(this, baseType, x, y);
     }
 
     bool CreateConnectingPath(ref int pathStartX, ref int pathStartY)
@@ -411,7 +422,7 @@ public class Map : MonoBehaviour
             {
                 for (floodX = 0; floodX < width; floodX++)
                 {
-                    if (tiles[floodY][floodX] == 1 && !tileObjects[floodY][floodX].isFloodFilled)
+                    if (tiles[floodY][floodX] == TileType.FLOOR && !tileObjects[floodY][floodX].isFloodFilled)
                     {
                         floorTileFound = true;
                         break;
@@ -446,8 +457,8 @@ public class Map : MonoBehaviour
         {
             for (int x = 0; x < width; x++)
             {
-                if (tiles[y][x] == 1) floors.Add(tileObjects[y][x]);
-                if (tiles[y][x] == 2) walls.Add(tileObjects[y][x]);
+                if (tiles[y][x] == TileType.FLOOR) floors.Add(tileObjects[y][x]);
+                if (tiles[y][x] == TileType.WALL) walls.Add(tileObjects[y][x]);
                 tilesInRandomOrder.Add(tileObjects[y][x]);
             }
         }
@@ -459,8 +470,6 @@ public class Map : MonoBehaviour
         //PlaceKey();
         //PlaceFinalDoor();
 
-        PlaceBiomes();
-
         if (OnMapLoaded != null) OnMapLoaded();
     }
 
@@ -468,17 +477,17 @@ public class Map : MonoBehaviour
     {
         Biome biome = new Biome();
         biome.biomeType = biomeTypes[0];
-        biome.area = new Rect(0, 0, width-1, height-1);
+        biome.area = new RectInt(0, 0, width, height);
 
         biomes.Add(biome);
 
         biome = new Biome();
         biome.biomeType = biomeTypes[1];
-        float w = UnityEngine.Random.Range(3, 5);
-        float h = UnityEngine.Random.Range(3, 5);
-        float x = UnityEngine.Random.Range(0, width - w - 1);
-        float y = UnityEngine.Random.Range(0, height - h - 1);
-        biome.area = new Rect(x, y, w, h);
+        int w = UnityEngine.Random.Range(3, 5);
+        int h = UnityEngine.Random.Range(3, 5);
+        int x = UnityEngine.Random.Range(0, width - w - 1);
+        int y = UnityEngine.Random.Range(0, height - h - 1);
+        biome.area = new RectInt(x, y, w, h);
 
         biomes.Add(biome);
     }
@@ -513,16 +522,26 @@ public class Map : MonoBehaviour
                 
                 if (yi == 0 || yi == h-1 || xi == 0 || xi == w-1 || y+yi == height -1)
                 {
-                    if (tiles[y + yi][wrappedX] != 1)
+                    if (tiles[y + yi][wrappedX] != TileType.FLOOR)
                     {
-                        tiles[y + yi][wrappedX] = 2;
+                        tiles[y + yi][wrappedX] = TileType.WALL;
                     }
                 }
                 else
                 {
-                    tiles[y + yi][wrappedX] = 1;
+                    tiles[y + yi][wrappedX] = TileType.FLOOR;
                 }
             }
         }
+    }
+
+    public void ForEachFloorTile(Action<Tile> doThis)
+    {
+        foreach (var tile in floors) doThis(tile);
+    }
+
+    public Tile GetRandomFloorTile()
+    {
+        return floors[UnityEngine.Random.Range(0, floors.Count)];
     }
 }

@@ -12,10 +12,8 @@ MonoBehaviour:
   m_Name: Final Door
   m_EditorClassIdentifier: 
   creatures: []
-  items:
-  - item: {fileID: 114339594333797432, guid: ec62f295ad1d4ac43826cd74addc215c, type: 2}
-    minQuantity: 1
-    maxQuantity: 1
-    probability: 1
-    minQuantityPerBiome: 1
-    maxQuantityPerBiome: 1
+  items: []
+  doors:
+  - {fileID: 114959046356625430, guid: da93865118f707546915fc59ef79a133, type: 2}
+  floors: []
+  walls: []

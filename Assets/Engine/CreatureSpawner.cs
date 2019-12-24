@@ -15,47 +15,54 @@ public class CreatureSpawner : MonoBehaviour
     {
         instance = this;
         map = FindObjectOfType<Map>();
-        map.OnMapLoaded += () => InitialSpawn();
+        map.OnMapLoaded += InitialSpawn;
+    }
+
+    void OnDestroy()
+    {
+        map.OnMapLoaded -= InitialSpawn;
     }
 
     void InitialSpawn()
     {
-        foreach (var tile in map.floors)
+        map.ForEachFloorTile(SpawnCreaturesOnFloorTiles);
+    }
+
+    void SpawnCreaturesOnFloorTiles(Tile tile)
+    { 
+        var containingBiomes = map.biomes.Where(b => b.area.Contains(new Vector2Int(tile.x, tile.y)));
+        float totalProbability = 0;
+        foreach (var biome in containingBiomes)
         {
-            var containingBiomes = map.biomes.Where(b => b.area.Contains(new Vector2(tile.x, tile.y)));
-            float totalProbability = 0;
-            foreach (var biome in containingBiomes)
+            foreach (var creatureType in biome.biomeType.creatures)
             {
-                foreach (var creatureType in biome.biomeType.creatures)
-                {
-                    totalProbability += creatureType.probability;
-                }
+                totalProbability += creatureType.probability;
             }
+        }
 
-            float r = Random.value;
+        float r = Random.value;
 
-            SpawnRate creatureTypeToSpawn = null;
+        SpawnRate creatureTypeToSpawn = null;
 
-            float currentProbability = 0;
-            float previousProbability = 0;
-            foreach (var biome in containingBiomes)
+        float currentProbability = 0;
+        float previousProbability = 0;
+        foreach (var biome in containingBiomes)
+        {
+            foreach (var creatureType in biome.biomeType.creatures)
             {
-                foreach (var creatureType in biome.biomeType.creatures)
-                {
-                    previousProbability = currentProbability;
-                    currentProbability += creatureType.probability;
+                previousProbability = currentProbability;
+                currentProbability += creatureType.probability;
                     
-                    if (r >= previousProbability && r < currentProbability)
-                    {
-                        creatureTypeToSpawn = creatureType;
-                    }
+                if (r >= previousProbability && r < currentProbability)
+                {
+                    creatureTypeToSpawn = creatureType;
                 }
             }
+        }
 
-            if (creatureTypeToSpawn != null)
-            {
-                SpawnCreature(tile.x, tile.y, creatureTypeToSpawn.creature);
-            }
+        if (creatureTypeToSpawn != null)
+        {
+            SpawnCreature(tile.x, tile.y, creatureTypeToSpawn.creature);
         }
 	}
 

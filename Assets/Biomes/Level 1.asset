@@ -25,3 +25,36 @@ MonoBehaviour:
     probability: 1
     minQuantityPerBiome: 1
     maxQuantityPerBiome: 1
+  floors:
+  - item: {fileID: 114396989050233776, guid: fc61b768638409649819ee72bd27740c, type: 2}
+    minQuantity: 1
+    maxQuantity: 1
+    probability: 1
+    minQuantityPerBiome: -1
+    maxQuantityPerBiome: -1
+  - item: {fileID: 114396989050233776, guid: c69b6a8f4055a1e498fa30a4dcf35d06, type: 2}
+    minQuantity: 1
+    maxQuantity: 1
+    probability: 5
+    minQuantityPerBiome: -1
+    maxQuantityPerBiome: -1
+  walls:
+  - item: {fileID: 114024561291017924, guid: 1268d14737f164f4494906c493e7fef9, type: 2}
+    minQuantity: 1
+    maxQuantity: 1
+    probability: 1
+    minQuantityPerBiome: -1
+    maxQuantityPerBiome: -1
+  doors:
+  - item: {fileID: 114959046356625430, guid: 869404b52a249a74d9c2da34da750f88, type: 2}
+    minQuantity: 1
+    maxQuantity: 1
+    probability: 1
+    minQuantityPerBiome: -1
+    maxQuantityPerBiome: -1
+  - item: {fileID: 114959046356625430, guid: bc9347607a3f5a1458e19b4258e95998, type: 2}
+    minQuantity: 1
+    maxQuantity: 1
+    probability: 1
+    minQuantityPerBiome: -1
+    maxQuantityPerBiome: -1

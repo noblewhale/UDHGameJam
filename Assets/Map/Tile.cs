@@ -7,7 +7,7 @@ public class Tile : MonoBehaviour
 {
     public int x;
     public int y;
-    public int value;
+    public Map.TileType baseType;
     Map map;
     public bool isFloodFilled;
     bool isRevealed = true;
@@ -19,10 +19,10 @@ public class Tile : MonoBehaviour
 
     public Creature occupant;
 
-    public void Init(Map map, int value, int x, int y)
+    public void Init(Map map, Map.TileType baseType, int x, int y)
     {
         transform.parent = map.transform;
-        this.value = value;
+        this.baseType = baseType;
         this.map = map;
         this.x = x;
         this.y = y;

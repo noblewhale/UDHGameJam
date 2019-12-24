@@ -10,13 +10,18 @@ public class Door : DungeonObject
     public bool isLocked = false;
     public float lockPickDifficulty = 1;
 
-    public UnityEngine.GameObject openGlyph;
-    public UnityEngine.GameObject closedGlyph;
-    public UnityEngine.GameObject lockedGlyph;
+    public GameObject openGlyph;
+    public GameObject closedGlyph;
+    public GameObject lockedGlyph;
 
 	// Use this for initialization
 	void Start ()
     {
+        SetOpen(isOpen);
+        if (!isOpen)
+        {
+            SetLocked(isLocked);
+        }
 	}
 	
 	// Update is called once per frame
@@ -54,9 +59,9 @@ public class Door : DungeonObject
         }
         else
         {
-            openGlyph.SetActive(true);
-            closedGlyph.SetActive(false);
-            lockedGlyph.SetActive(true);
+            openGlyph.SetActive(false);
+            closedGlyph.SetActive(true);
+            lockedGlyph.SetActive(false);
         }
     }
 

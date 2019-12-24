@@ -42,8 +42,8 @@ public class Player : MonoBehaviour
     }
 
     void OnMapLoaded()
-    { 
-        Tile startTile = map.floors[UnityEngine.Random.Range(0, map.floors.Count)];
+    {
+        Tile startTile = map.GetRandomFloorTile();
         identity.SetPosition(startTile.x, startTile.y, false);
         map.Reveal(identity.x, identity.y, identity.viewDistance);
 

@@ -524,13 +524,11 @@ MonoBehaviour:
   biomeTypes:
   - {fileID: 11400000, guid: 65b45c084e5870045a839af3d408f14b, type: 2}
   - {fileID: 11400000, guid: c5f22687274f57c48a389e16806785b4, type: 2}
+  - {fileID: 11400000, guid: b10d45ad6978e3747b2ad9286a9d7cc2, type: 2}
   width: 31
   height: 44
   tileWidth: 0.5
   tileHeight: 0.5
-  tilesInRandomOrder: []
-  walls: []
-  floors: []
   mapGenerationAnimationDelay: 0
   dungeonLevel: 1
 --- !u!114 &896254851
