@@ -522,7 +522,7 @@ MonoBehaviour:
   - {fileID: 114344298477969240, guid: 20e36c6b7abc41244852cdf24829cf3b, type: 2}
   polarWarpMaterial: {fileID: 2100000, guid: db6ec0255df11e74a819e71884c7a265, type: 2}
   biomeTypes:
-  - {fileID: 11400000, guid: 65b45c084e5870045a839af3d408f14b, type: 2}
+  - {fileID: 11400000, guid: 15a8ece4b361d5048bda936a0b48a345, type: 2}
   - {fileID: 11400000, guid: c5f22687274f57c48a389e16806785b4, type: 2}
   - {fileID: 11400000, guid: b10d45ad6978e3747b2ad9286a9d7cc2, type: 2}
   width: 31

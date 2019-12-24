@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 [CreateAssetMenu]
 public class BiomeType : ScriptableObject
@@ -20,5 +21,10 @@ public class BiomeType : ScriptableObject
                 Debug.LogError("Invalid base tile type: " + baseType.ToString());
                 return null;
         }
+    }
+
+    virtual public IEnumerator PreProcessMap(Map map)
+    {
+        yield return 0;
     }
 }

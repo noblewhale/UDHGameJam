@@ -14,6 +14,8 @@ public class PlayerCamera : MonoBehaviour
     public float rotation;
     float cameraVelocity;
 
+    public Material polarWarpMaterial;
+
     void Start ()
     {
         owner = FindObjectOfType<Player>();
@@ -56,6 +58,6 @@ public class PlayerCamera : MonoBehaviour
             targetRotation = targetRotation - Mathf.Sign(targetRotation - rotation) * (2 * Mathf.PI);
         }
         rotation = Mathf.SmoothDampAngle(rotation, targetRotation, ref cameraVelocity, lerpFactor, maxSpeed);
-        owner.map.polarWarpMaterial.SetFloat("_Rotation", rotation - Mathf.PI / 2);
+        polarWarpMaterial.SetFloat("_Rotation", rotation - Mathf.PI / 2);
     }
 }

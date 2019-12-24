@@ -13,7 +13,6 @@ public class Map : MonoBehaviour
 
     public Tile tilePrefab;
     public DungeonObject[] objectSet;
-    public Material polarWarpMaterial;
 
     public BiomeType[] biomeTypes;
     public List<Biome> biomes = new List<Biome>();
@@ -39,9 +38,12 @@ public class Map : MonoBehaviour
         }
     }
 
-    List<Tile> tilesInRandomOrder = new List<Tile>();
-    List<Tile> walls = new List<Tile>();
-    List<Tile> floors = new List<Tile>();
+    [NonSerialized]
+    public List<Tile> tilesInRandomOrder = new List<Tile>();
+    [NonSerialized]
+    public List<Tile> walls = new List<Tile>();
+    [NonSerialized]
+    public List<Tile> floors = new List<Tile>();
 
     public event Action OnMapLoaded;
 
@@ -94,10 +96,58 @@ public class Map : MonoBehaviour
     IEnumerator GenerateMap()
     {
         PlaceBiomes();
-
-        yield return StartCoroutine(GenerateRooms(30));
+        yield return StartCoroutine(PreProcessBiomes());
         UpdateTiles();
-        yield return StartCoroutine(PostProcessMap());
+        PostProcessMap();
+        if (OnMapLoaded != null) OnMapLoaded();
+    }
+
+    void PlaceBiomes()
+    {
+        Biome biome = new Biome();
+        biome.biomeType = biomeTypes[0];
+        biome.area = new RectInt(0, 0, width, height);
+
+        biomes.Add(biome);
+
+        biome = new Biome();
+        biome.biomeType = biomeTypes[1];
+        int w = UnityEngine.Random.Range(3, 5);
+        int h = UnityEngine.Random.Range(3, 5);
+        int x = UnityEngine.Random.Range(0, width - w - 1);
+        int y = UnityEngine.Random.Range(0, height - h - 1);
+        biome.area = new RectInt(x, y, w, h);
+
+        biomes.Add(biome);
+    }
+    
+    IEnumerator PreProcessBiomes()
+    {
+        foreach (var biome in biomes)
+        {
+            yield return StartCoroutine(biome.biomeType.PreProcessMap(this));
+        }
+    }
+
+    void PostProcessMap()
+    {
+        walls.Clear();
+        floors.Clear();
+
+        for (int y = 0; y < height; y++)
+        {
+            for (int x = 0; x < width; x++)
+            {
+                if (tiles[y][x] == TileType.FLOOR) floors.Add(tileObjects[y][x]);
+                if (tiles[y][x] == TileType.WALL) walls.Add(tileObjects[y][x]);
+                tilesInRandomOrder.Add(tileObjects[y][x]);
+            }
+        }
+
+        floors = floors.OrderBy(a => UnityEngine.Random.value).ToList();
+        walls = walls.OrderBy(a => UnityEngine.Random.value).ToList();
+        tilesInRandomOrder = tilesInRandomOrder.OrderBy(a => UnityEngine.Random.value).ToList();
+        //PlaceFinalDoor();
     }
 
     //void PlaceFinalDoor()
@@ -127,13 +177,7 @@ public class Map : MonoBehaviour
     //    tile.AddObject(lockedDoor);
     //}
 
-    //void PlaceKey()
-    //{
-    //    var tile = floors[UnityEngine.Random.Range(0, floors.Count)];
-    //    tile.SpawnAndAddObject(objectSet[4]);
-    //}
-
-    void UpdateTiles()
+    public void UpdateTiles()
     { 
         for (int y = 0; y < height; y++)
         {
@@ -171,75 +215,6 @@ public class Map : MonoBehaviour
                 tileObjects[y][x].SpawnAndAddObject(ob);
             }
         }
-    }
-
-    void FloodFill(int floodX, int floodY)
-    {
-        if (floodY < 0 || floodY >= height) return;
-
-        int wrappedX = floodX;
-        if (wrappedX < 0) wrappedX = width + wrappedX;
-        else if (wrappedX >= width) wrappedX = wrappedX - width;
-
-        if (tileObjects[floodY][wrappedX].isFloodFilled) return;
-
-        if (tiles[floodY][wrappedX] != TileType.WALL)
-        {
-            tileObjects[floodY][wrappedX].isFloodFilled = true;
-            //tileObjects[floodY][wrappedX].glyph.color = Color.green;
-        }
-        else
-        {
-            if (tiles[floodY][wrappedX] == TileType.WALL)
-            {
-                //tileObjects[floodY][wrappedX].glyph.color = Color.red;
-                walls.Add(tileObjects[floodY][wrappedX]);
-            }
-            return;
-        }
-
-        FloodFill(wrappedX - 1, floodY);
-        FloodFill(wrappedX + 1, floodY);
-        FloodFill(wrappedX, floodY - 1);
-        FloodFill(wrappedX, floodY + 1);
-    }
-    
-    Tile FindFloorTile(Direction dir, int x, int y, out int distance)
-    {
-        int startX = x;
-        int startY = y;
-        distance = int.MaxValue;
-        while (x > 0 && x < width -1 && y > 0 && y < height - 1)
-        {
-            if (tiles[y][x] == TileType.FLOOR)
-            {
-                if (!tileObjects[y][x].isFloodFilled)
-                {
-                    switch (dir)
-                    {
-                        case Direction.UP: distance = y - startY; break;
-                        case Direction.DOWN: distance = startY - y; break;
-                        case Direction.RIGHT: distance = x - startX; break;
-                        case Direction.LEFT: distance = startX - x; break;
-                    }
-
-                    return tileObjects[y][x];
-                }
-                else
-                {
-                    return null;
-                }
-            }
-            switch (dir)
-            {
-                case Direction.UP: y++; break;
-                case Direction.DOWN: y--; break;
-                case Direction.RIGHT: x++; break;
-                case Direction.LEFT: x--; break;
-            }
-        }
-
-        return null;
     }
 
     public float WrapX(float x)
@@ -303,53 +278,7 @@ public class Map : MonoBehaviour
         }
     }
 
-    void CreatePathToFloor(Direction dir, int x, int y)
-    {
-        int startX = x;
-        int startY = y;
-        while (x > 0 && x < width && y > 0 && y < height - 1)
-        {
-            if (tiles[y][x] == TileType.FLOOR) break;
-
-            if (dir == Direction.UP || dir == Direction.DOWN)
-            {
-                if (tiles[y][x - 1] == 0)
-                {
-                    SetTile(x - 1, y, TileType.WALL);
-                }
-                if (tiles[y][x + 1] == 0)
-                {
-                    SetTile(x + 1, y, TileType.WALL);
-                }
-            }
-            else
-            {
-                if (tiles[y-1][x] == 0)
-                {
-                    SetTile(x, y - 1, TileType.WALL);
-                }
-                if (tiles[y+1][x] == 0)
-                {
-                    SetTile(x, y + 1, TileType.WALL);
-                }
-            }
-
-            SetTile(x, y, TileType.FLOOR);
-
-            switch (dir)
-            {
-                case Direction.UP: y++; break;
-                case Direction.DOWN: y--; break;
-                case Direction.RIGHT: x++; break;
-                case Direction.LEFT: x--; break;
-            }
-        }
-
-        SetTile(startX, startY, TileType.DOOR);
-        //tileObjects[startY][startX].isFloodFilled = true;
-    }
-
-    void SetTile(int x, int y, TileType baseType)
+    public void SetTile(int x, int y, TileType baseType)
     {
         tiles[y][x] = baseType;
         if (tileObjects[y][x] != null || tileObjects[y][x].gameObject != null)
@@ -358,181 +287,6 @@ public class Map : MonoBehaviour
         }
         AddTile(x, y);
         tileObjects[y][x].Init(this, baseType, x, y);
-    }
-
-    bool CreateConnectingPath(ref int pathStartX, ref int pathStartY)
-    {
-        walls = walls.OrderBy(x => UnityEngine.Random.value).ToList();
-
-        int minDistance = int.MaxValue;
-        Direction minDirection = Direction.UP;
-        Tile minTile = null;
-        foreach (var wallTile in walls)
-        {
-            int hallwayLength;
-            FindFloorTile(Direction.UP, wallTile.x, wallTile.y, out hallwayLength);
-            if (hallwayLength < minDistance)
-            {
-                minTile = wallTile;
-                minDirection = Direction.UP;
-                minDistance = hallwayLength;
-            }
-            FindFloorTile(Direction.DOWN, wallTile.x, wallTile.y, out hallwayLength);
-            if (hallwayLength < minDistance)
-            {
-                minTile = wallTile;
-                minDirection = Direction.DOWN;
-                minDistance = hallwayLength;
-            }
-            FindFloorTile(Direction.RIGHT, wallTile.x, wallTile.y, out hallwayLength);
-            if (hallwayLength < minDistance)
-            {
-                minTile = wallTile;
-                minDirection = Direction.RIGHT;
-                minDistance = hallwayLength;
-            }
-            FindFloorTile(Direction.LEFT, wallTile.x, wallTile.y, out hallwayLength);
-            if (hallwayLength < minDistance)
-            {
-                minTile = wallTile;
-                minDirection = Direction.LEFT;
-                minDistance = hallwayLength;
-            }
-        }
-
-        if (minTile == null) return false;
-
-        pathStartX = minTile.x;
-        pathStartY = minTile.y;
-        
-        CreatePathToFloor(minDirection, minTile.x, minTile.y);
-
-        return true;
-    }
-
-    IEnumerator PostProcessMap()
-    {
-        int floodX = 0, floodY = 0;
-        if (mapGenerationAnimationDelay != 0) yield return new WaitForSeconds(mapGenerationAnimationDelay);
-        bool floorTileFound = false;
-        do
-        {
-            floorTileFound = false;
-            for (floodY = 1; floodY < height - 1; floodY++)
-            {
-                for (floodX = 0; floodX < width; floodX++)
-                {
-                    if (tiles[floodY][floodX] == TileType.FLOOR && !tileObjects[floodY][floodX].isFloodFilled)
-                    {
-                        floorTileFound = true;
-                        break;
-                    }
-                }
-                if (floorTileFound) break;
-            }
-
-            if (mapGenerationAnimationDelay != 0) yield return new WaitForSeconds(mapGenerationAnimationDelay);
-
-            if (floorTileFound)
-            {
-                bool foundPath = true;
-
-                while (foundPath)
-                {
-                    FloodFill(floodX, floodY);
-
-                    if (mapGenerationAnimationDelay != 0) yield return new WaitForSeconds(mapGenerationAnimationDelay);
-
-                    foundPath = CreateConnectingPath(ref floodX, ref floodY);
-
-                    if (mapGenerationAnimationDelay != 0) yield return new WaitForSeconds(mapGenerationAnimationDelay);
-                }
-            }
-        } while (floorTileFound);
-
-        walls.Clear();
-        floors.Clear();
-
-        for (int y = 0; y < height; y++)
-        {
-            for (int x = 0; x < width; x++)
-            {
-                if (tiles[y][x] == TileType.FLOOR) floors.Add(tileObjects[y][x]);
-                if (tiles[y][x] == TileType.WALL) walls.Add(tileObjects[y][x]);
-                tilesInRandomOrder.Add(tileObjects[y][x]);
-            }
-        }
-
-        floors = floors.OrderBy(a => UnityEngine.Random.value).ToList();
-        walls = walls.OrderBy(a => UnityEngine.Random.value).ToList();
-        tilesInRandomOrder = tilesInRandomOrder.OrderBy(a => UnityEngine.Random.value).ToList();
-
-        //PlaceKey();
-        //PlaceFinalDoor();
-
-        if (OnMapLoaded != null) OnMapLoaded();
-    }
-
-    void PlaceBiomes()
-    {
-        Biome biome = new Biome();
-        biome.biomeType = biomeTypes[0];
-        biome.area = new RectInt(0, 0, width, height);
-
-        biomes.Add(biome);
-
-        biome = new Biome();
-        biome.biomeType = biomeTypes[1];
-        int w = UnityEngine.Random.Range(3, 5);
-        int h = UnityEngine.Random.Range(3, 5);
-        int x = UnityEngine.Random.Range(0, width - w - 1);
-        int y = UnityEngine.Random.Range(0, height - h - 1);
-        biome.area = new RectInt(x, y, w, h);
-
-        biomes.Add(biome);
-    }
-
-    IEnumerator GenerateRooms(int numRooms)
-    {
-        if (mapGenerationAnimationDelay != 0) yield return new WaitForSeconds(mapGenerationAnimationDelay * 2);
-        for (int n = 0; n < numRooms; n++)
-        {
-            int w = UnityEngine.Random.Range(3, width / 3);
-            int h = UnityEngine.Random.Range(3, height / 3);
-            int x = UnityEngine.Random.Range(0, width);
-            int y = UnityEngine.Random.Range(0, height - 2);
-
-            GenerateRoom(x, y, w, h);
-            UpdateTiles();
-
-            if (mapGenerationAnimationDelay != 0) yield return new WaitForSeconds(mapGenerationAnimationDelay / 10);
-        }
-    }
-
-    void GenerateRoom(int x, int y, int w, int h)
-    {
-        for (int yi = 0; yi < h; yi++)
-        {
-            for (int xi = 0; xi < w; xi++)
-            {
-                if (y + yi >= height) continue;
-
-                int wrappedX = x + xi;
-                if (wrappedX >= width) wrappedX = wrappedX - width;
-                
-                if (yi == 0 || yi == h-1 || xi == 0 || xi == w-1 || y+yi == height -1)
-                {
-                    if (tiles[y + yi][wrappedX] != TileType.FLOOR)
-                    {
-                        tiles[y + yi][wrappedX] = TileType.WALL;
-                    }
-                }
-                else
-                {
-                    tiles[y + yi][wrappedX] = TileType.FLOOR;
-                }
-            }
-        }
     }
 
     public void ForEachFloorTile(Action<Tile> doThis)
