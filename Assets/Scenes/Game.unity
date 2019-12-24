@@ -381,6 +381,7 @@ MonoBehaviour:
   movementLerpFactor: 0.075
   cameraOffset: 3.5
   rotation: 0
+  polarWarpMaterial: {fileID: 2100000, guid: db6ec0255df11e74a819e71884c7a265, type: 2}
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0
@@ -520,11 +521,11 @@ MonoBehaviour:
   - {fileID: 114959046356625430, guid: 869404b52a249a74d9c2da34da750f88, type: 2}
   - {fileID: 114339594333797432, guid: ec62f295ad1d4ac43826cd74addc215c, type: 2}
   - {fileID: 114344298477969240, guid: 20e36c6b7abc41244852cdf24829cf3b, type: 2}
-  polarWarpMaterial: {fileID: 2100000, guid: db6ec0255df11e74a819e71884c7a265, type: 2}
   biomeTypes:
   - {fileID: 11400000, guid: 15a8ece4b361d5048bda936a0b48a345, type: 2}
   - {fileID: 11400000, guid: c5f22687274f57c48a389e16806785b4, type: 2}
   - {fileID: 11400000, guid: b10d45ad6978e3747b2ad9286a9d7cc2, type: 2}
+  tilesThatAllowSpawn: []
   width: 31
   height: 44
   tileWidth: 0.5

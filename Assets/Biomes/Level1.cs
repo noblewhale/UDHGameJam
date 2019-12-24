@@ -1,19 +1,107 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 [CreateAssetMenu]
 public class Level1 : BiomeType
 {
-    override public IEnumerator PreProcessMap(Map map)
+    public BiomeDropRate[] nothings;
+    public BiomeDropRate[] floors;
+    public BiomeDropRate[] walls;
+    public BiomeDropRate[] doors;
+
+    List<Tile> wallTiles = new List<Tile>();
+
+    public enum TileType
     {
-        yield return map.StartCoroutine(GenerateRooms(map, 30));
-        yield return map.StartCoroutine(ConnectRooms(map));
+        NOTHING, FLOOR, WALL, DOOR
     }
 
-    IEnumerator GenerateRooms(Map map, int numRooms)
+    public TileType[][] tiles;
+
+    override public void PreProcessMap(Map map, RectInt area)
     {
-        if (map.mapGenerationAnimationDelay != 0) yield return new WaitForSeconds(map.mapGenerationAnimationDelay * 2);
+        tiles = new TileType[map.height][];
+        for (int y = 0; y < map.height; y++) tiles[y] = new TileType[map.width];
+
+        wallTiles.Clear();
+
+        GenerateRooms(map, area, 30);
+        ConnectRooms(map);
+        UpdateTiles(map, area);
+    }
+
+    public void UpdateTiles(Map map, RectInt area)
+    {
+        for (int y = area.yMin; y < area.yMax; y++)
+        {
+            for (int x = area.xMin; x < area.xMax; x++)
+            {
+                AddTileObjects(map, x, y);
+            }
+        }
+    }
+
+    void AddTileObjects(Map map, int x, int y)
+    {
+        //map.tileObjects[y][x].DestroyAllObjects();
+        if (tiles[y][x] == TileType.NOTHING)
+        {
+            DungeonObject ob = GetRandomBaseTile(x, y, TileType.NOTHING);
+            map.tileObjects[y][x].SpawnAndAddObject(ob);
+        }
+        else
+        { 
+            // Pick a floor tile based on spawn rates
+            DungeonObject ob = GetRandomBaseTile(x, y, TileType.FLOOR);
+            map.tileObjects[y][x].SpawnAndAddObject(ob);
+            if (tiles[y][x] != TileType.FLOOR)
+            {
+                var type = tiles[y][x];
+                ob = GetRandomBaseTile(x, y, type);
+                map.tileObjects[y][x].SpawnAndAddObject(ob);
+            }
+        }
+    }
+
+    public BiomeDropRate[] GetSpawnRatesForBaseType(TileType baseType)
+    {
+        switch (baseType)
+        {
+            case TileType.NOTHING: return nothings;
+            case TileType.FLOOR: return floors;
+            case TileType.DOOR: return doors;
+            case TileType.WALL: return walls;
+            default:
+                Debug.LogError("Invalid base tile type: " + baseType.ToString());
+                return null;
+        }
+    }
+
+    public List<BiomeDropRate> GetSpawnRatesForBaseType(int x, int y, TileType baseType)
+    {
+        var possibleObs = new List<BiomeDropRate>();
+        BiomeDropRate[] tileTypes = GetSpawnRatesForBaseType(baseType);
+
+        // If no drop rates for this tile type then move on to the next biome
+        if (tileTypes == null || tileTypes.Length == 0) return null;
+
+        // Add to our list of possible tiles
+        possibleObs.AddRange(tileTypes);
+
+        return possibleObs;
+    }
+
+    public DungeonObject GetRandomBaseTile(int x, int y, TileType baseType)
+    {
+        // Gather all possible floor tiles from each biome at this location
+        var possibleObs = GetSpawnRatesForBaseType(x, y, baseType);
+        return Biome.SelectRandomObject(possibleObs);
+    }
+
+    void GenerateRooms(Map map, RectInt area, int numRooms)
+    {
         for (int n = 0; n < numRooms; n++)
         {
             int w = Random.Range(3, map.width / 3);
@@ -22,9 +110,6 @@ public class Level1 : BiomeType
             int y = Random.Range(0, map.height - 2);
 
             GenerateRoom(map, x, y, w, h);
-            map.UpdateTiles();
-
-            if (map.mapGenerationAnimationDelay != 0) yield return new WaitForSeconds(map.mapGenerationAnimationDelay / 10);
         }
     }
 
@@ -41,20 +126,21 @@ public class Level1 : BiomeType
 
                 if (yi == 0 || yi == h - 1 || xi == 0 || xi == w - 1 || y + yi == map.height - 1)
                 {
-                    if (map.tiles[y + yi][wrappedX] != Map.TileType.FLOOR)
+                    if (tiles[y + yi][wrappedX] != TileType.FLOOR)
                     {
-                        map.tiles[y + yi][wrappedX] = Map.TileType.WALL;
+                        tiles[y + yi][wrappedX] = TileType.WALL;
                     }
                 }
                 else
                 {
-                    map.tiles[y + yi][wrappedX] = Map.TileType.FLOOR;
+                    tiles[y + yi][wrappedX] = TileType.FLOOR;
                 }
+                //AddTileObjects(map, wrappedX, y + yi);
             }
         }
     }
 
-    IEnumerator ConnectRooms(Map map)
+    void ConnectRooms(Map map)
     {
         int floodX = 0, floodY = 0;
         bool floorTileFound = false;
@@ -65,7 +151,7 @@ public class Level1 : BiomeType
             {
                 for (floodX = 0; floodX < map.width; floodX++)
                 {
-                    if (map.tiles[floodY][floodX] == Map.TileType.FLOOR && !map.tileObjects[floodY][floodX].isFloodFilled)
+                    if (tiles[floodY][floodX] == TileType.FLOOR && !map.tileObjects[floodY][floodX].isFloodFilled)
                     {
                         floorTileFound = true;
                         break;
@@ -82,17 +168,11 @@ public class Level1 : BiomeType
                 {
                     FloodFill(map, floodX, floodY);
 
-                    if (map.mapGenerationAnimationDelay != 0) yield return new WaitForSeconds(map.mapGenerationAnimationDelay);
-
                     foundPath = CreateConnectingPath(map, ref floodX, ref floodY);
-
-                    if (map.mapGenerationAnimationDelay != 0) yield return new WaitForSeconds(map.mapGenerationAnimationDelay);
                 }
             }
         } while (floorTileFound);
     }
-
-
 
     void FloodFill(Map map, int floodX, int floodY)
     {
@@ -104,17 +184,17 @@ public class Level1 : BiomeType
 
         if (map.tileObjects[floodY][wrappedX].isFloodFilled) return;
 
-        if (map.tiles[floodY][wrappedX] != Map.TileType.WALL)
+        if (tiles[floodY][wrappedX] != TileType.WALL)
         {
             map.tileObjects[floodY][wrappedX].isFloodFilled = true;
-            //tileObjects[floodY][wrappedX].glyph.color = Color.green;
+            //map.tileObjects[floodY][wrappedX].objectList.First.Value.glyphs[0].color = Color.green;
         }
         else
         {
-            if (map.tiles[floodY][wrappedX] == Map.TileType.WALL)
+            if (tiles[floodY][wrappedX] == TileType.WALL)
             {
-                //tileObjects[floodY][wrappedX].glyph.color = Color.red;
-                map.walls.Add(map.tileObjects[floodY][wrappedX]);
+                //map.tileObjects[floodY][wrappedX].objectList.First.Value.glyphs[0].color = Color.red;
+                wallTiles.Add(map.tileObjects[floodY][wrappedX]);
             }
             return;
         }
@@ -132,7 +212,7 @@ public class Level1 : BiomeType
         distance = int.MaxValue;
         while (x > 0 && x < map.width - 1 && y > 0 && y < map.height - 1)
         {
-            if (map.tiles[y][x] == Map.TileType.FLOOR)
+            if (tiles[y][x] == TileType.FLOOR)
             {
                 if (!map.tileObjects[y][x].isFloodFilled)
                 {
@@ -169,32 +249,32 @@ public class Level1 : BiomeType
         int startY = y;
         while (x > 0 && x < map.width && y > 0 && y < map.height - 1)
         {
-            if (map.tiles[y][x] == Map.TileType.FLOOR) break;
+            if (tiles[y][x] == TileType.FLOOR) break;
 
             if (dir == Direction.UP || dir == Direction.DOWN)
             {
-                if (map.tiles[y][x - 1] == 0)
+                if (tiles[y][x - 1] == TileType.NOTHING)
                 {
-                    map.SetTile(x - 1, y, Map.TileType.WALL);
+                    tiles[y][x - 1] = TileType.WALL;
                 }
-                if (map.tiles[y][x + 1] == 0)
+                if (tiles[y][x + 1] == TileType.NOTHING)
                 {
-                    map.SetTile(x + 1, y, Map.TileType.WALL);
+                    tiles[y][x + 1] = TileType.WALL;
                 }
             }
             else
             {
-                if (map.tiles[y - 1][x] == 0)
+                if (tiles[y - 1][x] == TileType.NOTHING)
                 {
-                    map.SetTile(x, y - 1, Map.TileType.WALL);
+                    tiles[y - 1][x] = TileType.WALL;
                 }
-                if (map.tiles[y + 1][x] == 0)
+                if (tiles[y + 1][x] == TileType.NOTHING)
                 {
-                    map.SetTile(x, y + 1, Map.TileType.WALL);
+                    tiles[y + 1][x] = TileType.WALL;
                 }
             }
 
-            map.SetTile(x, y, Map.TileType.FLOOR);
+            tiles[y][x] = TileType.FLOOR;
 
             switch (dir)
             {
@@ -205,17 +285,17 @@ public class Level1 : BiomeType
             }
         }
 
-        map.SetTile(startX, startY, Map.TileType.DOOR);
+        tiles[startY][startX] = TileType.DOOR;
     }
 
     bool CreateConnectingPath(Map map, ref int pathStartX, ref int pathStartY)
     {
-        map.walls = map.walls.OrderBy(x => UnityEngine.Random.value).ToList();
+        wallTiles = wallTiles.OrderBy(x => UnityEngine.Random.value).ToList();
 
         int minDistance = int.MaxValue;
         Direction minDirection = Direction.UP;
         Tile minTile = null;
-        foreach (var wallTile in map.walls)
+        foreach (var wallTile in wallTiles)
         {
             int hallwayLength;
             FindFloorTile(map, Direction.UP, wallTile.x, wallTile.y, out hallwayLength);

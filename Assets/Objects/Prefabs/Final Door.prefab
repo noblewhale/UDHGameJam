@@ -279,6 +279,7 @@ MonoBehaviour:
   isCollidable: 1
   blocksLineOfSight: 1
   coversObjectsBeneath: 1
+  preventsObjectSpawning: 1
   damageFlashColor: {r: 1, g: 0, b: 0, a: 1}
   isOpen: 0
   openDifficulty: 1

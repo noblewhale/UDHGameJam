@@ -93,8 +93,11 @@ MonoBehaviour:
   quantity: 1
   canBePickedUp: 0
   isAlwaysLit: 0
+  isWeilded: 0
   defense: 1
   health: 1
   isCollidable: 0
   blocksLineOfSight: 0
   coversObjectsBeneath: 0
+  preventsObjectSpawning: 1
+  damageFlashColor: {r: 1, g: 0, b: 0, a: 1}

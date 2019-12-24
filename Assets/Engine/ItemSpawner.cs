@@ -10,7 +10,7 @@ public class ItemSpawner : MonoBehaviour
     public static ItemSpawner instance;
     Dictionary<DungeonObject, int> stacksSpawned = new Dictionary<DungeonObject, int>();
 
-    void Start()
+    void Awake()
     {
         instance = this;
         map = FindObjectOfType<Map>();
@@ -25,11 +25,11 @@ public class ItemSpawner : MonoBehaviour
     void InitialSpawn()
     {
         stacksSpawned.Clear();
-        map.ForEachFloorTile(SpawnItemsOnFloorTiles);
+        map.ForEachTileThatAllowsSpawn(SpawnItemsOnFloorTiles);
     }
 
     void SpawnItemsOnFloorTiles(Tile tile)
-    { 
+    {
         var containingBiomes = map.biomes.Where(b => b.area.Contains(new Vector2Int(tile.x, tile.y)));
         float totalProbability = 0;
         foreach (var biome in containingBiomes)

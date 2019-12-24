@@ -6,10 +6,6 @@ using UnityEngine;
 
 public class Map : MonoBehaviour
 {
-    public enum TileType
-    { 
-        NOTHING, FLOOR, WALL, DOOR
-    }
 
     public Tile tilePrefab;
     public DungeonObject[] objectSet;
@@ -17,8 +13,8 @@ public class Map : MonoBehaviour
     public BiomeType[] biomeTypes;
     public List<Biome> biomes = new List<Biome>();
 
-    public TileType[][] tiles;
     public Tile[][] tileObjects;
+    public List<Tile> tilesThatAllowSpawn = new List<Tile>();
 
     public int width = 10;
     public int height = 1;
@@ -40,10 +36,6 @@ public class Map : MonoBehaviour
 
     [NonSerialized]
     public List<Tile> tilesInRandomOrder = new List<Tile>();
-    [NonSerialized]
-    public List<Tile> walls = new List<Tile>();
-    [NonSerialized]
-    public List<Tile> floors = new List<Tile>();
 
     public event Action OnMapLoaded;
 
@@ -57,7 +49,7 @@ public class Map : MonoBehaviour
         transform.position = new Vector3(-width * tileWidth / 2.0f, -height * tileHeight / 2.0f);
 
         ClearMap();
-        StartCoroutine(GenerateMap());
+        GenerateMap();
 	}
 
     public void ClearMap()
@@ -66,18 +58,21 @@ public class Map : MonoBehaviour
         {
             CreatureSpawner.instance.KillAll();
         }
-        ForEachTile(t => {
+        ForEachTile(t =>
+        {
             t.DestroyAllObjects();
             Destroy(t.gameObject);
         });
-        floors.Clear();
-        walls.Clear();
         tileObjects = new Tile[height][];
-        tiles = new TileType[height][];
         for (int y = 0; y < height; y++) tileObjects[y] = new Tile[width];
-        for (int y = 0; y < height; y++) tiles[y] = new TileType[width];
+        for (int y = 0; y < height; y++)
+        {
+            for (int x = 0; x < width; x++)
+            {
+                AddTile(x, y);
+            }
+        }
     }
-
     public IEnumerator RegenerateMap()
     {
         Player.instance.isInputEnabled = false;
@@ -89,15 +84,14 @@ public class Map : MonoBehaviour
         }
         dungeonLevel++;
         ClearMap();
-        yield return StartCoroutine(GenerateMap());
+        GenerateMap();
         Player.instance.ResetInput();
     }
 
-    IEnumerator GenerateMap()
+    void GenerateMap()
     {
         PlaceBiomes();
-        yield return StartCoroutine(PreProcessBiomes());
-        UpdateTiles();
+        PreProcessBiomes();
         PostProcessMap();
         if (OnMapLoaded != null) OnMapLoaded();
     }
@@ -121,31 +115,24 @@ public class Map : MonoBehaviour
         biomes.Add(biome);
     }
     
-    IEnumerator PreProcessBiomes()
+    void PreProcessBiomes()
     {
         foreach (var biome in biomes)
         {
-            yield return StartCoroutine(biome.biomeType.PreProcessMap(this));
+            biome.biomeType.PreProcessMap(this, biome.area);
         }
     }
 
     void PostProcessMap()
     {
-        walls.Clear();
-        floors.Clear();
-
         for (int y = 0; y < height; y++)
         {
             for (int x = 0; x < width; x++)
             {
-                if (tiles[y][x] == TileType.FLOOR) floors.Add(tileObjects[y][x]);
-                if (tiles[y][x] == TileType.WALL) walls.Add(tileObjects[y][x]);
                 tilesInRandomOrder.Add(tileObjects[y][x]);
             }
         }
 
-        floors = floors.OrderBy(a => UnityEngine.Random.value).ToList();
-        walls = walls.OrderBy(a => UnityEngine.Random.value).ToList();
         tilesInRandomOrder = tilesInRandomOrder.OrderBy(a => UnityEngine.Random.value).ToList();
         //PlaceFinalDoor();
     }
@@ -177,44 +164,10 @@ public class Map : MonoBehaviour
     //    tile.AddObject(lockedDoor);
     //}
 
-    public void UpdateTiles()
-    { 
-        for (int y = 0; y < height; y++)
-        {
-            for (int x = 0; x < width; x++)
-            {
-                if (tileObjects[y][x] != null && tileObjects[y][x].baseType != tiles[y][x])
-                {
-                    Destroy(tileObjects[y][x].gameObject);
-                    AddTile(x, y);
-                }
-                if (tileObjects[y][x] == null)
-                {
-                    AddTile(x, y);
-                }
-                Tile tile = tileObjects[y][x].GetComponent<Tile>();
-                tile.Init(this, tiles[y][x], x, y);
-                tileObjects[y][x] = tile;
-            }
-        }
-    }
-
-    void AddTile(int x, int y)
+    public void AddTile(int x, int y)
     {
         tileObjects[y][x] = Instantiate(tilePrefab, new Vector3(-666, -666, -666), Quaternion.identity).GetComponent<Tile>();
-        tileObjects[y][x].Init(this, tiles[y][x], x, y);
-        if (tiles[y][x] != TileType.NOTHING)
-        {
-            // Pick a floor tile based on biome
-            DungeonObject ob = Biome.GetRandomBaseTile(x, y, biomes, TileType.FLOOR);
-            tileObjects[y][x].SpawnAndAddObject(ob);
-            if (tiles[y][x] != TileType.FLOOR)
-            {
-                var type = tiles[y][x];
-                ob = Biome.GetRandomBaseTile(x, y, biomes, type);
-                tileObjects[y][x].SpawnAndAddObject(ob);
-            }
-        }
+        tileObjects[y][x].Init(this, x, y);
     }
 
     public float WrapX(float x)
@@ -278,24 +231,17 @@ public class Map : MonoBehaviour
         }
     }
 
-    public void SetTile(int x, int y, TileType baseType)
+    public void ForEachTileThatAllowsSpawn(Action<Tile> doThis)
     {
-        tiles[y][x] = baseType;
-        if (tileObjects[y][x] != null || tileObjects[y][x].gameObject != null)
+        Debug.Log(tilesThatAllowSpawn.Count);
+        foreach (var tile in tilesThatAllowSpawn)
         {
-            Destroy(tileObjects[y][x].gameObject);
+            doThis(tile);
         }
-        AddTile(x, y);
-        tileObjects[y][x].Init(this, baseType, x, y);
     }
 
-    public void ForEachFloorTile(Action<Tile> doThis)
+    public Tile GetRandomTileThatAllowsSpawn()
     {
-        foreach (var tile in floors) doThis(tile);
-    }
-
-    public Tile GetRandomFloorTile()
-    {
-        return floors[UnityEngine.Random.Range(0, floors.Count)];
+        return tilesThatAllowSpawn[UnityEngine.Random.Range(0, tilesThatAllowSpawn.Count)];
     }
 }

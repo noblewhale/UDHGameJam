@@ -43,7 +43,12 @@ public class Player : MonoBehaviour
 
     void OnMapLoaded()
     {
-        Tile startTile = map.GetRandomFloorTile();
+        if (identity == null)
+        {
+            identity = CreatureSpawner.instance.SpawnCreature(0, 0, playerPrefab);
+        }
+
+        Tile startTile = map.GetRandomTileThatAllowsSpawn();
         identity.SetPosition(startTile.x, startTile.y, false);
         map.Reveal(identity.x, identity.y, identity.viewDistance);
 

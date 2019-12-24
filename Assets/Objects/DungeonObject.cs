@@ -38,6 +38,7 @@ public class DungeonObject : MonoBehaviour
     public bool isCollidable = true;
     public bool blocksLineOfSight = false;
     public bool coversObjectsBeneath = false;
+    public bool preventsObjectSpawning = false;
     Coroutine damageFlashProcess;
     public Color damageFlashColor = Color.red;
 

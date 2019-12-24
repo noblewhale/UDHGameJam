@@ -2,12 +2,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class Tile : MonoBehaviour
 {
     public int x;
     public int y;
-    public Map.TileType baseType;
     Map map;
     public bool isFloodFilled;
     bool isRevealed = true;
@@ -19,15 +19,15 @@ public class Tile : MonoBehaviour
 
     public Creature occupant;
 
-    public void Init(Map map, Map.TileType baseType, int x, int y)
+    public void Init(Map map, int x, int y)
     {
         transform.parent = map.transform;
-        this.baseType = baseType;
         this.map = map;
         this.x = x;
         this.y = y;
+        map.tilesThatAllowSpawn.Add(this);
 
-        SetRevealed(false);
+       // SetRevealed(false);
     }
 
 
@@ -103,23 +103,38 @@ public class Tile : MonoBehaviour
             ob.inventory.DestroyAll();
             Destroy(ob);
         }
-
+        if (!map.tilesThatAllowSpawn.Contains(this))
+        {
+            map.tilesThatAllowSpawn.Add(this);
+        }
         objectList.Clear();
     }
 
     public void AddObject(DungeonObject ob)
-    { 
+    {
         ob.SetPosition(x, y);
         ob.transform.parent = transform;
         ob.transform.localPosition = Vector3.zero;
         objectList.AddFirst(ob);
+        if (ob.preventsObjectSpawning)
+        {
+            map.tilesThatAllowSpawn.Remove(this);
+        }
         SetRevealed(isRevealed);
     }
 
-    public void RemoveObject(DungeonObject ob)
+    public void RemoveObject(DungeonObject ob, bool destroyObject = false)
     {
         ob.transform.parent = null;
         objectList.Remove(ob);
+
+        if (AllowsSpawn())
+        {
+            if (!map.tilesThatAllowSpawn.Contains(this))
+            {
+                map.tilesThatAllowSpawn.Add(this);
+            }
+        }
         SetRevealed(isRevealed);
     }
 
@@ -140,6 +155,16 @@ public class Tile : MonoBehaviour
             if (ob.blocksLineOfSight) return true;
         }
         return false;
+    }
+
+    public bool ContainsCollidableObject()
+    {
+        return objectList.Any(x => x.isCollidable);
+    }
+
+    public bool AllowsSpawn()
+    {
+        return !objectList.Any(x => x.preventsObjectSpawning);
     }
 
     public void Collide(DungeonObject collidingObject)

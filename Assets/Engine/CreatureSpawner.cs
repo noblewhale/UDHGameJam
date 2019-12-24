@@ -11,7 +11,7 @@ public class CreatureSpawner : MonoBehaviour
 
     public static CreatureSpawner instance;
 
-    void Start()
+    void Awake()
     {
         instance = this;
         map = FindObjectOfType<Map>();
@@ -25,7 +25,7 @@ public class CreatureSpawner : MonoBehaviour
 
     void InitialSpawn()
     {
-        map.ForEachFloorTile(SpawnCreaturesOnFloorTiles);
+        map.ForEachTileThatAllowsSpawn(SpawnCreaturesOnFloorTiles);
     }
 
     void SpawnCreaturesOnFloorTiles(Tile tile)

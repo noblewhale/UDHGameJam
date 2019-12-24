@@ -14,10 +14,10 @@ MonoBehaviour:
   creatures:
   - creature: {fileID: 114569763151172050, guid: 8ebb711e68c91c54c9665e17889dffd9,
       type: 2}
-    probability: 0.01
+    probability: 0.001
   - creature: {fileID: 114238227866493274, guid: f02a2f726c804044db74160be50cd6bd,
       type: 2}
-    probability: 0.05
+    probability: 0.005
   items:
   - item: {fileID: 114347597287653226, guid: 1b5941ecabb59044ea30861fca424ef1, type: 2}
     minQuantity: 1
@@ -25,6 +25,13 @@ MonoBehaviour:
     probability: 1
     minQuantityPerBiome: 1
     maxQuantityPerBiome: 1
+  nothings:
+  - item: {fileID: 114666462625946606, guid: 52b406458227b0849a7fac1f53ecfa5e, type: 2}
+    minQuantity: 1
+    maxQuantity: 1
+    probability: 1
+    minQuantityPerBiome: -1
+    maxQuantityPerBiome: -1
   floors:
   - item: {fileID: 114396989050233776, guid: fc61b768638409649819ee72bd27740c, type: 2}
     minQuantity: 1

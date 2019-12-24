@@ -8,32 +8,6 @@ public class Biome
     public BiomeType biomeType;
     public RectInt area;
 
-    public static List<BiomeDropRate> GetSpawnRatesForBaseType(int x, int y, List<Biome> biomes, Map.TileType baseType)
-    {
-        var possibleObs = new List<BiomeDropRate>();
-        foreach (var biome in biomes)
-        {
-            BiomeDropRate[] tileTypes = biome.biomeType.GetSpawnRatesForBaseType(baseType);
-
-            // If no drop rates for this tile type then move on to the next biome
-            if (tileTypes == null || tileTypes.Length == 0) continue;
-            // If this biome does not effect this location then move on to the next one
-            if (!biome.area.Contains(new Vector2Int(x, y))) continue;
-
-            // Add to our list of possible tiles
-            possibleObs.AddRange(tileTypes);
-        }
-
-        return possibleObs;
-    }
-
-    public static DungeonObject GetRandomBaseTile(int x, int y, List<Biome> biomes, Map.TileType baseType)
-    {
-        // Gather all possible floor tiles from each biome at this location
-        var possibleObs = GetSpawnRatesForBaseType(x, y, biomes, baseType);
-        return SelectRandomObject(possibleObs);
-    }
-
     public static DungeonObject SelectRandomObject(List<BiomeDropRate> rates)
     {
         // Get the total of all probabilities
