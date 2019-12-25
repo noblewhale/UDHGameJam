@@ -20,7 +20,7 @@ public class Glyphs : MonoBehaviour
 		{
 			originalGlyphColors[i] = glyphs[i].color;
 		}
-        owner = GetComponent<DungeonObject>();
+        owner = GetComponentInParent<DungeonObject>();
 	}
 
 	public void SetRevealed(bool isRevealed)
@@ -37,7 +37,7 @@ public class Glyphs : MonoBehaviour
         }
     }
 
-    public void TakeDamage(int v)
+    public void TakeDamage()
     {
         if (glyphs.Length > 0)
         {
@@ -50,10 +50,17 @@ public class Glyphs : MonoBehaviour
     {
         for (int i = 0; i < glyphs.Length; i++)
         {
+            glyphs[i].color = Color.white;
+        }
+
+        yield return new WaitForSeconds(.15f);
+
+        for (int i = 0; i < glyphs.Length; i++)
+        {
             glyphs[i].color = damageFlashColor;
         }
 
-        yield return new WaitForSeconds(.2f);
+        yield return new WaitForSeconds(.15f);
 
         for (int i = 0; i < glyphs.Length; i++)
         {

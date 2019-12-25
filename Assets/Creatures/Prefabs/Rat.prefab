@@ -38,10 +38,10 @@ GameObject:
   - component: {fileID: 4304317985427542}
   - component: {fileID: 114716973033915568}
   - component: {fileID: 114569763151172050}
+  - component: {fileID: 114472246698714680}
   - component: {fileID: 114754198006812228}
   - component: {fileID: 114534477305729406}
   - component: {fileID: 114848379790038382}
-  - component: {fileID: 114472246698714680}
   m_Layer: 0
   m_Name: Rat
   m_TagString: Untagged
@@ -214,7 +214,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ddd0c896d8f310e46a0e98eca91558d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectName: 
+  objectName: Rat
   OnSteppedOn:
     m_PersistentCalls:
       m_Calls: []

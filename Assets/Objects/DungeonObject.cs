@@ -106,36 +106,16 @@ public class DungeonObject : MonoBehaviour
     
     public void TakeDamage(int v)
     {
+        glyphs.TakeDamage();
+
         health -= v;
+
         if (health < 0) health = 0;
         if (health == 0)
         {
             Die();
         }
-
-        //glyphs.TakeDamage();
-        //if (glyphs.Length > 0)
-        //{
-        //    if (damageFlashProcess != null) StopCoroutine(damageFlashProcess);
-        //    damageFlashProcess = StartCoroutine(DoDamageFlash());
-        //}
     }
-
-    //IEnumerator DoDamageFlash()
-    //{
-    //    for (int i = 0; i < glyphs.Length; i++)
-    //    {
-    //        glyphs[i].color = damageFlashColor;
-    //    }
-
-    //    yield return new WaitForSeconds(.2f);
-
-    //    for (int i = 0; i < glyphs.Length; i++)
-    //    {
-    //        glyphs[i].color = originalGlyphColors[i];
-    //    }
-    //    damageFlashProcess = null;
-    //}
 
     virtual public void Die()
     {

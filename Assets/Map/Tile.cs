@@ -89,9 +89,10 @@ public class Tile : MonoBehaviour
         }
     }
 
-    public void SpawnAndAddObject(DungeonObject dungeonObject)
+    public void SpawnAndAddObject(DungeonObject dungeonObject, int quantity = 1)
     {
         var ob = Instantiate(dungeonObject).GetComponent<DungeonObject>();
+        ob.quantity = quantity;
         AddObject(ob);
     }
 

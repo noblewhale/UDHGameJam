@@ -102,23 +102,25 @@ public class Map : MonoBehaviour
         Biome biome = new Biome();
         biome.biomeType = biomeTypes[0];
         biome.area = new RectInt(0, 0, width, height);
-
         biomes.Add(biome);
 
         biome = new Biome();
         biome.biomeType = biomeTypes[1];
         biome.area = new RectInt(0, 0, width, height);
-
         biomes.Add(biome);
 
         biome = new Biome();
         biome.biomeType = biomeTypes[2];
+        biome.area = new RectInt(0, 0, width, height);
+        biomes.Add(biome);
+
+        biome = new Biome();
+        biome.biomeType = biomeTypes[3];
         int w = UnityEngine.Random.Range(3, 5);
         int h = UnityEngine.Random.Range(3, 5);
         int x = UnityEngine.Random.Range(0, width - w - 1);
         int y = UnityEngine.Random.Range(0, height - h - 1);
         biome.area = new RectInt(x, y, w, h);
-
         biomes.Add(biome);
     }
     

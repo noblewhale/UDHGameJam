@@ -21,10 +21,10 @@ GameObject:
   - component: {fileID: 4303741926992246}
   - component: {fileID: 114211803322470130}
   - component: {fileID: 114238227866493274}
+  - component: {fileID: 114088707494869008}
   - component: {fileID: 114822529988612696}
   - component: {fileID: 114129307105589948}
   - component: {fileID: 114178137825594656}
-  - component: {fileID: 114088707494869008}
   m_Layer: 0
   m_Name: Scorpion
   m_TagString: Untagged
@@ -160,7 +160,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ddd0c896d8f310e46a0e98eca91558d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectName: 
+  objectName: Scorpion
   OnSteppedOn:
     m_PersistentCalls:
       m_Calls: []
