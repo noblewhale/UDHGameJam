@@ -10,7 +10,6 @@ public class Biome
 
     Dictionary<DungeonObject, int> stacksSpawned = new Dictionary<DungeonObject, int>();
 
-
     public static DungeonObject SelectRandomObject(List<BiomeDropRate> rates)
     {
         // Get the total of all probabilities

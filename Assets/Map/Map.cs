@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class Map : MonoBehaviour
 {
@@ -99,29 +100,28 @@ public class Map : MonoBehaviour
 
     void PlaceBiomes()
     {
-        Biome biome = new Biome();
-        biome.biomeType = biomeTypes[0];
-        biome.area = new RectInt(0, 0, width, height);
-        biomes.Add(biome);
+        foreach (var biomeTypeTemplate in biomeTypes)
+        {
+            Biome biome = new Biome();
+            var biomeType = Instantiate(biomeTypeTemplate);
+            biome.biomeType = biomeType;
+            if (biomeType.minWidth == -1) biomeType.minWidth = width;
+            if (biomeType.maxWidth == -1) biomeType.maxWidth = width;
+            if (biomeType.minHeight == -1) biomeType.minHeight = height;
+            if (biomeType.maxHeight == -1) biomeType.maxHeight = height;
+            if (biomeType.minX == -1) biomeType.minX = width - 1;
+            if (biomeType.maxX == -1) biomeType.maxX = width - 1;
+            if (biomeType.minY == -1) biomeType.minY = height - 1;
+            if (biomeType.maxY == -1) biomeType.maxY = height - 1;
 
-        biome = new Biome();
-        biome.biomeType = biomeTypes[1];
-        biome.area = new RectInt(0, 0, width, height);
-        biomes.Add(biome);
-
-        biome = new Biome();
-        biome.biomeType = biomeTypes[2];
-        biome.area = new RectInt(0, 0, width, height);
-        biomes.Add(biome);
-
-        biome = new Biome();
-        biome.biomeType = biomeTypes[3];
-        int w = UnityEngine.Random.Range(3, 5);
-        int h = UnityEngine.Random.Range(3, 5);
-        int x = UnityEngine.Random.Range(0, width - w - 1);
-        int y = UnityEngine.Random.Range(0, height - h - 1);
-        biome.area = new RectInt(x, y, w, h);
-        biomes.Add(biome);
+            int biomeWidth = Random.Range(biomeType.minWidth, biomeType.maxWidth);
+            int biomeHeight = Random.Range(biomeType.minHeight, biomeType.maxHeight);
+            int biomeX = Random.Range(biomeType.minX, biomeType.maxX - biomeWidth);
+            int biomeY = Random.Range(biomeType.minY, biomeType.maxY - biomeHeight);
+            biome.area = new RectInt(biomeX, biomeY, biomeWidth, biomeHeight);
+            Debug.Log(biome.area);
+            biomes.Add(biome);
+        }
     }
     
     void PreProcessBiomes()

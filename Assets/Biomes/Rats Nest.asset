@@ -18,3 +18,11 @@ MonoBehaviour:
     probability: 0.9
     minQuantityPerBiome: 6
     maxQuantityPerBiome: 6
+  minX: 0
+  maxX: -1
+  minY: 0
+  maxY: -1
+  minWidth: 3
+  maxWidth: 5
+  minHeight: 3
+  maxHeight: 5
