@@ -55,10 +55,6 @@ public class Map : MonoBehaviour
 
     public void ClearMap()
     {
-        //if (CreatureSpawner.instance)
-        //{
-        //    CreatureSpawner.instance.KillAll();
-        //}
         ForEachTile(t =>
         {
             t.DestroyAllObjects();
@@ -103,6 +99,7 @@ public class Map : MonoBehaviour
         foreach (var biomeTypeTemplate in biomeTypes)
         {
             Biome biome = new Biome();
+            // Make a copy of the boime type so we don't modify properties on the actual asset
             var biomeType = Instantiate(biomeTypeTemplate);
             biome.biomeType = biomeType;
             if (biomeType.minWidth == -1) biomeType.minWidth = width;
@@ -119,7 +116,6 @@ public class Map : MonoBehaviour
             int biomeX = Random.Range(biomeType.minX, biomeType.maxX - biomeWidth);
             int biomeY = Random.Range(biomeType.minY, biomeType.maxY - biomeHeight);
             biome.area = new RectInt(biomeX, biomeY, biomeWidth, biomeHeight);
-            Debug.Log(biome.area);
             biomes.Add(biome);
         }
     }

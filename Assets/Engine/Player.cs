@@ -192,8 +192,6 @@ public class Player : MonoBehaviour
                 CollideWith(map.tileObjects[newTileY][newTileX]);
                 map.tileObjects[newTileY][newTileX].Collide(identity.baseObject);
             }
-
-            //map.Reveal(identity.x, identity.y, identity.viewDistance);
             
             lastMovementFromKeyPressTime = Time.time;
         }
