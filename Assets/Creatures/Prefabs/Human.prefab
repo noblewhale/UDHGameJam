@@ -128,13 +128,14 @@ MonoBehaviour:
   canBePickedUp: 0
   isAlwaysLit: 0
   canTakeDamage: 1
-  isVisibleWhenNotInSight: 1
+  isVisibleWhenNotInSight: 0
   isWeilded: 0
   health: 10
   isCollidable: 1
   blocksLineOfSight: 0
   coversObjectsBeneath: 0
   preventsObjectSpawning: 1
+  hasBeenSeen: 0
   tile: {fileID: 0}
 --- !u!114 &114137244388563158
 MonoBehaviour:

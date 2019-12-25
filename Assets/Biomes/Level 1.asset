@@ -13,7 +13,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objects: []
   nothings:
-  - item: {fileID: 114666462625946606, guid: 52b406458227b0849a7fac1f53ecfa5e, type: 2}
+  - item: {fileID: 114396989050233776, guid: 91818b3737121304f86aceb192b56b95, type: 2}
     minQuantity: 1
     maxQuantity: 1
     probability: 1

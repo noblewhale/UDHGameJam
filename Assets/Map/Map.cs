@@ -215,8 +215,8 @@ public class Map : MonoBehaviour
 
     public void Reveal(int tileX, int tileY, float radius)
     {
-        ForEachTile(t => t.isInView = false);
-        tileObjects[tileY][tileX].SetRevealed(true);
+        ForEachTile(t => t.SetInView(false));
+        tileObjects[tileY][tileX].SetInView(true);
         Vector2 center = new Vector2(tileX + .5f, tileY + .5f);
         int numRays = 360;
         float stepSize = .33f;
@@ -235,7 +235,7 @@ public class Map : MonoBehaviour
 
                 int wrappedX = (int)WrapX(relative.x);
 
-                tileObjects[y][wrappedX].SetRevealed(true);
+                tileObjects[y][wrappedX].SetInView(true);
                 if (tileObjects[y][wrappedX].DoesBlockLineOfSight())
                 {
                     break;

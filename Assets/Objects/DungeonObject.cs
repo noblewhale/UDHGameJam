@@ -41,6 +41,7 @@ public class DungeonObject : MonoBehaviour
     public bool blocksLineOfSight = false;
     public bool coversObjectsBeneath = false;
     public bool preventsObjectSpawning = false;
+    public bool hasBeenSeen = false;
 
     public event Action<int, int> onSetPosition;
     public Tile tile;
@@ -56,7 +57,24 @@ public class DungeonObject : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
+    public void SetInView(bool isInView)
+    {
+        if (isInView) hasBeenSeen = true;
+
+        if (isInView)
+        {
+            glyphs.SetRevealed(true);
+        }
+        else
+        {
+            if (!isVisibleWhenNotInSight || !hasBeenSeen)
+            {
+                if (glyphs) glyphs.SetRevealed(false);
+            }
+        }
+        if (glyphs) glyphs.SetInView(isInView);
+    }
+
     virtual public void Update ()
     {
         //if (damageFlashProcess == null)

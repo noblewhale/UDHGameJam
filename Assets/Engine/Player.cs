@@ -79,7 +79,7 @@ public class Player : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
     {
-        if (!isInputEnabled) return;
+        if (!isInputEnabled || !identity) return;
 
         if (Input.inputString != String.Empty ||
             Input.GetKeyDown(KeyCode.UpArrow) ||
@@ -201,6 +201,8 @@ public class Player : MonoBehaviour
 
     private void CollideWith(Tile tile)
     {
+        if (!identity) return;
+
         var hostileOccupants = new List<Creature>();
         GetHostileOccupants(tile, hostileOccupants);
 

@@ -10,10 +10,10 @@ public class Tile : MonoBehaviour
     public int y;
     public Map map;
     public bool isFloodFilled;
-    public bool isRevealed = true;
+    //public bool isRevealed = true;
     public float gapBetweenLayers = .1f;
 
-    public bool isInView;
+    public bool isInView = false;
 
     public LinkedList<DungeonObject> objectList = new LinkedList<DungeonObject>();
 
@@ -25,7 +25,8 @@ public class Tile : MonoBehaviour
         this.y = y;
         map.tilesThatAllowSpawn.Add(this);
 
-        SetRevealed(false);
+        //SetRevealed(false);
+        SetInView(false);
     }
 
 
@@ -39,11 +40,18 @@ public class Tile : MonoBehaviour
         return false;
     }
 
-    public void SetRevealed(bool isRevealed)
-    {
-        this.isRevealed = isRevealed;
-        SetInView(isRevealed);
-    }
+    //public void SetRevealed(bool isRevealed)
+    //{
+    //    this.isRevealed = isRevealed;
+    //    foreach (var ob in objectList)
+    //    {
+    //        if (ob.glyphs)
+    //        {
+    //            //if (ob.isVisibleWhenNotInSight && !isRevealed) continue;
+    //            ob.glyphs.SetRevealed(isRevealed);
+    //        }
+    //    }
+    //}
 
     public void SetInView(bool isVisible)
     {
@@ -52,9 +60,9 @@ public class Tile : MonoBehaviour
         {
             foreach (var ob in objectList)
             {
-                if (ob.glyphsOb && !ob.glyphsOb.activeSelf)
+                if (ob.glyphsOb)
                 {
-                    ob.glyphsOb.SetActive(true);
+                    ob.SetInView(true);
                 }
                 if (ob.coversObjectsBeneath) break;
             }
@@ -63,11 +71,7 @@ public class Tile : MonoBehaviour
         {
             foreach (var ob in objectList)
             {
-                if (ob.isVisibleWhenNotInSight && isRevealed) continue;
-                if (ob.glyphsOb && !ob.glyphsOb.activeSelf)
-                {
-                    ob.glyphsOb.SetActive(false);
-                }
+                ob.SetInView(false);
             }
         }
     }
@@ -115,7 +119,7 @@ public class Tile : MonoBehaviour
         {
             map.tilesThatAllowSpawn.Remove(this);
         }
-        SetRevealed(isRevealed);
+        SetInView(isInView);
     }
 
     public void RemoveObject(DungeonObject ob, bool destroyObject = false)
@@ -130,7 +134,7 @@ public class Tile : MonoBehaviour
                 map.tilesThatAllowSpawn.Add(this);
             }
         }
-        SetRevealed(isRevealed);
+        SetInView(isInView);
     }
 
     public bool IsCollidable()

@@ -61,31 +61,7 @@ public class Creature : MonoBehaviour
         if (x > baseObject.x) lastDirectionAttackedOrMoved = Direction.RIGHT;
         if (y < baseObject.y) lastDirectionAttackedOrMoved = Direction.DOWN;
         if (y > baseObject.y) lastDirectionAttackedOrMoved = Direction.UP;
-
-        if (map.tileObjects[y][x].isInView)
-        {
-            if (baseObject.glyphsOb && !baseObject.glyphsOb.activeSelf)
-            {
-                baseObject.glyphsOb.SetActive(true);
-            }
-        }
-        else
-        {
-            if (baseObject.glyphsOb && baseObject.glyphsOb.activeSelf)
-            {
-                baseObject.glyphsOb.SetActive(false);
-            }
-        }
     }
-
-    //override public void Die()
-    //{
-    //    //map.tileObjects[y][x].RemoveObject(this);
-    //    //map.tileObjects[y][x].SetOccupant(null);
-    //    //CreatureSpawner.instance.RemoveCreature(this);
-    //    //DropItems();
-    //    //Destroy(gameObject);
-    //}
 
     public void Attack(Creature creature)
     { 

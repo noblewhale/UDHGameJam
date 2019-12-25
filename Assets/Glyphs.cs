@@ -8,7 +8,9 @@ public class Glyphs : MonoBehaviour
     SpriteRenderer[] glyphs;
 	Color[] originalGlyphColors;
     Coroutine damageFlashProcess;
+    #pragma warning disable 0414
     DungeonObject owner;
+    #pragma warning restore 0414
 
     void Awake () 
 	{
@@ -21,14 +23,19 @@ public class Glyphs : MonoBehaviour
         owner = GetComponent<DungeonObject>();
 	}
 
-	public void SetRevealed(bool revealed)
+	public void SetRevealed(bool isRevealed)
     {
-		for (int i = 0; i < glyphs.Length; i++)
-		{
-			if (!owner.tile.isInView) glyphs[i].color = originalGlyphColors[i] / 2;
-			else glyphs[i].color = originalGlyphColors[i];
-		}
+        gameObject.SetActive(isRevealed);
 	}
+    
+    public void SetInView(bool isInView)
+    {
+        for (int i = 0; i < glyphs.Length; i++)
+        {
+            if (!isInView) glyphs[i].color = originalGlyphColors[i] / 2;
+            else glyphs[i].color = originalGlyphColors[i];
+        }
+    }
 
     public void TakeDamage(int v)
     {
