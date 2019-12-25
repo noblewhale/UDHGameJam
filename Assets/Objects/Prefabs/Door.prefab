@@ -29,7 +29,7 @@ GameObject:
   m_IsActive: 1
 --- !u!1 &1137487983822926
 GameObject:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
@@ -77,7 +77,7 @@ GameObject:
   m_IsActive: 1
 --- !u!1 &1388460029136420
 GameObject:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
@@ -90,9 +90,25 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
   m_IsActive: 0
---- !u!1 &1787452810539580
+--- !u!1 &1691161811771668
 GameObject:
   m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4399253285669170}
+  - component: {fileID: 114241047012009076}
+  m_Layer: 0
+  m_Name: Glyphs
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1787452810539580
+GameObject:
+  m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
@@ -151,7 +167,7 @@ Transform:
   - {fileID: 4871846385056508}
   - {fileID: 4899751086323312}
   - {fileID: 4632066487175226}
-  m_Father: {fileID: 4809128006189728}
+  m_Father: {fileID: 4399253285669170}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4368202399065776
@@ -165,6 +181,22 @@ Transform:
   m_LocalScale: {x: 30.148104, y: 29.872124, z: 1}
   m_Children: []
   m_Father: {fileID: 4771836359792134}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4399253285669170
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1691161811771668}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 4771836359792134}
+  - {fileID: 4837501547164556}
+  - {fileID: 4272946098904316}
+  m_Father: {fileID: 4809128006189728}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4632066487175226
@@ -191,7 +223,7 @@ Transform:
   m_LocalScale: {x: 1.5095397, y: 1.5095397, z: 1.5095397}
   m_Children:
   - {fileID: 4368202399065776}
-  m_Father: {fileID: 4809128006189728}
+  m_Father: {fileID: 4399253285669170}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4809128006189728
@@ -204,9 +236,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 4771836359792134}
-  - {fileID: 4837501547164556}
-  - {fileID: 4272946098904316}
+  - {fileID: 4399253285669170}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -220,7 +250,7 @@ Transform:
   m_LocalPosition: {x: 0.25, y: 0.249, z: 0}
   m_LocalScale: {x: 1.5124296, y: 1.5124296, z: 1.5124296}
   m_Children: []
-  m_Father: {fileID: 4809128006189728}
+  m_Father: {fileID: 4399253285669170}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4871846385056508
@@ -249,6 +279,18 @@ Transform:
   m_Father: {fileID: 4272946098904316}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114241047012009076
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1691161811771668}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56341e9aead7edc45a51492c517d187b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageFlashColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!114 &114959046356625430
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -266,21 +308,23 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: DungeonObject+CreatureEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
-  glyphs: []
+  glyphs: {fileID: 0}
+  originalGlyphPosition: {x: 0, y: 0, z: 0}
   map: {fileID: 0}
   x: 0
   y: 0
   quantity: 1
   canBePickedUp: 0
   isAlwaysLit: 0
+  canTakeDamage: 0
+  isVisibleWhenNotInSight: 1
   isWeilded: 0
-  defense: 1
   health: 1
   isCollidable: 1
   blocksLineOfSight: 1
   coversObjectsBeneath: 1
   preventsObjectSpawning: 1
-  damageFlashColor: {r: 1, g: 0, b: 0, a: 1}
+  tile: {fileID: 0}
   isOpen: 0
   openDifficulty: 1
   isLocked: 0

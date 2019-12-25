@@ -9,12 +9,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3848611950e7400448af5dbad1208277, type: 3}
-  m_Name: Rats Nest
+  m_Name: Level 1 Creatures
   m_EditorClassIdentifier: 
   objects:
   - item: {fileID: 114716973033915568, guid: 8ebb711e68c91c54c9665e17889dffd9, type: 2}
     minQuantity: 1
     maxQuantity: 1
-    probability: 0.9
-    minQuantityPerBiome: 6
-    maxQuantityPerBiome: 6
+    probability: 0.01
+    minQuantityPerBiome: -1
+    maxQuantityPerBiome: -1
+  - item: {fileID: 114211803322470130, guid: f02a2f726c804044db74160be50cd6bd, type: 2}
+    minQuantity: 1
+    maxQuantity: 1
+    probability: 0.05
+    minQuantityPerBiome: -1
+    maxQuantityPerBiome: -1

@@ -4,8 +4,7 @@ using UnityEngine;
 [CreateAssetMenu]
 public class BiomeType : ScriptableObject
 {
-    public SpawnRate[] creatures;
-    public BiomeDropRate[] items;
+    public BiomeDropRate[] objects;
 
     virtual public void PreProcessMap(Map map, RectInt area)
     {

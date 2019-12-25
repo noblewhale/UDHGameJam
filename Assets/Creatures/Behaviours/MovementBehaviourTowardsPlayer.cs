@@ -7,10 +7,17 @@ public class MovementBehaviourTowardsPlayer : MovementBehaviour
     public bool useViewDistance;
     public float radiusIfNotUsingViewDistance;
     Tile nextMoveTarget;
+    Creature owningCreature;
+
+    override public void Awake()
+    {
+        base.Awake();
+        owningCreature = owner.GetComponent<Creature>();
+    }
 
     public override void Move()
     {
-        owner.SetPosition(nextMoveTarget.x, nextMoveTarget.y);
+        owner.map.MoveObject(owner, nextMoveTarget.x, nextMoveTarget.y);
     }
 
     public override float ShouldMove()
@@ -19,7 +26,7 @@ public class MovementBehaviourTowardsPlayer : MovementBehaviour
         Vector2 myPos = new Vector2(owner.x, owner.y);
 
         float radius = radiusIfNotUsingViewDistance;
-        if (useViewDistance) radius = owner.viewDistance;
+        if (useViewDistance) radius = owningCreature.viewDistance;
         float distanceToPlayer = Vector2.Distance(playerPos, myPos);
         if (distanceToPlayer < radius && distanceToPlayer > 1f)
         {

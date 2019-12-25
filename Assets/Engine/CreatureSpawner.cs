@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class CreatureSpawner : MonoBehaviour
 {
-    Map map;
+    /*Map map;
 
     public List<Creature> allCreatures = new List<Creature>();
 
@@ -98,5 +98,5 @@ public class CreatureSpawner : MonoBehaviour
 	// Update is called once per frame
 	void Update () {
 		
-	}
+	}*/
 }

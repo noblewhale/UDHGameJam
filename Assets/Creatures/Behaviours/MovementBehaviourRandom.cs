@@ -6,10 +6,21 @@ public class MovementBehaviourRandom : MovementBehaviour
 {
     
     Tile nextMoveTarget;
+    Creature owningCreature;
+
+    override public void Awake()
+    {
+        base.Awake();
+        owningCreature = owner.GetComponent<Creature>();
+    }
 
     public override void Move()
     {
-        owner.SetPosition(nextMoveTarget.x, nextMoveTarget.y);
+        owner.map.MoveObject(owner, nextMoveTarget.x, nextMoveTarget.y);
+        if (owningCreature)
+        {
+            owningCreature.tickable.nextActionTime = TimeManager.time + (ulong)owningCreature.ticksPerMove;
+        }
     }
 
     public override float ShouldMove()

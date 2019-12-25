@@ -36,7 +36,7 @@ public class StatusPanel : MonoBehaviour
             oldHealth = player.identity.health;
         }
         
-        if (player.identity.Gold != oldGold)
+        if (player.identity.gold != oldGold)
         {
             if (incrementGoldProcess == null)
             {
@@ -44,7 +44,7 @@ public class StatusPanel : MonoBehaviour
             }
             if (highlightGoldProcess != null) StopCoroutine(highlightGoldProcess);
             highlightGoldProcess = StartCoroutine(HighlightText(gold, Color.yellow));
-            oldGold = player.identity.Gold;
+            oldGold = player.identity.gold;
         }
 
         transform.localPosition = new Vector3(0, -cam.orthographicSize + panelHeight, transform.localPosition.z);
@@ -52,7 +52,7 @@ public class StatusPanel : MonoBehaviour
 
     IEnumerator IncrementGold()
     {
-        while(visualGold < player.identity.Gold)
+        while(visualGold < player.identity.gold)
         {
             yield return new WaitForSeconds(.1f);
             visualGold++;

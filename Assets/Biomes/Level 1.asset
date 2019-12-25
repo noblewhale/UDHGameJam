@@ -8,23 +8,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3848611950e7400448af5dbad1208277, type: 3}
+  m_Script: {fileID: 11500000, guid: fec11fb39545aa845880a9a32afaa20c, type: 3}
   m_Name: Level 1
   m_EditorClassIdentifier: 
-  creatures:
-  - creature: {fileID: 114569763151172050, guid: 8ebb711e68c91c54c9665e17889dffd9,
-      type: 2}
-    probability: 0.01
-  - creature: {fileID: 114238227866493274, guid: f02a2f726c804044db74160be50cd6bd,
-      type: 2}
-    probability: 0.05
-  items:
-  - item: {fileID: 114347597287653226, guid: 1b5941ecabb59044ea30861fca424ef1, type: 2}
+  objects: []
+  nothings:
+  - item: {fileID: 114666462625946606, guid: 52b406458227b0849a7fac1f53ecfa5e, type: 2}
     minQuantity: 1
     maxQuantity: 1
     probability: 1
-    minQuantityPerBiome: 1
-    maxQuantityPerBiome: 1
+    minQuantityPerBiome: -1
+    maxQuantityPerBiome: -1
   floors:
   - item: {fileID: 114396989050233776, guid: fc61b768638409649819ee72bd27740c, type: 2}
     minQuantity: 1
@@ -35,7 +29,7 @@ MonoBehaviour:
   - item: {fileID: 114396989050233776, guid: c69b6a8f4055a1e498fa30a4dcf35d06, type: 2}
     minQuantity: 1
     maxQuantity: 1
-    probability: 5
+    probability: 4
     minQuantityPerBiome: -1
     maxQuantityPerBiome: -1
   walls:
@@ -55,6 +49,6 @@ MonoBehaviour:
   - item: {fileID: 114959046356625430, guid: bc9347607a3f5a1458e19b4258e95998, type: 2}
     minQuantity: 1
     maxQuantity: 1
-    probability: 1
+    probability: 0
     minQuantityPerBiome: -1
     maxQuantityPerBiome: -1

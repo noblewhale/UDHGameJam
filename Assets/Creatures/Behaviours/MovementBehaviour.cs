@@ -4,11 +4,11 @@ using UnityEngine;
 
 public abstract class MovementBehaviour : MonoBehaviour
 {
-    protected Creature owner;
+    protected DungeonObject owner;
 
     virtual public void Awake()
     {
-        owner = GetComponent<Creature>();
+        owner = GetComponent<DungeonObject>();
     }
 
     abstract public float ShouldMove();

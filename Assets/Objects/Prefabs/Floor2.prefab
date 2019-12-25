@@ -13,7 +13,7 @@ Prefab:
   m_IsPrefabParent: 1
 --- !u!1 &1787452810539580
 GameObject:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
@@ -26,6 +26,22 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
+  m_IsActive: 1
+--- !u!1 &1886671731430450
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4480942754982382}
+  - component: {fileID: 114616914273254090}
+  m_Layer: 0
+  m_Name: Glyphs
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!1 &1920995248641060
 GameObject:
@@ -43,6 +59,20 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
   m_IsActive: 1
+--- !u!4 &4480942754982382
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1886671731430450}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 4778594697326972}
+  m_Father: {fileID: 4809128006189728}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4778594697326972
 Transform:
   m_ObjectHideFlags: 1
@@ -53,7 +83,7 @@ Transform:
   m_LocalPosition: {x: 0.25, y: 0.25, z: 0}
   m_LocalScale: {x: 1.5184245, y: 1.518425, z: 1}
   m_Children: []
-  m_Father: {fileID: 4809128006189728}
+  m_Father: {fileID: 4480942754982382}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4809128006189728
@@ -66,7 +96,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 4778594697326972}
+  - {fileID: 4480942754982382}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -87,19 +117,33 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: DungeonObject+CreatureEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
-  glyphs: []
+  originalGlyphPosition: {x: 0, y: 0, z: 0}
   map: {fileID: 0}
   x: 0
   y: 0
   quantity: 1
   canBePickedUp: 0
   isAlwaysLit: 0
+  canTakeDamage: 0
+  isVisibleWhenNotInSight: 1
   isWeilded: 0
-  defense: 1
   health: 1
   isCollidable: 0
   blocksLineOfSight: 0
   coversObjectsBeneath: 1
+  preventsObjectSpawning: 0
+  tile: {fileID: 0}
+--- !u!114 &114616914273254090
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1886671731430450}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56341e9aead7edc45a51492c517d187b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   damageFlashColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!212 &212278158165659248
 SpriteRenderer:

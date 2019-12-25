@@ -3,7 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Creature : DungeonObject
+[RequireComponent(typeof(Tickable))]
+[RequireComponent(typeof(DungeonObject))]
+public class Creature : MonoBehaviour
 {
     public Race race;
 
@@ -13,6 +15,8 @@ public class Creature : DungeonObject
     public int constitution;
     public int intelligence;
     public int charisma;
+
+    public int defense = 1;
 
     public int ticksPerMove = 1;
     public int ticksPerAttack = 1;
@@ -25,112 +29,66 @@ public class Creature : DungeonObject
     }
 
     public Direction lastDirectionAttackedOrMoved = Direction.UP;
-    public ulong nextActionTime = 0;
     public float viewDistance = 4;
 
-    public MovementBehaviour movementBehaviour;
-    public AttackBehaviour attackBehaviour;
     public Coroutine attackAnimationProcess;
 
     public DungeonObject leftHandObject;
     public DungeonObject rightHandObject;
 
-    override protected void Awake()
+    public DungeonObject baseObject;
+    public Tickable tickable;
+
+    public int x { get { return baseObject.x; } }
+    public int y { get { return baseObject.y; } }
+    public Map map { get { return baseObject.map; } }
+    public Inventory inventory { get { return baseObject.inventory; } }
+
+    public int health { get { return baseObject.health; } }
+    public int gold { get { return baseObject.gold; } }
+
+    void Awake()
     {
-        base.Awake();
-        movementBehaviour = GetComponent<MovementBehaviour>();
-        attackBehaviour = GetComponent<AttackBehaviour>();
         TimeManager.OnTick += OnTick;
+        baseObject = GetComponent<DungeonObject>();
+        tickable = GetComponent<Tickable>();
+        baseObject.onSetPosition += SetPosition;
     }
 
-    override public void Update()
+    void SetPosition(int x, int y)
     {
-        base.Update();
+        if (x < baseObject.x) lastDirectionAttackedOrMoved = Direction.LEFT;
+        if (x > baseObject.x) lastDirectionAttackedOrMoved = Direction.RIGHT;
+        if (y < baseObject.y) lastDirectionAttackedOrMoved = Direction.DOWN;
+        if (y > baseObject.y) lastDirectionAttackedOrMoved = Direction.UP;
 
         if (map.tileObjects[y][x].isInView)
         {
-            for (int i = 0; i < glyphs.Length; i++)
+            if (baseObject.glyphsOb && !baseObject.glyphsOb.activeSelf)
             {
-                if (!glyphs[i].gameObject.activeSelf)
-                {
-                    glyphs[i].gameObject.SetActive(true);
-                }
+                baseObject.glyphsOb.SetActive(true);
             }
         }
         else
         {
-            for (int i = 0; i < glyphs.Length; i++)
+            if (baseObject.glyphsOb && baseObject.glyphsOb.activeSelf)
             {
-                if (glyphs[i].gameObject.activeSelf)
-                {
-                    glyphs[i].gameObject.SetActive(false);
-                }
+                baseObject.glyphsOb.SetActive(false);
             }
         }
     }
 
-    override public void SetPosition(int x, int y, bool isAction = true)
-    {
-        if (x < base.x) lastDirectionAttackedOrMoved = Direction.LEFT;
-        if (x > base.x) lastDirectionAttackedOrMoved = Direction.RIGHT;
-        if (y < base.y) lastDirectionAttackedOrMoved = Direction.DOWN;
-        if (y > base.y) lastDirectionAttackedOrMoved = Direction.UP;
+    //override public void Die()
+    //{
+    //    //map.tileObjects[y][x].RemoveObject(this);
+    //    //map.tileObjects[y][x].SetOccupant(null);
+    //    //CreatureSpawner.instance.RemoveCreature(this);
+    //    //DropItems();
+    //    //Destroy(gameObject);
+    //}
 
-        int oldX = this.x;
-        int oldY = this.y;
-        base.SetPosition(x, y, isAction);
-
-        map.tileObjects[oldY][oldX].SetOccupant(null);
-        map.tileObjects[y][x].SetOccupant(this);
-
-        if (isAction)
-        {
-            nextActionTime = TimeManager.time + (ulong)ticksPerMove;
-        }
-    }
-
-    override public void Die()
-    {
-        map.tileObjects[y][x].SetOccupant(null);
-        CreatureSpawner.instance.RemoveCreature(this);
-        DropItems();
-        Destroy(gameObject);
-    }
-
-    virtual public void StartNewAction()
-    {
-        float shouldMoveConfidence = 0;
-        float shouldAttackConfidence = 0;
-        if (movementBehaviour)
-        {
-            shouldMoveConfidence = movementBehaviour.ShouldMove();
-        }
-        if (attackBehaviour)
-        {
-            shouldAttackConfidence = attackBehaviour.ShouldAttack();
-        }
-
-        if (shouldMoveConfidence == 0 && shouldAttackConfidence == 0) return;
-
-        float totalConfidence = shouldMoveConfidence + shouldAttackConfidence;
-        float random = UnityEngine.Random.Range(0, totalConfidence);
-
-        if (random < shouldMoveConfidence)
-        {
-            movementBehaviour.Move();
-        }
-        else
-        { 
-            attackBehaviour.Attack();
-        }
-    }
-
-    virtual public void ContinueAction()
-    {
-    }
-    
     public void Attack(Creature creature)
-    {
+    { 
         if (creature.x == map.width - 1 && x == 0) lastDirectionAttackedOrMoved = Direction.LEFT;
         else if (creature.x == 0 && x == map.width - 1) lastDirectionAttackedOrMoved = Direction.RIGHT;
         else if (creature.x < x) lastDirectionAttackedOrMoved = Direction.LEFT;
@@ -154,16 +112,17 @@ public class Creature : DungeonObject
                 // Got past armor / defense
                 if (weapon == null)
                 {
-                    creature.TakeDamage(1);
+                    creature.baseObject.TakeDamage(1);
                 }
                 else
                 {
                     int damage = UnityEngine.Random.Range(weapon.minBaseDamage, weapon.maxBaseDamage + 1);
-                    creature.TakeDamage(damage);
+                    creature.baseObject.TakeDamage(damage);
                 }
             }
         }
-        nextActionTime = TimeManager.time + (ulong)ticksPerAttack;
+
+        tickable.nextActionTime = TimeManager.time + (ulong)ticksPerAttack;
 
         AttackAnimation();
     }
@@ -238,39 +197,36 @@ public class Creature : DungeonObject
         {
             StopCoroutine(attackAnimationProcess);
             attackAnimationProcess = null;
-            for (int i = 0; i < glyphs.Length; i++)
-            {
-                Vector3 originalPosition = originalGlyphPositions[i];
-                var glyph = glyphs[i];
-                glyph.transform.localPosition = originalPosition;
-            }
+
+            Vector3 originalPosition = baseObject.originalGlyphPosition;
+            baseObject.glyphs.transform.localPosition = originalPosition;
         }
     }
 
     IEnumerator DoAttackAnimation(float scale = 1, float duration = .5f)
     {
         float t = 0;
-        for (int i = 0; i < glyphs.Length; i++)
+        var glyph = baseObject.glyphs;
+        
+        if (!glyph) yield break;
+
+        Vector3 originalPosition = baseObject.originalGlyphPosition;
+        while (t < duration)
         {
-            var glyph = glyphs[i];
-            Vector3 originalPosition = originalGlyphPositions[i];
-            while (t < duration)
+            float offset = attackMovementAnimation.Evaluate(t / duration) * scale;
+
+            switch (lastDirectionAttackedOrMoved)
             {
-                float offset = attackMovementAnimation.Evaluate(t / duration) * scale;
-
-                switch (lastDirectionAttackedOrMoved)
-                {
-                    case Direction.UP: glyph.transform.localPosition = originalPosition + Vector3.up * offset; break;
-                    case Direction.DOWN: glyph.transform.localPosition = originalPosition + Vector3.down * offset; break;
-                    case Direction.RIGHT: glyph.transform.localPosition = originalPosition + Vector3.right * offset; break;
-                    case Direction.LEFT: glyph.transform.localPosition = originalPosition + Vector3.left * offset; break;
-                }
-                yield return new WaitForEndOfFrame();
-                t += Time.deltaTime;
+                case Direction.UP: glyph.transform.localPosition = originalPosition + Vector3.up * offset; break;
+                case Direction.DOWN: glyph.transform.localPosition = originalPosition + Vector3.down * offset; break;
+                case Direction.RIGHT: glyph.transform.localPosition = originalPosition + Vector3.right * offset; break;
+                case Direction.LEFT: glyph.transform.localPosition = originalPosition + Vector3.left * offset; break;
             }
-
-            glyph.transform.localPosition = originalPosition;
+            yield return new WaitForEndOfFrame();
+            t += Time.deltaTime;
         }
+
+        glyph.transform.localPosition = originalPosition;
         attackAnimationProcess = null;
     }
 }

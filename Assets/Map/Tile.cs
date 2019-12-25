@@ -8,16 +8,14 @@ public class Tile : MonoBehaviour
 {
     public int x;
     public int y;
-    Map map;
+    public Map map;
     public bool isFloodFilled;
-    bool isRevealed = true;
-    float gapBetweenLayers = .1f;
+    public bool isRevealed = true;
+    public float gapBetweenLayers = .1f;
 
     public bool isInView;
 
     public LinkedList<DungeonObject> objectList = new LinkedList<DungeonObject>();
-
-    public Creature occupant;
 
     public void Init(Map map, int x, int y)
     {
@@ -27,7 +25,7 @@ public class Tile : MonoBehaviour
         this.y = y;
         map.tilesThatAllowSpawn.Add(this);
 
-       // SetRevealed(false);
+        SetRevealed(false);
     }
 
 
@@ -41,40 +39,37 @@ public class Tile : MonoBehaviour
         return false;
     }
 
-    public void SetOccupant(Creature creature)
-    {
-        occupant = creature;
-
-        if (creature != null)
-        {
-            var node = objectList.First;
-            while (node != null)
-            {
-                node.Value.SteppedOn(creature);
-                if (node.Next == null) break;
-                node = node.Next;
-            }
-        }
-    }
-
     public void SetRevealed(bool isRevealed)
     {
         this.isRevealed = isRevealed;
-        SetVisible(isRevealed);
-        bool nextObjectIsVisible = isRevealed;
-        foreach (var ob in objectList)
-        {
-            ob.gameObject.SetActive(nextObjectIsVisible);
-            if (ob.coversObjectsBeneath)
-            {
-                nextObjectIsVisible = false;
-            }
-        }
+        SetInView(isRevealed);
     }
 
-    public void SetVisible(bool isVisible)
+    public void SetInView(bool isVisible)
     {
         isInView = isVisible;
+        if (isInView)
+        {
+            foreach (var ob in objectList)
+            {
+                if (ob.glyphsOb && !ob.glyphsOb.activeSelf)
+                {
+                    ob.glyphsOb.SetActive(true);
+                }
+                if (ob.coversObjectsBeneath) break;
+            }
+        }
+        else
+        {
+            foreach (var ob in objectList)
+            {
+                if (ob.isVisibleWhenNotInSight && isRevealed) continue;
+                if (ob.glyphsOb && !ob.glyphsOb.activeSelf)
+                {
+                    ob.glyphsOb.SetActive(false);
+                }
+            }
+        }
     }
 
     public void Update()
@@ -112,9 +107,9 @@ public class Tile : MonoBehaviour
 
     public void AddObject(DungeonObject ob)
     {
-        ob.SetPosition(x, y);
         ob.transform.parent = transform;
         ob.transform.localPosition = Vector3.zero;
+        ob.SetPosition(x, y);
         objectList.AddFirst(ob);
         if (ob.preventsObjectSpawning)
         {
@@ -144,7 +139,7 @@ public class Tile : MonoBehaviour
         {
             if (ob.isCollidable) return true;
         }
-        if (occupant != null && occupant.isCollidable) return true;
+        //if (occupant != null && occupant.isCollidable) return true;
         return false;
     }
 
@@ -174,6 +169,6 @@ public class Tile : MonoBehaviour
             if (ob.isCollidable) ob.Collide(collidingObject);
         }
 
-        if (occupant != null && occupant.isCollidable) occupant.Collide(collidingObject);
+        //if (occupant != null && occupant.isCollidable) occupant.Collide(collidingObject);
     }
 }

@@ -515,7 +515,7 @@ MonoBehaviour:
   tilePrefab: {fileID: 114224584609318880, guid: 615271a170519e841b68e102a244428d,
     type: 2}
   objectSet:
-  - {fileID: 114666462625946606, guid: 52b406458227b0849a7fac1f53ecfa5e, type: 2}
+  - {fileID: 0}
   - {fileID: 114396989050233776, guid: fc61b768638409649819ee72bd27740c, type: 2}
   - {fileID: 114024561291017924, guid: 1268d14737f164f4494906c493e7fef9, type: 2}
   - {fileID: 114959046356625430, guid: 869404b52a249a74d9c2da34da750f88, type: 2}
@@ -523,6 +523,7 @@ MonoBehaviour:
   - {fileID: 114344298477969240, guid: 20e36c6b7abc41244852cdf24829cf3b, type: 2}
   biomeTypes:
   - {fileID: 11400000, guid: 15a8ece4b361d5048bda936a0b48a345, type: 2}
+  - {fileID: 11400000, guid: 5de26ad9564e9ea4cbb0193b97ab7dd3, type: 2}
   - {fileID: 11400000, guid: c5f22687274f57c48a389e16806785b4, type: 2}
   - {fileID: 11400000, guid: b10d45ad6978e3747b2ad9286a9d7cc2, type: 2}
   tilesThatAllowSpawn: []
@@ -543,7 +544,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53c8642635a676d43ba10f4458003bc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  allCreatures: []
 --- !u!114 &896254852
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -555,6 +555,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3c82569596ceec499eadbcabbbbb697, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tickableObjects: []
 --- !u!114 &896254853
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1193,6 +1194,71 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   inventory: {fileID: 131201720}
+--- !u!1 &1794674268
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 1920995248641060, guid: 91818b3737121304f86aceb192b56b95,
+    type: 2}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1794674270}
+  - component: {fileID: 1794674269}
+  m_Layer: 0
+  m_Name: Nothing
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 4294967295
+  m_IsActive: 1
+--- !u!114 &1794674269
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 114396989050233776, guid: 91818b3737121304f86aceb192b56b95,
+    type: 2}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1794674268}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ddd0c896d8f310e46a0e98eca91558d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectName: Nothing
+  OnSteppedOn:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: DungeonObject+CreatureEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  originalGlyphPosition: {x: 0, y: 0, z: 0}
+  map: {fileID: 0}
+  x: 0
+  y: 0
+  quantity: 1
+  canBePickedUp: 0
+  isAlwaysLit: 0
+  canTakeDamage: 0
+  isVisibleWhenNotInSight: 1
+  isWeilded: 0
+  health: 1
+  isCollidable: 0
+  blocksLineOfSight: 0
+  coversObjectsBeneath: 1
+  preventsObjectSpawning: 1
+  tile: {fileID: 0}
+--- !u!4 &1794674270
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 4809128006189728, guid: 91818b3737121304f86aceb192b56b95,
+    type: 2}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1794674268}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1941932923
 GameObject:
   m_ObjectHideFlags: 0

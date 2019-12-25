@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using Random = UnityEngine.Random;
 
 public class Player : MonoBehaviour
 {
@@ -30,10 +31,12 @@ public class Player : MonoBehaviour
 
     void Start()
     {
-        if (identity == null)
-        {
-            identity = CreatureSpawner.instance.SpawnCreature(0, 0, playerPrefab);
-        }
+        identity.baseObject.onSetPosition += OnPositionChange;
+    }
+
+    void OnPositionChange(int newX, int newY)
+    {
+        map.Reveal(newX, newY, identity.viewDistance);
     }
 
     public void OnEntryAnimationFinished()
@@ -45,11 +48,11 @@ public class Player : MonoBehaviour
     {
         if (identity == null)
         {
-            identity = CreatureSpawner.instance.SpawnCreature(0, 0, playerPrefab);
+            identity = Instantiate(playerPrefab).GetComponent<Creature>();
         }
 
         Tile startTile = map.GetRandomTileThatAllowsSpawn();
-        identity.SetPosition(startTile.x, startTile.y, false);
+        startTile.AddObject(identity.baseObject);
         map.Reveal(identity.x, identity.y, identity.viewDistance);
 
         mainCamera.GetComponent<PlayerCamera>().SetRotation(startTile.x, startTile.y, float.Epsilon, float.MaxValue);
@@ -180,14 +183,14 @@ public class Player : MonoBehaviour
 
             if (!map.tileObjects[newTileY][newTileX].IsCollidable())
             {
-                identity.SetPosition(newTileX, newTileY);
+                map.MoveObject(identity.baseObject, newTileX, newTileY);
                 identity.PickUpAll();
                 TimeManager.Tick(identity.ticksPerMove);
             }
             else
             {
                 CollideWith(map.tileObjects[newTileY][newTileX]);
-                map.tileObjects[newTileY][newTileX].Collide(identity);
+                map.tileObjects[newTileY][newTileX].Collide(identity.baseObject);
             }
 
             map.Reveal(identity.x, identity.y, identity.viewDistance);
@@ -198,9 +201,13 @@ public class Player : MonoBehaviour
 
     private void CollideWith(Tile tile)
     {
-        if (tile.occupant != null)
+        var hostileOccupants = new List<Creature>();
+        GetHostileOccupants(tile, hostileOccupants);
+
+        if (hostileOccupants.Count > 0)
         {
-            identity.Attack(tile.occupant);
+            var attackTarget = hostileOccupants[Random.Range(0, hostileOccupants.Count)];
+            identity.Attack(attackTarget);
 
             TimeManager.Tick(identity.ticksPerAttack); 
         }
@@ -212,6 +219,20 @@ public class Player : MonoBehaviour
             }
             identity.FaceDirection(tile);
             identity.AttackAnimation(.6f, .25f);
+        }
+    }
+    void GetHostileOccupants(Tile tile, List<Creature> results)
+    {
+        foreach (var ob in tile.objectList)
+        {
+            if (ob.canTakeDamage)
+            {
+                var creature = ob.GetComponent<Creature>();
+                if (creature)
+                {
+                    results.Add(creature);
+                }
+            }
         }
     }
 }

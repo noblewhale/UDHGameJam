@@ -19,10 +19,12 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4303741926992246}
+  - component: {fileID: 114211803322470130}
   - component: {fileID: 114238227866493274}
   - component: {fileID: 114822529988612696}
   - component: {fileID: 114129307105589948}
   - component: {fileID: 114178137825594656}
+  - component: {fileID: 114088707494869008}
   m_Layer: 0
   m_Name: Scorpion
   m_TagString: Untagged
@@ -30,9 +32,25 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!1 &1565732633263944
+--- !u!1 &1125687164467710
 GameObject:
   m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4425121043669884}
+  - component: {fileID: 114513049606249778}
+  m_Layer: 0
+  m_Name: Glyphs
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1565732633263944
+GameObject:
+  m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
@@ -57,8 +75,22 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 4998244153628158}
+  - {fileID: 4425121043669884}
   m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4425121043669884
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1125687164467710}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 4998244153628158}
+  m_Father: {fileID: 4303741926992246}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4998244153628158
@@ -71,9 +103,23 @@ Transform:
   m_LocalPosition: {x: 0.249, y: 0.246, z: 0}
   m_LocalScale: {x: 0.8368341, y: 1.1631994, z: 0.8368341}
   m_Children: []
-  m_Father: {fileID: 4303741926992246}
+  m_Father: {fileID: 4425121043669884}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114088707494869008
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1079141470586608}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33e528001075db141841e958448f6a29, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nextActionTime: 0
+  movementBehaviour: {fileID: 0}
+  attackBehaviour: {fileID: 0}
 --- !u!114 &114129307105589948
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -103,6 +149,39 @@ MonoBehaviour:
     minQuantity: 4
     maxQuantity: 6
     probability: 0.8
+--- !u!114 &114211803322470130
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1079141470586608}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ddd0c896d8f310e46a0e98eca91558d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectName: 
+  OnSteppedOn:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: DungeonObject+CreatureEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  originalGlyphPosition: {x: 0, y: 0, z: 0}
+  map: {fileID: 0}
+  x: 0
+  y: 0
+  quantity: 1
+  canBePickedUp: 0
+  isAlwaysLit: 0
+  canTakeDamage: 1
+  isVisibleWhenNotInSight: 1
+  isWeilded: 0
+  health: 1
+  isCollidable: 1
+  blocksLineOfSight: 0
+  coversObjectsBeneath: 0
+  preventsObjectSpawning: 1
+  tile: {fileID: 0}
 --- !u!114 &114238227866493274
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -114,25 +193,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bcd10d15a30478449e00ad96e33416d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectName: 
-  OnSteppedOn:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: DungeonObject+CreatureEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
-  glyphs: []
-  map: {fileID: 0}
-  x: 0
-  y: 0
-  quantity: 0
-  canBePickedUp: 0
-  isAlwaysLit: 0
-  defense: 0
-  health: 1
-  isCollidable: 1
-  blocksLineOfSight: 0
-  coversObjectsBeneath: 0
-  damageFlashColor: {r: 1, g: 1, b: 1, a: 1}
   race: 1
   mana: 0
   strength: 0
@@ -140,6 +200,7 @@ MonoBehaviour:
   constitution: 0
   intelligence: 0
   charisma: 0
+  defense: 0
   ticksPerMove: 2
   ticksPerAttack: 1
   attackMovementAnimation:
@@ -176,10 +237,23 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   lastDirectionAttackedOrMoved: 0
-  nextActionTime: 0
   viewDistance: 4
-  movementBehaviour: {fileID: 0}
-  attackBehaviour: {fileID: 0}
+  leftHandObject: {fileID: 0}
+  rightHandObject: {fileID: 0}
+  baseObject: {fileID: 0}
+  tickable: {fileID: 0}
+--- !u!114 &114513049606249778
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1125687164467710}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56341e9aead7edc45a51492c517d187b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageFlashColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!114 &114822529988612696
 MonoBehaviour:
   m_ObjectHideFlags: 1

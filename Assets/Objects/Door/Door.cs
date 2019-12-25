@@ -33,14 +33,14 @@ public class Door : DungeonObject
         this.coversObjectsBeneath = !isOpen;
 		if (isOpen && !openGlyph.activeSelf)
         {
-            map.tileObjects[y][x].SetVisible(map.tileObjects[y][x].isInView);
+            map.tileObjects[y][x].SetInView(map.tileObjects[y][x].isInView);
             openGlyph.SetActive(true);
             closedGlyph.SetActive(false);
             lockedGlyph.SetActive(false);
         }
         else if (!isOpen && openGlyph.activeSelf)
         {
-            map.tileObjects[y][x].SetVisible(map.tileObjects[y][x].isInView);
+            map.tileObjects[y][x].SetInView(map.tileObjects[y][x].isInView);
             openGlyph.SetActive(false);
             closedGlyph.SetActive(true);
             lockedGlyph.SetActive(false);
@@ -71,15 +71,14 @@ public class Door : DungeonObject
         {
             if (ob.GetType() == typeof(Creature) || ob.GetType().IsSubclassOf(typeof(Creature)))
             {
-                var creature = (Creature)ob;
                 DungeonObject key;
-                bool hasKey = creature.inventory.items.TryGetValue("Key", out key);
+                bool hasKey = ob.inventory.items.TryGetValue("Key", out key);
                 if (hasKey)
                 {
                     key.quantity--;
                     if (key.quantity == 0)
-                    { 
-                        creature.inventory.items.Remove("Key");
+                    {
+                        ob.inventory.items.Remove("Key");
                     }
 
                     SetOpen(true);

@@ -54,10 +54,10 @@ public class Map : MonoBehaviour
 
     public void ClearMap()
     {
-        if (CreatureSpawner.instance)
-        {
-            CreatureSpawner.instance.KillAll();
-        }
+        //if (CreatureSpawner.instance)
+        //{
+        //    CreatureSpawner.instance.KillAll();
+        //}
         ForEachTile(t =>
         {
             t.DestroyAllObjects();
@@ -92,6 +92,7 @@ public class Map : MonoBehaviour
     {
         PlaceBiomes();
         PreProcessBiomes();
+        ForEachTileThatAllowsSpawn(Biome.SpawnRandomObject);
         PostProcessMap();
         if (OnMapLoaded != null) OnMapLoaded();
     }
@@ -106,6 +107,12 @@ public class Map : MonoBehaviour
 
         biome = new Biome();
         biome.biomeType = biomeTypes[1];
+        biome.area = new RectInt(0, 0, width, height);
+
+        biomes.Add(biome);
+
+        biome = new Biome();
+        biome.biomeType = biomeTypes[2];
         int w = UnityEngine.Random.Range(3, 5);
         int h = UnityEngine.Random.Range(3, 5);
         int x = UnityEngine.Random.Range(0, width - w - 1);
@@ -200,6 +207,12 @@ public class Map : MonoBehaviour
         }
     }
 
+    internal void MoveObject(DungeonObject ob, int newX, int newY)
+    {
+        tileObjects[ob.y][ob.x].RemoveObject(ob);
+        tileObjects[newY][newX].AddObject(ob);
+    }
+
     public void Reveal(int tileX, int tileY, float radius)
     {
         ForEachTile(t => t.isInView = false);
@@ -231,11 +244,32 @@ public class Map : MonoBehaviour
         }
     }
 
+    public void ForEachTileThatAllowsSpawn(Action<Tile> doThis, RectInt area)
+    {
+        // If the area is larger than the total number of floor tiles it is more efficient to use the precomputed list
+        if (area.width * area.height > tilesThatAllowSpawn.Count)
+        {
+            ForEachTileThatAllowsSpawn(doThis);
+            return;
+        }
+        for (int y = area.yMax-1; y >= area.yMin; y--)
+        {
+            for (int x = area.xMax-1; x >= area.xMin; x--)
+            {
+                var tile = tileObjects[y][x];
+                if (tile.AllowsSpawn())
+                {
+                    doThis(tile);
+                }
+            }
+        }
+    }
+
     public void ForEachTileThatAllowsSpawn(Action<Tile> doThis)
     {
-        Debug.Log(tilesThatAllowSpawn.Count);
-        foreach (var tile in tilesThatAllowSpawn)
+        for (int i = tilesThatAllowSpawn.Count-1; i >= 0; i--)
         {
+            var tile = tilesThatAllowSpawn[i];
             doThis(tile);
         }
     }

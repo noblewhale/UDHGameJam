@@ -13,6 +13,8 @@ public class TimeManager : MonoBehaviour
     static int nextTicks;
     public static event Action OnTick;
 
+    public List<Tickable> tickableObjects = new List<Tickable>();
+
     public void Awake()
     {
         instance = this;
@@ -40,19 +42,20 @@ public class TimeManager : MonoBehaviour
     {
         if (OnTick != null) OnTick();
 
-        for (int i = 0; i < nextTicks; i++)
+        for (int t = 0; t < nextTicks; t++)
         {
             time++;
 
-            foreach (var creature in CreatureSpawner.instance.allCreatures)
+            for (int oi = TimeManager.instance.tickableObjects.Count - 1; oi >= 0; oi--)
             {
-                if (time >= creature.nextActionTime)
+                var ob = TimeManager.instance.tickableObjects[oi];
+                if (time >= ob.nextActionTime)
                 {
-                    creature.StartNewAction();
+                    ob.StartNewAction();
                 }
                 else
                 {
-                    creature.ContinueAction();
+                    ob.ContinueAction();
                 }
             }
         }

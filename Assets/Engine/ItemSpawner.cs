@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class ItemSpawner : MonoBehaviour
 {
-    Map map;
+    /*Map map;
 
     public static ItemSpawner instance;
     Dictionary<DungeonObject, int> stacksSpawned = new Dictionary<DungeonObject, int>();
@@ -34,7 +34,7 @@ public class ItemSpawner : MonoBehaviour
         float totalProbability = 0;
         foreach (var biome in containingBiomes)
         {
-            foreach (var itemType in biome.biomeType.items)
+            foreach (var itemType in biome.biomeType.objects)
             {
                 int numStacksAlreadyPlaced = 0;
                 stacksSpawned.TryGetValue(itemType.item, out numStacksAlreadyPlaced);
@@ -53,7 +53,7 @@ public class ItemSpawner : MonoBehaviour
         float previousProbability = 0;
         foreach (var biome in containingBiomes)
         {
-            foreach (var itemType in biome.biomeType.items)
+            foreach (var itemType in biome.biomeType.objects)
             {
                 int numStacksAlreadyPlaced = 0;
                 stacksSpawned.TryGetValue(itemType.item, out numStacksAlreadyPlaced);
@@ -91,5 +91,5 @@ public class ItemSpawner : MonoBehaviour
 
             tile.AddObject(item);
         }
-	}
+	}*/
 }

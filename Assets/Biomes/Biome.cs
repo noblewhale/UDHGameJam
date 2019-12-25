@@ -33,4 +33,42 @@ public class Biome
         // TODO: Respect min and max and shit
         return selectedObject;
     }
+
+    public static void SpawnRandomObject(Tile tile)
+    {
+        var containingBiomes = tile.map.biomes.Where(b => b.area.Contains(new Vector2Int(tile.x, tile.y)));
+        float totalProbability = 0;
+        foreach (var biome in containingBiomes)
+        {
+            foreach (var dropRate in biome.biomeType.objects)
+            {
+                totalProbability += dropRate.probability;
+            }
+        }
+
+        float r = Random.value;
+
+        DropRate creatureTypeToSpawn = null;
+
+        float currentProbability = 0;
+        float previousProbability = 0;
+        foreach (var biome in containingBiomes)
+        {
+            foreach (var creatureType in biome.biomeType.objects)
+            {
+                previousProbability = currentProbability;
+                currentProbability += creatureType.probability;
+
+                if (r >= previousProbability && r < currentProbability)
+                {
+                    creatureTypeToSpawn = creatureType;
+                }
+            }
+        }
+
+        if (creatureTypeToSpawn != null)
+        {
+            tile.SpawnAndAddObject(creatureTypeToSpawn.item);
+        }
+    }
 }

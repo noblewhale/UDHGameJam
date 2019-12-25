@@ -4,44 +4,64 @@ using UnityEngine;
 
 public class AttackBehaviourAdjacent : AttackBehaviour
 {
-    Tile nextAttackTarget;
+    Creature nextAttackTarget;
 
     override public void Attack()
     {
-        owner.Attack(nextAttackTarget.occupant);
+        owner.GetComponent<Creature>().Attack(nextAttackTarget);
     }
 
     override public float ShouldAttack()
     {
-        List<Tile> occupiedByHostile = new List<Tile>();
+        List<Creature> adjacentHostileCreatures = new List<Creature>();
 
         Tile adjacent;
         if (owner.y < owner.map.height - 1)
         {
             adjacent = owner.map.tileObjects[owner.y + 1][owner.x];
-            if (adjacent.occupant && adjacent.occupant == Player.instance.identity) occupiedByHostile.Add(adjacent);
+            GetHostileOccupants(adjacent, adjacentHostileCreatures);
         }
         if (owner.y > 0)
         {
             adjacent = owner.map.tileObjects[owner.y - 1][owner.x];
-            if (adjacent.occupant && adjacent.occupant == Player.instance.identity) occupiedByHostile.Add(adjacent);
+            GetHostileOccupants(adjacent, adjacentHostileCreatures);
         }
 
         int wrappedX = owner.map.WrapX(owner.x + 1);
         adjacent = owner.map.tileObjects[owner.y][wrappedX];
-        if (adjacent.occupant && adjacent.occupant == Player.instance.identity) occupiedByHostile.Add(adjacent);
+        GetHostileOccupants(adjacent, adjacentHostileCreatures);
 
         wrappedX = owner.map.WrapX(owner.x - 1);
         adjacent = owner.map.tileObjects[owner.y][wrappedX];
-        if (adjacent.occupant && adjacent.occupant == Player.instance.identity) occupiedByHostile.Add(adjacent);
+        GetHostileOccupants(adjacent, adjacentHostileCreatures);
 
-        if (occupiedByHostile.Count > 0)
+        if (adjacentHostileCreatures.Count > 0)
         {
-            nextAttackTarget = occupiedByHostile[Random.Range(0, occupiedByHostile.Count)];
+            nextAttackTarget = adjacentHostileCreatures[Random.Range(0, adjacentHostileCreatures.Count)];
 
             return 2f;
         }
 
         return 0;
+    }
+
+    void GetHostileOccupants(Tile tile, List<Creature> results)
+    {
+        foreach (var ob in tile.objectList)
+        {
+            if (ob.canTakeDamage)
+            {
+                var creature = ob.GetComponent<Creature>();
+                if (creature != null)
+                {
+                    // TODO: For now only considering the player hostile but could use alignments or disposition or w/e
+                    // and really how hostility is determined should be up to the creature not the attack behaviour probably
+                    if (creature == Player.instance.identity)
+                    {
+                        results.Add(creature);
+                    }
+                }
+            }
+        }
     }
 }
