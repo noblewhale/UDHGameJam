@@ -512,18 +512,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tilePrefab: {fileID: 114224584609318880, guid: 615271a170519e841b68e102a244428d,
     type: 2}
-  objectSet:
-  - {fileID: 0}
-  - {fileID: 114396989050233776, guid: fc61b768638409649819ee72bd27740c, type: 2}
-  - {fileID: 114024561291017924, guid: 1268d14737f164f4494906c493e7fef9, type: 2}
-  - {fileID: 114959046356625430, guid: 869404b52a249a74d9c2da34da750f88, type: 2}
-  - {fileID: 114339594333797432, guid: ec62f295ad1d4ac43826cd74addc215c, type: 2}
-  - {fileID: 114344298477969240, guid: 20e36c6b7abc41244852cdf24829cf3b, type: 2}
   biomeTypes:
   - {fileID: 11400000, guid: 15a8ece4b361d5048bda936a0b48a345, type: 2}
   - {fileID: 11400000, guid: 5de26ad9564e9ea4cbb0193b97ab7dd3, type: 2}
   - {fileID: 11400000, guid: ffc53738e5eacc84a89fa4c8d9683115, type: 2}
   - {fileID: 11400000, guid: c5f22687274f57c48a389e16806785b4, type: 2}
+  - {fileID: 11400000, guid: b10d45ad6978e3747b2ad9286a9d7cc2, type: 2}
   tilesThatAllowSpawn: []
   width: 31
   height: 44
@@ -680,6 +674,8 @@ MonoBehaviour:
   mainCamera: {fileID: 519420031}
   isInputEnabled: 1
   playerBehaviour: {fileID: 0}
+  isWaitingForPlayerInput: 0
+  hasReceivedInput: 0
 --- !u!1 &1443934136
 GameObject:
   m_ObjectHideFlags: 0

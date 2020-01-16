@@ -66,8 +66,10 @@ public class Door : DungeonObject
         }
     }
 
-    public void OnCollision(DungeonObject ob)
+    public void OnCollision(DungeonObject ob, bool isInstigator)
     {
+        if (isInstigator) return;
+
         if (isLocked)
         {
             if (ob.GetType() == typeof(Creature) || ob.GetType().IsSubclassOf(typeof(Creature)))

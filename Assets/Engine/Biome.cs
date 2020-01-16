@@ -45,6 +45,20 @@ public class Biome
         {
             foreach (var dropRate in biome.biomeType.objects)
             {
+                if (dropRate.requireSpawnable && !tile.AllowsSpawn()) continue;
+                if (dropRate.onlySpawnOn != null && dropRate.onlySpawnOn.Length != 0)
+                {
+                    bool foundRequiredObject = false;
+                    foreach (var ob in dropRate.onlySpawnOn)
+                    {
+                        if (tile.ContainsObjectOfType(ob))
+                        {
+                            foundRequiredObject = true;
+                            break;
+                        }
+                    }
+                    if (!foundRequiredObject) continue;
+                }
                 numStacksAlreadyPlaced = 0;
                 biome.stacksSpawned.TryGetValue(dropRate.item, out numStacksAlreadyPlaced);
                 if (numStacksAlreadyPlaced < dropRate.maxQuantityPerBiome || dropRate.maxQuantityPerBiome == -1)
@@ -64,6 +78,20 @@ public class Biome
         {
             foreach (var dropRate in biome.biomeType.objects)
             {
+                if (dropRate.requireSpawnable && !tile.AllowsSpawn()) continue;
+                if (dropRate.onlySpawnOn != null && dropRate.onlySpawnOn.Length != 0)
+                {
+                    bool foundRequiredObject = false;
+                    foreach (var ob in dropRate.onlySpawnOn)
+                    {
+                        if (tile.ContainsObjectOfType(ob))
+                        {
+                            foundRequiredObject = true;
+                            break;
+                        }
+                    }
+                    if (!foundRequiredObject) continue;
+                }
                 numStacksAlreadyPlaced = 0;
                 biome.stacksSpawned.TryGetValue(dropRate.item, out numStacksAlreadyPlaced);
                 if (numStacksAlreadyPlaced >= dropRate.maxQuantityPerBiome && dropRate.maxQuantityPerBiome != -1)

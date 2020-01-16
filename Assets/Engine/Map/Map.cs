@@ -9,7 +9,6 @@ public class Map : MonoBehaviour
 {
 
     public Tile tilePrefab;
-    public DungeonObject[] objectSet;
 
     public BiomeType[] biomeTypes;
     public List<Biome> biomes = new List<Biome>();
@@ -89,9 +88,39 @@ public class Map : MonoBehaviour
     {
         PlaceBiomes();
         PreProcessBiomes();
-        ForEachTileThatAllowsSpawn(Biome.SpawnRandomObject);
+        ForEachTile(Biome.SpawnRandomObject);
         PostProcessMap();
         if (OnMapLoaded != null) OnMapLoaded();
+    }
+
+    void Update()
+    {
+        foreach (var biome in biomes)
+        {
+            Vector2 lowerLeft = new Vector2(biome.area.xMin, biome.area.yMin);
+            Vector2 lowerRight = new Vector2(biome.area.xMax, biome.area.yMin);
+            Vector2 upperLeft = new Vector2(biome.area.xMin, biome.area.yMax);
+            Vector2 upperRight = new Vector2(biome.area.xMax, biome.area.yMax);
+
+            lowerLeft.x *= tileWidth;
+            lowerLeft.y *= tileHeight;
+            lowerRight.x *= tileWidth;
+            lowerRight.y *= tileHeight;
+            upperLeft.x *= tileWidth;
+            upperLeft.y *= tileHeight;
+            upperRight.x *= tileWidth;
+            upperRight.y *= tileHeight;
+
+            lowerLeft += (Vector2)transform.position;
+            lowerRight += (Vector2)transform.position;
+            upperLeft += (Vector2)transform.position;
+            upperRight += (Vector2)transform.position;
+
+            Debug.DrawLine(lowerLeft, lowerRight, Color.blue);
+            Debug.DrawLine(lowerRight, upperRight, Color.blue);
+            Debug.DrawLine(upperRight, upperLeft, Color.blue);
+            Debug.DrawLine(upperLeft, lowerLeft, Color.blue);
+        }
     }
 
     void PlaceBiomes()
@@ -140,35 +169,7 @@ public class Map : MonoBehaviour
         }
 
         tilesInRandomOrder = tilesInRandomOrder.OrderBy(a => UnityEngine.Random.value).ToList();
-        //PlaceFinalDoor();
     }
-
-    //void PlaceFinalDoor()
-    //{
-    //    var topTilesWithWalls = tileObjects[height - 1].Where(x => x.ContainsObjectOfType(objectSet[2]));
-    //    var validFinalDoorSpots = new List<Tile>();
-    //    foreach (var t in topTilesWithWalls)
-    //    {
-    //        var tileBeneathWall = tileObjects[height - 2][t.x];
-    //        if (!tileBeneathWall.IsCollidable())
-    //        {
-    //            validFinalDoorSpots.Add(t);
-    //        }
-    //    }
-
-    //    var tile = validFinalDoorSpots[UnityEngine.Random.Range(0, validFinalDoorSpots.Count)];
-    //    var node = tile.objectList.First;
-    //    while (node != null)
-    //    {
-    //        var nextNode = node.Next;
-    //        if (node.Value.objectName == "Wall") tile.objectList.Remove(node);
-    //        node = nextNode;
-    //    }
-    //    var lockedDoor = Instantiate(objectSet[3].gameObject).GetComponent<DungeonObject>();
-    //    lockedDoor.GetComponent<Door>().SetLocked(true);
-    //    tile.SpawnAndAddObject(objectSet[5]);
-    //    tile.AddObject(lockedDoor);
-    //}
 
     public void AddTile(int x, int y)
     {
@@ -219,8 +220,8 @@ public class Map : MonoBehaviour
             {
                 if (tileObject.isCollidable)
                 {
-                    ob.CollideWith(tileObject);
-                    tileObject.CollideWith(ob);
+                    ob.CollideWith(tileObject, true);
+                    tileObject.CollideWith(ob, false);
                     break;
                 }
             }

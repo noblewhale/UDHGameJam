@@ -48,7 +48,7 @@ public class DungeonObject : MonoBehaviour
     public event Action<int, int, int, int> onMove;
     public event Action<int, int, int, int> onSetPosition;
     public event Action<DungeonObject> onPickedUpObject;
-    public event Action<DungeonObject> onCollision;
+    public event Action<DungeonObject, bool> onCollision;
     public Tile tile;
 
     virtual protected void Awake()
@@ -80,9 +80,9 @@ public class DungeonObject : MonoBehaviour
         if (glyphs) glyphs.SetInView(isInView);
     }
 
-    public void CollideWith(DungeonObject ob)
+    public void CollideWith(DungeonObject ob, bool isInstigator)
     {
-        if (onCollision != null) onCollision(ob);
+        if (onCollision != null) onCollision(ob, isInstigator);
     }
 
     public void SteppedOn(Creature creature)
