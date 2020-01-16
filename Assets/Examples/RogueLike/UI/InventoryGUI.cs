@@ -9,8 +9,8 @@ public class InventoryGUI : MonoBehaviour
 
     public void Update()
     {
-        Creature playerCreature = Player.instance.identity;
-        foreach (var item in playerCreature.inventory.items)
+        DungeonObject playerOb = Player.instance.identity;
+        foreach (var item in playerOb.inventory.items)
         {
             InventorySlotGUI slot;
             bool hasItem = slots.TryGetValue(item.Key, out slot);
@@ -27,7 +27,7 @@ public class InventoryGUI : MonoBehaviour
         var slotsToRemove = new List<KeyValuePair<string, InventorySlotGUI>>();
         foreach (var slot in slots)
         {
-            if (!playerCreature.inventory.items.ContainsKey(slot.Key))
+            if (!playerOb.inventory.items.ContainsKey(slot.Key))
             {
                 slotsToRemove.Add(slot);
             }

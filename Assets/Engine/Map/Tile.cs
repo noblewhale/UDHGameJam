@@ -10,7 +10,6 @@ public class Tile : MonoBehaviour
     public int y;
     public Map map;
     public bool isFloodFilled;
-    //public bool isRevealed = true;
     public float gapBetweenLayers = .1f;
 
     public bool isInView = false;
@@ -25,10 +24,8 @@ public class Tile : MonoBehaviour
         this.y = y;
         map.tilesThatAllowSpawn.Add(this);
 
-        //SetRevealed(false);
         SetInView(false);
     }
-
 
     public bool ContainsObjectOfType(DungeonObject needle)
     {
@@ -39,19 +36,6 @@ public class Tile : MonoBehaviour
 
         return false;
     }
-
-    //public void SetRevealed(bool isRevealed)
-    //{
-    //    this.isRevealed = isRevealed;
-    //    foreach (var ob in objectList)
-    //    {
-    //        if (ob.glyphs)
-    //        {
-    //            //if (ob.isVisibleWhenNotInSight && !isRevealed) continue;
-    //            ob.glyphs.SetRevealed(isRevealed);
-    //        }
-    //    }
-    //}
 
     public void SetInView(bool isVisible)
     {
@@ -110,11 +94,18 @@ public class Tile : MonoBehaviour
         objectList.Clear();
     }
 
-    public void AddObject(DungeonObject ob)
+    public void AddObject(DungeonObject ob, bool isMove = false)
     {
         ob.transform.parent = transform;
         ob.transform.localPosition = Vector3.zero;
-        ob.SetPosition(x, y);
+        if (isMove)
+        {
+            ob.Move(x, y);
+        }
+        else
+        {
+            ob.SetPosition(x, y);
+        }
         objectList.AddFirst(ob);
         if (ob.preventsObjectSpawning)
         {
@@ -144,7 +135,6 @@ public class Tile : MonoBehaviour
         {
             if (ob.isCollidable) return true;
         }
-        //if (occupant != null && occupant.isCollidable) return true;
         return false;
     }
 
@@ -165,15 +155,5 @@ public class Tile : MonoBehaviour
     public bool AllowsSpawn()
     {
         return !objectList.Any(x => x.preventsObjectSpawning);
-    }
-
-    public void Collide(DungeonObject collidingObject)
-    {
-        foreach (var ob in objectList)
-        {
-            if (ob.isCollidable) ob.Collide(collidingObject);
-        }
-
-        //if (occupant != null && occupant.isCollidable) occupant.Collide(collidingObject);
     }
 }

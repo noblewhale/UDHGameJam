@@ -5,72 +5,159 @@ using UnityEngine;
 
 public class TimeManager : MonoBehaviour
 {
-    public static ulong time = 0;
+    public ulong time = 0;
+    public float timeBetweenActions = .1f;
 
     public static TimeManager instance;
-    public static bool isBetweenTicks;
-    static Coroutine tickProcess;
-    static int nextTicks;
-    public static event Action OnTick;
 
     public List<Tickable> tickableObjects = new List<Tickable>();
 
-    public void Awake()
+    Tickable currentAction;
+    bool isInterrupted = false;
+    int tickableIndex = 0;
+    bool isWaitingBetweenActions = false;
+    float startWaitBetweenActionsTime = 0;
+    Tickable interruptingTickable = null;
+
+    void Awake()
     {
         instance = this;
     }
 
-    public static void Tick(int numTicks)
+    void Start()
     {
-        nextTicks = numTicks;
-        if (tickProcess != null) instance.StopCoroutine(tickProcess);
-        tickProcess = instance.StartCoroutine(WaitThenTick());
+        StartCoroutine(Tick());
     }
 
-    static IEnumerator WaitThenTick()
+    IEnumerator Tick()
     {
-        isBetweenTicks = true;
-        float startTime = Time.time;
-        while (Time.time - startTime < .15f)
-            yield return new WaitForEndOfFrame();
-        isBetweenTicks = false;
-
-        _Tick();
-    }
-
-    private static void _Tick()
-    {
-        if (OnTick != null) OnTick();
-
-        for (int t = 0; t < nextTicks; t++)
+        tickableIndex = tickableObjects.Count - 1;
+        while (true)
         {
-            time++;
-
-            for (int oi = TimeManager.instance.tickableObjects.Count - 1; oi >= 0; oi--)
+            bool isDone = true;
+            if (currentAction != null)
             {
-                var ob = TimeManager.instance.tickableObjects[oi];
-                if (time >= ob.nextActionTime)
+                if (!isInterrupted)
                 {
-                    ob.StartNewAction();
+                    isDone = currentAction.ContinueAction();
+                    if (!isDone)
+                    {
+                        yield return new WaitForEndOfFrame();
+                        continue;
+                    }
+                }
+                if (isInterrupted || isDone)
+                {
+                    if (!isInterrupted && currentAction.owner.tile.isInView)
+                    {
+                        isWaitingBetweenActions = true;
+                        startWaitBetweenActionsTime = Time.time;
+                    }
+                    currentAction.FinishAction();
+                    currentAction = null;
+                }
+            }
+
+            if (isWaitingBetweenActions)
+            {
+                if (isInterrupted)
+                {
+                    isWaitingBetweenActions = false;
                 }
                 else
                 {
-                    ob.ContinueAction();
+                    if (Time.time - startWaitBetweenActionsTime < timeBetweenActions)
+                    {
+                        yield return new WaitForEndOfFrame();
+                        continue;
+                    }
+                    else
+                    {
+                        isWaitingBetweenActions = false;
+                    }
                 }
             }
-        }
 
-        tickProcess = null;
+            if (isDone || isInterrupted)
+            {
+                for (; tickableIndex >= 0; tickableIndex--)
+                {
+                    var ob = tickableObjects[tickableIndex];
+                    if (ob.markedForRemoval)
+                    {
+                        continue;
+                    }
+                    if (time >= ob.nextActionTime)
+                    {
+                        if (Player.instance.identity.GetComponent<Tickable>() == ob)
+                        {
+                            if (Player.instance.hasReceivedInput)
+                            {
+                                isInterrupted = false;
+                                Player.instance.hasReceivedInput = false;
+                                Player.instance.isWaitingForPlayerInput = false;
+                            }
+                            else
+                            {
+                                Player.instance.isWaitingForPlayerInput = true;
+                                currentAction = null;
+                                break;
+                            }
+                        }
+                        bool finishImmediately = ob.StartNewAction();
+                        if (finishImmediately || !ob.owner.tile.isInView)
+                        {
+                            ob.FinishAction();
+                            currentAction = null;
+                            if (!isInterrupted && ob.owner.tile.isInView)
+                            {
+                                isWaitingBetweenActions = true;
+                                startWaitBetweenActionsTime = Time.time;
+                                tickableIndex--;
+                                break;
+                            }
+                        }
+                        else
+                        {
+                            currentAction = ob;
+                        }
+
+                        if (isInterrupted && ob == interruptingTickable)
+                        {
+                            isInterrupted = false;
+                            interruptingTickable = null;
+                        }
+
+                        if (currentAction != null)
+                        {
+                            tickableIndex--;
+                            break;
+                        }
+                    }
+                }
+
+                for (int ri = tickableObjects.Count - 1; ri >= 0; ri--)
+                {
+                    var ob = tickableObjects[ri];
+                    if (ob.markedForRemoval)
+                    {
+                        tickableObjects.RemoveAt(ri);
+                    }
+                }
+
+                if (tickableIndex == -1)
+                {
+                    time++;
+                    tickableIndex = tickableObjects.Count - 1;
+                }
+            }
+
+            if (currentAction == null) yield return new WaitForEndOfFrame();
+        }
     }
-
-    public static void Interrupt()
+    public void Interrupt(Tickable interruptingTickable)
     {
-        if (tickProcess != null)
-        {
-            instance.StopCoroutine(tickProcess);
-            tickProcess = null;
-
-            _Tick();
-        }
+        this.interruptingTickable = interruptingTickable;
+        isInterrupted = true;
     }
 }

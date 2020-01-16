@@ -98,6 +98,7 @@ public class Map : MonoBehaviour
     {
         foreach (var biomeTypeTemplate in biomeTypes)
         {
+            if (biomeTypeTemplate == null) continue;
             Biome biome = new Biome();
             // Make a copy of the boime type so we don't modify properties on the actual asset
             var biomeType = Instantiate(biomeTypeTemplate);
@@ -205,10 +206,31 @@ public class Map : MonoBehaviour
         }
     }
 
-    internal void MoveObject(DungeonObject ob, int newX, int newY)
+    public void TryMoveObject(DungeonObject ob, int newX, int newY)
+    {
+        if (!tileObjects[newY][newX].IsCollidable())
+        {
+            MoveObject(ob, newX, newY);
+        }
+        else
+        {
+            Tile collidedTile = tileObjects[newY][newX];
+            foreach (var tileObject in collidedTile.objectList)
+            {
+                if (tileObject.isCollidable)
+                {
+                    ob.CollideWith(tileObject);
+                    tileObject.CollideWith(ob);
+                    break;
+                }
+            }
+        }
+    }
+
+    public void MoveObject(DungeonObject ob, int newX, int newY)
     {
         tileObjects[ob.y][ob.x].RemoveObject(ob);
-        tileObjects[newY][newX].AddObject(ob);
+        tileObjects[newY][newX].AddObject(ob, true);
     }
 
     public void Reveal(int tileX, int tileY, float radius)

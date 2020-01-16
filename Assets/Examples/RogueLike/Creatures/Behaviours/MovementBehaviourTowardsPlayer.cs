@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MovementBehaviourTowardsPlayer : MovementBehaviour
+public class MovementBehaviourTowardsPlayer : TickableBehaviour
 {
     public bool useViewDistance;
     public float radiusIfNotUsingViewDistance;
@@ -15,18 +15,18 @@ public class MovementBehaviourTowardsPlayer : MovementBehaviour
         owningCreature = owner.GetComponent<Creature>();
     }
 
-    public override void Move()
+    public override void FinishAction()
     {
         owner.map.MoveObject(owner, nextMoveTarget.x, nextMoveTarget.y);
     }
 
-    public override float ShouldMove()
+    public override float GetActionConfidence()
     {
         Vector2 playerPos = new Vector2(Player.instance.identity.x, Player.instance.identity.y);
         Vector2 myPos = new Vector2(owner.x, owner.y);
 
         float radius = radiusIfNotUsingViewDistance;
-        if (useViewDistance) radius = owningCreature.viewDistance;
+        if (useViewDistance) radius = owningCreature.baseObject.viewDistance;
         float distanceToPlayer = Vector2.Distance(playerPos, myPos);
         if (distanceToPlayer < radius && distanceToPlayer > 1f)
         {

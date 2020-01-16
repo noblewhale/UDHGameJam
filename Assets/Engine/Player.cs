@@ -7,8 +7,8 @@ using Random = UnityEngine.Random;
 
 public class Player : MonoBehaviour
 {
-    public Creature playerPrefab;
-    public Creature identity;
+    public DungeonObject playerPrefab;
+    public DungeonObject identity;
     public bool isControllingCamera = false;
 
     public float lastMovementFromKeyPressTime;
@@ -18,10 +18,16 @@ public class Player : MonoBehaviour
     public Camera mainCamera;
 
     public static Player instance;
+    public event Action onPlayerActed;
 
     public bool isInputEnabled = true;
-    
-	void Awake ()
+
+    public PlayerBehaviour playerBehaviour;
+
+    public bool isWaitingForPlayerInput = false;
+    public bool hasReceivedInput = false;
+
+    void Awake ()
     {
         instance = this;
         map = FindObjectOfType<Map>().GetComponent<Map>();
@@ -31,10 +37,10 @@ public class Player : MonoBehaviour
 
     void Start()
     {
-        identity.baseObject.onSetPosition += OnPositionChange;
+        identity.onSetPosition += OnPositionChange;
     }
 
-    void OnPositionChange(int newX, int newY)
+    void OnPositionChange(int oldX, int oldY, int newX, int newY)
     {
         map.Reveal(newX, newY, identity.viewDistance);
     }
@@ -48,11 +54,16 @@ public class Player : MonoBehaviour
     {
         if (identity == null)
         {
-            identity = Instantiate(playerPrefab).GetComponent<Creature>();
+            identity = Instantiate(playerPrefab);
+            foreach (var behaviour in identity.GetComponents<TickableBehaviour>())
+            {
+                behaviour.enabled = false;
+            }
+            playerBehaviour = identity.GetComponent<Tickable>().AddBehaviour<PlayerBehaviour>();
         }
 
         Tile startTile = map.GetRandomTileThatAllowsSpawn();
-        startTile.AddObject(identity.baseObject);
+        startTile.AddObject(identity);
         map.Reveal(identity.x, identity.y, identity.viewDistance);
 
         mainCamera.GetComponent<PlayerCamera>().SetRotation(startTile.x, startTile.y, float.Epsilon, float.MaxValue);
@@ -76,7 +87,6 @@ public class Player : MonoBehaviour
 
     string lastInputString = "";
 	
-	// Update is called once per frame
 	void Update ()
     {
         if (!isInputEnabled || !identity) return;
@@ -87,10 +97,9 @@ public class Player : MonoBehaviour
             Input.GetKeyDown(KeyCode.RightArrow) ||
             Input.GetKeyDown(KeyCode.LeftArrow))
         {
-
-            if (TimeManager.isBetweenTicks)
+            if (!isWaitingForPlayerInput)
             {
-                TimeManager.Interrupt();
+                TimeManager.instance.Interrupt(identity.GetComponent<Tickable>());
             }
             lastMovementFromKeyPressTime = 0;
         }
@@ -140,7 +149,7 @@ public class Player : MonoBehaviour
         {
             commandQueue.RemoveIfExecuted(KeyCode.A);
         }
-        if (commandQueue.Count != 0 && (lastMovementFromKeyPressTime == 0 || Time.time - lastMovementFromKeyPressTime > .25f))
+        if (commandQueue.Count != 0)
         {
             int newTileX = identity.x;
             int newTileY = identity.y;
@@ -157,7 +166,7 @@ public class Player : MonoBehaviour
 
             if (command == null)
             {
-                command = commandQueue.Last.Value;
+                return;
             }
 
             bool doSomething = true;
@@ -181,58 +190,13 @@ public class Player : MonoBehaviour
             newTileX = map.WrapX(newTileX);
             newTileY = Mathf.Clamp(newTileY, 0, map.height - 1);
 
-            if (!map.tileObjects[newTileY][newTileX].IsCollidable())
-            {
-                map.MoveObject(identity.baseObject, newTileX, newTileY);
-                identity.PickUpAll();
-                TimeManager.Tick(identity.ticksPerMove);
-            }
-            else
-            {
-                CollideWith(map.tileObjects[newTileY][newTileX]);
-                map.tileObjects[newTileY][newTileX].Collide(identity.baseObject);
-            }
-            
+            playerBehaviour.SetNextActionTarget(newTileX, newTileY);
+
             lastMovementFromKeyPressTime = Time.time;
-        }
-    }
 
-    private void CollideWith(Tile tile)
-    {
-        if (!identity) return;
+            hasReceivedInput = true;
 
-        var hostileOccupants = new List<Creature>();
-        GetHostileOccupants(tile, hostileOccupants);
-
-        if (hostileOccupants.Count > 0)
-        {
-            var attackTarget = hostileOccupants[Random.Range(0, hostileOccupants.Count)];
-            identity.Attack(attackTarget);
-
-            TimeManager.Tick(identity.ticksPerAttack); 
-        }
-        else 
-        {
-            if (tile.ContainsObjectOfType(map.objectSet[3]))
-            {
-                TimeManager.Tick(identity.ticksPerMove);
-            }
-            identity.FaceDirection(tile);
-            identity.AttackAnimation(.6f, .25f);
-        }
-    }
-    void GetHostileOccupants(Tile tile, List<Creature> results)
-    {
-        foreach (var ob in tile.objectList)
-        {
-            if (ob.canTakeDamage)
-            {
-                var creature = ob.GetComponent<Creature>();
-                if (creature)
-                {
-                    results.Add(creature);
-                }
-            }
+            if (onPlayerActed != null) onPlayerActed();
         }
     }
 }

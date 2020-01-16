@@ -22,6 +22,7 @@ public class Door : DungeonObject
         {
             SetLocked(isLocked);
         }
+        base.onCollision += OnCollision;
 	}
 	
 	// Update is called once per frame
@@ -65,7 +66,7 @@ public class Door : DungeonObject
         }
     }
 
-    public override void Collide(DungeonObject ob)
+    public void OnCollision(DungeonObject ob)
     {
         if (isLocked)
         {

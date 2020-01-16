@@ -2,28 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MovementBehaviourRandom : MovementBehaviour
+public class MovementBehaviourRandom : TickableBehaviour
 {
     
     Tile nextMoveTarget;
-    Creature owningCreature;
 
-    override public void Awake()
-    {
-        base.Awake();
-        owningCreature = owner.GetComponent<Creature>();
-    }
-
-    public override void Move()
+    public override void FinishAction()
     {
         owner.map.MoveObject(owner, nextMoveTarget.x, nextMoveTarget.y);
-        if (owningCreature)
-        {
-            owningCreature.tickable.nextActionTime = TimeManager.time + (ulong)owningCreature.ticksPerMove;
-        }
     }
 
-    public override float ShouldMove()
+    public override float GetActionConfidence()
     {
         List<Tile> adjacentAndOpen = new List<Tile>();
 

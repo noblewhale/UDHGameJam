@@ -37,7 +37,7 @@ public class Glyphs : MonoBehaviour
         }
     }
 
-    public void TakeDamage()
+    public void DamageFlash()
     {
         if (glyphs.Length > 0)
         {

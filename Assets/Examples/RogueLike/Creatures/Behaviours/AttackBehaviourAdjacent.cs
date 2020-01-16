@@ -2,16 +2,27 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AttackBehaviourAdjacent : AttackBehaviour
+public class AttackBehaviourAdjacent : TickableBehaviour
 {
     Creature nextAttackTarget;
-
-    override public void Attack()
+    
+    public override bool StartAction()
     {
-        owner.GetComponent<Creature>().Attack(nextAttackTarget);
+        owner.GetComponent<Creature>().StartAttack(nextAttackTarget.baseObject);
+        return false;
     }
 
-    override public float ShouldAttack()
+    public override bool ContinueAction()
+    {
+        return owner.GetComponent<Creature>().ContinueAttack(nextAttackTarget.baseObject);
+    }
+
+    override public void FinishAction()
+    {
+        owner.GetComponent<Creature>().FinishAttack(nextAttackTarget.baseObject);
+    }
+
+    override public float GetActionConfidence()
     {
         List<Creature> adjacentHostileCreatures = new List<Creature>();
 
@@ -56,7 +67,7 @@ public class AttackBehaviourAdjacent : AttackBehaviour
                 {
                     // TODO: For now only considering the player hostile but could use alignments or disposition or w/e
                     // and really how hostility is determined should be up to the creature not the attack behaviour probably
-                    if (creature == Player.instance.identity)
+                    if (creature.baseObject == Player.instance.identity)
                     {
                         results.Add(creature);
                     }

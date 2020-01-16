@@ -10,12 +10,13 @@ public class DungeonObject : MonoBehaviour
 
     [Serializable]
     public class CreatureEvent : UnityEvent<Creature> { }
-    
+
+    public float viewDistance = 4;
     public CreatureEvent OnSteppedOn;
     public Vector3 originalGlyphPosition;
     public Map map;
-    public int x;
-    public int y;
+    public int x, y;
+    public int previousX, previousY;
     public int quantity = 1;
     public bool canBePickedUp;
     public bool isAlwaysLit;
@@ -42,8 +43,12 @@ public class DungeonObject : MonoBehaviour
     public bool coversObjectsBeneath = false;
     public bool preventsObjectSpawning = false;
     public bool hasBeenSeen = false;
+    public bool hasDoneDamageFlash = false;
 
-    public event Action<int, int> onSetPosition;
+    public event Action<int, int, int, int> onMove;
+    public event Action<int, int, int, int> onSetPosition;
+    public event Action<DungeonObject> onPickedUpObject;
+    public event Action<DungeonObject> onCollision;
     public Tile tile;
 
     virtual protected void Awake()
@@ -75,39 +80,25 @@ public class DungeonObject : MonoBehaviour
         if (glyphs) glyphs.SetInView(isInView);
     }
 
-    virtual public void Update ()
+    public void CollideWith(DungeonObject ob)
     {
-        //if (damageFlashProcess == null)
-        //{
-        //    if (isAlwaysLit)
-        //    {
-        //        for (int i = 0; i < glyphs.Length; i++)
-        //        {
-        //            glyphs[i].color = originalGlyphColors[i];
-        //        }
-        //    }
-        //    else
-        //    {
-        //        for (int i = 0; i < glyphs.Length; i++)
-        //        {
-        //            if (!map.tileObjects[y][x].isInView) glyphs[i].color = originalGlyphColors[i] / 2;
-        //            else glyphs[i].color = originalGlyphColors[i];
-        //        }
-        //    }
-        //}
+        if (onCollision != null) onCollision(ob);
     }
-
-    virtual public void Collide(DungeonObject ob) { }
 
     public void SteppedOn(Creature creature)
     {
         OnSteppedOn.Invoke(creature);
     }
-    
+
+    public void DamageFlash()
+    {
+        hasDoneDamageFlash = true;
+        glyphs.DamageFlash();
+    }
+
     public void TakeDamage(int v)
     {
-        glyphs.TakeDamage();
-
+        hasDoneDamageFlash = false;
         health -= v;
 
         if (health < 0) health = 0;
@@ -132,11 +123,49 @@ public class DungeonObject : MonoBehaviour
         }
     }
 
-    virtual public void SetPosition(int x, int y)
+    public void PickUpAll()
     {
-        if (onSetPosition != null) onSetPosition(x, y);
-        this.x = x;
-        this.y = y;
+        List<DungeonObject> itemsToRemoveFromTile = new List<DungeonObject>();
+        List<DungeonObject> itemsToDestroy = new List<DungeonObject>();
+        foreach (var ob in map.tileObjects[y][x].objectList)
+        {
+            if (ob.canBePickedUp)
+            {
+                if (onPickedUpObject != null) onPickedUpObject(ob);
+                itemsToRemoveFromTile.Add(ob);
+                DungeonObject existingOb;
+                bool success = inventory.items.TryGetValue(ob.objectName, out existingOb);
+                if (success)
+                {
+                    existingOb.quantity += ob.quantity;
+                    itemsToDestroy.Add(ob);
+                }
+                else
+                {
+                    inventory.items.Add(ob.objectName, ob);
+                }
+                ob.transform.position = new Vector3(-666, -666, -666);
+            }
+        }
+
+        foreach (var ob in itemsToRemoveFromTile) map.tileObjects[y][x].RemoveObject(ob);
+        foreach (var ob in itemsToDestroy) Destroy(ob);
+    }
+
+    public void Move(int newX, int newY)
+    {
+        SetPosition(newX, newY);
+        if (onMove != null) onMove(previousX, previousY, x, y);
+    }
+
+    public void SetPosition(int newX, int newY)
+    {
+        previousX = x;
+        previousY = y;
+        x = newX;
+        y = newY;
         tile = map.tileObjects[y][x];
+
+        if (onSetPosition != null) onSetPosition(previousX, previousY, x, y);
     }
 }

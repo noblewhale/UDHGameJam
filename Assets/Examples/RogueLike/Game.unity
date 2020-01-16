@@ -542,6 +542,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3c82569596ceec499eadbcabbbbb697, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  time: 0
+  timeBetweenActions: 0.1
   tickableObjects: []
 --- !u!1 &966747907
 GameObject:
@@ -669,7 +671,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ab21a5f222cd8c459167bc7480c59b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerPrefab: {fileID: 114982603892130690, guid: a4e85b07175714d4e9cd655929f3a45d,
+  playerPrefab: {fileID: 114099248689140840, guid: a4e85b07175714d4e9cd655929f3a45d,
     type: 2}
   identity: {fileID: 0}
   isControllingCamera: 0
@@ -677,6 +679,7 @@ MonoBehaviour:
   map: {fileID: 0}
   mainCamera: {fileID: 519420031}
   isInputEnabled: 1
+  playerBehaviour: {fileID: 0}
 --- !u!1 &1443934136
 GameObject:
   m_ObjectHideFlags: 0
