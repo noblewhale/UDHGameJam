@@ -28,9 +28,29 @@ public class MovementBehaviourTowardsPlayer : TickableBehaviour
         float radius = radiusIfNotUsingViewDistance;
         if (useViewDistance) radius = owningCreature.baseObject.viewDistance;
         float distanceToPlayer = Vector2.Distance(playerPos, myPos);
+        Vector2 wrappedMyPos = new Vector2(myPos.x + owner.map.width, myPos.y);
+        float wrappedDistanceToPlayer = Vector2.Distance(playerPos, wrappedMyPos);
+        wrappedMyPos = new Vector2(myPos.x - owner.map.width, myPos.y);
+        float otherWrappedDistanceToPlayer = Vector2.Distance(playerPos, wrappedMyPos);
+        distanceToPlayer = Mathf.Min(distanceToPlayer, wrappedDistanceToPlayer, otherWrappedDistanceToPlayer);
         if (distanceToPlayer < radius && distanceToPlayer > 1f)
         {
             int xDif = (int)(playerPos.x - owner.x);
+            int wrappedXDif = (int)(playerPos.x - (owner.x + owner.map.width));
+            int otherWrappedXDif = (int)(playerPos.x - (owner.x - owner.map.width));
+            if (Mathf.Abs(xDif) <= Mathf.Abs(wrappedXDif) && Mathf.Abs(xDif) <= Mathf.Abs(otherWrappedXDif))
+            {
+                //xDif = xDif;
+            }
+            else if(Mathf.Abs(wrappedXDif) <= Mathf.Abs(xDif) && Mathf.Abs(wrappedXDif) <= Mathf.Abs(otherWrappedXDif))
+            {
+                xDif = wrappedXDif;
+            }
+            else //if (Mathf.Abs(otherWrappedXDif) < Mathf.Abs(xDif) && Mathf.Abs(otherWrappedXDif) < Mathf.Abs(wrappedXDif))
+            {
+                xDif = otherWrappedXDif;
+            }
+
             int yDif = (int)(playerPos.y - owner.y);
             float r = Random.value;
 
@@ -55,6 +75,7 @@ public class MovementBehaviourTowardsPlayer : TickableBehaviour
 
             bool horizontalBlocked = false;
             int nextX = (int)(myPos.x + Mathf.Sign(xDif));
+            nextX = owner.map.WrapX(nextX);
             if (owner.map.tileObjects[owner.y][nextX].IsCollidable())
             {
                 horizontalBlocked = true;
