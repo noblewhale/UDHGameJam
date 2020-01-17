@@ -53,43 +53,32 @@ public class MovementBehaviourTowardsPlayer : TickableBehaviour
                 moveHorizontal = false;
             }
 
-            bool bothBlocked = true;
-            if (moveHorizontal)
+            bool horizontalBlocked = false;
+            int nextX = (int)(myPos.x + Mathf.Sign(xDif));
+            if (owner.map.tileObjects[owner.y][nextX].IsCollidable())
             {
-                int nextX = (int)(myPos.x + Mathf.Sign(xDif));
-                if (owner.map.tileObjects[owner.y][nextX].IsCollidable())
-                {
-                    moveHorizontal = false;
-                }
-            }
-            else
-            {
-                bothBlocked = false;
+                horizontalBlocked = true;
             }
 
-            if (!moveHorizontal)
+            if (moveHorizontal && horizontalBlocked) moveHorizontal = false;
+
+            bool verticalBlocked = false;
+            int nextY = (int)(myPos.y + Mathf.Sign(yDif));
+            if (owner.map.tileObjects[nextY][owner.x].IsCollidable())
             {
-                int nextY = (int)(myPos.y + Mathf.Sign(yDif));
-                if (owner.map.tileObjects[nextY][owner.x].IsCollidable())
-                {
-                    moveHorizontal = true;
-                }
-            }
-            else
-            {
-                bothBlocked = false;
+                verticalBlocked = true;
             }
 
-            if (!bothBlocked)
+            if (!moveHorizontal && verticalBlocked) moveHorizontal = true;
+
+            if (!(horizontalBlocked && verticalBlocked))
             {
                 if (moveHorizontal)
                 {
-                    int nextX = (int)(myPos.x + Mathf.Sign(xDif));
                     nextMoveTarget = owner.map.tileObjects[owner.y][nextX];
                 }
                 else
                 {
-                    int nextY = (int)(myPos.y + Mathf.Sign(yDif));
                     nextMoveTarget = owner.map.tileObjects[nextY][owner.x];
                 }
 
