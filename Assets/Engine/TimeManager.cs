@@ -136,17 +136,17 @@ public class TimeManager : MonoBehaviour
                     }
                 }
 
-                for (int ri = tickableObjects.Count - 1; ri >= 0; ri--)
-                {
-                    var ob = tickableObjects[ri];
-                    if (ob.markedForRemoval)
-                    {
-                        tickableObjects.RemoveAt(ri);
-                    }
-                }
-
                 if (tickableIndex == -1)
                 {
+                    for (int ri = tickableObjects.Count - 1; ri >= 0; ri--)
+                    {
+                        var ob = tickableObjects[ri];
+                        if (ob.markedForRemoval)
+                        {
+                            tickableObjects.RemoveAt(ri);
+                        }
+                    }
+
                     time++;
                     tickableIndex = tickableObjects.Count - 1;
                 }

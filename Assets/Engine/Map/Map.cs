@@ -269,7 +269,7 @@ public class Map : MonoBehaviour
         tileObjects[tileY][tileX].SetInView(true);
         Vector2 center = new Vector2(tileX + .5f, tileY + .5f);
         int numRays = 360;
-        float stepSize = .33f;
+        float stepSize = Mathf.Min(tileWidth, tileHeight) * .9f;
         for (int r = 0; r < numRays; r++)
         {
             float dirX = Mathf.Sin(2 * Mathf.PI * r / numRays);
