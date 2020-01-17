@@ -10,6 +10,7 @@ public class Level1 : BiomeType
     public BiomeDropRate[] floors;
     public BiomeDropRate[] walls;
     public BiomeDropRate[] doors;
+    public DungeonObject finalDoorPrefab;
 
     List<Tile> wallTiles = new List<Tile>();
 
@@ -30,6 +31,36 @@ public class Level1 : BiomeType
         GenerateRooms(map, area, 30);
         ConnectRooms(map);
         UpdateTiles(map, area);
+        SpawnFinalDoor(map, area);
+    }
+
+    public void SpawnFinalDoor(Map map, RectInt area)
+    {
+        var spawnArea = new RectInt();
+        spawnArea.xMin = 0;
+        spawnArea.xMax = area.xMax;
+        spawnArea.yMin = area.yMax - 1;
+        spawnArea.yMax = area.yMax;
+        var wallTiles = map.GetTilesOfType("Wall", spawnArea);
+        for (int i = wallTiles.Count - 1; i >= 0; i--)
+        {
+            var tile = wallTiles[i];
+            var adjacentTile = Map.instance.tileObjects[tile.y - 1][tile.x];
+
+            if (!adjacentTile.ContainsObjectOfType("Floor") || adjacentTile.ContainsObjectOfType("Wall"))
+            {
+                wallTiles.RemoveAt(i);
+            }
+        }
+        int r = Random.Range(0, wallTiles.Count);
+        var tileToSpawnDoorOn = wallTiles[r];
+        for (var node = tileToSpawnDoorOn.objectList.First; node != null;)
+        {
+            var next = node.Next;
+            if (node.Value.objectName == "Wall") tileToSpawnDoorOn.RemoveObject(node.Value, true);
+            node = next;
+        }
+        tileToSpawnDoorOn.SpawnAndAddObject(finalDoorPrefab);
     }
 
     public void UpdateTiles(Map map, RectInt area)

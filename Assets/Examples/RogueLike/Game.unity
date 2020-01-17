@@ -517,7 +517,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 5de26ad9564e9ea4cbb0193b97ab7dd3, type: 2}
   - {fileID: 11400000, guid: ffc53738e5eacc84a89fa4c8d9683115, type: 2}
   - {fileID: 11400000, guid: c5f22687274f57c48a389e16806785b4, type: 2}
-  - {fileID: 11400000, guid: b10d45ad6978e3747b2ad9286a9d7cc2, type: 2}
   tilesThatAllowSpawn: []
   width: 31
   height: 44

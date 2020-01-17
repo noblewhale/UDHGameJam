@@ -24,7 +24,7 @@ public class Tile : MonoBehaviour
         this.y = y;
         map.tilesThatAllowSpawn.Add(this);
 
-        SetInView(false);
+        SetInView(true);
     }
 
     public bool ContainsObjectOfType(DungeonObject needle)
@@ -32,6 +32,36 @@ public class Tile : MonoBehaviour
         foreach (var hay in objectList)
         {
             if (needle.objectName == hay.objectName) return true;
+        }
+
+        return false;
+    }
+
+    public bool ContainsObjectOfType(DungeonObject[] needles)
+    {
+        foreach (var hay in objectList)
+        {
+            foreach (var needle in needles) if (needle.objectName == hay.objectName) return true;
+        }
+
+        return false;
+    }
+
+    public bool ContainsObjectOfType(string needle)
+    {
+        foreach (var hay in objectList)
+        {
+            if (needle == hay.objectName) return true;
+        }
+
+        return false;
+    }
+
+    public bool ContainsObjectOfType(string[] needles)
+    {
+        foreach (var hay in objectList)
+        {
+            foreach (var needle in needles) if (needle == hay.objectName) return true;
         }
 
         return false;

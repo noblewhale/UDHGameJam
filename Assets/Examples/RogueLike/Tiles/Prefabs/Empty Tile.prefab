@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4809128006189728}
   - component: {fileID: 114396989050233776}
   m_Layer: 0
-  m_Name: Nothing
+  m_Name: Empty Tile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -68,13 +68,13 @@ MonoBehaviour:
   canBePickedUp: 0
   isAlwaysLit: 0
   canTakeDamage: 0
-  isVisibleWhenNotInSight: 0
+  isVisibleWhenNotInSight: 1
   isWeilded: 0
   health: 1
   isCollidable: 0
   blocksLineOfSight: 0
-  coversObjectsBeneath: 0
-  preventsObjectSpawning: 0
+  coversObjectsBeneath: 1
+  preventsObjectSpawning: 1
   hasBeenSeen: 0
   hasDoneDamageFlash: 0
   tile: {fileID: 0}

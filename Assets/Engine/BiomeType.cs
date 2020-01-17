@@ -4,6 +4,7 @@ using UnityEngine;
 [CreateAssetMenu]
 public class BiomeType : ScriptableObject
 {
+    public float nothingProbability = 0;
     public BiomeDropRate[] objects;
 
     public int minX, maxX;

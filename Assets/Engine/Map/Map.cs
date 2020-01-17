@@ -43,8 +43,11 @@ public class Map : MonoBehaviour
 
     public int dungeonLevel = 1;
 
+    public static Map instance;
+
 	void Start ()
     {
+        instance = this;
         Camera.main.orthographicSize = (width * tileWidth / Camera.main.aspect) / 2.0f;
         transform.position = new Vector3(-width * tileWidth / 2.0f, -height * tileHeight / 2.0f);
 
@@ -205,6 +208,32 @@ public class Map : MonoBehaviour
                 action(tileObjects[y][x]);
             }
         }
+    }
+
+    public void ForEachTile(RectInt area, Action<Tile> action)
+    {
+        for (int y = area.yMax - 1; y >= area.yMin; y--)
+        {
+            for (int x = area.xMax - 1; x >= area.xMin; x--)
+            {
+                var tile = tileObjects[y][x];
+                action(tile);
+            }
+        }
+    }
+
+    public List<Tile> GetTilesOfType(string type, RectInt area)
+    {
+        var tiles = new List<Tile>();
+
+        ForEachTile(area, (tile) => {
+            if (tile.ContainsObjectOfType(type))
+            {
+                tiles.Add(tile);
+            }
+        });
+
+        return tiles;
     }
 
     public void TryMoveObject(DungeonObject ob, int newX, int newY)

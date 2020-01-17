@@ -35,74 +35,89 @@ public class Biome
         // TODO: Respect min and max and shit
         return selectedObject;
     }
+    struct BiomeRate
+    {
+        public Biome biome;
+        public BiomeDropRate dropRate;
+
+        public BiomeRate(Biome biome, BiomeDropRate rate)
+        {
+            this.biome = biome;
+            this.dropRate = rate;
+        }
+    }
 
     public static void SpawnRandomObject(Tile tile)
     {
         int numStacksAlreadyPlaced = 0;
         var containingBiomes = tile.map.biomes.Where(b => b.area.Contains(new Vector2Int(tile.x, tile.y)));
         float totalProbability = 0;
+    
+        List<BiomeRate> viableDrops = new List<BiomeRate>();
         foreach (var biome in containingBiomes)
         {
+            totalProbability += biome.biomeType.nothingProbability;
+            if (biome.biomeType.nothingProbability != 0)
+            {
+                var biomeRate = new BiomeRate(biome, null);
+                viableDrops.Add(biomeRate);
+            }
             foreach (var dropRate in biome.biomeType.objects)
             {
                 if (dropRate.requireSpawnable && !tile.AllowsSpawn()) continue;
                 if (dropRate.onlySpawnOn != null && dropRate.onlySpawnOn.Length != 0)
                 {
-                    bool foundRequiredObject = false;
-                    foreach (var ob in dropRate.onlySpawnOn)
+                    if (!tile.ContainsObjectOfType(dropRate.onlySpawnOn))
                     {
-                        if (tile.ContainsObjectOfType(ob))
-                        {
-                            foundRequiredObject = true;
-                            break;
-                        }
+                        continue;
                     }
-                    if (!foundRequiredObject) continue;
+                }
+                if (dropRate.dontSpawnOn != null && dropRate.dontSpawnOn.Length != 0)
+                {
+                    if (tile.ContainsObjectOfType(dropRate.dontSpawnOn))
+                    {
+                        continue;
+                    }
                 }
                 numStacksAlreadyPlaced = 0;
                 biome.stacksSpawned.TryGetValue(dropRate.item, out numStacksAlreadyPlaced);
                 if (numStacksAlreadyPlaced < dropRate.maxQuantityPerBiome || dropRate.maxQuantityPerBiome == -1)
                 {
+                    var biomeRate = new BiomeRate(biome, dropRate);
+                    viableDrops.Add(biomeRate);
                     totalProbability += dropRate.probability;
                 }
             }
         }
 
-        float r = Random.value;
+        float r = Random.Range(0, totalProbability);
 
         DropRate typeOfObjectToSpawn = null;
 
         float currentProbability = 0;
         float previousProbability = 0;
-        foreach (var biome in containingBiomes)
+        foreach (var biomeRate in viableDrops)
         {
-            foreach (var dropRate in biome.biomeType.objects)
+            Biome biome = biomeRate.biome;
+            BiomeDropRate dropRate = biomeRate.dropRate;
+            if (dropRate == null)
             {
-                if (dropRate.requireSpawnable && !tile.AllowsSpawn()) continue;
-                if (dropRate.onlySpawnOn != null && dropRate.onlySpawnOn.Length != 0)
-                {
-                    bool foundRequiredObject = false;
-                    foreach (var ob in dropRate.onlySpawnOn)
-                    {
-                        if (tile.ContainsObjectOfType(ob))
-                        {
-                            foundRequiredObject = true;
-                            break;
-                        }
-                    }
-                    if (!foundRequiredObject) continue;
-                }
-                numStacksAlreadyPlaced = 0;
-                biome.stacksSpawned.TryGetValue(dropRate.item, out numStacksAlreadyPlaced);
-                if (numStacksAlreadyPlaced >= dropRate.maxQuantityPerBiome && dropRate.maxQuantityPerBiome != -1)
-                {
-                    continue;
-                }
-
+                previousProbability = currentProbability;
+                currentProbability += biome.biomeType.nothingProbability;
+            }
+            else
+            {
                 previousProbability = currentProbability;
                 currentProbability += dropRate.probability;
-
-                if (r >= previousProbability && r < currentProbability)
+            }
+            if (r >= previousProbability && r < currentProbability)
+            {
+                if (dropRate == null)
+                {
+                    // Spawn nothing
+                    break;
+                }
+                else
                 {
                     bool anyStacksPlaced = biome.stacksSpawned.TryGetValue(dropRate.item, out numStacksAlreadyPlaced);
                     if (anyStacksPlaced)
@@ -117,8 +132,6 @@ public class Biome
                     typeOfObjectToSpawn = dropRate;
                     break;
                 }
-
-                if (typeOfObjectToSpawn != null) break;
             }
         }
 

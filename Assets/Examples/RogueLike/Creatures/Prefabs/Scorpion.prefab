@@ -25,7 +25,6 @@ GameObject:
   - component: {fileID: 114822529988612696}
   - component: {fileID: 114129307105589948}
   - component: {fileID: 114178137825594656}
-  - component: {fileID: 114845461657315264}
   m_Layer: 0
   m_Name: Scorpion
   m_TagString: Untagged
@@ -273,17 +272,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 833be36acda985c40b8919bf0b143819, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &114845461657315264
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1079141470586608}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ea2b289583a01d24c8a6248c5bd6a45d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &114927599635230080

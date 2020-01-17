@@ -11,17 +11,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3848611950e7400448af5dbad1208277, type: 3}
   m_Name: Level 1 Creatures
   m_EditorClassIdentifier: 
+  nothingProbability: 0.94
   objects:
   - item: {fileID: 114716973033915568, guid: 8ebb711e68c91c54c9665e17889dffd9, type: 2}
     minQuantity: 1
     maxQuantity: 1
     probability: 0.01
+    replaceObjects: 0
+    onlySpawnOn: []
+    dontSpawnOn: []
+    requireSpawnable: 1
     minQuantityPerBiome: -1
     maxQuantityPerBiome: -1
   - item: {fileID: 114211803322470130, guid: f02a2f726c804044db74160be50cd6bd, type: 2}
     minQuantity: 1
     maxQuantity: 1
     probability: 0.05
+    replaceObjects: 0
+    onlySpawnOn: []
+    dontSpawnOn: []
+    requireSpawnable: 1
     minQuantityPerBiome: -1
     maxQuantityPerBiome: -1
   minX: 0

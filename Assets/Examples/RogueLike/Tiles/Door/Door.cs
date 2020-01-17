@@ -72,7 +72,7 @@ public class Door : DungeonObject
 
         if (isLocked)
         {
-            if (ob.GetType() == typeof(Creature) || ob.GetType().IsSubclassOf(typeof(Creature)))
+            if (ob.GetComponent<Creature>())
             {
                 DungeonObject key;
                 bool hasKey = ob.inventory.items.TryGetValue("Key", out key);

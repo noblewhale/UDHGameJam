@@ -8,8 +8,7 @@ public class DropRate
     public int maxQuantity;
     public float probability;
 
-    public bool replaceObjects = false;
-    public DungeonObject[] onlySpawnOn;
-    public DungeonObject[] dontSpawnOn;
+    public string[] onlySpawnOn;
+    public string[] dontSpawnOn;
     public bool requireSpawnable = true;
 }
