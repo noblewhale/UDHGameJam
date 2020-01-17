@@ -18,6 +18,7 @@ public class Tickable : MonoBehaviour
     {
         behaviours = GetComponents<TickableBehaviour>().ToList();
         owner = GetComponent<DungeonObject>();
+        owner.onDeath += OnDeath;
     }
 
     void Start()
@@ -27,9 +28,14 @@ public class Tickable : MonoBehaviour
 
 	void OnDestroy()
 	{
+        owner.onDeath -= OnDeath;
         markedForRemoval = true;
-		//TimeManager.instance.tickableObjects.Remove(this);
 	}
+
+    void OnDeath()
+    {
+        markedForRemoval = true;
+    }
 
     public T AddBehaviour<T>() where T : TickableBehaviour
     {

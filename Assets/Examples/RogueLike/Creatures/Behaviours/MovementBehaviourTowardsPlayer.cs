@@ -38,15 +38,12 @@ public class MovementBehaviourTowardsPlayer : TickableBehaviour
             int xDif = (int)(playerPos.x - owner.x);
             int wrappedXDif = (int)(playerPos.x - (owner.x + owner.map.width));
             int otherWrappedXDif = (int)(playerPos.x - (owner.x - owner.map.width));
-            if (Mathf.Abs(xDif) <= Mathf.Abs(wrappedXDif) && Mathf.Abs(xDif) <= Mathf.Abs(otherWrappedXDif))
-            {
-                //xDif = xDif;
-            }
-            else if(Mathf.Abs(wrappedXDif) <= Mathf.Abs(xDif) && Mathf.Abs(wrappedXDif) <= Mathf.Abs(otherWrappedXDif))
+            
+            if(Mathf.Abs(wrappedXDif) <= Mathf.Abs(xDif) && Mathf.Abs(wrappedXDif) <= Mathf.Abs(otherWrappedXDif))
             {
                 xDif = wrappedXDif;
             }
-            else //if (Mathf.Abs(otherWrappedXDif) < Mathf.Abs(xDif) && Mathf.Abs(otherWrappedXDif) < Mathf.Abs(wrappedXDif))
+            else if (Mathf.Abs(otherWrappedXDif) < Mathf.Abs(xDif) && Mathf.Abs(otherWrappedXDif) < Mathf.Abs(wrappedXDif))
             {
                 xDif = otherWrappedXDif;
             }

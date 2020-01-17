@@ -18,6 +18,7 @@ public class TimeManager : MonoBehaviour
     bool isWaitingBetweenActions = false;
     float startWaitBetweenActionsTime = 0;
     Tickable interruptingTickable = null;
+    bool isPlayerAction = false;
 
     void Awake()
     {
@@ -50,11 +51,12 @@ public class TimeManager : MonoBehaviour
                 {
                     if (!isInterrupted && currentAction.owner.tile.isInView)
                     {
-                        isWaitingBetweenActions = true;
+                        isWaitingBetweenActions = isPlayerAction;
                         startWaitBetweenActionsTime = Time.time;
                     }
                     currentAction.FinishAction();
                     currentAction = null;
+                    isPlayerAction = false;
                 }
             }
 
@@ -93,6 +95,7 @@ public class TimeManager : MonoBehaviour
                         {
                             if (Player.instance.hasReceivedInput)
                             {
+                                isPlayerAction = true;
                                 isInterrupted = false;
                                 Player.instance.hasReceivedInput = false;
                                 Player.instance.isWaitingForPlayerInput = false;
@@ -105,13 +108,15 @@ public class TimeManager : MonoBehaviour
                             }
                         }
                         bool finishImmediately = ob.StartNewAction();
-                        if (finishImmediately || !ob.owner.tile.isInView)
+                        if (finishImmediately || !ob.owner.tile.isInView || isInterrupted)
                         {
                             ob.FinishAction();
                             currentAction = null;
+                            bool wasPlayerAction = isPlayerAction;
+                            isPlayerAction = false;
                             if (!isInterrupted && ob.owner.tile.isInView)
                             {
-                                isWaitingBetweenActions = true;
+                                isWaitingBetweenActions = !wasPlayerAction;
                                 startWaitBetweenActionsTime = Time.time;
                                 tickableIndex--;
                                 break;

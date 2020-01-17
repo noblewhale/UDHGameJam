@@ -49,6 +49,7 @@ public class DungeonObject : MonoBehaviour
     public event Action<int, int, int, int> onSetPosition;
     public event Action<DungeonObject> onPickedUpObject;
     public event Action<DungeonObject, bool> onCollision;
+    public event Action onDeath;
     public Tile tile;
 
     virtual protected void Awake()
@@ -110,6 +111,7 @@ public class DungeonObject : MonoBehaviour
 
     virtual public void Die()
     {
+        if (onDeath != null) onDeath();
         map.tileObjects[y][x].objectList.Remove(this);
         DropItems();
         Destroy(gameObject);
