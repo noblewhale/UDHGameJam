@@ -69,10 +69,12 @@ public class Creature : MonoBehaviour
 
     void OnMove(int oldX, int oldY, int newX, int newY)
     {
-        if (x < baseObject.x) lastDirectionAttackedOrMoved = Direction.LEFT;
-        if (x > baseObject.x) lastDirectionAttackedOrMoved = Direction.RIGHT;
-        if (y < baseObject.y) lastDirectionAttackedOrMoved = Direction.DOWN;
-        if (y > baseObject.y) lastDirectionAttackedOrMoved = Direction.UP;
+        if (newX == map.width - 1 && oldX == 0) lastDirectionAttackedOrMoved = Direction.LEFT;
+        if (newX == 0 && oldX == map.width - 1) lastDirectionAttackedOrMoved = Direction.RIGHT;
+        if (oldX > newX) lastDirectionAttackedOrMoved = Direction.LEFT;
+        if (oldX < newX) lastDirectionAttackedOrMoved = Direction.RIGHT;
+        if (oldY > newY) lastDirectionAttackedOrMoved = Direction.DOWN;
+        if (oldY < newY) lastDirectionAttackedOrMoved = Direction.UP;
 
         baseObject.PickUpAll();
         tickable.nextActionTime = TimeManager.instance.time + (ulong)ticksPerMove;

@@ -25,6 +25,7 @@ GameObject:
   - component: {fileID: 114822529988612696}
   - component: {fileID: 114129307105589948}
   - component: {fileID: 114178137825594656}
+  - component: {fileID: 114845461657315264}
   m_Layer: 0
   m_Name: Scorpion
   m_TagString: Untagged
@@ -118,8 +119,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nextActionTime: 0
-  movementBehaviour: {fileID: 0}
-  attackBehaviour: {fileID: 0}
+  behaviours: []
+  owner: {fileID: 0}
+  markedForRemoval: 0
 --- !u!114 &114129307105589948
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -149,6 +151,10 @@ MonoBehaviour:
     minQuantity: 4
     maxQuantity: 6
     probability: 0.8
+    replaceObjects: 0
+    onlySpawnOn: []
+    dontSpawnOn: []
+    requireSpawnable: 1
 --- !u!114 &114211803322470130
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -161,6 +167,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectName: Scorpion
+  viewDistance: 4
   OnSteppedOn:
     m_PersistentCalls:
       m_Calls: []
@@ -170,6 +177,8 @@ MonoBehaviour:
   map: {fileID: 0}
   x: 0
   y: 0
+  previousX: 0
+  previousY: 0
   quantity: 1
   canBePickedUp: 0
   isAlwaysLit: 0
@@ -182,6 +191,7 @@ MonoBehaviour:
   coversObjectsBeneath: 0
   preventsObjectSpawning: 1
   hasBeenSeen: 0
+  hasDoneDamageFlash: 0
   tile: {fileID: 0}
 --- !u!114 &114238227866493274
 MonoBehaviour:
@@ -238,7 +248,6 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   lastDirectionAttackedOrMoved: 0
-  viewDistance: 4
   leftHandObject: {fileID: 0}
   rightHandObject: {fileID: 0}
   baseObject: {fileID: 0}
@@ -264,6 +273,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 833be36acda985c40b8919bf0b143819, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114845461657315264
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1079141470586608}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea2b289583a01d24c8a6248c5bd6a45d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &114927599635230080
