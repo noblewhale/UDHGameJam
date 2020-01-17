@@ -21,7 +21,7 @@ public class Level1 : BiomeType
 
     public TileType[][] tiles;
 
-    override public void PreProcessMap(Map map, RectInt area)
+    override public void PreProcessMap(Map map, RectIntExclusive area)
     {
         tiles = new TileType[map.height][];
         for (int y = 0; y < map.height; y++) tiles[y] = new TileType[map.width];
@@ -34,9 +34,9 @@ public class Level1 : BiomeType
         SpawnFinalDoor(map, area);
     }
 
-    public void SpawnFinalDoor(Map map, RectInt area)
+    public void SpawnFinalDoor(Map map, RectIntExclusive area)
     {
-        var spawnArea = new RectInt();
+        var spawnArea = new RectIntExclusive();
         spawnArea.xMin = 0;
         spawnArea.xMax = area.xMax;
         spawnArea.yMin = area.yMax - 1;
@@ -63,11 +63,11 @@ public class Level1 : BiomeType
         tileToSpawnDoorOn.SpawnAndAddObject(finalDoorPrefab);
     }
 
-    public void UpdateTiles(Map map, RectInt area)
+    public void UpdateTiles(Map map, RectIntExclusive area)
     {
-        for (int y = area.yMin; y < area.yMax; y++)
+        for (int y = area.yMin; y <= area.yMax; y++)
         {
-            for (int x = area.xMin; x < area.xMax; x++)
+            for (int x = area.xMin; x <= area.xMax; x++)
             {
                 AddTileObjects(map, x, y);
             }
@@ -79,18 +79,18 @@ public class Level1 : BiomeType
         //map.tileObjects[y][x].DestroyAllObjects();
         if (tiles[y][x] == TileType.NOTHING)
         {
-            DungeonObject ob = GetRandomBaseTile(x, y, TileType.NOTHING);
+            DungeonObject ob = GetRandomBaseTile(TileType.NOTHING);
             map.tileObjects[y][x].SpawnAndAddObject(ob);
         }
         else
         { 
             // Pick a floor tile based on spawn rates
-            DungeonObject ob = GetRandomBaseTile(x, y, TileType.FLOOR);
+            DungeonObject ob = GetRandomBaseTile(TileType.FLOOR);
             map.tileObjects[y][x].SpawnAndAddObject(ob);
             if (tiles[y][x] != TileType.FLOOR)
             {
                 var type = tiles[y][x];
-                ob = GetRandomBaseTile(x, y, type);
+                ob = GetRandomBaseTile(type);
                 map.tileObjects[y][x].SpawnAndAddObject(ob);
             }
         }
@@ -110,28 +110,14 @@ public class Level1 : BiomeType
         }
     }
 
-    public List<BiomeDropRate> GetSpawnRatesForBaseType(int x, int y, TileType baseType)
-    {
-        var possibleObs = new List<BiomeDropRate>();
-        BiomeDropRate[] tileTypes = GetSpawnRatesForBaseType(baseType);
-
-        // If no drop rates for this tile type then move on to the next biome
-        if (tileTypes == null || tileTypes.Length == 0) return null;
-
-        // Add to our list of possible tiles
-        possibleObs.AddRange(tileTypes);
-
-        return possibleObs;
-    }
-
-    public DungeonObject GetRandomBaseTile(int x, int y, TileType baseType)
+    public DungeonObject GetRandomBaseTile(TileType baseType)
     {
         // Gather all possible floor tiles from each biome at this location
-        var possibleObs = GetSpawnRatesForBaseType(x, y, baseType);
+        var possibleObs = GetSpawnRatesForBaseType(baseType);
         return Biome.SelectRandomObject(possibleObs);
     }
 
-    void GenerateRooms(Map map, RectInt area, int numRooms)
+    void GenerateRooms(Map map, RectIntExclusive area, int numRooms)
     {
         for (int n = 0; n < numRooms; n++)
         {

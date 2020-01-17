@@ -100,29 +100,8 @@ public class Map : MonoBehaviour
     {
         foreach (var biome in biomes)
         {
-            Vector2 lowerLeft = new Vector2(biome.area.xMin, biome.area.yMin);
-            Vector2 lowerRight = new Vector2(biome.area.xMax, biome.area.yMin);
-            Vector2 upperLeft = new Vector2(biome.area.xMin, biome.area.yMax);
-            Vector2 upperRight = new Vector2(biome.area.xMax, biome.area.yMax);
-
-            lowerLeft.x *= tileWidth;
-            lowerLeft.y *= tileHeight;
-            lowerRight.x *= tileWidth;
-            lowerRight.y *= tileHeight;
-            upperLeft.x *= tileWidth;
-            upperLeft.y *= tileHeight;
-            upperRight.x *= tileWidth;
-            upperRight.y *= tileHeight;
-
-            lowerLeft += (Vector2)transform.position;
-            lowerRight += (Vector2)transform.position;
-            upperLeft += (Vector2)transform.position;
-            upperRight += (Vector2)transform.position;
-
-            Debug.DrawLine(lowerLeft, lowerRight, Color.blue);
-            Debug.DrawLine(lowerRight, upperRight, Color.blue);
-            Debug.DrawLine(upperRight, upperLeft, Color.blue);
-            Debug.DrawLine(upperLeft, lowerLeft, Color.blue);
+            biome.DrawDebug(this);
+            EditorUtil.DrawRect(this, biome.area, Color.blue);
         }
     }
 
@@ -144,11 +123,11 @@ public class Map : MonoBehaviour
             if (biomeType.minY == -1) biomeType.minY = height - 1;
             if (biomeType.maxY == -1) biomeType.maxY = height - 1;
 
-            int biomeWidth = Random.Range(biomeType.minWidth, biomeType.maxWidth);
-            int biomeHeight = Random.Range(biomeType.minHeight, biomeType.maxHeight);
-            int biomeX = Random.Range(biomeType.minX, biomeType.maxX - biomeWidth);
-            int biomeY = Random.Range(biomeType.minY, biomeType.maxY - biomeHeight);
-            biome.area = new RectInt(biomeX, biomeY, biomeWidth, biomeHeight);
+            int biomeWidth = Random.Range(biomeType.minWidth, biomeType.maxWidth + 1);
+            int biomeHeight = Random.Range(biomeType.minHeight, biomeType.maxHeight + 1);
+            int biomeX = Random.Range(biomeType.minX, biomeType.maxX - biomeWidth + 1);
+            int biomeY = Random.Range(biomeType.minY, biomeType.maxY - biomeHeight + 1);
+            biome.area = new RectIntExclusive(biomeX, biomeY, biomeWidth, biomeHeight);
             biomes.Add(biome);
         }
     }
@@ -210,11 +189,11 @@ public class Map : MonoBehaviour
         }
     }
 
-    public void ForEachTile(RectInt area, Action<Tile> action)
+    public void ForEachTile(RectIntExclusive area, Action<Tile> action)
     {
-        for (int y = area.yMax - 1; y >= area.yMin; y--)
+        for (int y = area.yMax; y >= area.yMin; y--)
         {
-            for (int x = area.xMax - 1; x >= area.xMin; x--)
+            for (int x = area.xMax; x >= area.xMin; x--)
             {
                 var tile = tileObjects[y][x];
                 action(tile);
@@ -222,7 +201,7 @@ public class Map : MonoBehaviour
         }
     }
 
-    public List<Tile> GetTilesOfType(string type, RectInt area)
+    public List<Tile> GetTilesOfType(string type, RectIntExclusive area)
     {
         var tiles = new List<Tile>();
 
@@ -294,7 +273,7 @@ public class Map : MonoBehaviour
         }
     }
 
-    public void ForEachTileThatAllowsSpawn(Action<Tile> doThis, RectInt area)
+    public void ForEachTileThatAllowsSpawn(Action<Tile> doThis, RectIntExclusive area)
     {
         // If the area is larger than the total number of floor tiles it is more efficient to use the precomputed list
         if (area.width * area.height > tilesThatAllowSpawn.Count)
@@ -302,9 +281,9 @@ public class Map : MonoBehaviour
             ForEachTileThatAllowsSpawn(doThis);
             return;
         }
-        for (int y = area.yMax-1; y >= area.yMin; y--)
+        for (int y = area.yMax; y >= area.yMin; y--)
         {
-            for (int x = area.xMax-1; x >= area.xMin; x--)
+            for (int x = area.xMax; x >= area.xMin; x--)
             {
                 var tile = tileObjects[y][x];
                 if (tile.AllowsSpawn())

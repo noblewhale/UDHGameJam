@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 
 [CreateAssetMenu]
@@ -12,7 +13,12 @@ public class BiomeType : ScriptableObject
     public int minWidth, maxWidth;
     public int minHeight, maxHeight;
 
-    virtual public void PreProcessMap(Map map, RectInt area)
+    virtual public void PreProcessMap(Map map, RectIntExclusive area)
     {
+    }
+
+    virtual public void DrawDebug(Map map, RectIntExclusive area)
+    {
+        EditorUtil.DrawRect(map, area, Color.blue);
     }
 }

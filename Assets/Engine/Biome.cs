@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -6,16 +7,16 @@ public class Biome
 {
 
     public BiomeType biomeType;
-    public RectInt area;
+    public RectIntExclusive area;
 
     Dictionary<DungeonObject, int> stacksSpawned = new Dictionary<DungeonObject, int>();
 
-    public static DungeonObject SelectRandomObject(List<BiomeDropRate> rates)
+    public static DungeonObject SelectRandomObject(BiomeDropRate[] rates)
     {
         // Get the total of all probabilities
         float totalProbability = rates.Sum(pob => pob.probability);
         // Generate a random number within the probability range
-        float aRandomNumber = Random.Range(0, totalProbability);
+        float aRandomNumber = UnityEngine.Random.Range(0, totalProbability);
 
         // Randomly select an object such that objects with a higher probability are more likely to be selected
         float currentProbability = 0;
@@ -90,7 +91,7 @@ public class Biome
             }
         }
 
-        float r = Random.Range(0, totalProbability);
+        float r = UnityEngine.Random.Range(0, totalProbability);
 
         DropRate typeOfObjectToSpawn = null;
 
@@ -137,8 +138,13 @@ public class Biome
 
         if (typeOfObjectToSpawn != null)
         {
-            int quantity = Random.Range(typeOfObjectToSpawn.minQuantity, typeOfObjectToSpawn.maxQuantity + 1);
+            int quantity = UnityEngine.Random.Range(typeOfObjectToSpawn.minQuantity, typeOfObjectToSpawn.maxQuantity + 1);
             tile.SpawnAndAddObject(typeOfObjectToSpawn.item, quantity);
         }
+    }
+
+    internal void DrawDebug(Map map)
+    {
+        biomeType.DrawDebug(map, area);
     }
 }
