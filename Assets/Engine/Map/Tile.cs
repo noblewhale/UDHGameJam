@@ -141,13 +141,17 @@ public class Tile : MonoBehaviour
         {
             map.tilesThatAllowSpawn.Remove(this);
         }
-        SetInView(isInView);
+        //SetInView(isInView);
     }
 
     public void RemoveObject(DungeonObject ob, bool destroyObject = false)
     {
         ob.transform.parent = null;
         objectList.Remove(ob);
+        if (destroyObject)
+        {
+            Destroy(ob.gameObject);
+        }
 
         if (AllowsSpawn())
         {
@@ -157,6 +161,20 @@ public class Tile : MonoBehaviour
             }
         }
         SetInView(isInView);
+    }
+
+    public void RemoveAllObjects()
+    {
+        foreach (var dOb in objectList)
+        {
+            Destroy(dOb.gameObject);
+        }
+
+        objectList.Clear();
+        if (!map.tilesThatAllowSpawn.Contains(this))
+        {
+            map.tilesThatAllowSpawn.Add(this);
+        }
     }
 
     public bool IsCollidable()

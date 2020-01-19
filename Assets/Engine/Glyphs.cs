@@ -32,7 +32,7 @@ public class Glyphs : MonoBehaviour
     {
         for (int i = 0; i < glyphs.Length; i++)
         {
-            if (!isInView) glyphs[i].color = originalGlyphColors[i] / 2;
+            if (!isInView) glyphs[i].color = originalGlyphColors[i];// / 2;
             else glyphs[i].color = originalGlyphColors[i];
         }
     }

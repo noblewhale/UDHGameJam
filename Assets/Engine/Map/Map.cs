@@ -71,6 +71,12 @@ public class Map : MonoBehaviour
                 AddTile(x, y);
             }
         }
+
+        foreach (var biome in biomes)
+        {
+            Destroy(biome.biomeType);
+        }
+        biomes.Clear();
     }
     public IEnumerator RegenerateMap()
     {
@@ -89,10 +95,11 @@ public class Map : MonoBehaviour
 
     void GenerateMap()
     {
+        UnityEditor.SceneView.FocusWindowIfItsOpen(typeof(UnityEditor.SceneView));
         PlaceBiomes();
         PreProcessBiomes();
-        ForEachTile(Biome.SpawnRandomObject);
-        PostProcessMap();
+        //ForEachTile(Biome.SpawnRandomObject);
+        //PostProcessMap();
         if (OnMapLoaded != null) OnMapLoaded();
     }
 
@@ -100,8 +107,13 @@ public class Map : MonoBehaviour
     {
         foreach (var biome in biomes)
         {
-            biome.DrawDebug(this);
-            EditorUtil.DrawRect(this, biome.area, Color.blue);
+            biome.DrawDebug();
+        }
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            ClearMap();
+            GenerateMap();
         }
     }
 

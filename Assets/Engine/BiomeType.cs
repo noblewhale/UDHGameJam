@@ -17,8 +17,8 @@ public class BiomeType : ScriptableObject
     {
     }
 
-    virtual public void DrawDebug(Map map, RectIntExclusive area)
+    virtual public void DrawDebug(RectIntExclusive area)
     {
-        EditorUtil.DrawRect(map, area, Color.blue);
+        //EditorUtil.DrawRect(map, area, Color.blue);
     }
 }

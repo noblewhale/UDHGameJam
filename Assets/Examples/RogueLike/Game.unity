@@ -513,11 +513,10 @@ MonoBehaviour:
   tilePrefab: {fileID: 114224584609318880, guid: 615271a170519e841b68e102a244428d,
     type: 2}
   biomeTypes:
-  - {fileID: 11400000, guid: 15a8ece4b361d5048bda936a0b48a345, type: 2}
+  - {fileID: 11400000, guid: 708a604b36905574e819da5ba1f76891, type: 2}
   - {fileID: 11400000, guid: 5de26ad9564e9ea4cbb0193b97ab7dd3, type: 2}
   - {fileID: 11400000, guid: ffc53738e5eacc84a89fa4c8d9683115, type: 2}
   - {fileID: 11400000, guid: c5f22687274f57c48a389e16806785b4, type: 2}
-  - {fileID: 11400000, guid: 708a604b36905574e819da5ba1f76891, type: 2}
   tilesThatAllowSpawn: []
   width: 31
   height: 44
@@ -922,47 +921,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!1 &1654207507
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 1654207509}
-  - component: {fileID: 1654207508}
-  m_Layer: 0
-  m_Name: DebugSprite
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!65 &1654207508
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1654207507}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!4 &1654207509
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1654207507}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1664204196
 GameObject:
   m_ObjectHideFlags: 0

@@ -143,8 +143,8 @@ public class Biome
         }
     }
 
-    internal void DrawDebug(Map map)
+    internal void DrawDebug()
     {
-        biomeType.DrawDebug(map, area);
+        biomeType.DrawDebug(area);
     }
 }

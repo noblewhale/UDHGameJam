@@ -37,7 +37,6 @@ public class Player : MonoBehaviour
 
     void Start()
     {
-        identity.onSetPosition += OnPositionChange;
     }
 
     void OnPositionChange(int oldX, int oldY, int newX, int newY)
@@ -60,6 +59,7 @@ public class Player : MonoBehaviour
                 behaviour.enabled = false;
             }
             playerBehaviour = identity.GetComponent<Tickable>().AddBehaviour<PlayerBehaviour>();
+            identity.onSetPosition += OnPositionChange;
         }
 
         Tile startTile = map.GetRandomTileThatAllowsSpawn();

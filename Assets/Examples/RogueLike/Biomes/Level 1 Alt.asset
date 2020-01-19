@@ -21,10 +21,55 @@ MonoBehaviour:
   maxWidth: -1
   minHeight: -1
   maxHeight: -1
-  nothings: []
-  floors: []
-  walls: []
-  doors: []
-  finalDoorPrefab: {fileID: 0}
-  debugObject: {fileID: 0}
-  minBSPArea: 4
+  nothings:
+  - item: {fileID: 114396989050233776, guid: 6ff31623a9d415f4a8e85daae402c56b, type: 2}
+    minQuantity: 1
+    maxQuantity: 1
+    probability: 1
+    onlySpawnOn: []
+    dontSpawnOn: []
+    requireSpawnable: 1
+    minQuantityPerBiome: -1
+    maxQuantityPerBiome: -1
+  floors:
+  - item: {fileID: 114396989050233776, guid: fc61b768638409649819ee72bd27740c, type: 2}
+    minQuantity: 1
+    maxQuantity: 1
+    probability: 1
+    onlySpawnOn: []
+    dontSpawnOn: []
+    requireSpawnable: 1
+    minQuantityPerBiome: -1
+    maxQuantityPerBiome: -1
+  - item: {fileID: 114396989050233776, guid: c69b6a8f4055a1e498fa30a4dcf35d06, type: 2}
+    minQuantity: 1
+    maxQuantity: 1
+    probability: 4
+    onlySpawnOn: []
+    dontSpawnOn: []
+    requireSpawnable: 1
+    minQuantityPerBiome: -1
+    maxQuantityPerBiome: -1
+  walls:
+  - item: {fileID: 114024561291017924, guid: 1268d14737f164f4494906c493e7fef9, type: 2}
+    minQuantity: 1
+    maxQuantity: 1
+    probability: 1
+    onlySpawnOn: []
+    dontSpawnOn: []
+    requireSpawnable: 1
+    minQuantityPerBiome: -1
+    maxQuantityPerBiome: -1
+  doors:
+  - item: {fileID: 114959046356625430, guid: 869404b52a249a74d9c2da34da750f88, type: 2}
+    minQuantity: 1
+    maxQuantity: 1
+    probability: 1
+    onlySpawnOn: []
+    dontSpawnOn: []
+    requireSpawnable: 1
+    minQuantityPerBiome: -1
+    maxQuantityPerBiome: -1
+  finalDoorPrefab: {fileID: 114959046356625430, guid: da93865118f707546915fc59ef79a133,
+    type: 2}
+  minBSPArea: 1

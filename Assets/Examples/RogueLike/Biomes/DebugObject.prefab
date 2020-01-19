@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4389250659911484}
   - component: {fileID: 65889513847694322}
   m_Layer: 0
-  m_Name: DebugSprite
+  m_Name: DebugObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

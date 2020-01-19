@@ -9,6 +9,8 @@ public class InventoryGUI : MonoBehaviour
 
     public void Update()
     {
+        if (!Player.instance.identity) return;
+
         DungeonObject playerOb = Player.instance.identity;
         foreach (var item in playerOb.inventory.items)
         {

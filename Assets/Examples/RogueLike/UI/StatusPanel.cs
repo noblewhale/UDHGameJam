@@ -28,7 +28,9 @@ public class StatusPanel : MonoBehaviour
 	
 	void Update ()
     {
-        if (player.identity && player.identity.health != oldHealth)
+        if (!player.identity) return;
+
+        if (player.identity.health != oldHealth)
         {
             health.text = player.identity.health.ToString();
             if (highlightHealthProcess != null) StopCoroutine(highlightHealthProcess);
