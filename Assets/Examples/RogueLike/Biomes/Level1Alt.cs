@@ -90,10 +90,11 @@ public class Level1Alt : BiomeType
     {
         var map = Map.instance;
         if (parent == null) return;
-        EditorUtil.DrawRect(map, parent.area, Color.green);
+        EditorUtil.DrawRect(map, parent.area, Color.blue);
         if (parent.left == null && parent.right == null && !parent.room.IsZero())
         {
-            EditorUtil.DrawRect(map, parent.room, Color.red);
+            
+            EditorUtil.DrawRect(map, parent.room, Color.red, new Vector2(.35f, .35f));
         }
         DrawArea(parent.left);
         DrawArea(parent.right);
@@ -378,6 +379,14 @@ public class Level1Alt : BiomeType
             areaBMax = areaB.xMax;
         }
 
+        int fixedLess = fixedValue - 1;
+        int fixedGreater = fixedValue + 1;
+        if (isVertical)
+        {
+            fixedLess = Map.instance.WrapX(fixedLess);
+            fixedGreater = Map.instance.WrapX(fixedGreater);
+        }
+
         for (int i = areaAMax; i >= areaAMin; i--)
         {
             if (GetTile(fixedValue, i, !isVertical) == TileType.FLOOR)
@@ -403,70 +412,78 @@ public class Level1Alt : BiomeType
         {
             Debug.Log("fixed y: " + fixedValue);
         }
+        Debug.Log("areaA: " + areaA);
+        Debug.Log("areaB: " + areaB);
         Debug.Log("Start of path: " + startOfPath);
-        Debug.Log("End of path: " + startOfPath);
+        Debug.Log("End of path: " + endOfPath);
 
-        int fixedLess = fixedValue - 1;
-        int fixedGreater = fixedValue + 1;
-        if (isVertical)
-        {
-            fixedLess = Map.instance.WrapX(fixedLess);
-            fixedGreater = Map.instance.WrapX(fixedGreater);
-        }
-        Vector2Int startDoor = new Vector2Int(fixedValue, startOfPath);
-        Vector2Int endDoor = new Vector2Int(fixedValue, endOfPath);
-        bool finishedEarly = false;
+        int fromStartLength = 0;
+        int fromEndLength = 0;
         for (int i = startOfPath; i <= endOfPath; i++)
         {
-            SetTile(fixedValue, i, TileType.FLOOR, !isVertical);
+            fromStartLength++;
+            if (i > areaAMax) 
+            {
+                if (GetTile(fixedLess, i, !isVertical) == TileType.FLOOR ||
+                    GetTile(fixedGreater, i, !isVertical) == TileType.FLOOR)
+                {
+                    break;
+                }
+            }
+        }
 
-            if (GetTile(fixedLess, i, !isVertical) == TileType.FLOOR && i <= areaAMax)
+        for (int i = endOfPath; i >= startOfPath; i--)
+        {
+            fromEndLength++;
+            if (i < areaBMin)
             {
-                Debug.LogError("Would have failed here but now it won't");
+                if (GetTile(fixedLess, i, !isVertical) == TileType.FLOOR ||
+                    GetTile(fixedGreater, i, !isVertical) == TileType.FLOOR)
+                {
+                    break;
+                }
             }
-            if (GetTile(fixedLess, i, !isVertical) == TileType.FLOOR && i > areaAMax)
+        }
+
+        Vector2Int startDoor = new Vector2Int(fixedValue, startOfPath);
+        Vector2Int endDoor = new Vector2Int(fixedValue, endOfPath);
+        int start = startOfPath;
+        int end = startOfPath + (fromStartLength - 1);
+        int incr = 1;
+        bool reverse = fromEndLength < fromStartLength;
+        if (reverse)
+        {
+            start = endOfPath;
+            end = endOfPath - (fromEndLength - 1);
+            incr = -1;
+        }
+        for (int i = start; reverse ? i >= end : i <= end; i += incr)
+        {
+            if (GetTile(fixedValue, i, !isVertical) == TileType.FLOOR)
             {
-                endDoor = new Vector2Int(fixedLess, i);
-                finishedEarly = true;
-                break;
+                endDoor = new Vector2Int(fixedValue, i - incr);
             }
-            if (GetTile(fixedGreater, i, !isVertical) == TileType.FLOOR && i <= areaAMax)
+            else
             {
-                Debug.LogError("Would have failed here but now it won't");
-            }
-            if (GetTile(fixedGreater, i, !isVertical) == TileType.FLOOR && i > areaAMax)
-            {
-                endDoor = new Vector2Int(fixedGreater, i);
-                finishedEarly = true;
-                break;
+                SetTile(fixedValue, i, TileType.FLOOR, !isVertical);
+                if ((i > areaAMax && !reverse) || (i < areaBMin && reverse))
+                {
+                    if (GetTile(fixedLess, i, !isVertical) == TileType.FLOOR)
+                    {
+                        Debug.LogError("The thing happened");
+                        endDoor = new Vector2Int(fixedLess, i);
+                    }
+                    if (GetTile(fixedGreater, i, !isVertical) == TileType.FLOOR)
+                    {
+                        endDoor = new Vector2Int(fixedGreater, i);
+                        Debug.LogError("The thing happened");
+                    }
+                }
             }
         }
         if (IsDoorSpot(startDoor.x, startDoor.y, !isVertical)) SetTile(startDoor.x, startDoor.y, TileType.DOOR, !isVertical);
         if (IsDoorSpot(endDoor.x, endDoor.y, !isVertical)) SetTile(endDoor.x, endDoor.y, TileType.DOOR, !isVertical);
 
-        if (finishedEarly)
-        {
-            // Path connected to something else, go from other direction to make sure both rooms are connected to something
-            startDoor = new Vector2Int(fixedValue, endOfPath);
-            endDoor = new Vector2Int(fixedValue, startOfPath);
-            for (int i = endOfPath; i >= startOfPath; i--)
-            {
-                SetTile(fixedValue, i, TileType.FLOOR, !isVertical);
-                if (GetTile(fixedLess, i, !isVertical) == TileType.FLOOR)
-                {
-                    endDoor = new Vector2Int(fixedLess, i);
-                    break;
-                }
-                if (GetTile(fixedGreater, i, !isVertical) == TileType.FLOOR)
-                {
-                    endDoor = new Vector2Int(fixedGreater, i);
-                    break;
-                }
-            }
-            if (IsDoorSpot(startDoor.x, startDoor.y, !isVertical)) SetTile(startDoor.x, startDoor.y, TileType.DOOR, !isVertical);
-            if (IsDoorSpot(endDoor.x, endDoor.y, !isVertical)) SetTile(endDoor.x, endDoor.y, TileType.DOOR, !isVertical);
-        }
-        
         pathArea = new RectIntExclusive();
         if (isVertical)
         {
@@ -593,6 +610,10 @@ public class Level1Alt : BiomeType
                     floorTiles.Add(new Vector2Int(x, y));
                     break;
                 }
+                else if (tiles[y][x] == TileType.DOOR)
+                {
+                    break;
+                }
             }
         }
         return floorTiles;
@@ -608,6 +629,10 @@ public class Level1Alt : BiomeType
                 if (tiles[y][x] == TileType.FLOOR)
                 {
                     floorTiles.Add(new Vector2Int(x, y));
+                    break;
+                }
+                else if (tiles[y][x] == TileType.DOOR)
+                {
                     break;
                 }
             }
@@ -627,6 +652,10 @@ public class Level1Alt : BiomeType
                     floorTiles.Add(new Vector2Int(x, y));
                     break;
                 }
+                else if (tiles[y][x] == TileType.DOOR)
+                {
+                    break;
+                }
             }
         }
         return floorTiles;
@@ -642,6 +671,10 @@ public class Level1Alt : BiomeType
                 if (tiles[y][x] == TileType.FLOOR)
                 {
                     floorTiles.Add(new Vector2Int(x, y));
+                    break;
+                }
+                else if (tiles[y][x] == TileType.DOOR)
+                {
                     break;
                 }
             }

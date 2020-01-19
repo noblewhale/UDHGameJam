@@ -6,10 +6,15 @@ public static class EditorUtil
 {
     public static void DrawRect(Map map, RectIntExclusive area, Color color)
     {
-        Vector2 lowerLeft = new Vector2(area.xMin, area.yMin);
-        Vector2 lowerRight = new Vector2(area.xMax + 1, area.yMin);
-        Vector2 upperLeft = new Vector2(area.xMin, area.yMax + 1);
-        Vector2 upperRight = new Vector2(area.xMax + 1, area.yMax + 1);
+        DrawRect(map, area, color, Vector2.zero);
+    }
+
+    public static void DrawRect(Map map, RectIntExclusive area, Color color, Vector2 offset)
+    {
+        Vector2 lowerLeft = new Vector2(area.xMin + offset.x, area.yMin + offset.y);
+        Vector2 lowerRight = new Vector2(area.xMax + 1 - offset.x, area.yMin + offset.y);
+        Vector2 upperLeft = new Vector2(area.xMin + offset.x, area.yMax + 1 - offset.y);
+        Vector2 upperRight = new Vector2(area.xMax + 1 - offset.x, area.yMax + 1 - offset.y);
 
         lowerLeft.x *= map.tileWidth;
         lowerLeft.y *= map.tileHeight;
