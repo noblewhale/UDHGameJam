@@ -7,7 +7,6 @@ public class Glyphs : MonoBehaviour
     public Color damageFlashColor = Color.red;
     SpriteRenderer[] glyphs;
 	Color[] originalGlyphColors;
-    Coroutine damageFlashProcess;
     #pragma warning disable 0414
     DungeonObject owner;
     #pragma warning restore 0414
@@ -32,40 +31,33 @@ public class Glyphs : MonoBehaviour
     {
         for (int i = 0; i < glyphs.Length; i++)
         {
-            if (!isInView) glyphs[i].color = originalGlyphColors[i];// / 2;
+            if (!isInView) glyphs[i].color = originalGlyphColors[i] / 2;
             else glyphs[i].color = originalGlyphColors[i];
         }
     }
 
-    public void DamageFlash()
+    public void DamageFlash(float animationTime)
     {
-        if (glyphs.Length > 0)
+        if (animationTime < .15f)
         {
-            if (damageFlashProcess != null) StopCoroutine(damageFlashProcess);
-            damageFlashProcess = StartCoroutine(DoDamageFlash());
+            for (int i = 0; i < glyphs.Length; i++)
+            {
+                glyphs[i].color = Color.white;
+            }
         }
-    }
-
-    IEnumerator DoDamageFlash()
-    {
-        for (int i = 0; i < glyphs.Length; i++)
+        else if (animationTime < .3f)
         {
-            glyphs[i].color = Color.white;
+            for (int i = 0; i < glyphs.Length; i++)
+            {
+                glyphs[i].color = damageFlashColor;
+            }
         }
-
-        yield return new WaitForSeconds(.15f);
-
-        for (int i = 0; i < glyphs.Length; i++)
+        else
         {
-            glyphs[i].color = damageFlashColor;
+            for (int i = 0; i < glyphs.Length; i++)
+            {
+                glyphs[i].color = originalGlyphColors[i];
+            }
         }
-
-        yield return new WaitForSeconds(.15f);
-
-        for (int i = 0; i < glyphs.Length; i++)
-        {
-            glyphs[i].color = originalGlyphColors[i];
-        }
-        damageFlashProcess = null;
     }
 }

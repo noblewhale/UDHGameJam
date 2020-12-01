@@ -12,7 +12,7 @@ public class TickableBehaviour : MonoBehaviour
 	}
 
 	virtual public float GetActionConfidence() { return 0; }
-	virtual public bool StartAction() { return true; }
+	virtual public bool StartAction(out ulong duration) { duration = 1; return true; }
 	virtual public bool ContinueAction() { return true; }
 	virtual public void FinishAction() { }
 }

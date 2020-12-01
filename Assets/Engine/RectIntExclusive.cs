@@ -68,7 +68,7 @@ public struct RectIntExclusive
         yMin = y;
         _width = w;
         _height = h;
-        _xMax = xMin  + _width - 1;
+        _xMax = xMin + _width - 1;
         _yMax = yMin + _height - 1;
     }
 
@@ -78,6 +78,18 @@ public struct RectIntExclusive
         this.xMax = xMax;
         this.yMin = yMin;
         this.yMax = yMax;
+    }
+
+    public int Min(bool horizontal)
+    {
+        if (horizontal) return this.xMin;
+        else return this.yMin;
+    }
+
+    public int Max(bool horizontal)
+    {
+        if (horizontal) return this.xMax;
+        else return this.yMax;
     }
 
     public bool Contains(Vector2Int pos)

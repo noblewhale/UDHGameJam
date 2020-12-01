@@ -52,7 +52,7 @@ public class Map : MonoBehaviour
         transform.position = new Vector3(-width * tileWidth / 2.0f, -height * tileHeight / 2.0f);
 
         ClearMap();
-        GenerateMap();
+        StartCoroutine(GenerateMap());
 	}
 
     public void ClearMap()
@@ -78,6 +78,7 @@ public class Map : MonoBehaviour
         }
         biomes.Clear();
     }
+
     public IEnumerator RegenerateMap()
     {
         Player.instance.isInputEnabled = false;
@@ -89,17 +90,17 @@ public class Map : MonoBehaviour
         }
         dungeonLevel++;
         ClearMap();
-        GenerateMap();
+        yield return StartCoroutine(GenerateMap());
         Player.instance.ResetInput();
     }
 
-    void GenerateMap()
+    IEnumerator GenerateMap()
     {
-        UnityEditor.SceneView.FocusWindowIfItsOpen(typeof(UnityEditor.SceneView));
+        //UnityEditor.SceneView.FocusWindowIfItsOpen(typeof(UnityEditor.SceneView));
         PlaceBiomes();
-        PreProcessBiomes();
-        //ForEachTile(Biome.SpawnRandomObject);
-        //PostProcessMap();
+        yield return StartCoroutine(PreProcessBiomes());
+        ForEachTile(Biome.SpawnRandomObject);
+        PostProcessMap();
         if (OnMapLoaded != null) OnMapLoaded();
     }
 
@@ -113,7 +114,7 @@ public class Map : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.R))
         {
             ClearMap();
-            GenerateMap();
+            StartCoroutine(GenerateMap());
         }
     }
 
@@ -144,11 +145,11 @@ public class Map : MonoBehaviour
         }
     }
     
-    void PreProcessBiomes()
+    IEnumerator PreProcessBiomes()
     {
         foreach (var biome in biomes)
         {
-            biome.biomeType.PreProcessMap(this, biome.area);
+            yield return StartCoroutine(biome.biomeType.PreProcessMap(this, biome.area));
         }
     }
 

@@ -91,10 +91,10 @@ public class DungeonObject : MonoBehaviour
         OnSteppedOn.Invoke(creature);
     }
 
-    public void DamageFlash()
+    public void DamageFlash(float animationTime)
     {
         hasDoneDamageFlash = true;
-        glyphs.DamageFlash();
+        glyphs.DamageFlash(animationTime);
     }
 
     public void TakeDamage(int v)

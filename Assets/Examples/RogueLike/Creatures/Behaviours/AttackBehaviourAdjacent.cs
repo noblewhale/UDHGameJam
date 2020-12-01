@@ -6,8 +6,9 @@ public class AttackBehaviourAdjacent : TickableBehaviour
 {
     Creature nextAttackTarget;
     
-    public override bool StartAction()
+    public override bool StartAction(out ulong duration)
     {
+        duration = owner.GetComponent<Creature>().ticksPerAttack;
         owner.GetComponent<Creature>().StartAttack(nextAttackTarget.baseObject);
         return false;
     }

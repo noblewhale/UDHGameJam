@@ -44,8 +44,9 @@ public class Tickable : MonoBehaviour
         return behaviour;
     }
 
-    public bool StartNewAction()
+    public bool StartNewAction(out ulong actionDuration)
     {
+        actionDuration = 1;
         var confidences = behaviours.Where(x => x.enabled).Select(x => x.GetActionConfidence());
         float totalConfidence = confidences.Sum();
         float aRandomNumber = UnityEngine.Random.Range(0, totalConfidence);
@@ -59,7 +60,7 @@ public class Tickable : MonoBehaviour
             if (aRandomNumber >= previousConfidence && aRandomNumber < currentConfidence)
             {
                 currentBehaviour = behaviours[i];
-                return behaviours[i].StartAction();
+                return behaviours[i].StartAction(out actionDuration);
             }
         }
 

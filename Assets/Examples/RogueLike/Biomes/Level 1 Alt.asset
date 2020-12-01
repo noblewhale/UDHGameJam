@@ -21,6 +21,7 @@ MonoBehaviour:
   maxWidth: -1
   minHeight: -1
   maxHeight: -1
+  minBSPArea: 3
   nothings:
   - item: {fileID: 114396989050233776, guid: 6ff31623a9d415f4a8e85daae402c56b, type: 2}
     minQuantity: 1
@@ -72,4 +73,3 @@ MonoBehaviour:
     maxQuantityPerBiome: -1
   finalDoorPrefab: {fileID: 114959046356625430, guid: da93865118f707546915fc59ef79a133,
     type: 2}
-  minBSPArea: 1

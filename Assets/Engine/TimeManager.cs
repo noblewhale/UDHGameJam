@@ -107,7 +107,9 @@ public class TimeManager : MonoBehaviour
                                 break;
                             }
                         }
-                        bool finishImmediately = ob.StartNewAction();
+                        ulong actionDuration = 1;
+                        bool finishImmediately = ob.StartNewAction(out actionDuration);
+                        ob.nextActionTime = time + actionDuration;
                         if (finishImmediately || !ob.owner.tile.isInView || isInterrupted)
                         {
                             ob.FinishAction();

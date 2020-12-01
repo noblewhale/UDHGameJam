@@ -7,7 +7,10 @@ using UnityEngine;
 [CreateAssetMenu]
 public class Level1Alt : BiomeType
 {
+    // Stop partitioning at this size
     public int minBSPArea = 4;
+
+    // Delay to use when animating the level gernation process
     float animationDelay= .15f;
 
     public BiomeDropRate[] nothings;
@@ -16,7 +19,6 @@ public class Level1Alt : BiomeType
     public BiomeDropRate[] doors;
     public DungeonObject finalDoorPrefab;
 
-
     class Node
     {
         public Node left;
@@ -24,7 +26,6 @@ public class Level1Alt : BiomeType
         public Node parent;
         public RectIntExclusive area;
         public RectIntExclusive room;
-        public bool areChildrenConnected;
     }
 
     Node root;
@@ -47,28 +48,14 @@ public class Level1Alt : BiomeType
 
     public TileType[][] tiles;
 
-    override public void PreProcessMap(Map map, RectIntExclusive area)
+    override public IEnumerator PreProcessMap(Map map, RectIntExclusive area)
     {
         tiles = new TileType[map.height][];
         for (int y = 0; y < map.height; y++) tiles[y] = new TileType[map.width];
 
-        map.StartCoroutine(AsyncMapGeneration(area));
-        //GenerateRooms(root, map);
-        //AddWalls(map);
-        //PruneDoors();
-        //UpdateTiles(map, area);
-        //SpawnFinalDoor(map, area);
-    }
-
-    IEnumerator AsyncMapGeneration(RectIntExclusive area)
-    {
         yield return new WaitForSeconds(animationDelay*2);
         root = new Node();
         root.area = area;
-        root.area.yMin += 1;
-        root.area.yMax -= 1;
-        root.area.xMin += 1;
-        root.area.xMax -= 1;
         yield return new WaitForSeconds(animationDelay);
         yield return Map.instance.StartCoroutine(GenerateAreas(root, 1));
         yield return Map.instance.StartCoroutine(GenerateRooms(root));
@@ -78,6 +65,8 @@ public class Level1Alt : BiomeType
         yield return new WaitForSeconds(animationDelay);
         PruneDoors();
         UpdateTiles(mapArea);
+
+        //SpawnFinalDoor(map, area);
     }
 
     override public void DrawDebug(RectIntExclusive area)
@@ -131,7 +120,7 @@ public class Level1Alt : BiomeType
         return false;
     }
 
-    bool IsDoorSpot(int x, int y, bool inverted)
+    bool IsDoorSpot(int x, int y, bool inverted = false)
     {
         var map = Map.instance;
 
@@ -212,12 +201,14 @@ public class Level1Alt : BiomeType
         if (parent.left == null && parent.right == null)
         {
             // Leaf node, actually generate a room
-            int minWidth = Mathf.Max(1, parent.area.width / 3);
-            int minHeight = Mathf.Max(1, parent.area.height / 3);
-            int w = UnityEngine.Random.Range(minWidth, parent.area.width + 1);
-            int h = UnityEngine.Random.Range(minHeight, parent.area.height + 1);
-            int xMin = UnityEngine.Random.Range(parent.area.xMin, parent.area.xMax - (w - 1) + 1);
-            int yMin = UnityEngine.Random.Range(parent.area.yMin, parent.area.yMax - (h - 1) + 1);
+            int areaWidth = parent.area.width - 2;
+            int areaHeight = parent.area.height - 2;
+            int minWidth = Mathf.Max(1, areaWidth / 3);
+            int minHeight = Mathf.Max(1, areaHeight / 3);
+            int w = UnityEngine.Random.Range(minWidth, areaWidth);
+            int h = UnityEngine.Random.Range(minHeight, areaHeight);
+            int xMin = UnityEngine.Random.Range(parent.area.xMin + 1, parent.area.xMax - (w - 1));
+            int yMin = UnityEngine.Random.Range(parent.area.yMin + 1, parent.area.yMax - (h - 1));
             var rect = new RectIntExclusive(xMin, yMin, w, h);
             parent.room = rect;
 
@@ -259,7 +250,7 @@ public class Level1Alt : BiomeType
                         // Pick a random x position within the overlapping area to add a connecting path
                         int randomIndex = UnityEngine.Random.Range(0, overlappingTiles.Count);
                         int randomX = overlappingTiles[randomIndex].tileA.x;
-                        AddStraightConnectingPath(randomX, parent.left.area, parent.right.area, out pathArea, true);
+                        pathArea = AddStraightConnectingPath(randomX, parent.left.area, parent.right.area, false);
                         UpdateTiles(pathArea);
                     }
                     else
@@ -295,7 +286,7 @@ public class Level1Alt : BiomeType
                         // Pick a random y position within the overlapping area to add a connecting path
                         int randomIndex = UnityEngine.Random.Range(0, overlappingTiles.Count);
                         int randomY = overlappingTiles[randomIndex].tileA.y;
-                        AddStraightConnectingPath(randomY, parent.left.area, parent.right.area, out pathArea, false);
+                        pathArea = AddStraightConnectingPath(randomY, parent.left.area, parent.right.area, true);
                         UpdateTiles(pathArea);
                     }
                     else
@@ -358,213 +349,66 @@ public class Level1Alt : BiomeType
         }
     }
 
-    private void AddStraightConnectingPath(int fixedValue, RectIntExclusive areaA, RectIntExclusive areaB, out RectIntExclusive pathArea, bool isVertical)
+    // Add a floor tile that is part of a straight path between two rooms.
+    // This works for vertical or horizontal paths by allowing the coordinates to be inverted
+    // Returns true signify that the path should end if the tile is already a floor tile, 
+    // or if either neighbor perpendicular to the path is a floor tile
+    bool AddStraightPathTile(int i, int j, RectIntExclusive area, bool invert)
     {
-        int startOfPath = 0;
-        int endOfPath = 0;
-        int areaAMin, areaAMax;
-        int areaBMin, areaBMax;
-        if (isVertical)
-        {
-            areaAMin = areaA.yMin;
-            areaAMax = areaA.yMax;
-            areaBMin = areaB.yMin;
-            areaBMax = areaB.yMax;
-        }
-        else
-        {
-            areaAMin = areaA.xMin;
-            areaAMax = areaA.xMax;
-            areaBMin = areaB.xMin;
-            areaBMax = areaB.xMax;
-        }
+        bool isFloor = GetTile(i, j, invert) == TileType.FLOOR;
+        bool isLesserNeighborFloor = i - 1 > area.Min(!invert) && GetTile(i - 1, j, invert) == TileType.FLOOR;
+        bool isGreaterNeighborFloor = i + 1 < area.Max(!invert) && GetTile(i + 1, j, invert) == TileType.FLOOR;
 
-        int fixedLess = fixedValue - 1;
-        int fixedGreater = fixedValue + 1;
-        if (isVertical)
-        {
-            fixedLess = Map.instance.WrapX(fixedLess);
-            fixedGreater = Map.instance.WrapX(fixedGreater);
-        }
+        SetTile(i, j, TileType.FLOOR, invert);
 
-        for (int i = areaAMax; i >= areaAMin; i--)
-        {
-            if (GetTile(fixedValue, i, !isVertical) == TileType.FLOOR)
-            {
-                startOfPath = i + 1;
-                break;
-            }
-        }
-        for (int i = areaBMin; i <= areaBMax; i++)
-        {
-            if (GetTile(fixedValue, i, !isVertical) == TileType.FLOOR)
-            {
-                endOfPath = i - 1;
-                break;
-            }
-        }
-
-        if (isVertical)
-        {
-            Debug.Log("fixed x: " + fixedValue);
-        }
-        else
-        {
-            Debug.Log("fixed y: " + fixedValue);
-        }
-        Debug.Log("areaA: " + areaA);
-        Debug.Log("areaB: " + areaB);
-        Debug.Log("Start of path: " + startOfPath);
-        Debug.Log("End of path: " + endOfPath);
-
-        int fromStartLength = 0;
-        int fromEndLength = 0;
-        for (int i = startOfPath; i <= endOfPath; i++)
-        {
-            fromStartLength++;
-            if (i > areaAMax) 
-            {
-                if (GetTile(fixedLess, i, !isVertical) == TileType.FLOOR ||
-                    GetTile(fixedGreater, i, !isVertical) == TileType.FLOOR)
-                {
-                    break;
-                }
-            }
-        }
-
-        for (int i = endOfPath; i >= startOfPath; i--)
-        {
-            fromEndLength++;
-            if (i < areaBMin)
-            {
-                if (GetTile(fixedLess, i, !isVertical) == TileType.FLOOR ||
-                    GetTile(fixedGreater, i, !isVertical) == TileType.FLOOR)
-                {
-                    break;
-                }
-            }
-        }
-
-        Vector2Int startDoor = new Vector2Int(fixedValue, startOfPath);
-        Vector2Int endDoor = new Vector2Int(fixedValue, endOfPath);
-        int start = startOfPath;
-        int end = startOfPath + (fromStartLength - 1);
-        int incr = 1;
-        bool reverse = fromEndLength < fromStartLength;
-        if (reverse)
-        {
-            start = endOfPath;
-            end = endOfPath - (fromEndLength - 1);
-            incr = -1;
-        }
-        for (int i = start; reverse ? i >= end : i <= end; i += incr)
-        {
-            if (GetTile(fixedValue, i, !isVertical) == TileType.FLOOR)
-            {
-                endDoor = new Vector2Int(fixedValue, i - incr);
-            }
-            else
-            {
-                SetTile(fixedValue, i, TileType.FLOOR, !isVertical);
-                if ((i > areaAMax && !reverse) || (i < areaBMin && reverse))
-                {
-                    if (GetTile(fixedLess, i, !isVertical) == TileType.FLOOR)
-                    {
-                        Debug.LogError("The thing happened");
-                        endDoor = new Vector2Int(fixedLess, i);
-                    }
-                    if (GetTile(fixedGreater, i, !isVertical) == TileType.FLOOR)
-                    {
-                        endDoor = new Vector2Int(fixedGreater, i);
-                        Debug.LogError("The thing happened");
-                    }
-                }
-            }
-        }
-        if (IsDoorSpot(startDoor.x, startDoor.y, !isVertical)) SetTile(startDoor.x, startDoor.y, TileType.DOOR, !isVertical);
-        if (IsDoorSpot(endDoor.x, endDoor.y, !isVertical)) SetTile(endDoor.x, endDoor.y, TileType.DOOR, !isVertical);
-
-        pathArea = new RectIntExclusive();
-        if (isVertical)
-        {
-            pathArea.xMin = fixedLess;
-            pathArea.xMax = fixedGreater;
-            pathArea.yMin = startOfPath - 1;
-            pathArea.yMax = endOfPath + 1;
-        }
-        else
-        {
-            pathArea.xMin = startOfPath - 1;
-            pathArea.xMax = endOfPath + 1;
-            pathArea.yMin = fixedLess;
-            pathArea.yMax = fixedGreater;
-        }
+        return isFloor || isLesserNeighborFloor || isGreaterNeighborFloor;
     }
 
-    void SetTile(int x, int y, TileType value, bool inverted)
+    // Create a straight (vertical or horizontal) path starting from the edge of an area, moving inwards until
+    // either a floor tile is reached or a the path runs adjacent to a floor tile
+    int CreateStraightPath(int i, int startOfPath, int endOfPath, RectIntExclusive area, bool invert)
+    {
+        int j = startOfPath;
+        int incr = endOfPath > startOfPath ? 1 : -1;
+        for (; j != endOfPath; j += incr)
+        {
+            bool pathEnded = AddStraightPathTile(i, j, area, invert);
+            if (pathEnded) break;
+        }
+
+        return j;
+    }   
+
+    // Add a straight (vertical or horizontal) connecting path between two rooms
+    // This works for vertical or horizontal paths by allowing the coordinates to be inverted
+    // Each end of the path terminates when it reaches a floor tile or runs adjacent to a floor tile
+    // A door is placed at each end of the path if appropriate
+    private RectIntExclusive AddStraightConnectingPath(int i, RectIntExclusive areaA, RectIntExclusive areaB, bool invert)
+    {
+        int startOfPath = CreateStraightPath(i, areaA.Max(invert), areaA.Min(invert), areaA, invert);
+        int endOfPath = CreateStraightPath(i, areaB.Min(invert), areaB.Max(invert), areaB, invert);
+
+        if (IsDoorSpot(i, startOfPath + 1, invert)) SetTile(i, startOfPath + 1, TileType.DOOR, invert);
+        if (IsDoorSpot(i, endOfPath - 1, invert)) SetTile(i, endOfPath - 1, TileType.DOOR, invert);
+
+        var pathArea = new RectIntExclusive();
+        if (invert) pathArea.SetMinMax(startOfPath - 1, endOfPath + 1, i - 1, i + 1);
+        else pathArea.SetMinMax(i - 1, i + 1, startOfPath - 1, endOfPath + 1);
+
+        return pathArea;
+    }
+
+    void SetTile(int x, int y, TileType value, bool inverted = false)
     {
         if (inverted) tiles[x][y] = value;
         else tiles[y][x] = value;
     }
 
-    TileType GetTile(int x, int y, bool inverted)
+    TileType GetTile(int x, int y, bool inverted = false)
     {
         if (inverted) return tiles[x][y];
         else return tiles[y][x];
     }
-
-    //private void AddHorizontalConnectingPath(int y, RectIntExclusive leftArea, RectIntExclusive rightArea, out RectIntExclusive pathArea)
-    //{
-    //    pathArea = new RectIntExclusive();
-    //    pathArea.yMin = pathArea.yMax = y;
-    //    pathArea.xMin = rightArea.xMax;
-    //    pathArea.xMax = leftArea.xMin;
-    //    Vector2Int startOfPath = new Vector2Int(leftArea.xMax, y);
-    //    Vector2Int endOfPath = new Vector2Int(rightArea.xMin, y);
-    //    for (int x = leftArea.xMax; x >= leftArea.xMin; x--)
-    //    {
-    //        if (x < pathArea.xMin) pathArea.xMin = x;
-    //        if (tiles[y][x] == TileType.FLOOR)
-    //        {
-    //            startOfPath = new Vector2Int(x + 1, y);
-    //            break;
-    //        }
-    //        tiles[y][x] = TileType.FLOOR;
-    //        if (tiles[y - 1][x] == TileType.FLOOR)
-    //        {
-    //            startOfPath = new Vector2Int(x, y - 1);
-    //            break;
-    //        }
-    //        if (tiles[y + 1][x] == TileType.FLOOR)
-    //        {
-    //            startOfPath = new Vector2Int(x, y + 1);
-    //            break;
-    //        }
-    //    }
-    //    for (int x = rightArea.xMin; x <= rightArea.xMax; x++)
-    //    {
-    //        if (x > pathArea.xMax) pathArea.xMax = x;
-    //        if (tiles[y][x] == TileType.FLOOR)
-    //        {
-    //            endOfPath = new Vector2Int(x - 1, y);
-    //            break;
-    //        }
-    //        tiles[y][x] = TileType.FLOOR;
-    //        if (tiles[y - 1][x] == TileType.FLOOR)
-    //        {
-    //            endOfPath = new Vector2Int(x, y - 1);
-    //            break;
-    //        }
-    //        if (tiles[y + 1][x] == TileType.FLOOR)
-    //        {
-    //            endOfPath = new Vector2Int(x, y + 1);
-    //            break;
-    //        }
-    //    }
-
-    //    if (IsDoorSpot(startOfPath.x, startOfPath.y)) tiles[startOfPath.y][startOfPath.x] = TileType.DOOR;
-    //    if (IsDoorSpot(endOfPath.x, endOfPath.y)) tiles[endOfPath.y][endOfPath.x] = TileType.DOOR;
-    //}
 
     private List<TilePair> GetOverlap(List<Vector2Int> tilesA, List<Vector2Int> tilesB, bool isVertical, out bool isConnected)
     {
@@ -686,8 +530,8 @@ public class Level1Alt : BiomeType
     {
         if (UnityEngine.Random.value > splitProbability) yield break;
 
-        bool horizontalHasRoom = parent.area.width > minBSPArea * 2;
-        bool verticalHasRoom = parent.area.height > minBSPArea * 2;
+        bool horizontalHasRoom = parent.area.width > (minBSPArea * 2);
+        bool verticalHasRoom = parent.area.height > (minBSPArea * 2);
         if (!horizontalHasRoom && !verticalHasRoom) yield break;
 
         bool splitHorizontal;

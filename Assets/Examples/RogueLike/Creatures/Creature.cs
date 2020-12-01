@@ -18,8 +18,8 @@ public class Creature : MonoBehaviour
 
     public int defense = 1;
 
-    public int ticksPerMove = 1;
-    public int ticksPerAttack = 1;
+    public ulong ticksPerMove = 1;
+    public ulong ticksPerAttack = 1;
     public AnimationCurve attackMovementAnimation;
     public float Speed {
         get {
@@ -76,8 +76,8 @@ public class Creature : MonoBehaviour
         else if (oldY > newY) lastDirectionAttackedOrMoved = Direction.DOWN;
         else if (oldY < newY) lastDirectionAttackedOrMoved = Direction.UP;
 
-        baseObject.PickUpAll();
-        tickable.nextActionTime = TimeManager.instance.time + (ulong)ticksPerMove;
+        //baseObject.PickUpAll();
+        //tickable.nextActionTime = TimeManager.instance.time + (ulong)ticksPerMove;
     }
 
     public void StartAttack(DungeonObject dOb)
@@ -132,9 +132,9 @@ public class Creature : MonoBehaviour
             }
             attackAnimationTime += Time.deltaTime;
 
-            if (attackWillHit && creature && !creature.baseObject.hasDoneDamageFlash && attackAnimationTime > attackAnimationDuration / 2)
+            if (attackWillHit && creature)
             {
-                creature.baseObject.DamageFlash();
+                creature.baseObject.DamageFlash(attackAnimationTime);
             }
 
             return false;
@@ -169,7 +169,7 @@ public class Creature : MonoBehaviour
         Vector3 originalPosition = baseObject.originalGlyphPosition;
         baseObject.glyphs.transform.localPosition = originalPosition;
 
-        tickable.nextActionTime = TimeManager.instance.time + (ulong)ticksPerAttack;
+        //tickable.nextActionTime = TimeManager.instance.time + (ulong)ticksPerAttack;
     }
 
     public void WeildRightHand(DungeonObject ob)

@@ -21,7 +21,7 @@ public class Level1 : BiomeType
 
     public TileType[][] tiles;
 
-    override public void PreProcessMap(Map map, RectIntExclusive area)
+    override public IEnumerator PreProcessMap(Map map, RectIntExclusive area)
     {
         tiles = new TileType[map.height][];
         for (int y = 0; y < map.height; y++) tiles[y] = new TileType[map.width];
@@ -32,6 +32,8 @@ public class Level1 : BiomeType
         ConnectRooms(map);
         UpdateTiles(map, area);
         SpawnFinalDoor(map, area);
+
+        yield break;
     }
 
     public void SpawnFinalDoor(Map map, RectIntExclusive area)

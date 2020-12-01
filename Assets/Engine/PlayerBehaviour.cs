@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class PlayerBehaviour : TickableBehaviour
 {
@@ -18,9 +19,9 @@ public class PlayerBehaviour : TickableBehaviour
     BehaviourAction nextAction;
     int nextActionTargetX, nextActionTargetY;
 
-    public override bool StartAction()
+    public override bool StartAction(out ulong duration)
     {
-        DetermineAutoAction(nextActionTargetX, nextActionTargetY);
+        DetermineAutoAction(nextActionTargetX, nextActionTargetY, out duration);
         if (nextAction.startAction != null)
         {
             return nextAction.startAction();
@@ -50,22 +51,33 @@ public class PlayerBehaviour : TickableBehaviour
         return 1;
     }
 
-    public void DetermineAutoAction(int newTileX, int newTileY)
+    public void DetermineAutoAction(int newTileX, int newTileY, out ulong duration)
     {
+        var identityCreature = owner.GetComponent<Creature>();
+        nextAction = new BehaviourAction();
+        duration = 1;
+
         var tileActingOn = owner.map.tileObjects[newTileY][newTileX];
 
-        nextAction = new BehaviourAction();
         if (!tileActingOn.IsCollidable())
         {
-            nextAction.finishAction = () => owner.map.TryMoveObject(owner, newTileX, newTileY);
+            duration = identityCreature.ticksPerMove;
+            nextAction.finishAction = () =>
+            {
+                owner.map.TryMoveObject(owner, newTileX, newTileY);
+                if (owner.tile.objectList.Any(x => x.canBePickedUp))
+                {
+                    owner.PickUpAll();
+                }
+            };
         }
         else
         {
-            var identityCreature = owner.GetComponent<Creature>();
             foreach (var dOb in tileActingOn.objectList)
             {
                 if (dOb.isCollidable)
                 {
+                    duration = identityCreature.ticksPerAttack;
                     nextAction.startAction = () => {
                         identityCreature.StartAttack(dOb);
                         return false;

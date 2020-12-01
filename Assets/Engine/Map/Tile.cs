@@ -24,7 +24,7 @@ public class Tile : MonoBehaviour
         this.y = y;
         map.tilesThatAllowSpawn.Add(this);
 
-        SetInView(true);
+        //SetInView(true);
     }
 
     public bool ContainsObjectOfType(DungeonObject needle)

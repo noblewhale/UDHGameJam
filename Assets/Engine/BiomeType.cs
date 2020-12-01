@@ -13,12 +13,13 @@ public class BiomeType : ScriptableObject
     public int minWidth, maxWidth;
     public int minHeight, maxHeight;
 
-    virtual public void PreProcessMap(Map map, RectIntExclusive area)
+    virtual public IEnumerator PreProcessMap(Map map, RectIntExclusive area)
     {
+        yield break;
     }
 
     virtual public void DrawDebug(RectIntExclusive area)
     {
-        //EditorUtil.DrawRect(map, area, Color.blue);
+        EditorUtil.DrawRect(Map.instance, area, Color.green);
     }
 }
