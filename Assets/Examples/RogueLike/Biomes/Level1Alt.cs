@@ -11,7 +11,7 @@ public class Level1Alt : BiomeType
     public int minBSPArea = 4;
 
     // Delay to use when animating the level gernation process
-    float animationDelay= .15f;
+    float animationDelay = 0;//.15f;
 
     public BiomeDropRate[] nothings;
     public BiomeDropRate[] floors;

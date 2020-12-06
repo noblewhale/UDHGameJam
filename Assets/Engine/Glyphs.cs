@@ -5,7 +5,7 @@ using UnityEngine;
 public class Glyphs : MonoBehaviour
 {
     public Color damageFlashColor = Color.red;
-    SpriteRenderer[] glyphs;
+    public SpriteRenderer[] glyphs;
 	Color[] originalGlyphColors;
     #pragma warning disable 0414
     DungeonObject owner;

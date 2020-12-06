@@ -13,12 +13,14 @@ public class PlayerCamera : MonoBehaviour
     public float cameraOffset = 3;
     public float rotation;
     float cameraVelocity;
+    Camera camera;
 
     public Material polarWarpMaterial;
 
     void Start ()
     {
         owner = FindObjectOfType<Player>();
+        camera = GetComponent<Camera>();
 	}
 	
 	void Update ()
@@ -34,22 +36,23 @@ public class PlayerCamera : MonoBehaviour
 
     public void SetY(float worldY, float lerpFactor, float maxSpeed)
     {
-        Vector2 targetPos = new Vector2(Camera.main.transform.position.x, worldY + cameraOffset);
-        targetPos = Vector2.Lerp(Camera.main.transform.position, targetPos, lerpFactor * Time.deltaTime * 100);
-        Vector2 relativePos = targetPos - (Vector2)Camera.main.transform.position;
+        cameraOffset = camera.orthographicSize - Map.instance.tileHeight * 4f;
+        Vector2 targetPos = new Vector2(camera.transform.position.x, worldY + cameraOffset);
+        targetPos = Vector2.Lerp(camera.transform.position, targetPos, lerpFactor * Time.deltaTime * 100);
+        Vector2 relativePos = targetPos - (Vector2)camera.transform.position;
 
         if (relativePos.magnitude > maxSpeed * Time.deltaTime * 100)
         {
             relativePos = relativePos.normalized * maxSpeed * Time.deltaTime * 100;
         }
 
-        targetPos = Camera.main.transform.position + (Vector3)relativePos;
-        Camera.main.transform.position = new Vector3(targetPos.x, targetPos.y, Camera.main.transform.position.z);
+        targetPos = camera.transform.position + (Vector3)relativePos;
+        camera.transform.position = new Vector3(targetPos.x, targetPos.y, camera.transform.position.z);
     }
 
     public void SetRotation(int x, int y, float lerpFactor, float maxSpeed)
     {
-        float percentOfWidth = (float) x / owner.map.width;
+        float percentOfWidth = (float) (x + .5f) / owner.map.width;
         float targetRotation = 2 * Mathf.PI * (1 - percentOfWidth);
         if (rotation < 0) rotation = 2 * Mathf.PI;
         else if (rotation > 2 * Mathf.PI) rotation = 0;

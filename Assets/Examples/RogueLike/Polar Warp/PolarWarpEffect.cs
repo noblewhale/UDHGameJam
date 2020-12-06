@@ -6,16 +6,20 @@ public class PolarWarpEffect : MonoBehaviour
 {
 
     public Material warpMaterial;
-    public RenderTexture overlay;
+    public Camera foregroundCamera;
     public Material overlayMaterial;
 
     private void OnRenderImage(RenderTexture source, RenderTexture destination)
     {
+        //if (foregroundCamera && foregroundCamera.targetTexture && overlayMaterial)
+        //{
+        //    Graphics.Blit(foregroundCamera.targetTexture, destination, overlayMaterial);
+        //}
         Graphics.Blit(source, destination, warpMaterial);
 
-        if (overlay && overlayMaterial)
+        if (foregroundCamera && foregroundCamera.targetTexture && overlayMaterial)
         {
-            Graphics.Blit(overlay, destination, overlayMaterial);
+            Graphics.Blit(foregroundCamera.targetTexture, destination, overlayMaterial);
         }
     }
 }

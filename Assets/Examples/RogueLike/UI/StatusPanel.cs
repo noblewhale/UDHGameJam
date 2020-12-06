@@ -1,14 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class StatusPanel : MonoBehaviour
 {
     Camera cam;
-    public float panelHeight = 3;
-    public TextMesh health;
-    public TextMesh mana;
-    public TextMesh gold;
+    public TextMeshProUGUI health;
+    public TextMeshProUGUI mana;
+    public TextMeshProUGUI gold;
     public AnimationCurve highlightAnimation;
     public InventoryGUI inventory;
     Player player;
@@ -32,7 +32,12 @@ public class StatusPanel : MonoBehaviour
 
         if (player.identity.health != oldHealth)
         {
-            health.text = player.identity.health.ToString();
+            health.text = "";
+            if (player.identity.health < 10)
+            {
+                health.text = "0";
+            }
+            health.text += player.identity.health.ToString();
             if (highlightHealthProcess != null) StopCoroutine(highlightHealthProcess);
             highlightHealthProcess = StartCoroutine(HighlightText(health, Color.red));
             oldHealth = player.identity.health;
@@ -48,8 +53,6 @@ public class StatusPanel : MonoBehaviour
             highlightGoldProcess = StartCoroutine(HighlightText(gold, Color.yellow));
             oldGold = player.identity.gold;
         }
-
-        transform.localPosition = new Vector3(0, -cam.orthographicSize + panelHeight, transform.localPosition.z);
 	}
 
     IEnumerator IncrementGold()
@@ -64,7 +67,7 @@ public class StatusPanel : MonoBehaviour
         incrementGoldProcess = null;
     }
 
-    IEnumerator HighlightText(TextMesh textMesh, Color color)
+    IEnumerator HighlightText(TextMeshProUGUI textMesh, Color color)
     {
         float t = 0;
         float duration = 1f;

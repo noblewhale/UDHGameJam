@@ -45,10 +45,12 @@ public class Map : MonoBehaviour
 
     public static Map instance;
 
+    public Camera warpedMapCamera;
+
 	void Start ()
     {
         instance = this;
-        Camera.main.orthographicSize = (width * tileWidth / Camera.main.aspect) / 2.0f;
+        warpedMapCamera.orthographicSize = (width * tileWidth / warpedMapCamera.aspect) / 2.0f;
         transform.position = new Vector3(-width * tileWidth / 2.0f, -height * tileHeight / 2.0f);
 
         ClearMap();
