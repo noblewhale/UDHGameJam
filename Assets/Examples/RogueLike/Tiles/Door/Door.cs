@@ -46,7 +46,11 @@ public class Door : DungeonObject
             closedGlyph.SetActive(true);
             lockedGlyph.SetActive(false);
         }
-	}
+        if (Map.instance && Player.instance && Player.instance.identity)
+        {
+            Map.instance.Reveal(Player.instance.identity.x, Player.instance.identity.y, Player.instance.identity.viewDistance);
+        }
+    }
 
     public void SetLocked(bool isLocked)
     {
