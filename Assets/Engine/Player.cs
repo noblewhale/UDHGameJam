@@ -154,7 +154,7 @@ public class Player : MonoBehaviour
                 unwarpedMapSpace += (Vector2)mapCamera.transform.position;
 
                 var relativeToPlayer = unwarpedMapSpace - (Vector2)identity.transform.position;
-                if (relativeToPlayer.x > Map.instance.TotalWidth/2) relativeToPlayer.x = -(Map.instance.TotalWidth - unwarpedMapSpace.x) - identity.transform.position.x;
+                if (relativeToPlayer.x > Map.instance.TotalWidth / 2) relativeToPlayer.x = -(Map.instance.TotalWidth - unwarpedMapSpace.x) - identity.transform.position.x;
                 if (relativeToPlayer.x < -Map.instance.TotalWidth / 2) relativeToPlayer.x = (Map.instance.TotalWidth + unwarpedMapSpace.x) - identity.transform.position.x;
                 if (Mathf.Abs(relativeToPlayer.x) > Mathf.Abs(relativeToPlayer.y))
                 {

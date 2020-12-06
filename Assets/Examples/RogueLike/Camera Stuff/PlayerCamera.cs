@@ -27,7 +27,7 @@ public class PlayerCamera : MonoBehaviour
     {
         if (!owner || !owner.identity) return;
 
-        SetRotation(owner.identity.x, owner.identity.y, rotationLerpFactor * Time.deltaTime * 100, rotationMaxSpeed * Time.deltaTime * 100);
+        SetRotation(owner.identity.x, owner.identity.y, rotationLerpFactor, rotationMaxSpeed * Time.deltaTime * 100);
         if (owner.isControllingCamera)
         {
             SetY(owner.identity.transform.position.y, movementLerpFactor, movementMaxSpeed);
