@@ -18,17 +18,17 @@ public class InventorySlotGUI : MonoBehaviour
         rect = GetComponent<RectTransform>();
         transform.localRotation = Quaternion.identity;
         label.text = item.objectName;
-        foreach (var sprite in item.glyphs.glyphs)
+        if (item.guiIcon)
         {
-            var imageOb = new GameObject();
-            var imageComp = imageOb.AddComponent<UnityEngine.UI.Image>();
-            imageComp.color = sprite.color;
-            imageComp.sprite = sprite.sprite;
-            var imageRect = imageOb.GetComponentInParent<RectTransform>();
-            imageRect.SetParent(glyphParent, false);
-            imageRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, rect.rect.height);
-            imageRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, rect.rect.height);
-            imageOb.layer = gameObject.layer;
+            foreach (var iconPart in item.guiIcon.GetComponentsInChildren<RectTransform>())
+            {
+                var imageOb = Instantiate(iconPart.gameObject);
+                var imageRect = imageOb.GetComponentInParent<RectTransform>();
+                imageRect.SetParent(glyphParent, false);
+                //imageRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, rect.rect.height * iconPart.transform.localScale.y);
+                //imageRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, rect.rect.height);
+                imageOb.layer = gameObject.layer;
+            }
         }
     }
 

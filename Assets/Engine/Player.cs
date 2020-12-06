@@ -122,7 +122,6 @@ public class Player : MonoBehaviour
         
         if (hasPress)
         {
-
             Vector2 pressPosRelativeToMapRenderer = ((Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition) - (Vector2)Camera.main.transform.position) - (Vector2)mapRenderer.localPosition;
             pressPosRelativeToMapRenderer /= mapRenderer.localScale;
             Vector2 rotated = new Vector2();

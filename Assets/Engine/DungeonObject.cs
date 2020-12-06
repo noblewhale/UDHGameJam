@@ -23,6 +23,7 @@ public class DungeonObject : MonoBehaviour
     public bool canTakeDamage = false;
     public bool isVisibleWhenNotInSight = true;
     public bool isWeilded = false;
+    public Transform guiIcon;
 
     [NonSerialized]
     public Glyphs glyphs;
@@ -133,7 +134,6 @@ public class DungeonObject : MonoBehaviour
         {
             if (ob.canBePickedUp)
             {
-                if (onPickedUpObject != null) onPickedUpObject(ob);
                 itemsToRemoveFromTile.Add(ob);
                 DungeonObject existingOb;
                 bool success = inventory.items.TryGetValue(ob.objectName, out existingOb);
@@ -150,7 +150,12 @@ public class DungeonObject : MonoBehaviour
             }
         }
 
-        foreach (var ob in itemsToRemoveFromTile) map.tileObjects[y][x].RemoveObject(ob);
+        foreach (var ob in itemsToRemoveFromTile)
+        {
+            map.tileObjects[y][x].RemoveObject(ob);
+            if (onPickedUpObject != null) onPickedUpObject(ob);
+        }
+
         foreach (var ob in itemsToDestroy) Destroy(ob);
     }
 

@@ -34,6 +34,11 @@ public class Creature : MonoBehaviour
 
     public DungeonObject leftHandObject;
     public DungeonObject rightHandObject;
+    public Transform rightHand;
+    public Transform leftHand;
+    public Transform chest;
+    public Transform helmet;
+    public Transform pants;
 
     public DungeonObject baseObject;
     public Tickable tickable;
@@ -177,9 +182,13 @@ public class Creature : MonoBehaviour
         if (rightHandObject != null)
         {
             rightHandObject.isWeilded = false;
+            rightHandObject.transform.parent = null;
+            rightHandObject.transform.position = new Vector3(-666, -666, -666);
         }
         rightHandObject = ob;
         ob.isWeilded = true;
+        ob.transform.parent = rightHand.transform;
+        ob.transform.localPosition = Vector3.zero;
     }
 
     public void FaceDirection(Tile tile)
