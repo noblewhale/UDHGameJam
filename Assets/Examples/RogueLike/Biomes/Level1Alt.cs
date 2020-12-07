@@ -61,8 +61,11 @@ public class Level1Alt : BiomeType
         yield return Map.instance.StartCoroutine(GenerateRooms(root));
         var mapArea = new RectIntExclusive(0, 0, Map.instance.width, Map.instance.height);
         AddWalls();
-        UpdateTiles(mapArea);
-        yield return new WaitForSeconds(animationDelay);
+        if (animationDelay != 0)
+        {
+            UpdateTiles(mapArea);
+            yield return new WaitForSeconds(animationDelay);
+        }
         PruneDoors();
         UpdateTiles(mapArea);
 
@@ -219,8 +222,11 @@ public class Level1Alt : BiomeType
                     tiles[y][x] = TileType.FLOOR;
                 }
             }
-            UpdateTiles(parent.room);
-            yield return new WaitForSeconds(animationDelay);
+            if (animationDelay != 0)
+            {
+                UpdateTiles(parent.room);
+                yield return new WaitForSeconds(animationDelay);
+            }
         }
         else
         {
@@ -251,7 +257,10 @@ public class Level1Alt : BiomeType
                         int randomIndex = UnityEngine.Random.Range(0, overlappingTiles.Count);
                         int randomX = overlappingTiles[randomIndex].tileA.x;
                         pathArea = AddStraightConnectingPath(randomX, parent.left.area, parent.right.area, false);
-                        UpdateTiles(pathArea);
+                        if (animationDelay != 0)
+                        {
+                            UpdateTiles(pathArea);
+                        }
                     }
                     else
                     {
@@ -260,7 +269,10 @@ public class Level1Alt : BiomeType
                         var bottomTile = topTilesInBottomSplit[bottomTileIndex];
                         var topTile = bottomTilesInTopSplit[topTileIndex];
                         AddAngledPath(bottomTile, topTile, true);
-                        UpdateTiles(parent.area);
+                        if (animationDelay != 0)
+                        {
+                            UpdateTiles(parent.area);
+                        }
                     }
                     yield return new WaitForSeconds(animationDelay);
                 }
@@ -287,7 +299,10 @@ public class Level1Alt : BiomeType
                         int randomIndex = UnityEngine.Random.Range(0, overlappingTiles.Count);
                         int randomY = overlappingTiles[randomIndex].tileA.y;
                         pathArea = AddStraightConnectingPath(randomY, parent.left.area, parent.right.area, true);
-                        UpdateTiles(pathArea);
+                        if (animationDelay != 0)
+                        {
+                            UpdateTiles(pathArea);
+                        }
                     }
                     else
                     {
@@ -296,7 +311,10 @@ public class Level1Alt : BiomeType
                         var leftTile = rightTilesInLeftSplit[leftTileIndex];
                         var rightTile = leftTilesInRightSplit[rightTileIndex];
                         AddAngledPath(leftTile, rightTile, false);
-                        UpdateTiles(parent.area);
+                        if (animationDelay != 0)
+                        {
+                            UpdateTiles(parent.area);
+                        }
                     }
                     yield return new WaitForSeconds(animationDelay);
                 }
