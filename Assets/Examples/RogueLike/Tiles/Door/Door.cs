@@ -10,9 +10,7 @@ public class Door : DungeonObject
     public bool isLocked = false;
     public float lockPickDifficulty = 1;
 
-    public GameObject openGlyph;
-    public GameObject closedGlyph;
-    public GameObject lockedGlyph;
+    public Animator animator;
 
 	// Use this for initialization
 	void Start ()
@@ -28,26 +26,20 @@ public class Door : DungeonObject
 	// Update is called once per frame
 	void SetOpen(bool isOpen)
     {
+        bool wasOpen = this.isOpen;
         this.isOpen = isOpen;
         this.isCollidable = !isOpen;
-        this.blocksLineOfSight = !isOpen;
-        this.coversObjectsBeneath = !isOpen;
-		if (isOpen && !openGlyph.activeSelf)
+        //this.blocksLineOfSight = !isOpen;
+        //this.coversObjectsBeneath = !isOpen;
+
+        if (isOpen && !wasOpen)
         {
+            animator.SetTrigger("Open");
             map.tileObjects[y][x].SetInView(map.tileObjects[y][x].isInView);
-            openGlyph.SetActive(true);
-            closedGlyph.SetActive(false);
-            lockedGlyph.SetActive(false);
-        }
-        else if (!isOpen && openGlyph.activeSelf)
-        {
-            map.tileObjects[y][x].SetInView(map.tileObjects[y][x].isInView);
-            openGlyph.SetActive(false);
-            closedGlyph.SetActive(true);
-            lockedGlyph.SetActive(false);
         }
         if (Map.instance && Player.instance && Player.instance.identity)
         {
+            Map.instance.UpdateLighting();
             Map.instance.Reveal(Player.instance.identity.x, Player.instance.identity.y, Player.instance.identity.viewDistance);
         }
     }
@@ -55,18 +47,9 @@ public class Door : DungeonObject
     public void SetLocked(bool isLocked)
     {
         this.isLocked = isLocked;
-        if (isLocked && !lockedGlyph.activeSelf)
+        if (isLocked)
         {
             SetOpen(false);
-            openGlyph.SetActive(false);
-            closedGlyph.SetActive(false);
-            lockedGlyph.SetActive(true);
-        }
-        else
-        {
-            openGlyph.SetActive(false);
-            closedGlyph.SetActive(true);
-            lockedGlyph.SetActive(false);
         }
     }
 

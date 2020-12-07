@@ -27,25 +27,25 @@ public class Glyphs : MonoBehaviour
         gameObject.SetActive(isRevealed);
 	}
     
-    public void SetInView(bool isInView)
+    public void SetLit(bool isLit)
     {
         for (int i = 0; i < glyphs.Length; i++)
         {
-            if (!isInView) glyphs[i].color = originalGlyphColors[i] / 2;
+            if (!isLit) glyphs[i].color = originalGlyphColors[i] / 2;
             else glyphs[i].color = originalGlyphColors[i];
         }
     }
 
     public void DamageFlash(float animationTime)
     {
-        if (animationTime < .15f)
+        if (animationTime < .25f)
         {
             for (int i = 0; i < glyphs.Length; i++)
             {
                 glyphs[i].color = Color.white;
             }
         }
-        else if (animationTime < .3f)
+        else if (animationTime < .5f)
         {
             for (int i = 0; i < glyphs.Length; i++)
             {

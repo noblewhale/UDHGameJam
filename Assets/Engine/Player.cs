@@ -44,6 +44,7 @@ public class Player : MonoBehaviour
 
     void OnPositionChange(int oldX, int oldY, int newX, int newY)
     {
+        map.UpdateLighting();
         map.Reveal(newX, newY, identity.viewDistance);
     }
 
@@ -67,6 +68,7 @@ public class Player : MonoBehaviour
 
         Tile startTile = map.GetRandomTileThatAllowsSpawn();
         startTile.AddObject(identity);
+        map.UpdateLighting();
         map.Reveal(identity.x, identity.y, identity.viewDistance);
 
         mainCamera.GetComponent<PlayerCamera>().SetRotation(startTile.x, startTile.y, float.Epsilon, float.MaxValue);
@@ -105,9 +107,12 @@ public class Player : MonoBehaviour
         {
             if (!isWaitingForPlayerInput)
             {
-                TimeManager.instance.Interrupt(identity.GetComponent<Tickable>());
+                //TimeManager.instance.Interrupt(identity.GetComponent<Tickable>());
             }
-            lastMovementFromKeyPressTime = 0;
+            else
+            {
+                lastMovementFromKeyPressTime = 0;
+            }
         }
         foreach (var c in Input.inputString)
         {
@@ -126,7 +131,6 @@ public class Player : MonoBehaviour
             pressPosRelativeToMapRenderer /= mapRenderer.localScale;
             Vector2 rotated = new Vector2();
             float rotation = mapRenderer.GetComponent<MeshRenderer>().sharedMaterial.GetFloat("_Rotation");
-            Debug.Log(rotation);
             rotated.x = pressPosRelativeToMapRenderer.x * Mathf.Sin(rotation) - pressPosRelativeToMapRenderer.y * Mathf.Cos(rotation);
             rotated.y = pressPosRelativeToMapRenderer.x * Mathf.Cos(rotation) + pressPosRelativeToMapRenderer.y * Mathf.Sin(rotation);
             pressPosRelativeToMapRenderer = rotated;
@@ -165,7 +169,6 @@ public class Player : MonoBehaviour
                     if (relativeToPlayer.y > 0) pressUp = true;
                     else pressDown = true;
                 }
-                Debug.Log(unwarpedMapSpace);
             }
         }
         if (Input.GetKeyDown(KeyCode.UpArrow) || pressUp)

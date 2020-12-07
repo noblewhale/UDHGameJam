@@ -5,6 +5,7 @@ using UnityEngine;
 public class OrientedGlyph : MonoBehaviour
 {
     Creature owner;
+    public Direction orientation;
 
 	void Start ()
     {
@@ -13,19 +14,23 @@ public class OrientedGlyph : MonoBehaviour
 	
 	void Update ()
     {
-        switch (owner.lastDirectionAttackedOrMoved)
+        if (owner)
+        {
+            orientation = owner.lastDirectionAttackedOrMoved;
+        }
+        switch (orientation)
         {
             case Direction.UP:
-                transform.rotation = Quaternion.Euler(0, 0, 0);
+                transform.localRotation = Quaternion.Euler(0, 0, 0);
                 break;
             case Direction.DOWN:
-                transform.rotation = Quaternion.Euler(0, 0, 180);
+                transform.localRotation = Quaternion.Euler(0, 0, 180);
                 break;
             case Direction.RIGHT:
-                transform.rotation = Quaternion.Euler(0, 0, -90);
+                transform.localRotation = Quaternion.Euler(0, 0, -90);
                 break;
             case Direction.LEFT:
-                transform.rotation = Quaternion.Euler(0, 0, 90);
+                transform.localRotation = Quaternion.Euler(0, 0, 90);
                 break;
         }
         

@@ -78,17 +78,40 @@ public class PlayerBehaviour : TickableBehaviour
                 if (dOb.isCollidable)
                 {
                     duration = identityCreature.ticksPerAttack;
-                    nextAction.startAction = () => {
-                        identityCreature.StartAttack(dOb);
-                        return false;
-                    };
-                    nextAction.continueAction = () => {
-                        return identityCreature.ContinueAttack(dOb);
-                    };
-                    nextAction.finishAction = () => {
-                        owner.map.TryMoveObject(owner, newTileX, newTileY);
-                        identityCreature.FinishAttack(dOb);
-                    };
+                    if (dOb.GetComponent<Door>())
+                    {
+                        nextAction.startAction = () =>
+                        {
+                            owner.map.TryMoveObject(owner, newTileX, newTileY);
+                            identityCreature.StartAttack(dOb);
+                            return false;
+                        };
+                        nextAction.continueAction = () =>
+                        {
+                            return identityCreature.ContinueAttack(dOb);
+                        };
+                        nextAction.finishAction = () =>
+                        {
+                            identityCreature.FinishAttack(dOb);
+                        };
+                    }
+                    else
+                    {
+                        nextAction.startAction = () =>
+                        {
+                            identityCreature.StartAttack(dOb);
+                            return false;
+                        };
+                        nextAction.continueAction = () =>
+                        {
+                            return identityCreature.ContinueAttack(dOb);
+                        };
+                        nextAction.finishAction = () =>
+                        {
+                            owner.map.TryMoveObject(owner, newTileX, newTileY);
+                            identityCreature.FinishAttack(dOb);
+                        };
+                    }
                     break;
                 }
             }

@@ -13,6 +13,7 @@ public class Tile : MonoBehaviour
     public float gapBetweenLayers = .1f;
 
     public bool isInView = false;
+    public bool isLit = true;
 
     public LinkedList<DungeonObject> objectList = new LinkedList<DungeonObject>();
 
@@ -90,6 +91,29 @@ public class Tile : MonoBehaviour
         }
     }
 
+    public void SetLit(bool isLit)
+    {
+        this.isLit = isLit;
+        if (isLit)
+        {
+            foreach (var ob in objectList)
+            {
+                if (ob.glyphsOb)
+                {
+                    ob.SetLit(true);
+                }
+                if (ob.coversObjectsBeneath) break;
+            }
+        }
+        else
+        {
+            foreach (var ob in objectList)
+            {
+                ob.SetLit(false);
+            }
+        }
+    }
+
     public void Update()
     {
         if (map == null) return;
@@ -103,11 +127,13 @@ public class Tile : MonoBehaviour
         }
     }
 
-    public void SpawnAndAddObject(DungeonObject dungeonObject, int quantity = 1)
+    public DungeonObject SpawnAndAddObject(DungeonObject dungeonObject, int quantity = 1)
     {
         var ob = Instantiate(dungeonObject).GetComponent<DungeonObject>();
         ob.quantity = quantity;
         AddObject(ob);
+
+        return ob;
     }
 
     public void DestroyAllObjects()
@@ -128,6 +154,7 @@ public class Tile : MonoBehaviour
     {
         ob.transform.parent = transform;
         ob.transform.localPosition = Vector3.zero;
+        objectList.AddFirst(ob);
         if (isMove)
         {
             ob.Move(x, y);
@@ -136,7 +163,6 @@ public class Tile : MonoBehaviour
         {
             ob.SetPosition(x, y);
         }
-        objectList.AddFirst(ob);
         if (ob.preventsObjectSpawning)
         {
             map.tilesThatAllowSpawn.Remove(this);

@@ -665,7 +665,20 @@ public class Level1Alt : BiomeType
             {
                 var type = tiles[y][x];
                 ob = GetRandomBaseTile(type);
-                map.tileObjects[y][x].SpawnAndAddObject(ob);
+                var instanceOb = map.tileObjects[y][x].SpawnAndAddObject(ob);
+
+                if (type == TileType.DOOR)
+                {
+                    Direction orientation = Direction.UP;
+                    if (y > 0 && tiles[y-1][x] == TileType.WALL && y < tiles.Length-1 && tiles[y+1][x] == TileType.WALL)
+                    {
+                        orientation = Direction.RIGHT;
+                    }
+                    foreach (var glyph in instanceOb.GetComponentsInChildren<OrientedGlyph>())
+                    {
+                        glyph.orientation = orientation;
+                    }
+                }
             }
         }
     }

@@ -255,6 +255,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectName: Human
   viewDistance: 4
+  illuminationRange: 2
   OnSteppedOn:
     m_PersistentCalls:
       m_Calls: []
@@ -270,6 +271,7 @@ MonoBehaviour:
   canTakeDamage: 1
   isVisibleWhenNotInSight: 0
   isWeilded: 0
+  guiIcon: {fileID: 0}
   health: 10
   isCollidable: 1
   blocksLineOfSight: 0

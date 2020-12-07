@@ -279,13 +279,59 @@ public class Map : MonoBehaviour
 
                 int wrappedX = (int)WrapX(relative.x);
 
-                tileObjects[y][wrappedX].SetInView(true);
+                if (tileObjects[y][wrappedX].isLit)
+                {
+                    tileObjects[y][wrappedX].SetInView(true);
+                }
                 if (tileObjects[y][wrappedX].DoesBlockLineOfSight())
                 {
                     break;
                 }
             }
         }
+    }
+
+    public void UpdateLighting()
+    {
+        ForEachTile(t => t.SetLit(false));
+        ForEachTile(tile =>
+        {
+            foreach (var ob in tile.objectList)
+            {
+                if (ob.isAlwaysLit)
+                {
+                    ob.SetLit(true);
+                }
+                else if (ob.illuminationRange != 0)
+                {
+                    Vector2 center = new Vector2(tile.x + .5f, tile.y + .5f);
+                    int numRays = 360;
+                    float stepSize = Mathf.Min(tileWidth, tileHeight) * .9f;
+                    for (int r = 0; r < numRays; r++)
+                    {
+                        float dirX = Mathf.Sin(2 * Mathf.PI * r / numRays);
+                        float dirY = Mathf.Cos(2 * Mathf.PI * r / numRays);
+                        Vector2 direction = new Vector2(dirX, dirY);
+
+                        for (int d = 1; d < ob.illuminationRange / stepSize; d++)
+                        {
+                            Vector2 relative = center + direction * d * stepSize;
+
+                            int y = (int)relative.y;
+                            if (y < 0 || y >= height) break;
+
+                            int wrappedX = (int)WrapX(relative.x);
+
+                            tileObjects[y][wrappedX].SetLit(true);
+                            if (tileObjects[y][wrappedX].DoesBlockLineOfSight())
+                            {
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        });
     }
 
     public void ForEachTileThatAllowsSpawn(Action<Tile> doThis, RectIntExclusive area)

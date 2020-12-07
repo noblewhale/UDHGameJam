@@ -12,6 +12,7 @@ public class DungeonObject : MonoBehaviour
     public class CreatureEvent : UnityEvent<Creature> { }
 
     public float viewDistance = 4;
+    public float illuminationRange = 0;
     public CreatureEvent OnSteppedOn;
     public Vector3 originalGlyphPosition;
     public Map map;
@@ -79,7 +80,11 @@ public class DungeonObject : MonoBehaviour
                 if (glyphs) glyphs.SetRevealed(false);
             }
         }
-        if (glyphs) glyphs.SetInView(isInView);
+    }
+
+    public void SetLit(bool isLit)
+    {
+        if (glyphs) glyphs.SetLit(isLit);
     }
 
     public void CollideWith(DungeonObject ob, bool isInstigator)

@@ -135,12 +135,13 @@ public class Creature : MonoBehaviour
                 case Direction.RIGHT: glyph.transform.localPosition = originalPosition + Vector3.right * offset; break;
                 case Direction.LEFT: glyph.transform.localPosition = originalPosition + Vector3.left * offset; break;
             }
-            attackAnimationTime += Time.deltaTime;
 
             if (attackWillHit && creature)
             {
-                creature.baseObject.DamageFlash(attackAnimationTime);
+                creature.baseObject.DamageFlash(attackAnimationTime / attackAnimationDuration);
             }
+
+            attackAnimationTime += Time.deltaTime;
 
             return false;
         }
@@ -158,7 +159,8 @@ public class Creature : MonoBehaviour
         }
 
         if (attackWillHit && creature)
-        { 
+        {
+            creature.baseObject.DamageFlash(1);
             // Got past armor / defense
             if (weapon == null)
             {
