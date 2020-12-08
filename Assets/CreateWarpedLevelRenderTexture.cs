@@ -21,7 +21,7 @@ public class CreateWarpedLevelRenderTexture : MonoBehaviour
         height = (int)(Mathf.Pow(2, Mathf.Ceil(Mathf.Log(height) / Mathf.Log(2))));
         // Width is double the height because it seems right..
         int width = height * 2;
-        var renderTexture = new RenderTexture(width, height, 16, RenderTextureFormat.DefaultHDR);
+        var renderTexture = new RenderTexture(width, height, 24, RenderTextureFormat.DefaultHDR);
         renderTexture.filterMode = FilterMode.Point;
         camera.targetTexture = renderTexture;
         renderQuad.sharedMaterial.mainTexture = renderTexture;
