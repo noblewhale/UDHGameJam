@@ -47,6 +47,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectName: Key
   viewDistance: 4
+  illuminationRange: 0
   OnSteppedOn:
     m_PersistentCalls:
       m_Calls: []
@@ -81,6 +82,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4832976842269562}
   - component: {fileID: 212293187630020122}
+  - component: {fileID: 6993171104244845837}
   m_Layer: 0
   m_Name: KeyGlyph
   m_TagString: Untagged
@@ -153,6 +155,20 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &6993171104244845837
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1691725983613444}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7484360c001bc541b5df9e45926dda3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tint: {r: 1, g: 1, b: 1, a: 1}
+  isLit: 0
 --- !u!1 &1785431551397464
 GameObject:
   m_ObjectHideFlags: 0

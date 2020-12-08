@@ -178,6 +178,8 @@ public class DungeonObject : MonoBehaviour
         y = newY;
         tile = map.tileObjects[y][x];
 
+        map.UpdateLighting();
+
         if (onSetPosition != null) onSetPosition(previousX, previousY, x, y);
     }
 }

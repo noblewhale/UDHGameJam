@@ -41,6 +41,7 @@ GameObject:
   - component: {fileID: 4497875464749258}
   - component: {fileID: 212037171494362094}
   - component: {fileID: 114308934631212584}
+  - component: {fileID: 3917655848645894296}
   m_Layer: 0
   m_Name: HumanGlyph
   m_TagString: Untagged
@@ -125,6 +126,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d28a00780c6e3442b4519f38f7db683, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &3917655848645894296
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1266812042022390}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7484360c001bc541b5df9e45926dda3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tint: {r: 1, g: 1, b: 1, a: 1}
+  isLit: 0
 --- !u!1 &1462884215592212
 GameObject:
   m_ObjectHideFlags: 0
@@ -135,6 +150,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4024724780921608}
   - component: {fileID: 212316544962541262}
+  - component: {fileID: 5116060513339144135}
   m_Layer: 0
   m_Name: Chest
   m_TagString: Untagged
@@ -207,6 +223,20 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &5116060513339144135
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1462884215592212}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7484360c001bc541b5df9e45926dda3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tint: {r: 1, g: 1, b: 1, a: 1}
+  isLit: 0
 --- !u!1 &1522651028941318
 GameObject:
   m_ObjectHideFlags: 0
@@ -254,8 +284,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectName: Human
-  viewDistance: 4
-  illuminationRange: 2
+  viewDistance: 8
+  illuminationRange: 1
   OnSteppedOn:
     m_PersistentCalls:
       m_Calls: []
@@ -420,6 +450,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4428779859290034}
   - component: {fileID: 212126887127937124}
+  - component: {fileID: 3612371679390206477}
   m_Layer: 0
   m_Name: Shield
   m_TagString: Untagged
@@ -492,3 +523,17 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &3612371679390206477
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1753941655544448}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7484360c001bc541b5df9e45926dda3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tint: {r: 1, g: 1, b: 1, a: 1}
+  isLit: 0

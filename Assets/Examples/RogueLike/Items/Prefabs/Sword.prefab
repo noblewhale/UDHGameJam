@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1638328824166310750}
   - component: {fileID: 6251358731147672121}
+  - component: {fileID: 1796097443143798606}
   m_Layer: 0
   m_Name: Handle Part
   m_TagString: Untagged
@@ -83,6 +84,20 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1796097443143798606
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2044744689093411277}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7484360c001bc541b5df9e45926dda3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tint: {r: 1, g: 1, b: 1, a: 1}
+  isLit: 0
 --- !u!1 &3776834886377039012
 GameObject:
   m_ObjectHideFlags: 0
@@ -131,6 +146,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectName: Sword
   viewDistance: 4
+  illuminationRange: 0
   OnSteppedOn:
     m_PersistentCalls:
       m_Calls: []
@@ -227,6 +243,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3781921219428214882}
   - component: {fileID: 3935922296058440834}
+  - component: {fileID: 5689689711027527610}
   m_Layer: 0
   m_Name: Sword
   m_TagString: Untagged
@@ -299,6 +316,20 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &5689689711027527610
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3777025371962122524}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7484360c001bc541b5df9e45926dda3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tint: {r: 1, g: 1, b: 1, a: 1}
+  isLit: 0
 --- !u!1 &4030473503915142489
 GameObject:
   m_ObjectHideFlags: 0

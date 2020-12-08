@@ -48,6 +48,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectName: Dagger
   viewDistance: 4
+  illuminationRange: 0
   OnSteppedOn:
     m_PersistentCalls:
       m_Calls: []
@@ -144,6 +145,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4514473546918242}
   - component: {fileID: 212558505335401858}
+  - component: {fileID: 4410544729158250942}
   m_Layer: 0
   m_Name: Dagger
   m_TagString: Untagged
@@ -216,6 +218,20 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &4410544729158250942
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1878225704443932}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7484360c001bc541b5df9e45926dda3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tint: {r: 1, g: 1, b: 1, a: 1}
+  isLit: 0
 --- !u!1 &2885814339428466893
 GameObject:
   m_ObjectHideFlags: 0
@@ -226,6 +242,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2508680702395687518}
   - component: {fileID: 7110432884251212601}
+  - component: {fileID: 8857355934439169659}
   m_Layer: 0
   m_Name: Handle Part
   m_TagString: Untagged
@@ -299,6 +316,20 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &8857355934439169659
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2885814339428466893}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7484360c001bc541b5df9e45926dda3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tint: {r: 1, g: 1, b: 1, a: 1}
+  isLit: 0
 --- !u!1 &3575822419149356064
 GameObject:
   m_ObjectHideFlags: 0

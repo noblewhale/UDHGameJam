@@ -3,8 +3,9 @@
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -23,7 +24,7 @@ MonoBehaviour:
   maxHeight: -1
   minBSPArea: 3
   nothings:
-  - item: {fileID: 114396989050233776, guid: 6ff31623a9d415f4a8e85daae402c56b, type: 2}
+  - item: {fileID: 114396989050233776, guid: 6ff31623a9d415f4a8e85daae402c56b, type: 3}
     minQuantity: 1
     maxQuantity: 1
     probability: 1
@@ -33,7 +34,7 @@ MonoBehaviour:
     minQuantityPerBiome: -1
     maxQuantityPerBiome: -1
   floors:
-  - item: {fileID: 114396989050233776, guid: fc61b768638409649819ee72bd27740c, type: 2}
+  - item: {fileID: 114396989050233776, guid: fc61b768638409649819ee72bd27740c, type: 3}
     minQuantity: 1
     maxQuantity: 1
     probability: 1
@@ -42,7 +43,7 @@ MonoBehaviour:
     requireSpawnable: 1
     minQuantityPerBiome: -1
     maxQuantityPerBiome: -1
-  - item: {fileID: 114396989050233776, guid: c69b6a8f4055a1e498fa30a4dcf35d06, type: 2}
+  - item: {fileID: 114396989050233776, guid: c69b6a8f4055a1e498fa30a4dcf35d06, type: 3}
     minQuantity: 1
     maxQuantity: 1
     probability: 4
@@ -52,7 +53,7 @@ MonoBehaviour:
     minQuantityPerBiome: -1
     maxQuantityPerBiome: -1
   walls:
-  - item: {fileID: 114024561291017924, guid: 1268d14737f164f4494906c493e7fef9, type: 2}
+  - item: {fileID: 114024561291017924, guid: 1268d14737f164f4494906c493e7fef9, type: 3}
     minQuantity: 1
     maxQuantity: 1
     probability: 1
@@ -62,7 +63,7 @@ MonoBehaviour:
     minQuantityPerBiome: -1
     maxQuantityPerBiome: -1
   doors:
-  - item: {fileID: 114959046356625430, guid: 869404b52a249a74d9c2da34da750f88, type: 2}
+  - item: {fileID: 114959046356625430, guid: 869404b52a249a74d9c2da34da750f88, type: 3}
     minQuantity: 1
     maxQuantity: 1
     probability: 1
@@ -71,5 +72,15 @@ MonoBehaviour:
     requireSpawnable: 1
     minQuantityPerBiome: -1
     maxQuantityPerBiome: -1
+  torches:
+  - item: {fileID: 3096362382002108082, guid: 617344c531ad38345966374b0825c374, type: 3}
+    minQuantity: 1
+    maxQuantity: 1
+    probability: 1
+    onlySpawnOn: []
+    dontSpawnOn: []
+    requireSpawnable: 1
+    minQuantityPerBiome: 1
+    maxQuantityPerBiome: 1
   finalDoorPrefab: {fileID: 114959046356625430, guid: da93865118f707546915fc59ef79a133,
-    type: 2}
+    type: 3}

@@ -17,6 +17,7 @@ public class Level1Alt : BiomeType
     public BiomeDropRate[] floors;
     public BiomeDropRate[] walls;
     public BiomeDropRate[] doors;
+    public BiomeDropRate[] torches;
     public DungeonObject finalDoorPrefab;
 
     class Node
@@ -43,7 +44,7 @@ public class Level1Alt : BiomeType
 
     public enum TileType
     {
-        NOTHING, FLOOR, WALL, DOOR
+        NOTHING, FLOOR, WALL, DOOR, TORCH
     }
 
     public TileType[][] tiles;
@@ -61,6 +62,7 @@ public class Level1Alt : BiomeType
         yield return Map.instance.StartCoroutine(GenerateRooms(root));
         var mapArea = new RectIntExclusive(0, 0, Map.instance.width, Map.instance.height);
         AddWalls();
+        
         if (animationDelay != 0)
         {
             UpdateTiles(mapArea);
@@ -68,6 +70,7 @@ public class Level1Alt : BiomeType
         }
         PruneDoors();
         UpdateTiles(mapArea);
+        AddLighting();
 
         //SpawnFinalDoor(map, area);
     }
@@ -155,6 +158,22 @@ public class Level1Alt : BiomeType
         return false;
     }
 
+    void AddLighting()
+    {
+        var map = Map.instance;
+        for (int y = 0; y < map.height; y++)
+        {
+            for (int x = 0; x < map.width; x++)
+            {
+                if (SurroundedByFloor(x, y, 4))
+                {
+                    map.tileObjects[y][x].isAlwaysLit = true;
+                    map.tileObjects[y][x].SetLit(true);
+                }
+            }
+        }
+    }
+
     void AddWalls()
     {
         var map = Map.instance;
@@ -168,6 +187,43 @@ public class Level1Alt : BiomeType
                 }
             }
         }
+    }
+
+    bool SurroundedByFloor(int x, int y, int requireNumFloorTiles = 9)
+    {
+        var map = Map.instance;
+        if (y == 0 || y == map.height - 1) return false;
+        int floorCount = 0;
+        int neighborY = y - 1;
+        int neighborX = map.WrapX(x - 1);
+        if (tiles[neighborY][neighborX] == TileType.FLOOR) floorCount++;
+        neighborY = y - 1;
+        neighborX = x;
+        if (tiles[neighborY][neighborX] == TileType.FLOOR) floorCount++;
+        neighborY = y - 1;
+        neighborX = map.WrapX(x + 1);
+        if (tiles[neighborY][neighborX] == TileType.FLOOR) floorCount++;
+        neighborY = y;
+        neighborX = map.WrapX(x - 1);
+        if (tiles[neighborY][neighborX] == TileType.FLOOR) floorCount++;
+        neighborY = y;
+        neighborX = x;
+        if (tiles[neighborY][neighborX] == TileType.FLOOR) floorCount++;
+        neighborY = y;
+        neighborX = map.WrapX(x + 1);
+        if (tiles[neighborY][neighborX] == TileType.FLOOR) floorCount++;
+        neighborY = y + 1;
+        neighborX = map.WrapX(x - 1);
+        if (tiles[neighborY][neighborX] == TileType.FLOOR) floorCount++;
+        neighborY = y + 1;
+        neighborX = x;
+        if (tiles[neighborY][neighborX] == TileType.FLOOR) floorCount++;
+        neighborY = y + 1;
+        neighborX = map.WrapX(x + 1);
+        if (tiles[neighborY][neighborX] == TileType.FLOOR) floorCount++;
+
+        if (floorCount >= requireNumFloorTiles) return true;
+        else return false;
     }
 
     bool HasAdjacentFloor(int x, int y)
@@ -220,6 +276,15 @@ public class Level1Alt : BiomeType
                 for (int x = rect.xMin; x <= rect.xMax; x++)
                 {
                     tiles[y][x] = TileType.FLOOR;
+                }
+            }
+
+            for (int y = rect.yMin-1; y <= rect.yMax+1; y++)
+            {
+                for (int x = rect.xMin-1; x <= rect.xMax+1; x++)
+                {
+                    Map.instance.tileObjects[y][Map.instance.WrapX(x)].isAlwaysLit = true;
+                    Map.instance.tileObjects[y][Map.instance.WrapX(x)].SetLit(true);
                 }
             }
             if (animationDelay != 0)
@@ -376,10 +441,12 @@ public class Level1Alt : BiomeType
         bool isFloor = GetTile(i, j, invert) == TileType.FLOOR;
         bool isLesserNeighborFloor = i - 1 > area.Min(!invert) && GetTile(i - 1, j, invert) == TileType.FLOOR;
         bool isGreaterNeighborFloor = i + 1 < area.Max(!invert) && GetTile(i + 1, j, invert) == TileType.FLOOR;
+        bool isLesserLesserNeighborFloor = i - 1 - 1 > area.Min(!invert) && GetTile(i - 1 - 1, j, invert) == TileType.FLOOR;
+        bool isGreaterGreaterNeighborFloor = i + 1 + 1 < area.Max(!invert) && GetTile(i + 1 + 1, j, invert) == TileType.FLOOR;
 
         SetTile(i, j, TileType.FLOOR, invert);
 
-        return isFloor || isLesserNeighborFloor || isGreaterNeighborFloor;
+        return isFloor || isLesserNeighborFloor || isGreaterNeighborFloor || isLesserLesserNeighborFloor || isGreaterGreaterNeighborFloor;
     }
 
     // Create a straight (vertical or horizontal) path starting from the edge of an area, moving inwards until
@@ -407,7 +474,11 @@ public class Level1Alt : BiomeType
         int endOfPath = CreateStraightPath(i, areaB.Min(invert), areaB.Max(invert), areaB, invert);
 
         if (IsDoorSpot(i, startOfPath + 1, invert)) SetTile(i, startOfPath + 1, TileType.DOOR, invert);
+        if (IsDoorSpot(i - 1, startOfPath, invert)) SetTile(i - 1, startOfPath, TileType.DOOR, invert);
+        if (IsDoorSpot(i + 1, startOfPath, invert)) SetTile(i + 1, startOfPath, TileType.DOOR, invert);
         if (IsDoorSpot(i, endOfPath - 1, invert)) SetTile(i, endOfPath - 1, TileType.DOOR, invert);
+        if (IsDoorSpot(i - 1, endOfPath, invert)) SetTile(i - 1, endOfPath, TileType.DOOR, invert);
+        if (IsDoorSpot(i + 1, endOfPath, invert)) SetTile(i + 1, endOfPath, TileType.DOOR, invert);
 
         var pathArea = new RectIntExclusive();
         if (invert) pathArea.SetMinMax(startOfPath - 1, endOfPath + 1, i - 1, i + 1);
@@ -692,7 +763,7 @@ public class Level1Alt : BiomeType
                     {
                         orientation = Direction.RIGHT;
                     }
-                    foreach (var glyph in instanceOb.GetComponentsInChildren<OrientedGlyph>())
+                    foreach (var glyph in instanceOb.GetComponentsInChildren<OrientedGlyph>(true))
                     {
                         glyph.orientation = orientation;
                     }
@@ -709,6 +780,7 @@ public class Level1Alt : BiomeType
             case TileType.FLOOR: return floors;
             case TileType.DOOR: return doors;
             case TileType.WALL: return walls;
+            case TileType.TORCH: return torches;
             default:
                 Debug.LogError("Invalid base tile type: " + baseType.ToString());
                 return null;

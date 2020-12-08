@@ -14,6 +14,7 @@ public class Tile : MonoBehaviour
 
     public bool isInView = false;
     public bool isLit = true;
+    public bool isAlwaysLit = false;
 
     public LinkedList<DungeonObject> objectList = new LinkedList<DungeonObject>();
 
@@ -93,6 +94,8 @@ public class Tile : MonoBehaviour
 
     public void SetLit(bool isLit)
     {
+        if (isAlwaysLit && isLit == false) return;
+
         this.isLit = isLit;
         if (isLit)
         {
@@ -167,7 +170,8 @@ public class Tile : MonoBehaviour
         {
             map.tilesThatAllowSpawn.Remove(this);
         }
-        //SetInView(isInView);
+        SetInView(isInView);
+        SetLit(isLit);
     }
 
     public void RemoveObject(DungeonObject ob, bool destroyObject = false)
@@ -187,6 +191,7 @@ public class Tile : MonoBehaviour
             }
         }
         SetInView(isInView);
+        SetLit(isLit);
     }
 
     public void RemoveAllObjects()

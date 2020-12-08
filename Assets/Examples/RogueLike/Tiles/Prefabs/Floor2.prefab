@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4778594697326972}
   - component: {fileID: 212278158165659248}
+  - component: {fileID: 5449276789493514443}
   m_Layer: 0
   m_Name: FloorGlyph
   m_TagString: Untagged
@@ -71,8 +72,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 2c855fb8de28d3d43b4b4789c3e7482b, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.3529412}
+  m_Sprite: {fileID: 21300000, guid: ac53a757cc6e54a41b6dd19046253569, type: 3}
+  m_Color: {r: 0.754717, g: 0.754717, b: 0.754717, a: 0.3529412}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -82,6 +83,20 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &5449276789493514443
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1787452810539580}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7484360c001bc541b5df9e45926dda3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tint: {r: 1, g: 1, b: 1, a: 1}
+  isLit: 0
 --- !u!1 &1886671731430450
 GameObject:
   m_ObjectHideFlags: 0

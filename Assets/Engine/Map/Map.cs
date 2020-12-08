@@ -302,7 +302,7 @@ public class Map : MonoBehaviour
                 {
                     ob.SetLit(true);
                 }
-                else if (ob.illuminationRange != 0)
+                if (ob.illuminationRange != 0)
                 {
                     Vector2 center = new Vector2(tile.x + .5f, tile.y + .5f);
                     int numRays = 360;

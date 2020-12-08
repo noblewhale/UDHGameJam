@@ -44,7 +44,6 @@ public class Player : MonoBehaviour
 
     void OnPositionChange(int oldX, int oldY, int newX, int newY)
     {
-        map.UpdateLighting();
         map.Reveal(newX, newY, identity.viewDistance);
     }
 
