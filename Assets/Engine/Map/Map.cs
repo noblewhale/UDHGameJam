@@ -47,6 +47,8 @@ public class Map : MonoBehaviour
 
     public Camera warpedMapCamera;
 
+    public bool isDoneGeneratingMap = false;
+
 	void Start ()
     {
         instance = this;
@@ -59,6 +61,7 @@ public class Map : MonoBehaviour
 
     public void ClearMap()
     {
+        isDoneGeneratingMap = false;
         ForEachTile(t =>
         {
             t.DestroyAllObjects();
@@ -83,6 +86,7 @@ public class Map : MonoBehaviour
 
     public IEnumerator RegenerateMap()
     {
+        isDoneGeneratingMap = false;
         Player.instance.isInputEnabled = false;
         PlayerCamera cam = Player.instance.mainCamera.GetComponent<PlayerCamera>();
         float playerPosY = Player.instance.identity.transform.position.y + cam.cameraOffset;
@@ -98,11 +102,13 @@ public class Map : MonoBehaviour
 
     IEnumerator GenerateMap()
     {
+        isDoneGeneratingMap = false;
         //UnityEditor.SceneView.FocusWindowIfItsOpen(typeof(UnityEditor.SceneView));
         PlaceBiomes();
         yield return StartCoroutine(PreProcessBiomes());
         ForEachTile(Biome.SpawnRandomObject);
         PostProcessMap();
+        isDoneGeneratingMap = true;
         if (OnMapLoaded != null) OnMapLoaded();
     }
 

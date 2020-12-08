@@ -15,6 +15,17 @@ public class MovementBehaviourTowardsPlayer : TickableBehaviour
         owningCreature = owner.GetComponent<Creature>();
     }
 
+    public override bool StartAction(out ulong duration)
+    {
+        duration = owningCreature.ticksPerMove;
+        return false;
+    }
+
+    public override bool ContinueAction()
+    {
+        return true;
+    }
+
     public override void FinishAction()
     {
         owner.map.MoveObject(owner, nextMoveTarget.x, nextMoveTarget.y);

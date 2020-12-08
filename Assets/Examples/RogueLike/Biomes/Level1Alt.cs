@@ -70,7 +70,6 @@ public class Level1Alt : BiomeType
         }
         PruneDoors();
         UpdateTiles(mapArea);
-        AddLighting();
 
         //SpawnFinalDoor(map, area);
     }
@@ -158,22 +157,6 @@ public class Level1Alt : BiomeType
         return false;
     }
 
-    void AddLighting()
-    {
-        var map = Map.instance;
-        for (int y = 0; y < map.height; y++)
-        {
-            for (int x = 0; x < map.width; x++)
-            {
-                if (SurroundedByFloor(x, y, 4))
-                {
-                    map.tileObjects[y][x].isAlwaysLit = true;
-                    map.tileObjects[y][x].SetLit(true);
-                }
-            }
-        }
-    }
-
     void AddWalls()
     {
         var map = Map.instance;
@@ -188,44 +171,6 @@ public class Level1Alt : BiomeType
             }
         }
     }
-
-    bool SurroundedByFloor(int x, int y, int requireNumFloorTiles = 9)
-    {
-        var map = Map.instance;
-        if (y == 0 || y == map.height - 1) return false;
-        int floorCount = 0;
-        int neighborY = y - 1;
-        int neighborX = map.WrapX(x - 1);
-        if (tiles[neighborY][neighborX] == TileType.FLOOR) floorCount++;
-        neighborY = y - 1;
-        neighborX = x;
-        if (tiles[neighborY][neighborX] == TileType.FLOOR) floorCount++;
-        neighborY = y - 1;
-        neighborX = map.WrapX(x + 1);
-        if (tiles[neighborY][neighborX] == TileType.FLOOR) floorCount++;
-        neighborY = y;
-        neighborX = map.WrapX(x - 1);
-        if (tiles[neighborY][neighborX] == TileType.FLOOR) floorCount++;
-        neighborY = y;
-        neighborX = x;
-        if (tiles[neighborY][neighborX] == TileType.FLOOR) floorCount++;
-        neighborY = y;
-        neighborX = map.WrapX(x + 1);
-        if (tiles[neighborY][neighborX] == TileType.FLOOR) floorCount++;
-        neighborY = y + 1;
-        neighborX = map.WrapX(x - 1);
-        if (tiles[neighborY][neighborX] == TileType.FLOOR) floorCount++;
-        neighborY = y + 1;
-        neighborX = x;
-        if (tiles[neighborY][neighborX] == TileType.FLOOR) floorCount++;
-        neighborY = y + 1;
-        neighborX = map.WrapX(x + 1);
-        if (tiles[neighborY][neighborX] == TileType.FLOOR) floorCount++;
-
-        if (floorCount >= requireNumFloorTiles) return true;
-        else return false;
-    }
-
     bool HasAdjacentFloor(int x, int y)
     {
         var map = Map.instance;

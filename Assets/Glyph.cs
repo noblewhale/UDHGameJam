@@ -19,20 +19,15 @@ public class Glyph : MonoBehaviour
     {
         sprite = GetComponent<SpriteRenderer>();
         originalColor = sprite.color;
-        unlitColor = sprite.color / 2;
-        unlitColor.a = sprite.color.a;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (isLit)
+        sprite.color = originalColor - (Color.white - tint) - (Color.white - extraTint);
+        if (!isLit)
         {
-            sprite.color = originalColor - (Color.white - tint) - (Color.white - extraTint);
-        }
-        else
-        {
-            sprite.color = unlitColor - (Color.white - tint) - (Color.white - extraTint);
+            sprite.color = new Color(sprite.color.r / 2, sprite.color.g / 2, sprite.color.b / 2, sprite.color.a);
         }
     }
 }

@@ -52,7 +52,7 @@ public class Creature : MonoBehaviour
     public int gold { get { return baseObject.gold; } }
 
     float attackAnimationTime = 0;
-    float attackAnimationDuration = .5f;
+    public float attackAnimationDuration = .5f;
     float attackAnimationScale = 1;
     bool attackWillHit = false;
 

@@ -94,6 +94,7 @@ public class Player : MonoBehaviour
 	void Update ()
     {
         if (!isInputEnabled || !identity) return;
+        if (!isWaitingForPlayerInput) return;
 
         bool hasPress = Input.GetMouseButtonDown(0);
 

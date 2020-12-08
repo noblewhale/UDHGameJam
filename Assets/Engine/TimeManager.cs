@@ -19,6 +19,7 @@ public class TimeManager : MonoBehaviour
     float startWaitBetweenActionsTime = 0;
     Tickable interruptingTickable = null;
     bool isPlayerAction = false;
+    public Camera mapCamera;
 
     void Awake()
     {
@@ -49,36 +50,42 @@ public class TimeManager : MonoBehaviour
                 }
                 if (isInterrupted || isDone)
                 {
-                    if (!isInterrupted && currentAction.owner.tile.isInView)
-                    {
-                        isWaitingBetweenActions = isPlayerAction;
-                        startWaitBetweenActionsTime = Time.time;
-                    }
+                    //bool isOnCamera =
+                    //    currentAction.owner.transform.position.x > mapCamera.transform.position.x - mapCamera.orthographicSize * mapCamera.aspect &&
+                    //    currentAction.owner.transform.position.x < mapCamera.transform.position.x + mapCamera.orthographicSize * mapCamera.aspect &&
+                    //    currentAction.owner.transform.position.y > mapCamera.transform.position.y - mapCamera.orthographicSize &&
+                    //    currentAction.owner.transform.position.y < mapCamera.transform.position.y + mapCamera.orthographicSize;
+                    //if (!isInterrupted && currentAction.owner.tile.isInView && currentAction.owner.tile.isLit && isOnCamera) 
+                    //{
+                    //    bool isNextTickablePlayer = tickableObjects[tickableIndex] == Player.instance.identity.GetComponent<Tickable>();
+                    //    isWaitingBetweenActions = !isPlayerAction && !isNextTickablePlayer;
+                    //    startWaitBetweenActionsTime = Time.time;
+                    //}
                     currentAction.FinishAction();
                     currentAction = null;
                     isPlayerAction = false;
                 }
             }
 
-            if (isWaitingBetweenActions)
-            {
-                if (isInterrupted)
-                {
-                    isWaitingBetweenActions = false;
-                }
-                else
-                {
-                    if (Time.time - startWaitBetweenActionsTime < timeBetweenActions)
-                    {
-                        yield return new WaitForEndOfFrame();
-                        continue;
-                    }
-                    else
-                    {
-                        isWaitingBetweenActions = false;
-                    }
-                }
-            }
+            //if (isWaitingBetweenActions)
+            //{
+            //    if (isInterrupted)
+            //    {
+            //        isWaitingBetweenActions = false;
+            //    }
+            //    else
+            //    {
+            //        if (Time.time - startWaitBetweenActionsTime < timeBetweenActions)
+            //        {
+            //            yield return new WaitForEndOfFrame();
+            //            continue;
+            //        }
+            //        else
+            //        {
+            //            isWaitingBetweenActions = false;
+            //        }
+            //    }
+            //}
 
             if (isDone || isInterrupted)
             {
@@ -110,19 +117,35 @@ public class TimeManager : MonoBehaviour
                         ulong actionDuration = 1;
                         bool finishImmediately = ob.StartNewAction(out actionDuration);
                         ob.nextActionTime = time + actionDuration;
-                        if (finishImmediately || !ob.owner.tile.isInView || isInterrupted)
+                        bool wasPlayerAction = isPlayerAction;
+                        bool isOnCamera =
+                            ob.owner.transform.position.x > mapCamera.transform.position.x - mapCamera.orthographicSize * mapCamera.aspect &&
+                            ob.owner.transform.position.x < mapCamera.transform.position.x + mapCamera.orthographicSize * mapCamera.aspect &&
+                            ob.owner.transform.position.y > mapCamera.transform.position.y - mapCamera.orthographicSize &&
+                            ob.owner.transform.position.y < mapCamera.transform.position.y + mapCamera.orthographicSize;
+                        if (!isInterrupted && ob.owner.tile.isInView && ob.owner.tile.isLit && isOnCamera)
                         {
+                            int nextTickableIndex = tickableIndex - 1;
+                            if (nextTickableIndex <= 0)
+                            {
+                                nextTickableIndex = tickableObjects.Count - 1;
+                            }
+                            bool isNextTickablePlayer = tickableObjects[nextTickableIndex] == Player.instance.identity.GetComponent<Tickable>();
+                            isWaitingBetweenActions = !wasPlayerAction && !isNextTickablePlayer && !finishImmediately;
+                            startWaitBetweenActionsTime = Time.time;
+                            if (isWaitingBetweenActions)
+                            {
+                                yield return new WaitForSeconds(timeBetweenActions);
+                            }
+                            //tickableIndex--;
+                            //break;
+                        }
+                        if (finishImmediately || !ob.owner.tile.isInView || !ob.owner.tile.isLit || isInterrupted || !isOnCamera)
+                        {   
                             ob.FinishAction();
                             currentAction = null;
-                            bool wasPlayerAction = isPlayerAction;
                             isPlayerAction = false;
-                            if (!isInterrupted && ob.owner.tile.isInView)
-                            {
-                                isWaitingBetweenActions = !wasPlayerAction;
-                                startWaitBetweenActionsTime = Time.time;
-                                tickableIndex--;
-                                break;
-                            }
+                            //tickableIndex--;
                         }
                         else
                         {

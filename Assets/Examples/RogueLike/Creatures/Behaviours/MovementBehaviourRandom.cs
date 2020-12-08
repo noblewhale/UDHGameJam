@@ -5,7 +5,25 @@ using UnityEngine;
 public class MovementBehaviourRandom : TickableBehaviour
 {
     
-    Tile nextMoveTarget;
+    Tile nextMoveTarget; 
+    Creature owningCreature;
+
+    override public void Awake()
+    {
+        base.Awake();
+        owningCreature = owner.GetComponent<Creature>();
+    }
+
+    public override bool StartAction(out ulong duration)
+    {
+        duration = owningCreature.ticksPerMove;
+        return false;
+    }
+
+    public override bool ContinueAction()
+    {
+        return true;
+    }
 
     public override void FinishAction()
     {

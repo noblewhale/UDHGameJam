@@ -139,6 +139,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tint: {r: 1, g: 1, b: 1, a: 1}
+  extraTint: {r: 1, g: 1, b: 1, a: 1}
   isLit: 0
 --- !u!1 &1462884215592212
 GameObject:
@@ -236,6 +237,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tint: {r: 1, g: 1, b: 1, a: 1}
+  extraTint: {r: 1, g: 1, b: 1, a: 1}
   isLit: 0
 --- !u!1 &1522651028941318
 GameObject:
@@ -375,6 +377,7 @@ MonoBehaviour:
   pants: {fileID: 0}
   baseObject: {fileID: 0}
   tickable: {fileID: 0}
+  attackAnimationDuration: 0.2
 --- !u!114 &114137244388563158
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -536,4 +539,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tint: {r: 1, g: 1, b: 1, a: 1}
+  extraTint: {r: 1, g: 1, b: 1, a: 1}
   isLit: 0
