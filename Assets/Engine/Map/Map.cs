@@ -157,7 +157,7 @@ public class Map : MonoBehaviour
     {
         foreach (var biome in biomes)
         {
-            yield return StartCoroutine(biome.biomeType.PreProcessMap(this, biome.area));
+            yield return StartCoroutine(biome.PreProcessMap(this));
         }
     }
 

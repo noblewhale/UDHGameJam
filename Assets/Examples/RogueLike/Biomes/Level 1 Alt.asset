@@ -82,5 +82,8 @@ MonoBehaviour:
     requireSpawnable: 1
     minQuantityPerBiome: 1
     maxQuantityPerBiome: 1
+  electrics: []
+  scorpions: {fileID: 11400000, guid: 19c7d0686e5dc124d9de1ad1c5b145f0, type: 2}
+  rats: {fileID: 11400000, guid: c5f22687274f57c48a389e16806785b4, type: 2}
   finalDoorPrefab: {fileID: 114959046356625430, guid: da93865118f707546915fc59ef79a133,
     type: 3}

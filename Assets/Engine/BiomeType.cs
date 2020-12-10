@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu]
@@ -13,7 +14,7 @@ public class BiomeType : ScriptableObject
     public int minWidth, maxWidth;
     public int minHeight, maxHeight;
 
-    virtual public IEnumerator PreProcessMap(Map map, RectIntExclusive area)
+    virtual public IEnumerator PreProcessMap(Map map, Biome biome)
     {
         yield break;
     }

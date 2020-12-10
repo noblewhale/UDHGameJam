@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -8,8 +9,18 @@ public class Biome
 
     public BiomeType biomeType;
     public RectIntExclusive area;
+    public List<Biome> subBiomes = new List<Biome>();
 
     Dictionary<DungeonObject, int> stacksSpawned = new Dictionary<DungeonObject, int>();
+
+    virtual public IEnumerator PreProcessMap(Map map)
+    {
+        yield return map.StartCoroutine(biomeType.PreProcessMap(map, this));
+        foreach (var subBiome in subBiomes)
+        {
+            yield return map.StartCoroutine(subBiome.PreProcessMap(map));
+        }
+    }
 
     public static DungeonObject SelectRandomObject(BiomeDropRate[] rates)
     {
@@ -48,10 +59,27 @@ public class Biome
         }
     }
 
+    public static void GatherBiomes(Vector2Int pos, ref List<Biome> biomes, Biome parentBiome)
+    {
+        var subBiomesContainingXY = parentBiome.subBiomes.Where(b => b.area.Contains(pos));
+        foreach (var subBiome in subBiomesContainingXY)
+        {
+            biomes.Add(subBiome);
+            GatherBiomes(pos, ref biomes, subBiome);
+        }
+    }
+
     public static void SpawnRandomObject(Tile tile)
     {
         int numStacksAlreadyPlaced = 0;
-        var containingBiomes = tile.map.biomes.Where(b => b.area.Contains(new Vector2Int(tile.x, tile.y)));
+        Vector2Int tilePos = new Vector2Int(tile.x, tile.y);
+        var containingBiomes = tile.map.biomes.Where(b => b.area.Contains(tilePos)).ToList();
+        var subBiomes = new List<Biome>();
+        foreach (var biome in containingBiomes)
+        {
+            GatherBiomes(tilePos, ref subBiomes, biome);
+        }
+        containingBiomes.AddRange(subBiomes);
         float totalProbability = 0;
     
         List<BiomeRate> viableDrops = new List<BiomeRate>();

@@ -21,17 +21,17 @@ public class Level1 : BiomeType
 
     public TileType[][] tiles;
 
-    override public IEnumerator PreProcessMap(Map map, RectIntExclusive area)
+    override public IEnumerator PreProcessMap(Map map, Biome biome)
     {
         tiles = new TileType[map.height][];
         for (int y = 0; y < map.height; y++) tiles[y] = new TileType[map.width];
 
         wallTiles.Clear();
 
-        GenerateRooms(map, area, 30);
+        GenerateRooms(map, biome.area, 30);
         ConnectRooms(map);
-        UpdateTiles(map, area);
-        SpawnFinalDoor(map, area);
+        UpdateTiles(map, biome.area);
+        SpawnFinalDoor(map, biome.area);
 
         yield break;
     }
