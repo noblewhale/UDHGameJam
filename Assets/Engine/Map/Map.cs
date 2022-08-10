@@ -88,7 +88,7 @@ public class Map : MonoBehaviour
     {
         isDoneGeneratingMap = false;
         Player.instance.playerInput.isInputEnabled = false;
-        PlayerCamera cam = Player.instance.mainCamera.GetComponent<PlayerCamera>();
+        PlayerCamera cam = PlayerCamera.instance;
         float playerPosY = Player.instance.identity.transform.position.y + cam.cameraOffset;
         while (Mathf.Abs(cam.transform.position.y - playerPosY) > .01f)
         {

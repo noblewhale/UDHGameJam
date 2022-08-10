@@ -4,6 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-class RoguePlayer : Player
+public class RoguePlayer : Player
 {
 }

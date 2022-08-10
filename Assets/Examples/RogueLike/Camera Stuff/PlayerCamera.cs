@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerCamera : MonoBehaviour
 {
-    Player owner;
+    public DungeonObject owner;
 
     public float rotationMaxSpeed = .01f;
     public float rotationLerpFactor = .5f;
@@ -22,19 +22,15 @@ public class PlayerCamera : MonoBehaviour
     void Start ()
     {
         instance = this;
-        owner = FindObjectOfType<Player>();
         camera = GetComponent<Camera>();
 	}
 	
 	void Update ()
     {
-        if (!owner || !owner.identity) return;
+        if (!owner) return;
 
-        SetRotation(owner.identity.x, owner.identity.y, rotationLerpFactor, rotationMaxSpeed * Time.deltaTime * 100);
-        if (owner.isControllingCamera)
-        {
-            SetY(owner.identity.transform.position.y, movementLerpFactor, movementMaxSpeed);
-        }
+        SetRotation(owner.x, owner.y, rotationLerpFactor, rotationMaxSpeed * Time.deltaTime * 100);
+        SetY(owner.transform.position.y, movementLerpFactor, movementMaxSpeed);
     }
 
     public void SetY(float worldY, float lerpFactor, float maxSpeed)
@@ -55,7 +51,7 @@ public class PlayerCamera : MonoBehaviour
 
     public void SetRotation(int x, int y, float lerpFactor, float maxSpeed)
     {
-        float percentOfWidth = (float) (x + .5f) / owner.map.width;
+        float percentOfWidth = (float) (x + .5f) / Map.instance.width;
         float targetRotation = 2 * Mathf.PI * (1 - percentOfWidth);
         if (rotation < 0) rotation = 2 * Mathf.PI;
         else if (rotation > 2 * Mathf.PI) rotation = 0;

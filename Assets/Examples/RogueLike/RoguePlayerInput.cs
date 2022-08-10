@@ -34,13 +34,13 @@ public class RoguePlayerInput : PlayerInput
                     }
                     else if (Math.Abs(xDif) > Math.Abs(yDif))
                     {
-                        if (xDif > 0) commandQueue.AddIfNotExists(KeyCode.D);
-                        else commandQueue.AddIfNotExists(KeyCode.A);
+                        if (xDif > 0) commandQueue.AddIfNotExists(KeyCode.D, true);
+                        else commandQueue.AddIfNotExists(KeyCode.A, true);
                     }
                     else // if (Math.Abs(xDif) < Math.Abs(yDif))
                     {
-                        if (yDif > 0) commandQueue.AddIfNotExists(KeyCode.W);
-                        else commandQueue.AddIfNotExists(KeyCode.S);
+                        if (yDif > 0) commandQueue.AddIfNotExists(KeyCode.W, true);
+                        else commandQueue.AddIfNotExists(KeyCode.S, true);
                     }
                 }
             }
@@ -55,18 +55,22 @@ public class RoguePlayerInput : PlayerInput
         bool doSomething = true;
         switch (key)
         {
+            case KeyCode.UpArrow:
             case KeyCode.W:
             case KeyCode.Keypad8:
                 newTileY++; 
                 break;
+            case KeyCode.DownArrow:
             case KeyCode.S:
             case KeyCode.Keypad2:
                 newTileY--; 
                 break;
+            case KeyCode.RightArrow:
             case KeyCode.D:
             case KeyCode.Keypad6:
                 newTileX++; 
                 break;
+            case KeyCode.LeftArrow:
             case KeyCode.A:
             case KeyCode.Keypad4:
                 newTileX--; 
@@ -95,7 +99,7 @@ public class RoguePlayerInput : PlayerInput
             newTileX = map.WrapX(newTileX);
             newTileY = Mathf.Clamp(newTileY, 0, map.height - 1);
 
-            Player.instance.playerBehaviour.SetNextActionTarget(newTileX, newTileY);
+            PlayerBehaviour.instance.SetNextActionTarget(newTileX, newTileY);
         }
 
         return doSomething;

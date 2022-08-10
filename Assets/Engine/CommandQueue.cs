@@ -7,11 +7,11 @@ using UnityEngine;
 public class CommandQueue : LinkedList<Command>
 {
 
-    public void AddIfNotExists(KeyCode k)
+    public void AddIfNotExists(KeyCode k, bool autoRemove = false)
     {
         foreach (var c in this) if (c.key == k && c.hasExecuted == false && c.shouldRemove == false) return;
 
-        Command command = new Command(k);
+        Command command = new Command(k, autoRemove);
         AddLast(command);
     }
 

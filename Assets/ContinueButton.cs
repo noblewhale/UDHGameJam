@@ -9,6 +9,6 @@ public class ContinueButton : MonoBehaviour
     public void Continue()
     {
         window.SetActive(false);
-        Player.instance.isControllingCamera = true;
+        PlayerCamera.instance.owner = Player.instance.identity;
     }
 }

@@ -6,7 +6,7 @@ public class StairsDown : MonoBehaviour
     {
         if (Player.instance.identity == creature)
         {
-            Player.instance.map.StartCoroutine(Player.instance.map.RegenerateMap());
+            Map.instance.StartCoroutine(Map.instance.RegenerateMap());
         }
     }
 }

@@ -6,9 +6,10 @@ public class Command
     public bool hasExecuted;
     public bool shouldRemove;
 
-    public Command(KeyCode key)
+    public Command(KeyCode key, bool autoRemove = false)
     {
         this.key = key;
+        this.shouldRemove = autoRemove;
     }
 
     public override bool Equals(object obj)

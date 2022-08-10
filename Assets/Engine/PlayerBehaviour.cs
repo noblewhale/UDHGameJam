@@ -19,6 +19,14 @@ public class PlayerBehaviour : TickableBehaviour
     BehaviourAction nextAction;
     int nextActionTargetX, nextActionTargetY;
 
+    public static PlayerBehaviour instance;
+
+    public override void Awake()
+    {
+        instance = this;
+        base.Awake();
+    }
+
     public override bool StartAction(out ulong duration)
     {
         DetermineAutoAction(nextActionTargetX, nextActionTargetY, out duration);
