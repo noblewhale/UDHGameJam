@@ -56,12 +56,21 @@ public class Creature : MonoBehaviour
     float attackAnimationScale = 1;
     bool attackWillHit = false;
 
+    Vector3 upLeft;
+    Vector3 downLeft;
+    Vector3 upRight;
+    Vector3 downRight;
+
     void Awake()
     {
         baseObject = GetComponent<DungeonObject>();
         tickable = GetComponent<Tickable>();
         baseObject.onMove += OnMove;
         baseObject.onPickedUpObject += OnPickedUpObject;
+        upLeft = (Vector2.up + Vector2.left).normalized;
+        downLeft = (Vector2.down + Vector2.left).normalized;
+        upRight = (Vector2.up + Vector2.right).normalized;
+        downRight = (Vector2.down + Vector2.right).normalized;
     }
 
     void OnPickedUpObject(DungeonObject ob)
@@ -74,29 +83,40 @@ public class Creature : MonoBehaviour
 
     void OnMove(int oldX, int oldY, int newX, int newY)
     {
-        if (newX == map.width - 1 && oldX == 0) lastDirectionAttackedOrMoved = Direction.LEFT;
-        else if (newX == 0 && oldX == map.width - 1) lastDirectionAttackedOrMoved = Direction.RIGHT;
-        else if (oldX > newX) lastDirectionAttackedOrMoved = Direction.LEFT;
-        else if (oldX < newX) lastDirectionAttackedOrMoved = Direction.RIGHT;
-        else if (oldY > newY) lastDirectionAttackedOrMoved = Direction.DOWN;
-        else if (oldY < newY) lastDirectionAttackedOrMoved = Direction.UP;
+        lastDirectionAttackedOrMoved = GetDirection(oldX, oldY, newX, newY);
 
         map.tileObjects[newY][newX].StepOn(this);
+    }
 
-        //baseObject.PickUpAll();
-        //tickable.nextActionTime = TimeManager.instance.time + (ulong)ticksPerMove;
+    // TODO: Wrapping
+    Direction GetDirection(int oldX, int oldY, int newX, int newY)
+    {
+        int xDif = oldX - newX;
+        int yDif = oldY - newY;
+        if (Math.Abs(xDif) == Math.Abs(yDif))
+        {
+            if (xDif > 0 && yDif > 0) return Direction.UP_RIGHT;
+            else if (xDif > 0 && yDif < 0) return Direction.DOWN_RIGHT;
+            else if (xDif < 0 && yDif < 0) return Direction.DOWN_LEFT;
+            else return Direction.UP_LEFT;
+        }
+        else if (Math.Abs(xDif) > Math.Abs(yDif))
+        {
+            if (xDif > 0) return Direction.RIGHT;
+            else return Direction.LEFT;
+        }
+        else
+        {
+            if (yDif > 0) return Direction.UP;
+            else return Direction.DOWN;
+        }
     }
 
     public void StartAttack(DungeonObject dOb)
     {
         Creature creature = dOb.GetComponent<Creature>();
 
-        if (dOb.x == map.width - 1 && x == 0) lastDirectionAttackedOrMoved = Direction.LEFT;
-        else if (dOb.x == 0 && x == map.width - 1) lastDirectionAttackedOrMoved = Direction.RIGHT;
-        else if (dOb.x < x) lastDirectionAttackedOrMoved = Direction.LEFT;
-        else if (dOb.x > x) lastDirectionAttackedOrMoved = Direction.RIGHT;
-        else if (dOb.y < y) lastDirectionAttackedOrMoved = Direction.DOWN;
-        else if (dOb.y > y) lastDirectionAttackedOrMoved = Direction.UP;
+        lastDirectionAttackedOrMoved = GetDirection(dOb.x, dOb.y, x, y);
         
         attackWillHit = false;
 
@@ -136,6 +156,10 @@ public class Creature : MonoBehaviour
                 case Direction.DOWN: glyph.transform.localPosition = originalPosition + Vector3.down * offset; break;
                 case Direction.RIGHT: glyph.transform.localPosition = originalPosition + Vector3.right * offset; break;
                 case Direction.LEFT: glyph.transform.localPosition = originalPosition + Vector3.left * offset; break;
+                case Direction.UP_LEFT: glyph.transform.localPosition = originalPosition + upLeft * offset; break;
+                case Direction.DOWN_LEFT: glyph.transform.localPosition = originalPosition + downLeft * offset; break;
+                case Direction.UP_RIGHT: glyph.transform.localPosition = originalPosition + upRight * offset; break;
+                case Direction.DOWN_RIGHT: glyph.transform.localPosition = originalPosition + downRight * offset; break;
             }
 
             if (attackWillHit && creature)

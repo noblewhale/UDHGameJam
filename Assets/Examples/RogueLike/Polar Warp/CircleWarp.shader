@@ -15,6 +15,10 @@
 		Pass
 		{ 
 			//Cull Off ZWrite Off ZTest Always
+			Tags {"Queue" = "Transparent" "IgnoreProjector" = "True" "RenderType" = "Transparent"}
+			ZWrite Off
+			Blend SrcAlpha OneMinusSrcAlpha
+			Cull back
 
 			CGPROGRAM
 			#pragma vertex vert
@@ -75,7 +79,8 @@
 				if (d > 1) discard;
 				if (d < .1)
 				{
-					return fixed4(32/255.0, 33/255.0, 38/255.0, 1);
+					//return fixed4(32/255.0, 33/255.0, 38/255.0, 1);
+					return fixed4(0, 0, 0, 0);
 				}
 				else
 				{
