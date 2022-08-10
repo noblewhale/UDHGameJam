@@ -81,10 +81,13 @@ public class MovementBehaviourTowardsPlayer : TickableBehaviour
                 moveHorizontal = false;
             }
 
+            Tile tile;
+
             bool horizontalBlocked = false;
             int nextX = (int)(myPos.x + Mathf.Sign(xDif));
             nextX = owner.map.WrapX(nextX);
-            if (owner.map.tileObjects[owner.y][nextX].IsCollidable())
+            tile = owner.map.tileObjects[owner.y][nextX];
+            if (tile.IsCollidable() || tile.GetPathingWeight() > 5)
             {
                 horizontalBlocked = true;
             }
@@ -93,7 +96,8 @@ public class MovementBehaviourTowardsPlayer : TickableBehaviour
 
             bool verticalBlocked = false;
             int nextY = (int)(myPos.y + Mathf.Sign(yDif));
-            if (owner.map.tileObjects[nextY][owner.x].IsCollidable())
+            tile = owner.map.tileObjects[nextY][owner.x];
+            if (tile.IsCollidable() || tile.GetPathingWeight() > 5)
             {
                 verticalBlocked = true;
             }

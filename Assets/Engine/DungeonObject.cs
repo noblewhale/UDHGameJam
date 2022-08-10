@@ -24,6 +24,7 @@ public class DungeonObject : MonoBehaviour
     public bool canTakeDamage = false;
     public bool isVisibleWhenNotInSight = true;
     public bool isWeilded = false;
+    public int pathingWeight = 0;
     public Transform guiIcon;
 
     [NonSerialized]

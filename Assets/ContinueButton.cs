@@ -1,0 +1,14 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class ContinueButton : MonoBehaviour
+{
+    public GameObject window;
+
+    public void Continue()
+    {
+        window.SetActive(false);
+        Player.instance.isControllingCamera = true;
+    }
+}

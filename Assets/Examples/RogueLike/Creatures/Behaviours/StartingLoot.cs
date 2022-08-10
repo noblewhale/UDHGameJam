@@ -21,6 +21,10 @@ public class StartingLoot : MonoBehaviour
                 item.transform.position = new Vector3(-666, -666, -666);
                 item.quantity = quantity;
                 owner.inventory.items.Add(item.objectName, item);
+                if (item.objectName == "Hammer")
+                {
+                    owner.WeildRightHand(item);
+                }
             }
         }
     }

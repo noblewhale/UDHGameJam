@@ -5,11 +5,11 @@ using UnityEngine;
 public class Glyphs : MonoBehaviour
 {
     public Color damageFlashColor = Color.red;
-    public Glyph[] glyphs;
+    public List<Glyph> glyphs = new List<Glyph>();
 
     void Awake () 
 	{
-        glyphs = GetComponentsInChildren<Glyph>(true);
+        glyphs = new List<Glyph>(GetComponentsInChildren<Glyph>(true));
 	}
 
 	public void SetRevealed(bool isRevealed)
@@ -19,7 +19,7 @@ public class Glyphs : MonoBehaviour
     
     public void SetLit(bool isLit)
     {
-        for (int i = 0; i < glyphs.Length; i++)
+        for (int i = 0; i < glyphs.Count; i++)
         {
             glyphs[i].isLit = isLit;
         }
@@ -29,21 +29,21 @@ public class Glyphs : MonoBehaviour
     {
         if (animationTime < .25f)
         {
-            for (int i = 0; i < glyphs.Length; i++)
+            for (int i = 0; i < glyphs.Count; i++)
             {
                 glyphs[i].extraTint = Color.white;
             }
         }
         else if (animationTime < .5f)
         {
-            for (int i = 0; i < glyphs.Length; i++)
+            for (int i = 0; i < glyphs.Count; i++)
             {
                 glyphs[i].extraTint = damageFlashColor;
             }
         }
         else
         {
-            for (int i = 0; i < glyphs.Length; i++)
+            for (int i = 0; i < glyphs.Count; i++)
             {
                 glyphs[i].extraTint = Color.white;
             }

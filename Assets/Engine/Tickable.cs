@@ -8,7 +8,7 @@ using System.Linq;
 public class Tickable : MonoBehaviour 
 {
 	public ulong nextActionTime = 0;
-
+    public LinkedListNode<Tickable> listNode;
     public List<TickableBehaviour> behaviours = new List<TickableBehaviour>();
     public DungeonObject owner;
     TickableBehaviour currentBehaviour;
@@ -23,7 +23,7 @@ public class Tickable : MonoBehaviour
 
     void Start()
 	{
-		TimeManager.instance.tickableObjects.Add(this);
+		listNode = TimeManager.instance.tickableObjects.AddLast(this);
 	}
 
 	void OnDestroy()

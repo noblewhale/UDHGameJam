@@ -384,6 +384,7 @@ TextureImporter:
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -393,8 +394,8 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 0
-    aniso: -1
-    mipBias: -100
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -415,6 +416,8 @@ TextureImporter:
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
@@ -2978,6 +2981,127 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      chests_117: 21300234
+      chests_30: 21300060
+      chests_67: 21300134
+      chests_78: 21300156
+      chests_59: 21300118
+      chests_86: 21300172
+      chests_74: 21300148
+      chests_100: 21300200
+      chests_33: 21300066
+      chests_96: 21300192
+      chests_23: 21300046
+      chests_13: 21300026
+      chests_60: 21300120
+      chests_16: 21300032
+      chests_22: 21300044
+      chests_25: 21300050
+      chests_43: 21300086
+      chests_90: 21300180
+      chests_68: 21300136
+      chests_82: 21300164
+      chests_95: 21300190
+      chests_65: 21300130
+      chests_108: 21300216
+      chests_26: 21300052
+      chests_54: 21300108
+      chests_75: 21300150
+      chests_39: 21300078
+      chests_84: 21300168
+      chests_7: 21300014
+      chests_62: 21300124
+      chests_41: 21300082
+      chests_109: 21300218
+      chests_119: 21300238
+      chests_9: 21300018
+      chests_4: 21300008
+      chests_73: 21300146
+      chests_31: 21300062
+      chests_50: 21300100
+      chests_97: 21300194
+      chests_81: 21300162
+      chests_106: 21300212
+      chests_114: 21300228
+      chests_56: 21300112
+      chests_8: 21300016
+      chests_27: 21300054
+      chests_69: 21300138
+      chests_53: 21300106
+      chests_111: 21300222
+      chests_77: 21300154
+      chests_34: 21300068
+      chests_113: 21300226
+      chests_24: 21300048
+      chests_35: 21300070
+      chests_103: 21300206
+      chests_63: 21300126
+      chests_46: 21300092
+      chests_10: 21300020
+      chests_14: 21300028
+      chests_79: 21300158
+      chests_104: 21300208
+      chests_21: 21300042
+      chests_88: 21300176
+      chests_66: 21300132
+      chests_93: 21300186
+      chests_107: 21300214
+      chests_70: 21300140
+      chests_48: 21300096
+      chests_112: 21300224
+      chests_51: 21300102
+      chests_110: 21300220
+      chests_61: 21300122
+      chests_5: 21300010
+      chests_52: 21300104
+      chests_89: 21300178
+      chests_29: 21300058
+      chests_85: 21300170
+      chests_64: 21300128
+      chests_12: 21300024
+      chests_32: 21300064
+      chests_17: 21300034
+      chests_40: 21300080
+      chests_55: 21300110
+      chests_99: 21300198
+      chests_57: 21300114
+      chests_71: 21300142
+      chests_116: 21300232
+      chests_37: 21300074
+      chests_72: 21300144
+      chests_87: 21300174
+      chests_102: 21300204
+      chests_118: 21300236
+      chests_92: 21300184
+      chests_98: 21300196
+      chests_6: 21300012
+      chests_47: 21300094
+      chests_0: 21300000
+      chests_80: 21300160
+      chests_19: 21300038
+      chests_18: 21300036
+      chests_83: 21300166
+      chests_2: 21300004
+      chests_45: 21300090
+      chests_91: 21300182
+      chests_49: 21300098
+      chests_28: 21300056
+      chests_101: 21300202
+      chests_11: 21300022
+      chests_38: 21300076
+      chests_76: 21300152
+      chests_3: 21300006
+      chests_36: 21300072
+      chests_20: 21300040
+      chests_105: 21300210
+      chests_42: 21300084
+      chests_44: 21300088
+      chests_1: 21300002
+      chests_15: 21300030
+      chests_115: 21300230
+      chests_94: 21300188
+      chests_58: 21300116
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

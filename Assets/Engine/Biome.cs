@@ -4,10 +4,17 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class Biome
+[CreateAssetMenu]
+public class Biome : ScriptableObject
 {
+    public float nothingProbability = 0;
+    public BiomeDropRate[] objects;
 
-    public BiomeType biomeType;
+    public int minX, maxX;
+    public int minY, maxY;
+    public int minWidth, maxWidth;
+    public int minHeight, maxHeight;
+
     public RectIntExclusive area;
     public List<Biome> subBiomes = new List<Biome>();
 
@@ -15,7 +22,6 @@ public class Biome
 
     virtual public IEnumerator PreProcessMap(Map map)
     {
-        yield return map.StartCoroutine(biomeType.PreProcessMap(map, this));
         foreach (var subBiome in subBiomes)
         {
             yield return map.StartCoroutine(subBiome.PreProcessMap(map));
@@ -81,17 +87,17 @@ public class Biome
         }
         containingBiomes.AddRange(subBiomes);
         float totalProbability = 0;
-    
+
         List<BiomeRate> viableDrops = new List<BiomeRate>();
         foreach (var biome in containingBiomes)
         {
-            totalProbability += biome.biomeType.nothingProbability;
-            if (biome.biomeType.nothingProbability != 0)
+            totalProbability += biome.nothingProbability;
+            if (biome.nothingProbability != 0)
             {
                 var biomeRate = new BiomeRate(biome, null);
                 viableDrops.Add(biomeRate);
             }
-            foreach (var dropRate in biome.biomeType.objects)
+            foreach (var dropRate in biome.objects)
             {
                 if (dropRate.requireSpawnable && !tile.AllowsSpawn()) continue;
                 if (dropRate.onlySpawnOn != null && dropRate.onlySpawnOn.Length != 0)
@@ -132,7 +138,7 @@ public class Biome
             if (dropRate == null)
             {
                 previousProbability = currentProbability;
-                currentProbability += biome.biomeType.nothingProbability;
+                currentProbability += biome.nothingProbability;
             }
             else
             {
@@ -173,6 +179,11 @@ public class Biome
 
     internal void DrawDebug()
     {
-        biomeType.DrawDebug(area);
+        DrawDebug(area);
+    }
+
+    virtual public void DrawDebug(RectIntExclusive area)
+    {
+        EditorUtil.DrawRect(Map.instance, area, Color.green);
     }
 }

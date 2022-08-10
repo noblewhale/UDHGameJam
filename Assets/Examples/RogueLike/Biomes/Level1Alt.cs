@@ -5,7 +5,7 @@ using System.Linq;
 using UnityEngine;
 
 [CreateAssetMenu]
-public class Level1Alt : BiomeType
+public class Level1Alt : Biome
 {
     // Stop partitioning at this size
     public int minBSPArea = 4;
@@ -18,10 +18,10 @@ public class Level1Alt : BiomeType
     public BiomeDropRate[] walls;
     public BiomeDropRate[] doors;
     public BiomeDropRate[] torches;
-    public BiomeDropRate[] electrics;
-    public BiomeType scorpions;
-    public BiomeType rats;
-    public BiomeType items;
+    public Biome scorpions;
+    public Biome rats;
+    public Biome items;
+    public Biome electricTraps;
     public DungeonObject finalDoorPrefab;
 
     class Node
@@ -53,23 +53,21 @@ public class Level1Alt : BiomeType
 
     public TileType[][] tiles;
 
-    override public IEnumerator PreProcessMap(Map map, Biome biome)
+    override public IEnumerator PreProcessMap(Map map)
     {
         tiles = new TileType[map.height][];
         for (int y = 0; y < map.height; y++) tiles[y] = new TileType[map.width];
 
-        var itemsBiome = new Biome();
-        var itemsBiomeType = Instantiate(items);
-        itemsBiome.biomeType = itemsBiomeType;
-        itemsBiome.area = biome.area;
-        biome.subBiomes.Add(itemsBiome);
+        var itemsBiome = Instantiate(items);
+        itemsBiome.area = area;
+        subBiomes.Add(itemsBiome);
 
         yield return new WaitForSeconds(animationDelay*2);
         root = new Node();
-        root.area = biome.area;
+        root.area = area;
         yield return new WaitForSeconds(animationDelay);
         yield return Map.instance.StartCoroutine(GenerateAreas(root, 1));
-        yield return Map.instance.StartCoroutine(GenerateRooms(root, biome));
+        yield return Map.instance.StartCoroutine(GenerateRooms(root));
         var mapArea = new RectIntExclusive(0, 0, Map.instance.width, Map.instance.height);
         AddWalls();
         
@@ -82,6 +80,8 @@ public class Level1Alt : BiomeType
         UpdateTiles(mapArea);
 
         //SpawnFinalDoor(map, area);
+
+        base.PreProcessMap(map);
     }
 
     override public void DrawDebug(RectIntExclusive area)
@@ -208,7 +208,7 @@ public class Level1Alt : BiomeType
         return false;
     }
 
-    IEnumerator GenerateRooms(Node parent, Biome biome)
+    IEnumerator GenerateRooms(Node parent)
     {
         if (parent == null) yield break;
 
@@ -234,11 +234,13 @@ public class Level1Alt : BiomeType
                 }
             }
 
-            var roomBiomeType = Instantiate(scorpions);
-            var roomBiome = new Biome();
-            roomBiome.biomeType = roomBiomeType;
-            roomBiome.area = rect;
-            biome.subBiomes.Add(roomBiome);
+            var roomCreatures = Instantiate(scorpions);
+            roomCreatures.area = rect;
+            subBiomes.Add(roomCreatures);
+
+            var roomTraps = Instantiate(electricTraps);
+            roomTraps.area = new RectIntExclusive(rect.xMin + 1, rect.yMin + 1, rect.width - 2, rect.height - 2);
+            subBiomes.Add(roomTraps);
 
             for (int y = rect.yMin-1; y <= rect.yMax+1; y++)
             {
@@ -257,8 +259,8 @@ public class Level1Alt : BiomeType
         else
         {
             // Not a leaf node, keep traversing the tree
-            yield return Map.instance.StartCoroutine(GenerateRooms(parent.left, biome));
-            yield return Map.instance.StartCoroutine(GenerateRooms(parent.right, biome));
+            yield return Map.instance.StartCoroutine(GenerateRooms(parent.left));
+            yield return Map.instance.StartCoroutine(GenerateRooms(parent.right));
 
             // Ensure at least one path between the two subtrees
             if (parent.left.area.xMax == parent.right.area.xMax)
@@ -742,7 +744,6 @@ public class Level1Alt : BiomeType
             case TileType.DOOR: return doors;
             case TileType.WALL: return walls;
             case TileType.TORCH: return torches;
-            case TileType.ELECTRIC: return electrics;
             default:
                 Debug.LogError("Invalid base tile type: " + baseType.ToString());
                 return null;

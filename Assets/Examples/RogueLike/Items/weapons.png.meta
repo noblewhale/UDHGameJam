@@ -357,6 +357,7 @@ TextureImporter:
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -366,8 +367,8 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 0
-    aniso: -1
-    mipBias: -100
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -388,6 +389,8 @@ TextureImporter:
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
@@ -2762,6 +2765,118 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      weapons_30: 21300060
+      weapons_55: 21300110
+      weapons_8: 21300016
+      weapons_41: 21300082
+      weapons_0: 21300000
+      weapons_52: 21300104
+      weapons_53: 21300106
+      weapons_13: 21300026
+      weapons_14: 21300028
+      weapons_59: 21300118
+      weapons_22: 21300044
+      weapons_29: 21300058
+      weapons_79: 21300158
+      weapons_82: 21300164
+      weapons_106: 21300212
+      weapons_34: 21300068
+      weapons_103: 21300206
+      weapons_99: 21300198
+      weapons_26: 21300052
+      weapons_33: 21300066
+      weapons_75: 21300150
+      weapons_45: 21300090
+      weapons_77: 21300154
+      weapons_32: 21300064
+      weapons_46: 21300092
+      weapons_47: 21300094
+      weapons_42: 21300084
+      weapons_102: 21300204
+      weapons_15: 21300030
+      weapons_2: 21300004
+      weapons_36: 21300072
+      weapons_6: 21300012
+      weapons_1: 21300002
+      weapons_24: 21300048
+      weapons_73: 21300146
+      weapons_64: 21300128
+      weapons_12: 21300024
+      weapons_92: 21300184
+      weapons_74: 21300148
+      weapons_37: 21300074
+      weapons_3: 21300006
+      weapons_39: 21300078
+      weapons_7: 21300014
+      weapons_70: 21300140
+      weapons_78: 21300156
+      weapons_35: 21300070
+      weapons_65: 21300130
+      weapons_56: 21300112
+      weapons_83: 21300166
+      weapons_62: 21300124
+      weapons_84: 21300168
+      weapons_16: 21300032
+      weapons_48: 21300096
+      weapons_21: 21300042
+      weapons_101: 21300202
+      weapons_5: 21300010
+      weapons_67: 21300134
+      weapons_19: 21300038
+      weapons_10: 21300020
+      weapons_23: 21300046
+      weapons_49: 21300098
+      weapons_66: 21300132
+      weapons_71: 21300142
+      weapons_109: 21300218
+      weapons_60: 21300120
+      weapons_95: 21300190
+      weapons_85: 21300170
+      weapons_9: 21300018
+      weapons_4: 21300008
+      weapons_105: 21300210
+      weapons_50: 21300100
+      weapons_89: 21300178
+      weapons_11: 21300022
+      weapons_91: 21300182
+      weapons_61: 21300122
+      weapons_100: 21300200
+      weapons_72: 21300144
+      weapons_51: 21300102
+      weapons_69: 21300138
+      weapons_80: 21300160
+      weapons_86: 21300172
+      weapons_20: 21300040
+      weapons_68: 21300136
+      weapons_63: 21300126
+      weapons_90: 21300180
+      weapons_108: 21300216
+      weapons_54: 21300108
+      weapons_17: 21300034
+      weapons_38: 21300076
+      weapons_40: 21300080
+      weapons_104: 21300208
+      weapons_57: 21300114
+      weapons_110: -6414564484349086176
+      weapons_81: 21300162
+      weapons_96: 21300192
+      weapons_87: 21300174
+      weapons_93: 21300186
+      weapons_27: 21300054
+      weapons_31: 21300062
+      weapons_25: 21300050
+      weapons_58: 21300116
+      weapons_18: 21300036
+      weapons_44: 21300088
+      weapons_28: 21300056
+      weapons_98: 21300196
+      weapons_94: 21300188
+      weapons_107: 21300214
+      weapons_88: 21300176
+      weapons_43: 21300086
+      weapons_97: 21300194
+      weapons_76: 21300152
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

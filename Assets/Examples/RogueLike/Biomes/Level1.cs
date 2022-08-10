@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEngine;
 
 [CreateAssetMenu]
-public class Level1 : BiomeType
+public class Level1 : Biome
 {
     public BiomeDropRate[] nothings;
     public BiomeDropRate[] floors;
@@ -21,17 +21,17 @@ public class Level1 : BiomeType
 
     public TileType[][] tiles;
 
-    override public IEnumerator PreProcessMap(Map map, Biome biome)
+    override public IEnumerator PreProcessMap(Map map)
     {
         tiles = new TileType[map.height][];
         for (int y = 0; y < map.height; y++) tiles[y] = new TileType[map.width];
 
         wallTiles.Clear();
 
-        GenerateRooms(map, biome.area, 30);
+        GenerateRooms(map, area, 30);
         ConnectRooms(map);
-        UpdateTiles(map, biome.area);
-        SpawnFinalDoor(map, biome.area);
+        UpdateTiles(map, area);
+        SpawnFinalDoor(map, area);
 
         yield break;
     }

@@ -81,6 +81,8 @@ public class Creature : MonoBehaviour
         else if (oldY > newY) lastDirectionAttackedOrMoved = Direction.DOWN;
         else if (oldY < newY) lastDirectionAttackedOrMoved = Direction.UP;
 
+        map.tileObjects[newY][newX].StepOn(this);
+
         //baseObject.PickUpAll();
         //tickable.nextActionTime = TimeManager.instance.time + (ulong)ticksPerMove;
     }
@@ -186,11 +188,13 @@ public class Creature : MonoBehaviour
             rightHandObject.isWeilded = false;
             rightHandObject.transform.parent = null;
             rightHandObject.transform.position = new Vector3(-666, -666, -666);
+            baseObject.glyphs.glyphs.RemoveAll(g => rightHandObject.glyphs.glyphs.Contains(g));
         }
         rightHandObject = ob;
         ob.isWeilded = true;
         ob.transform.parent = rightHand.transform;
         ob.transform.localPosition = Vector3.zero;
+        baseObject.glyphs.glyphs.AddRange(ob.glyphs.glyphs);
     }
 
     public void FaceDirection(Tile tile)

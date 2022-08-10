@@ -13,12 +13,15 @@ public class PlayerCamera : MonoBehaviour
     public float cameraOffset = 3;
     public float rotation;
     float cameraVelocity;
-    Camera camera;
+    public Camera camera;
 
     public Material polarWarpMaterial;
 
+    public static PlayerCamera instance;
+
     void Start ()
     {
+        instance = this;
         owner = FindObjectOfType<Player>();
         camera = GetComponent<Camera>();
 	}
@@ -36,7 +39,7 @@ public class PlayerCamera : MonoBehaviour
 
     public void SetY(float worldY, float lerpFactor, float maxSpeed)
     {
-        cameraOffset = camera.orthographicSize - Map.instance.tileHeight * 4f;
+        cameraOffset = camera.orthographicSize - Map.instance.tileHeight * 5f;
         Vector2 targetPos = new Vector2(camera.transform.position.x, worldY + cameraOffset);
         targetPos = Vector2.Lerp(camera.transform.position, targetPos, lerpFactor * Time.deltaTime * 100);
         Vector2 relativePos = targetPos - (Vector2)camera.transform.position;

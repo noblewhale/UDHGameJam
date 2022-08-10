@@ -10,7 +10,6 @@ public class Glyph : MonoBehaviour
     public Color extraTint = Color.white;
     public bool isLit;
     Color originalColor;
-    Color unlitColor;
 
     [NonSerialized]
     public SpriteRenderer sprite;

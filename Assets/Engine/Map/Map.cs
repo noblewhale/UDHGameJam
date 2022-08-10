@@ -10,7 +10,7 @@ public class Map : MonoBehaviour
 
     public Tile tilePrefab;
 
-    public BiomeType[] biomeTypes;
+    public Biome[] biomeTypes;
     public List<Biome> biomes = new List<Biome>();
 
     public Tile[][] tileObjects;
@@ -79,7 +79,7 @@ public class Map : MonoBehaviour
 
         foreach (var biome in biomes)
         {
-            Destroy(biome.biomeType);
+            Destroy(biome);
         }
         biomes.Clear();
     }
@@ -87,7 +87,7 @@ public class Map : MonoBehaviour
     public IEnumerator RegenerateMap()
     {
         isDoneGeneratingMap = false;
-        Player.instance.isInputEnabled = false;
+        Player.instance.playerInput.isInputEnabled = false;
         PlayerCamera cam = Player.instance.mainCamera.GetComponent<PlayerCamera>();
         float playerPosY = Player.instance.identity.transform.position.y + cam.cameraOffset;
         while (Mathf.Abs(cam.transform.position.y - playerPosY) > .01f)
@@ -97,7 +97,7 @@ public class Map : MonoBehaviour
         dungeonLevel++;
         ClearMap();
         yield return StartCoroutine(GenerateMap());
-        Player.instance.ResetInput();
+        Player.instance.playerInput.ResetInput();
     }
 
     IEnumerator GenerateMap()
@@ -128,26 +128,25 @@ public class Map : MonoBehaviour
 
     void PlaceBiomes()
     {
-        foreach (var biomeTypeTemplate in biomeTypes)
+        foreach (var biomeType in biomeTypes)
         {
-            if (biomeTypeTemplate == null) continue;
-            Biome biome = new Biome();
-            // Make a copy of the boime type so we don't modify properties on the actual asset
-            var biomeType = Instantiate(biomeTypeTemplate);
-            biome.biomeType = biomeType;
-            if (biomeType.minWidth == -1) biomeType.minWidth = width;
-            if (biomeType.maxWidth == -1) biomeType.maxWidth = width;
-            if (biomeType.minHeight == -1) biomeType.minHeight = height;
-            if (biomeType.maxHeight == -1) biomeType.maxHeight = height;
-            if (biomeType.minX == -1) biomeType.minX = width - 1;
-            if (biomeType.maxX == -1) biomeType.maxX = width - 1;
-            if (biomeType.minY == -1) biomeType.minY = height - 1;
-            if (biomeType.maxY == -1) biomeType.maxY = height - 1;
+            if (biomeType == null) continue;
 
-            int biomeWidth = Random.Range(biomeType.minWidth, biomeType.maxWidth + 1);
-            int biomeHeight = Random.Range(biomeType.minHeight, biomeType.maxHeight + 1);
-            int biomeX = Random.Range(biomeType.minX, biomeType.maxX - biomeWidth + 1);
-            int biomeY = Random.Range(biomeType.minY, biomeType.maxY - biomeHeight + 1);
+            // Make a copy of the boime type so we don't modify properties on the actual asset
+            var biome = Instantiate(biomeType);
+            if (biome.minWidth == -1) biome.minWidth = width;
+            if (biome.maxWidth == -1) biome.maxWidth = width;
+            if (biome.minHeight == -1) biome.minHeight = height;
+            if (biome.maxHeight == -1) biome.maxHeight = height;
+            if (biome.minX == -1) biome.minX = width - 1;
+            if (biome.maxX == -1) biome.maxX = width - 1;
+            if (biome.minY == -1) biome.minY = height - 1;
+            if (biome.maxY == -1) biome.maxY = height - 1;
+
+            int biomeWidth = Random.Range(biome.minWidth, biome.maxWidth + 1);
+            int biomeHeight = Random.Range(biome.minHeight, biome.maxHeight + 1);
+            int biomeX = Random.Range(biome.minX, biome.maxX - biomeWidth + 1);
+            int biomeY = Random.Range(biome.minY, biome.maxY - biomeHeight + 1);
             biome.area = new RectIntExclusive(biomeX, biomeY, biomeWidth, biomeHeight);
             biomes.Add(biome);
         }

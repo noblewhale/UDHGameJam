@@ -2,13 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SetPositionFromEdge : MonoBehaviour
+public class MapRenderer : MonoBehaviour
 {
     public float vertical;
     public float horizontal;
+
+    public static MapRenderer instance;
+    public Material material;
+
     void Awake()
     {
-        float maxWidth = Camera.main.orthographicSize * 2 * Camera.main.aspect - Camera.main.orthographicSize * 2 * .4f;
+        instance = this;
+
+        material = GetComponent<MeshRenderer>().sharedMaterial;
+
+        float maxWidth = Mathf.Min(Camera.main.orthographicSize * 2 * 1.525f, Camera.main.orthographicSize * 2 * Camera.main.aspect * .8f);
         transform.localScale = new Vector3(maxWidth, maxWidth, 1);
         float x, y;
         if (horizontal < 0)

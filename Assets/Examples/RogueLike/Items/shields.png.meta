@@ -204,6 +204,7 @@ TextureImporter:
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -213,8 +214,8 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 0
-    aniso: -1
-    mipBias: -100
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -235,6 +236,8 @@ TextureImporter:
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
@@ -1538,6 +1541,67 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      shields_18: 21300036
+      shields_50: 21300100
+      shields_33: 21300066
+      shields_57: 21300114
+      shields_24: 21300048
+      shields_25: 21300050
+      shields_36: 21300072
+      shields_11: 21300022
+      shields_52: 21300104
+      shields_4: 21300008
+      shields_45: 21300090
+      shields_37: 21300074
+      shields_6: 21300012
+      shields_27: 21300054
+      shields_47: 21300094
+      shields_28: 21300056
+      shields_5: 21300010
+      shields_0: 21300000
+      shields_10: 21300020
+      shields_3: 21300006
+      shields_44: 21300088
+      shields_54: 21300108
+      shields_26: 21300052
+      shields_31: 21300062
+      shields_59: 21300118
+      shields_7: 21300014
+      shields_38: 21300076
+      shields_20: 21300040
+      shields_46: 21300092
+      shields_41: 21300082
+      shields_19: 21300038
+      shields_8: 21300016
+      shields_56: 21300112
+      shields_35: 21300070
+      shields_43: 21300086
+      shields_23: 21300046
+      shields_16: 21300032
+      shields_1: 21300002
+      shields_55: 21300110
+      shields_39: 21300078
+      shields_17: 21300034
+      shields_15: 21300030
+      shields_49: 21300098
+      shields_48: 21300096
+      shields_21: 21300042
+      shields_13: 21300026
+      shields_14: 21300028
+      shields_9: 21300018
+      shields_22: 21300044
+      shields_58: 21300116
+      shields_30: 21300060
+      shields_42: 21300084
+      shields_32: 21300064
+      shields_53: 21300106
+      shields_51: 21300102
+      shields_29: 21300058
+      shields_34: 21300068
+      shields_12: 21300024
+      shields_40: 21300080
+      shields_2: 21300004
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

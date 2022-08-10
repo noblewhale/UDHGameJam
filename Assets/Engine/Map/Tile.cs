@@ -117,6 +117,14 @@ public class Tile : MonoBehaviour
         }
     }
 
+    public void StepOn(Creature creature)
+    {
+        foreach (var ob in objectList)
+        {
+            ob.SteppedOn(creature);
+        }
+    }
+
     public void Update()
     {
         if (map == null) return;
@@ -215,6 +223,11 @@ public class Tile : MonoBehaviour
             if (ob.isCollidable) return true;
         }
         return false;
+    }
+
+    public int GetPathingWeight()
+    {
+        return objectList.Sum(ob => ob.pathingWeight);
     }
 
     public bool DoesBlockLineOfSight()

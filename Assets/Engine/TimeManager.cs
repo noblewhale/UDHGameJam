@@ -10,11 +10,12 @@ public class TimeManager : MonoBehaviour
 
     public static TimeManager instance;
 
-    public List<Tickable> tickableObjects = new List<Tickable>();
+    public LinkedList<Tickable> tickableObjects = new LinkedList<Tickable>();
 
     Tickable currentAction;
     bool isInterrupted = false;
-    int tickableIndex = 0;
+    //int tickableIndex = 0;
+    LinkedListNode<Tickable> currentTickableNode;
     bool isWaitingBetweenActions = false;
     float startWaitBetweenActionsTime = 0;
     Tickable interruptingTickable = null;
@@ -33,7 +34,8 @@ public class TimeManager : MonoBehaviour
 
     IEnumerator Tick()
     {
-        tickableIndex = tickableObjects.Count - 1;
+        //tickableIndex = tickableObjects.Count - 1;
+        currentTickableNode = tickableObjects.Last;
         while (true)
         {
             bool isDone = true;
@@ -50,48 +52,17 @@ public class TimeManager : MonoBehaviour
                 }
                 if (isInterrupted || isDone)
                 {
-                    //bool isOnCamera =
-                    //    currentAction.owner.transform.position.x > mapCamera.transform.position.x - mapCamera.orthographicSize * mapCamera.aspect &&
-                    //    currentAction.owner.transform.position.x < mapCamera.transform.position.x + mapCamera.orthographicSize * mapCamera.aspect &&
-                    //    currentAction.owner.transform.position.y > mapCamera.transform.position.y - mapCamera.orthographicSize &&
-                    //    currentAction.owner.transform.position.y < mapCamera.transform.position.y + mapCamera.orthographicSize;
-                    //if (!isInterrupted && currentAction.owner.tile.isInView && currentAction.owner.tile.isLit && isOnCamera) 
-                    //{
-                    //    bool isNextTickablePlayer = tickableObjects[tickableIndex] == Player.instance.identity.GetComponent<Tickable>();
-                    //    isWaitingBetweenActions = !isPlayerAction && !isNextTickablePlayer;
-                    //    startWaitBetweenActionsTime = Time.time;
-                    //}
                     currentAction.FinishAction();
                     currentAction = null;
                     isPlayerAction = false;
                 }
             }
 
-            //if (isWaitingBetweenActions)
-            //{
-            //    if (isInterrupted)
-            //    {
-            //        isWaitingBetweenActions = false;
-            //    }
-            //    else
-            //    {
-            //        if (Time.time - startWaitBetweenActionsTime < timeBetweenActions)
-            //        {
-            //            yield return new WaitForEndOfFrame();
-            //            continue;
-            //        }
-            //        else
-            //        {
-            //            isWaitingBetweenActions = false;
-            //        }
-            //    }
-            //}
-
             if (isDone || isInterrupted)
             {
-                for (; tickableIndex >= 0; tickableIndex--)
+                for (;  currentTickableNode != null; currentTickableNode = currentTickableNode.Previous)
                 {
-                    var ob = tickableObjects[tickableIndex];
+                    var ob = currentTickableNode.Value;
                     if (ob.markedForRemoval)
                     {
                         continue;
@@ -100,16 +71,16 @@ public class TimeManager : MonoBehaviour
                     {
                         if (Player.instance.identity.GetComponent<Tickable>() == ob)
                         {
-                            if (Player.instance.hasReceivedInput)
+                            if (Player.instance.playerInput.hasReceivedInput)
                             {
                                 isPlayerAction = true;
                                 isInterrupted = false;
-                                Player.instance.hasReceivedInput = false;
-                                Player.instance.isWaitingForPlayerInput = false;
+                                Player.instance.playerInput.hasReceivedInput = false;
+                                Player.instance.playerInput.isWaitingForPlayerInput = false;
                             }
                             else
                             {
-                                Player.instance.isWaitingForPlayerInput = true;
+                                Player.instance.playerInput.isWaitingForPlayerInput = true;
                                 currentAction = null;
                                 break;
                             }
@@ -125,27 +96,24 @@ public class TimeManager : MonoBehaviour
                             ob.owner.transform.position.y < mapCamera.transform.position.y + mapCamera.orthographicSize;
                         if (!isInterrupted && ob.owner.tile.isInView && ob.owner.tile.isLit && isOnCamera)
                         {
-                            int nextTickableIndex = tickableIndex - 1;
-                            if (nextTickableIndex <= 0)
+                            bool isNextTickablePlayer = false;
+                            if (currentTickableNode.Previous != null)
                             {
-                                nextTickableIndex = tickableObjects.Count - 1;
+                                isNextTickablePlayer = currentTickableNode.Previous.Value == Player.instance.identity.GetComponent<Tickable>();
                             }
-                            bool isNextTickablePlayer = tickableObjects[nextTickableIndex] == Player.instance.identity.GetComponent<Tickable>();
                             isWaitingBetweenActions = !wasPlayerAction && !isNextTickablePlayer && !finishImmediately;
                             startWaitBetweenActionsTime = Time.time;
                             if (isWaitingBetweenActions)
                             {
                                 yield return new WaitForSeconds(timeBetweenActions);
                             }
-                            //tickableIndex--;
-                            //break;
                         }
                         if (finishImmediately || !ob.owner.tile.isInView || !ob.owner.tile.isLit || isInterrupted || !isOnCamera)
-                        {   
+                        {
+                            currentAction = ob;
                             ob.FinishAction();
                             currentAction = null;
                             isPlayerAction = false;
-                            //tickableIndex--;
                         }
                         else
                         {
@@ -160,31 +128,51 @@ public class TimeManager : MonoBehaviour
 
                         if (currentAction != null)
                         {
-                            tickableIndex--;
+                            currentTickableNode = currentTickableNode.Previous;
                             break;
                         }
                     }
                 }
 
-                if (tickableIndex == -1)
+                if (currentTickableNode == null)
                 {
-                    for (int ri = tickableObjects.Count - 1; ri >= 0; ri--)
+                    var node = tickableObjects.Last;
+                    while (node != null)
                     {
-                        var ob = tickableObjects[ri];
+                        var nodeToRemove = node;
+                        node = node.Previous;
+                        var ob = nodeToRemove.Value;
                         if (ob.markedForRemoval)
                         {
-                            tickableObjects.RemoveAt(ri);
+                            tickableObjects.Remove(nodeToRemove);
                         }
                     }
 
                     time++;
-                    tickableIndex = tickableObjects.Count - 1;
+                    currentTickableNode = tickableObjects.Last;
                 }
             }
 
             if (currentAction == null) yield return new WaitForEndOfFrame();
         }
     }
+
+    public void ForceNextAction(Tickable tickable)
+    {
+        if (currentTickableNode == tickable.listNode || (currentTickableNode == currentAction.listNode && currentTickableNode.Previous == tickable.listNode)) return;
+        tickable.nextActionTime = time;
+        tickableObjects.Remove(tickable.listNode);
+        if (currentTickableNode == currentAction.listNode)
+        {
+            tickable.listNode = tickableObjects.AddBefore(currentAction.listNode, tickable);
+        }
+        else
+        {
+            tickable.listNode = tickableObjects.AddAfter(currentTickableNode, tickable);
+            currentTickableNode = tickable.listNode;
+        }
+    }
+
     public void Interrupt(Tickable interruptingTickable)
     {
         this.interruptingTickable = interruptingTickable;

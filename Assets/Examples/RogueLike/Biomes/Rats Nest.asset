@@ -3,19 +3,24 @@
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3848611950e7400448af5dbad1208277, type: 3}
   m_Name: Rats Nest
   m_EditorClassIdentifier: 
+  nothingProbability: 0
   objects:
-  - item: {fileID: 114716973033915568, guid: 8ebb711e68c91c54c9665e17889dffd9, type: 2}
+  - item: {fileID: 114716973033915568, guid: 8ebb711e68c91c54c9665e17889dffd9, type: 3}
     minQuantity: 1
     maxQuantity: 1
     probability: 0.9
+    onlySpawnOn: []
+    dontSpawnOn: []
+    requireSpawnable: 1
     minQuantityPerBiome: 6
     maxQuantityPerBiome: 6
   minX: 0
@@ -26,3 +31,4 @@ MonoBehaviour:
   maxWidth: 5
   minHeight: 3
   maxHeight: 5
+  subBiomes: []
