@@ -17,10 +17,10 @@
             //if (TimeManager.instance.time - lastTriggerTime < cooldown) return;
             if (creature == null) return;
 
-            lastTriggerTime = TimeManager.instance.time;
+            lastTriggerTime = TimeManager.instance.Time;
             shouldTrigger = true;
             creatureThatSteppedOnTrap = creature;
-            TimeManager.instance.ForceNextAction(owner.GetComponent<Tickable>());
+            //TimeManager.instance.ForceNextAction(owner.GetComponent<Tickable>());
         }
 
         public override bool StartAction(out ulong duration)
@@ -31,7 +31,7 @@
             return false;
         }
 
-        public override bool ContinueAction()
+        public override bool ContinueSubAction(ulong time)
         {
             if ((Time.time - actionStartTime) < delay)
             {
@@ -44,7 +44,7 @@
             else return true;
         }
 
-        public override void FinishAction()
+        public override void FinishSubAction(ulong time)
         {
             if (creatureThatSteppedOnTrap)
             {

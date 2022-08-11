@@ -10,11 +10,14 @@
     public class Tickable : MonoBehaviour
     {
         public ulong nextActionTime = 0;
+        public ulong lastActionTime = 0;
         public LinkedListNode<Tickable> listNode;
         public List<TickableBehaviour> behaviours = new List<TickableBehaviour>();
         public DungeonObject owner;
         TickableBehaviour currentBehaviour;
         public bool markedForRemoval = false;
+
+        public TickableBehaviour nextBehaviour;
 
         void Awake()
         {
@@ -48,36 +51,59 @@
 
         public bool StartNewAction(out ulong actionDuration)
         {
+            currentBehaviour = null;
             actionDuration = 1;
-            var confidences = behaviours.Where(x => x.enabled).Select(x => x.GetActionConfidence());
-            float totalConfidence = confidences.Sum();
-            float aRandomNumber = UnityEngine.Random.Range(0, totalConfidence);
 
-            float currentConfidence = 0;
-            float previousConfidence = 0;
-            for (int i = 0; i < confidences.Count(); i++)
+            if (nextBehaviour == null)
             {
-                previousConfidence = currentConfidence;
-                currentConfidence += confidences.ElementAt(i);
-                if (aRandomNumber >= previousConfidence && aRandomNumber < currentConfidence)
+                var confidences = behaviours.Where(x => x.enabled).Select(x => x.GetActionConfidence());
+                float totalConfidence = confidences.Sum();
+                float aRandomNumber = UnityEngine.Random.Range(0, totalConfidence);
+
+                float currentConfidence = 0;
+                float previousConfidence = 0;
+                for (int i = 0; i < confidences.Count(); i++)
                 {
-                    currentBehaviour = behaviours[i];
-                    return behaviours[i].StartAction(out actionDuration);
+                    previousConfidence = currentConfidence;
+                    currentConfidence += confidences.ElementAt(i);
+                    if (aRandomNumber >= previousConfidence && aRandomNumber < currentConfidence)
+                    {
+                        currentBehaviour = behaviours[i];
+                    }
                 }
             }
+            else
+            {
+                currentBehaviour = nextBehaviour;
+                nextBehaviour = null;
+            }
 
+            if (currentBehaviour)
+            {
+                lastActionTime = TimeManager.instance.Time;
+                return currentBehaviour.StartAction(out actionDuration);
+            }
             return true;
         }
 
-        public void FinishAction()
+        virtual public void StartSubAction()
+        {
+            if (currentBehaviour) currentBehaviour.StartSubAction(TimeManager.instance.Time - lastActionTime);
+        }
+
+        virtual public bool ContinueSubAction()
+        {
+            if (currentBehaviour) return currentBehaviour.ContinueSubAction(TimeManager.instance.Time - lastActionTime);
+            return true;
+        }
+        virtual public void FinishSubAction()
+        {
+            if (currentBehaviour) currentBehaviour.FinishSubAction(TimeManager.instance.Time - lastActionTime);
+        }
+
+        virtual public void FinishAction()
         {
             if (currentBehaviour) currentBehaviour.FinishAction();
-        }
-
-        virtual public bool ContinueAction()
-        {
-            if (currentBehaviour) return currentBehaviour.ContinueAction();
-            return true;
         }
     }
 }

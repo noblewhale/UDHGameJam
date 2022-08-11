@@ -37,7 +37,7 @@
             return true;
         }
 
-        public override bool ContinueAction()
+        public override bool ContinueSubAction(ulong time)
         {
             if (nextAction.continueAction != null)
             {
@@ -46,7 +46,7 @@
             return true;
         }
 
-        public override void FinishAction()
+        public override void FinishSubAction(ulong time)
         {
             if (nextAction.finishAction != null)
             {

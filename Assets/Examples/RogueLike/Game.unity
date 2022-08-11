@@ -2246,7 +2246,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1185871473}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1d2d6f7b34a3aab42aee99065ce8fc25, type: 3}
+  m_Script: {fileID: 11500000, guid: 7ab21a5f222cd8c459167bc7480c59b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   identity: {fileID: 1296174614}
@@ -2260,12 +2260,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1185871473}
   m_Enabled: 0
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3ef95f3247e879543b9c176b41c785f5, type: 3}
+  m_Script: {fileID: 11500000, guid: 4ec19931a36e4d3438b1b80fc0f80fd3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   isWaitingForPlayerInput: 0
-  mapCamera: {fileID: 519420031}
-  mapRenderer: {fileID: 190724728}
 --- !u!1 &1243041196
 GameObject:
   m_ObjectHideFlags: 0

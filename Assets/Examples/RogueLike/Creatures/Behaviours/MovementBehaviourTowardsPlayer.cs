@@ -22,12 +22,12 @@
             return false;
         }
 
-        public override bool ContinueAction()
+        public override bool ContinueSubAction(ulong time)
         {
             return true;
         }
 
-        public override void FinishAction()
+        public override void FinishSubAction(ulong time)
         {
             owner.map.MoveObject(owner, nextMoveTarget.x, nextMoveTarget.y);
         }

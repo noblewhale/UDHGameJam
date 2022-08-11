@@ -15,12 +15,12 @@
             return false;
         }
 
-        public override bool ContinueAction()
+        public override bool ContinueSubAction(ulong time)
         {
             return owner.GetComponent<Creature>().ContinueAttack(nextAttackTarget.baseObject);
         }
 
-        override public void FinishAction()
+        override public void FinishSubAction(ulong time)
         {
             owner.GetComponent<Creature>().FinishAttack(nextAttackTarget.baseObject);
         }

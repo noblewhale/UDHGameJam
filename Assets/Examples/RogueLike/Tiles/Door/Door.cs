@@ -11,8 +11,6 @@
         public bool isLocked = false;
         public float lockPickDifficulty = 1;
 
-        public Animator animator;
-
         // Use this for initialization
         void Start()
         {
@@ -29,19 +27,11 @@
         {
             bool wasOpen = this.isOpen;
             this.isOpen = isOpen;
-            this.isCollidable = !isOpen;
-            //this.blocksLineOfSight = !isOpen;
-            //this.coversObjectsBeneath = !isOpen;
+            //this.isCollidable = !isOpen;
 
             if (isOpen && !wasOpen)
             {
-                animator.SetTrigger("Open");
-                map.tileObjects[y][x].SetInView(map.tileObjects[y][x].isInView);
-            }
-            if (Map.instance && Player.instance && Player.instance.identity)
-            {
-                Map.instance.UpdateLighting();
-                Map.instance.Reveal(Player.instance.identity.x, Player.instance.identity.y, Player.instance.identity.viewDistance);
+                GetComponent<Tickable>().nextBehaviour = GetComponent<DoorOpenBehaviour>();
             }
         }
 
