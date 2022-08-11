@@ -8,7 +8,6 @@
     {
         public Queue<Command> commandQueue = new Queue<Command>();
 
-        public bool isWaitingForPlayerInput = false;
         public bool HasInput
         {
             get => commandQueue.Count != 0;
@@ -21,18 +20,17 @@
         public virtual void Awake()
         {
             instance = this;
-        }
-
-        public virtual void Start()
-        {
             allKeys = (KeyCode[])Enum.GetValues(typeof(KeyCode));
-
         }
 
         public virtual void Update()
         {
             if (!Player.instance.identity) return;
             CollectInputCommands();
+            if (HasInput)
+            {
+                TimeManager.instance.Interrupt(Player.instance.identity.GetComponent<Tickable>());
+            }
         }
 
         protected virtual void CollectInputCommands()
