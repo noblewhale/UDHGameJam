@@ -1,15 +1,17 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class ContinueButton : MonoBehaviour
+namespace Noble.DungeonCrawler
 {
-    public GameObject window;
+    using Noble.TileEngine;
+    using UnityEngine;
 
-    public void Continue()
+    public class ContinueButton : MonoBehaviour
     {
-        window.SetActive(false);
-        PlayerCamera.instance.owner = Player.instance.identity;
-        Player.instance.playerInput.enabled = true;
+        public GameObject window;
+
+        public void Continue()
+        {
+            window.SetActive(false);
+            PlayerCamera.instance.owner = Player.instance.identity;
+            Player.instance.playerInput.enabled = true;
+        }
     }
 }

@@ -1,50 +1,53 @@
-﻿using System;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class PlayerInput : MonoBehaviour
+﻿namespace Noble.TileEngine
 {
-    public Queue<Command> commandQueue = new Queue<Command>();
+    using System;
+    using System.Collections.Generic;
+    using UnityEngine;
 
-    public bool isWaitingForPlayerInput = false;
-    public bool HasInput
+    public class PlayerInput : MonoBehaviour
     {
-        get => commandQueue.Count != 0;
-    }
+        public Queue<Command> commandQueue = new Queue<Command>();
 
-    KeyCode[] allKeys;
-
-    public static PlayerInput instance;
-
-    public virtual void Awake()
-    {
-        instance = this;
-    }
-
-    public virtual void Start()
-    {
-        allKeys = (KeyCode[])Enum.GetValues(typeof(KeyCode));
-        
-    }
-
-    public virtual void Update()
-    {
-        if (!Player.instance.identity) return;
-        CollectInputCommands();
-    }
-
-    protected virtual void CollectInputCommands()
-    {
-        foreach (KeyCode key in allKeys)
+        public bool isWaitingForPlayerInput = false;
+        public bool HasInput
         {
-            if (Input.GetKeyDown(key))
+            get => commandQueue.Count != 0;
+        }
+
+        KeyCode[] allKeys;
+
+        public static PlayerInput instance;
+
+        public virtual void Awake()
+        {
+            instance = this;
+        }
+
+        public virtual void Start()
+        {
+            allKeys = (KeyCode[])Enum.GetValues(typeof(KeyCode));
+
+        }
+
+        public virtual void Update()
+        {
+            if (!Player.instance.identity) return;
+            CollectInputCommands();
+        }
+
+        protected virtual void CollectInputCommands()
+        {
+            foreach (KeyCode key in allKeys)
             {
-                Command command = new Command { key = key };
-                if (key == KeyCode.Mouse0 || key == KeyCode.Mouse1)
+                if (Input.GetKeyDown(key))
                 {
-                    command.target = Input.mousePosition;
+                    Command command = new Command { key = key };
+                    if (key == KeyCode.Mouse0 || key == KeyCode.Mouse1)
+                    {
+                        command.target = Input.mousePosition;
+                    }
+                    commandQueue.Enqueue(command);
                 }
-                commandQueue.Enqueue(command);
             }
         }
     }

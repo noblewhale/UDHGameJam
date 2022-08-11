@@ -1,38 +1,37 @@
-﻿using System;
-using UnityEngine;
-
-public class Player : MonoBehaviour
+﻿namespace Noble.TileEngine
 {
-    public DungeonObject identity;
-    public PlayerInput playerInput;
+    using UnityEngine;
 
-    public static Player instance;
-
-    public virtual void Awake()
+    public class Player : MonoBehaviour
     {
-        instance = this;
+        public DungeonObject identity;
+        public PlayerInput playerInput;
 
-        identity.onSetPosition += OnPositionChange;
-    }
+        public static Player instance;
 
-    public virtual void Start()
-    {
-        Map.instance.OnMapLoaded += OnMapLoaded;
-	}
+        public virtual void Awake()
+        {
+            instance = this;
 
-    void OnPositionChange(int oldX, int oldY, int newX, int newY)
-    {
-        Map.instance.Reveal(newX, newY, identity.viewDistance);
-    }
+            identity.onSetPosition += OnPositionChange;
+        }
 
-    void OnMapLoaded()
-    {
-        Tile startTile = Map.instance.GetRandomTileThatAllowsSpawn();
-        startTile.AddObject(identity);
-        Map.instance.UpdateLighting();
-        Map.instance.Reveal(identity.x, identity.y, identity.viewDistance);
+        public virtual void Start()
+        {
+            Map.instance.OnMapLoaded += OnMapLoaded;
+        }
 
-        PlayerCamera.instance.SetRotation(startTile.x, startTile.y, float.Epsilon, float.MaxValue);
-        PlayerCamera.instance.SetY(identity.transform.position.y, 1, float.MaxValue);
+        void OnPositionChange(int oldX, int oldY, int newX, int newY)
+        {
+            Map.instance.Reveal(newX, newY, identity.viewDistance);
+        }
+
+        void OnMapLoaded()
+        {
+            Tile startTile = Map.instance.GetRandomTileThatAllowsSpawn();
+            startTile.AddObject(identity);
+            Map.instance.UpdateLighting();
+            Map.instance.Reveal(identity.x, identity.y, identity.viewDistance);
+        }
     }
 }

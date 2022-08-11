@@ -1,30 +1,31 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using UnityEngine;
-
-public class Inventory
+﻿namespace Noble.TileEngine
 {
-    public Dictionary<string, DungeonObject> items = new Dictionary<string, DungeonObject>();
-    
-    public int Gold {
-        get {
-            DungeonObject ob;
-            bool success = items.TryGetValue("Gold", out ob);
-            if (success) return ob.quantity;
-            else return 0;
-        }
-    }
+    using System.Collections.Generic;
+    using UnityEngine;
 
-    public void DestroyAll()
+    public class Inventory
     {
-        foreach (var kv in items)
+        public Dictionary<string, DungeonObject> items = new Dictionary<string, DungeonObject>();
+
+        public int Gold
         {
-            GameObject.Destroy(kv.Value.gameObject);
+            get
+            {
+                DungeonObject ob;
+                bool success = items.TryGetValue("Gold", out ob);
+                if (success) return ob.quantity;
+                else return 0;
+            }
         }
 
-        items.Clear();
+        public void DestroyAll()
+        {
+            foreach (var kv in items)
+            {
+                GameObject.Destroy(kv.Value.gameObject);
+            }
+
+            items.Clear();
+        }
     }
 }

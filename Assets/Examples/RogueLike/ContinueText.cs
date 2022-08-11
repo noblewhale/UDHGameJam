@@ -1,34 +1,36 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
-
-public class ContinueText : MonoBehaviour
+namespace Noble.DungeonCrawler
 {
-    TMPro.TMP_Text textComponent;
-    Button button;
+    using System.Collections;
+    using UnityEngine;
+    using UnityEngine.UI;
 
-    void Start()
+    public class ContinueText : MonoBehaviour
     {
-        textComponent = GetComponent<TMPro.TMP_Text>();
-        button = GetComponentInParent<Button>();
-        StartCoroutine(AnimateText());
-    }
+        TMPro.TMP_Text textComponent;
+        Button button;
 
-    IEnumerator AnimateText()
-    {
-        while (true)
+        void Start()
         {
-            textComponent.text = "Continue ";
-            yield return new WaitForSeconds(.4f);
-            textComponent.text = "Continue -";
-            yield return new WaitForSeconds(.4f);
-            textComponent.text = "Continue --";
-            yield return new WaitForSeconds(.4f);
-            textComponent.text = "Continue ---";
-            yield return new WaitForSeconds(.4f);
-            textComponent.text = "Continue --->";
-            yield return new WaitForSeconds(.4f);
+            textComponent = GetComponent<TMPro.TMP_Text>();
+            button = GetComponentInParent<Button>();
+            StartCoroutine(AnimateText());
+        }
+
+        IEnumerator AnimateText()
+        {
+            while (true)
+            {
+                textComponent.text = "Continue ";
+                yield return new WaitForSeconds(.4f);
+                textComponent.text = "Continue -";
+                yield return new WaitForSeconds(.4f);
+                textComponent.text = "Continue --";
+                yield return new WaitForSeconds(.4f);
+                textComponent.text = "Continue ---";
+                yield return new WaitForSeconds(.4f);
+                textComponent.text = "Continue --->";
+                yield return new WaitForSeconds(.4f);
+            }
         }
     }
 }

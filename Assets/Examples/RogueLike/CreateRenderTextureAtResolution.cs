@@ -1,19 +1,20 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class CreateRenderTextureAtResolution : MonoBehaviour
+﻿namespace Noble.DungeonCrawler
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        RenderTexture foregroundTexture = new RenderTexture(Screen.width, Screen.height, 16);
-        GetComponent<Camera>().targetTexture = foregroundTexture;
-    }
+    using UnityEngine;
 
-    // Update is called once per frame
-    void Update()
+    public class CreateRenderTextureAtResolution : MonoBehaviour
     {
-        
+        // Start is called before the first frame update
+        void Start()
+        {
+            RenderTexture foregroundTexture = new RenderTexture(Screen.width, Screen.height, 16);
+            GetComponent<Camera>().targetTexture = foregroundTexture;
+        }
+
+        // Update is called once per frame
+        void Update()
+        {
+
+        }
     }
 }

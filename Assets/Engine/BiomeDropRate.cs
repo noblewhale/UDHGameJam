@@ -1,8 +1,11 @@
-﻿using System;
-
-[Serializable]
-public class BiomeDropRate : DropRate
+﻿namespace Noble.TileEngine
 {
-    public int minQuantityPerBiome;
-    public int maxQuantityPerBiome;
+    using System;
+
+    [Serializable]
+    public class BiomeDropRate : DropRate
+    {
+        public int minQuantityPerBiome;
+        public int maxQuantityPerBiome;
+    }
 }

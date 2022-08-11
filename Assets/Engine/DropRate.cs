@@ -1,14 +1,17 @@
-﻿using System;
-
-[Serializable]
-public class DropRate
+﻿namespace Noble.TileEngine
 {
-    public DungeonObject item;
-    public int minQuantity;
-    public int maxQuantity;
-    public float probability;
+    using System;
 
-    public string[] onlySpawnOn;
-    public string[] dontSpawnOn;
-    public bool requireSpawnable = true;
+    [Serializable]
+    public class DropRate
+    {
+        public DungeonObject item;
+        public int minQuantity;
+        public int maxQuantity;
+        public float probability;
+
+        public string[] onlySpawnOn;
+        public string[] dontSpawnOn;
+        public bool requireSpawnable = true;
+    }
 }

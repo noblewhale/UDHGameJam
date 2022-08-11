@@ -1,71 +1,73 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class ElectricTrap : TickableBehaviour
+﻿namespace Noble.DungeonCrawler
 {
-    public float delay = .1f;
-    bool shouldTrigger = false;
-    Creature creatureThatSteppedOnTrap;
-    float actionStartTime;
-    ulong lastTriggerTime;
-    ulong cooldown = 1;
-    
-    public void OnSteppedOn(Creature creature)
-    {
-        //if (TimeManager.instance.time - lastTriggerTime < cooldown) return;
-        if (creature == null || creature.baseObject == null) return;
+    using Noble.TileEngine;
+    using UnityEngine;
 
-        lastTriggerTime = TimeManager.instance.time;
-        shouldTrigger = true;
-        creatureThatSteppedOnTrap = creature;
-        TimeManager.instance.ForceNextAction(owner.GetComponent<Tickable>());
-    }
-
-    public override bool StartAction(out ulong duration)
+    public class ElectricTrap : TickableBehaviour
     {
-        shouldTrigger = false;
-        duration = 1;
-        actionStartTime = Time.time;
-        return false;
-    }
+        public float delay = .1f;
+        bool shouldTrigger = false;
+        DungeonObject creatureThatSteppedOnTrap;
+        float actionStartTime;
+        ulong lastTriggerTime;
+        ulong cooldown = 1;
 
-    public override bool ContinueAction()
-    {
-        if ((Time.time - actionStartTime) < delay)
+        public void OnSteppedOn(DungeonObject creature)
+        {
+            //if (TimeManager.instance.time - lastTriggerTime < cooldown) return;
+            if (creature == null) return;
+
+            lastTriggerTime = TimeManager.instance.time;
+            shouldTrigger = true;
+            creatureThatSteppedOnTrap = creature;
+            TimeManager.instance.ForceNextAction(owner.GetComponent<Tickable>());
+        }
+
+        public override bool StartAction(out ulong duration)
+        {
+            shouldTrigger = false;
+            duration = 1;
+            actionStartTime = Time.time;
+            return false;
+        }
+
+        public override bool ContinueAction()
+        {
+            if ((Time.time - actionStartTime) < delay)
+            {
+                if (creatureThatSteppedOnTrap)
+                {
+                    creatureThatSteppedOnTrap.DamageFlash(.3f);
+                }
+                return false;
+            }
+            else return true;
+        }
+
+        public override void FinishAction()
         {
             if (creatureThatSteppedOnTrap)
             {
-                creatureThatSteppedOnTrap.baseObject.DamageFlash(.3f);
+                creatureThatSteppedOnTrap.DamageFlash(1);
+                creatureThatSteppedOnTrap.TakeDamage(1);
+                if (creatureThatSteppedOnTrap.health != 0)
+                {
+                    Map.instance.MoveObject(creatureThatSteppedOnTrap, creatureThatSteppedOnTrap.previousX, creatureThatSteppedOnTrap.previousY);
+                }
             }
-            return false;
+            creatureThatSteppedOnTrap = null;
         }
-        else return true;
-    }
 
-    public override void FinishAction()
-    {
-        if (creatureThatSteppedOnTrap)
+        public override float GetActionConfidence()
         {
-            creatureThatSteppedOnTrap.baseObject.DamageFlash(1);
-            creatureThatSteppedOnTrap.baseObject.TakeDamage(1);
-            if (creatureThatSteppedOnTrap.health != 0)
+            if (shouldTrigger)
             {
-                Map.instance.MoveObject(creatureThatSteppedOnTrap.baseObject, creatureThatSteppedOnTrap.baseObject.previousX, creatureThatSteppedOnTrap.baseObject.previousY);
+                return 1;
             }
-        }
-        creatureThatSteppedOnTrap = null;
-    }
-
-    public override float GetActionConfidence()
-    {
-        if (shouldTrigger)
-        {
-            return 1;
-        }
-        else
-        {
-            return 0;
+            else
+            {
+                return 0;
+            }
         }
     }
 }

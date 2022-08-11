@@ -1,80 +1,83 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using System;
-using System.Linq;
-
-[RequireComponent(typeof(DungeonObject))]
-public class Tickable : MonoBehaviour 
+﻿namespace Noble.TileEngine
 {
-	public ulong nextActionTime = 0;
-    public LinkedListNode<Tickable> listNode;
-    public List<TickableBehaviour> behaviours = new List<TickableBehaviour>();
-    public DungeonObject owner;
-    TickableBehaviour currentBehaviour;
-    public bool markedForRemoval = false;
+    using System.Collections;
+    using System.Collections.Generic;
+    using UnityEngine;
+    using System;
+    using System.Linq;
 
-    void Awake()
+    [RequireComponent(typeof(DungeonObject))]
+    public class Tickable : MonoBehaviour
     {
-        behaviours = GetComponents<TickableBehaviour>().ToList();
-        owner = GetComponent<DungeonObject>();
-        owner.onDeath += OnDeath;
-    }
+        public ulong nextActionTime = 0;
+        public LinkedListNode<Tickable> listNode;
+        public List<TickableBehaviour> behaviours = new List<TickableBehaviour>();
+        public DungeonObject owner;
+        TickableBehaviour currentBehaviour;
+        public bool markedForRemoval = false;
 
-    void Start()
-	{
-		listNode = TimeManager.instance.tickableObjects.AddLast(this);
-	}
-
-	void OnDestroy()
-	{
-        owner.onDeath -= OnDeath;
-        markedForRemoval = true;
-	}
-
-    void OnDeath()
-    {
-        markedForRemoval = true;
-    }
-
-    public T AddBehaviour<T>() where T : TickableBehaviour
-    {
-        var behaviour = gameObject.AddComponent<T>();
-        behaviours.Add(behaviour);
-        return behaviour;
-    }
-
-    public bool StartNewAction(out ulong actionDuration)
-    {
-        actionDuration = 1;
-        var confidences = behaviours.Where(x => x.enabled).Select(x => x.GetActionConfidence());
-        float totalConfidence = confidences.Sum();
-        float aRandomNumber = UnityEngine.Random.Range(0, totalConfidence);
-
-        float currentConfidence = 0;
-        float previousConfidence = 0;
-        for (int i = 0; i < confidences.Count(); i++)
+        void Awake()
         {
-            previousConfidence = currentConfidence;
-            currentConfidence += confidences.ElementAt(i);
-            if (aRandomNumber >= previousConfidence && aRandomNumber < currentConfidence)
-            {
-                currentBehaviour = behaviours[i];
-                return behaviours[i].StartAction(out actionDuration);
-            }
+            behaviours = GetComponents<TickableBehaviour>().ToList();
+            owner = GetComponent<DungeonObject>();
+            owner.onDeath += OnDeath;
         }
 
-        return true;
-    }
-    
-    public void FinishAction()
-    {
-        if (currentBehaviour) currentBehaviour.FinishAction();
-    }
+        void Start()
+        {
+            listNode = TimeManager.instance.tickableObjects.AddLast(this);
+        }
 
-    virtual public bool ContinueAction()
-    {
-        if (currentBehaviour) return currentBehaviour.ContinueAction();
-        return true;
+        void OnDestroy()
+        {
+            owner.onDeath -= OnDeath;
+            markedForRemoval = true;
+        }
+
+        void OnDeath()
+        {
+            markedForRemoval = true;
+        }
+
+        public T AddBehaviour<T>() where T : TickableBehaviour
+        {
+            var behaviour = gameObject.AddComponent<T>();
+            behaviours.Add(behaviour);
+            return behaviour;
+        }
+
+        public bool StartNewAction(out ulong actionDuration)
+        {
+            actionDuration = 1;
+            var confidences = behaviours.Where(x => x.enabled).Select(x => x.GetActionConfidence());
+            float totalConfidence = confidences.Sum();
+            float aRandomNumber = UnityEngine.Random.Range(0, totalConfidence);
+
+            float currentConfidence = 0;
+            float previousConfidence = 0;
+            for (int i = 0; i < confidences.Count(); i++)
+            {
+                previousConfidence = currentConfidence;
+                currentConfidence += confidences.ElementAt(i);
+                if (aRandomNumber >= previousConfidence && aRandomNumber < currentConfidence)
+                {
+                    currentBehaviour = behaviours[i];
+                    return behaviours[i].StartAction(out actionDuration);
+                }
+            }
+
+            return true;
+        }
+
+        public void FinishAction()
+        {
+            if (currentBehaviour) currentBehaviour.FinishAction();
+        }
+
+        virtual public bool ContinueAction()
+        {
+            if (currentBehaviour) return currentBehaviour.ContinueAction();
+            return true;
+        }
     }
 }

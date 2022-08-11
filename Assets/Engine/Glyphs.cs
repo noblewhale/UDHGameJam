@@ -1,51 +1,53 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class Glyphs : MonoBehaviour
+﻿namespace Noble.TileEngine
 {
-    public Color damageFlashColor = Color.red;
-    public List<Glyph> glyphs = new List<Glyph>();
+    using System.Collections.Generic;
+    using UnityEngine;
 
-    void Awake () 
-	{
-        glyphs = new List<Glyph>(GetComponentsInChildren<Glyph>(true));
-	}
+    public class Glyphs : MonoBehaviour
+    {
+        public Color damageFlashColor = Color.red;
+        public List<Glyph> glyphs = new List<Glyph>();
 
-	public void SetRevealed(bool isRevealed)
-    {
-        gameObject.SetActive(isRevealed);
-	}
-    
-    public void SetLit(bool isLit)
-    {
-        for (int i = 0; i < glyphs.Count; i++)
+        void Awake()
         {
-            glyphs[i].isLit = isLit;
+            glyphs = new List<Glyph>(GetComponentsInChildren<Glyph>(true));
         }
-    }
 
-    public void DamageFlash(float animationTime)
-    {
-        if (animationTime < .25f)
+        public void SetRevealed(bool isRevealed)
+        {
+            gameObject.SetActive(isRevealed);
+        }
+
+        public void SetLit(bool isLit)
         {
             for (int i = 0; i < glyphs.Count; i++)
             {
-                glyphs[i].extraTint = Color.white;
+                glyphs[i].isLit = isLit;
             }
         }
-        else if (animationTime < .5f)
+
+        public void DamageFlash(float animationTime)
         {
-            for (int i = 0; i < glyphs.Count; i++)
+            if (animationTime < .25f)
             {
-                glyphs[i].extraTint = damageFlashColor;
+                for (int i = 0; i < glyphs.Count; i++)
+                {
+                    glyphs[i].extraTint = Color.white;
+                }
             }
-        }
-        else
-        {
-            for (int i = 0; i < glyphs.Count; i++)
+            else if (animationTime < .5f)
             {
-                glyphs[i].extraTint = Color.white;
+                for (int i = 0; i < glyphs.Count; i++)
+                {
+                    glyphs[i].extraTint = damageFlashColor;
+                }
+            }
+            else
+            {
+                for (int i = 0; i < glyphs.Count; i++)
+                {
+                    glyphs[i].extraTint = Color.white;
+                }
             }
         }
     }

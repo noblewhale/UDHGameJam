@@ -1,26 +1,27 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-
-public class AnimatorSync : MonoBehaviour
+﻿namespace Noble.DungeonCrawler
 {
-    public float speedMultiplier = 1;
-    public float offsetBasedOnYPos = 0;
-    Animator globalAnimator;
-    Animator animator;
+    using UnityEngine;
 
-    private void Awake()
-    {
-        globalAnimator = GameObject.Find("GlobalAnimator").GetComponent<Animator>();
-        animator = GetComponent<Animator>();
-    }
 
-    private void Update()
+    public class AnimatorSync : MonoBehaviour
     {
-        if (globalAnimator && animator)
+        public float speedMultiplier = 1;
+        public float offsetBasedOnYPos = 0;
+        Animator globalAnimator;
+        Animator animator;
+
+        private void Awake()
         {
-            animator.SetFloat("Time", globalAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime * speedMultiplier + transform.position.y * offsetBasedOnYPos);
+            globalAnimator = GameObject.Find("GlobalAnimator").GetComponent<Animator>();
+            animator = GetComponent<Animator>();
+        }
+
+        private void Update()
+        {
+            if (globalAnimator && animator)
+            {
+                animator.SetFloat("Time", globalAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime * speedMultiplier + transform.position.y * offsetBasedOnYPos);
+            }
         }
     }
 }

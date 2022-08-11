@@ -1,18 +1,19 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class TickableBehaviour : MonoBehaviour 
+﻿namespace Noble.TileEngine
 {
-	protected DungeonObject owner;
+	using UnityEngine;
 
-	virtual public void Awake()
+	public class TickableBehaviour : MonoBehaviour
 	{
-		owner = GetComponent<DungeonObject>();
-	}
+		protected DungeonObject owner;
 
-	virtual public float GetActionConfidence() { return 0; }
-	virtual public bool StartAction(out ulong duration) { duration = 1; return true; }
-	virtual public bool ContinueAction() { return true; }
-	virtual public void FinishAction() { }
+		virtual public void Awake()
+		{
+			owner = GetComponent<DungeonObject>();
+		}
+
+		virtual public float GetActionConfidence() { return 0; }
+		virtual public bool StartAction(out ulong duration) { duration = 1; return true; }
+		virtual public bool ContinueAction() { return true; }
+		virtual public void FinishAction() { }
+	}
 }

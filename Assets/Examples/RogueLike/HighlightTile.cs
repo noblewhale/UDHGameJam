@@ -1,28 +1,30 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class HighlightTile : MonoBehaviour
+namespace Noble.DungeonCrawler
 {
-    public GameObject highlightPrefab;
-    GameObject highLightObject;
+    using Noble.TileEngine;
+    using UnityEngine;
 
-    void Start()
+    public class HighlightTile : MonoBehaviour
     {
-        highLightObject = Instantiate(highlightPrefab);
-    }
+        public GameObject highlightPrefab;
+        GameObject highLightObject;
 
-    void Update()
-    {
-        Vector2 relativeWorldPos = PolarMapUtil.GetPositionRelativeToMap(Input.mousePosition);
-        Vector2 unwarpedPos;
-        bool success = PolarMapUtil.UnwarpPosition(relativeWorldPos, out unwarpedPos);
-        if (success)
+        void Start()
         {
-            bool isInsideMap = PolarMapUtil.PositionToTile(unwarpedPos, out int tileX, out int tileY);
-            if (isInsideMap)
+            highLightObject = Instantiate(highlightPrefab);
+        }
+
+        void Update()
+        {
+            Vector2 relativeWorldPos = PolarMapUtil.GetPositionRelativeToMap(Input.mousePosition);
+            Vector2 unwarpedPos;
+            bool success = PolarMapUtil.UnwarpPosition(relativeWorldPos, out unwarpedPos);
+            if (success)
             {
-                highLightObject.transform.position = Map.instance.tileObjects[tileY][tileX].transform.position;
+                bool isInsideMap = PolarMapUtil.PositionToTile(unwarpedPos, out int tileX, out int tileY);
+                if (isInsideMap)
+                {
+                    highLightObject.transform.position = Map.instance.tileObjects[tileY][tileX].transform.position;
+                }
             }
         }
     }

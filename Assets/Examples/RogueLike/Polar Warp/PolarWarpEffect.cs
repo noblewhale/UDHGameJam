@@ -1,25 +1,26 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class PolarWarpEffect : MonoBehaviour
+﻿namespace Noble.DungeonCrawler
 {
+    using UnityEngine;
 
-    public Material warpMaterial;
-    public Camera foregroundCamera;
-    public Material overlayMaterial;
-
-    private void OnRenderImage(RenderTexture source, RenderTexture destination)
+    public class PolarWarpEffect : MonoBehaviour
     {
-        //if (foregroundCamera && foregroundCamera.targetTexture && overlayMaterial)
-        //{
-        //    Graphics.Blit(foregroundCamera.targetTexture, destination, overlayMaterial);
-        //}
-        Graphics.Blit(source, destination, warpMaterial);
 
-        if (foregroundCamera && foregroundCamera.targetTexture && overlayMaterial)
+        public Material warpMaterial;
+        public Camera foregroundCamera;
+        public Material overlayMaterial;
+
+        private void OnRenderImage(RenderTexture source, RenderTexture destination)
         {
-            Graphics.Blit(foregroundCamera.targetTexture, destination, overlayMaterial);
+            //if (foregroundCamera && foregroundCamera.targetTexture && overlayMaterial)
+            //{
+            //    Graphics.Blit(foregroundCamera.targetTexture, destination, overlayMaterial);
+            //}
+            Graphics.Blit(source, destination, warpMaterial);
+
+            if (foregroundCamera && foregroundCamera.targetTexture && overlayMaterial)
+            {
+                Graphics.Blit(foregroundCamera.targetTexture, destination, overlayMaterial);
+            }
         }
     }
 }

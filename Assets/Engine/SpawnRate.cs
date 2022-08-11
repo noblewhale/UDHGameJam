@@ -1,8 +1,11 @@
-﻿using System;
-
-[Serializable]
-public class SpawnRate
+﻿namespace Noble.TileEngine
 {
-    public Creature creature;
-    public float probability;
+    using System;
+
+    [Serializable]
+    public class SpawnRate
+    {
+        public DungeonObject creature;
+        public float probability;
+    }
 }

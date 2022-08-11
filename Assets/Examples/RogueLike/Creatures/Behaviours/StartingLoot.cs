@@ -1,29 +1,32 @@
-﻿using System;
-using UnityEngine;
-
-public class StartingLoot : MonoBehaviour
+﻿namespace Noble.DungeonCrawler
 {
-    Creature owner;
-    
-    public DropRate[] itemRates;
+    using Noble.TileEngine;
+    using UnityEngine;
 
-    virtual public void Start()
+    public class StartingLoot : MonoBehaviour
     {
-        owner = GetComponent<Creature>();
-        foreach(var dropRate in itemRates)
-        {
-            var r = UnityEngine.Random.value;
+        Creature owner;
 
-            if (r <= dropRate.probability)
+        public DropRate[] itemRates;
+
+        virtual public void Start()
+        {
+            owner = GetComponent<Creature>();
+            foreach (var dropRate in itemRates)
             {
-                int quantity = UnityEngine.Random.Range(dropRate.minQuantity, dropRate.maxQuantity + 1);
-                var item = Instantiate(dropRate.item.gameObject).GetComponent<DungeonObject>();
-                item.transform.position = new Vector3(-666, -666, -666);
-                item.quantity = quantity;
-                owner.inventory.items.Add(item.objectName, item);
-                if (item.objectName == "Hammer")
+                var r = UnityEngine.Random.value;
+
+                if (r <= dropRate.probability)
                 {
-                    owner.WeildRightHand(item);
+                    int quantity = UnityEngine.Random.Range(dropRate.minQuantity, dropRate.maxQuantity + 1);
+                    var item = Instantiate(dropRate.item.gameObject).GetComponent<DungeonObject>();
+                    item.transform.position = new Vector3(-666, -666, -666);
+                    item.quantity = quantity;
+                    owner.inventory.items.Add(item.objectName, item);
+                    if (item.objectName == "Hammer")
+                    {
+                        owner.WeildRightHand(item);
+                    }
                 }
             }
         }

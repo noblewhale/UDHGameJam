@@ -1,29 +1,33 @@
-﻿using System;
-using UnityEngine;
-
-public class EntryAnimation : MonoBehaviour
+﻿namespace Noble.DungeonCrawler
 {
-    Player player;
-    public event Action OnDoneAnimating;
-    public bool isAnimating = false;
-    PlayerCamera playerCamera;
+    using Noble.TileEngine;
+    using System;
+    using UnityEngine;
 
-    void Start()
+    public class EntryAnimation : MonoBehaviour
     {
-        player = FindObjectOfType<Player>();
-        playerCamera = GetComponent<PlayerCamera>();
-    }
+        Player player;
+        public event Action OnDoneAnimating;
+        public bool isAnimating = false;
+        PlayerCamera playerCamera;
 
-    void Update ()
-    {
-        if (isAnimating && player && player.identity)
+        void Start()
         {
-            Camera.main.transform.position += Vector3.up * Time.deltaTime * 10f;
-            if (Camera.main.transform.position.y > player.identity.transform.position.y + playerCamera.cameraOffset)
+            player = FindObjectOfType<Player>();
+            playerCamera = GetComponent<PlayerCamera>();
+        }
+
+        void Update()
+        {
+            if (isAnimating && player && player.identity)
             {
-                isAnimating = false;
-                if (OnDoneAnimating != null) OnDoneAnimating();
+                Camera.main.transform.position += Vector3.up * Time.deltaTime * 10f;
+                if (Camera.main.transform.position.y > player.identity.transform.position.y + playerCamera.cameraOffset)
+                {
+                    isAnimating = false;
+                    if (OnDoneAnimating != null) OnDoneAnimating();
+                }
             }
         }
-	}
+    }
 }

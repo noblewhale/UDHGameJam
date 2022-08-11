@@ -1,4 +1,7 @@
-﻿public enum Race
+﻿namespace Noble.DungeonCrawler
 {
-    HUMAN, INSECT, RODENT
+    public enum Race
+    {
+        HUMAN, INSECT, RODENT
+    }
 }

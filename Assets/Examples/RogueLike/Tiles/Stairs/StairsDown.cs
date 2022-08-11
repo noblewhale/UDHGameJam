@@ -1,12 +1,16 @@
-﻿using UnityEngine;
-
-public class StairsDown : MonoBehaviour
+﻿namespace Noble.DungeonCrawler
 {
-    public void OnSteppedOn(Creature creature)
+    using Noble.TileEngine;
+    using UnityEngine;
+
+    public class StairsDown : MonoBehaviour
     {
-        if (Player.instance.identity == creature)
+        public void OnSteppedOn(Creature creature)
         {
-            Map.instance.StartCoroutine(Map.instance.RegenerateMap());
+            if (Player.instance.identity == creature)
+            {
+                Map.instance.StartCoroutine(Map.instance.RegenerateMap());
+            }
         }
     }
 }

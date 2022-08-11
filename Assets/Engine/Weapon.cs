@@ -1,13 +1,14 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class Weapon : MonoBehaviour
+﻿namespace Noble.TileEngine
 {
+    using UnityEngine;
 
-    public int minBaseDamage = 1;
-    public int maxBaseDamage = 2;
+    public class Weapon : MonoBehaviour
+    {
 
-    public int enchantmentLevel = 0;
-    
+        public int minBaseDamage = 1;
+        public int maxBaseDamage = 2;
+
+        public int enchantmentLevel = 0;
+
+    }
 }

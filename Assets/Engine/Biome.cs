@@ -4,186 +4,189 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-[CreateAssetMenu]
-public class Biome : ScriptableObject
+namespace Noble.TileEngine
 {
-    public float nothingProbability = 0;
-    public BiomeDropRate[] objects;
-
-    public int minX, maxX;
-    public int minY, maxY;
-    public int minWidth, maxWidth;
-    public int minHeight, maxHeight;
-
-    public RectIntExclusive area;
-    public List<Biome> subBiomes = new List<Biome>();
-
-    Dictionary<DungeonObject, int> stacksSpawned = new Dictionary<DungeonObject, int>();
-
-    virtual public IEnumerator PreProcessMap(Map map)
+    [CreateAssetMenu]
+    public class Biome : ScriptableObject
     {
-        foreach (var subBiome in subBiomes)
-        {
-            yield return map.StartCoroutine(subBiome.PreProcessMap(map));
-        }
-    }
+        public float nothingProbability = 0;
+        public BiomeDropRate[] objects;
 
-    public static DungeonObject SelectRandomObject(BiomeDropRate[] rates)
-    {
-        // Get the total of all probabilities
-        float totalProbability = rates.Sum(pob => pob.probability);
-        // Generate a random number within the probability range
-        float aRandomNumber = UnityEngine.Random.Range(0, totalProbability);
+        public int minX, maxX;
+        public int minY, maxY;
+        public int minWidth, maxWidth;
+        public int minHeight, maxHeight;
 
-        // Randomly select an object such that objects with a higher probability are more likely to be selected
-        float currentProbability = 0;
-        float previousProbability = 0;
-        DungeonObject selectedObject = null;
-        foreach (var probability in rates)
+        public RectIntExclusive area;
+        public List<Biome> subBiomes = new List<Biome>();
+
+        Dictionary<DungeonObject, int> stacksSpawned = new Dictionary<DungeonObject, int>();
+
+        virtual public IEnumerator PreProcessMap(Map map)
         {
-            previousProbability = currentProbability;
-            currentProbability += probability.probability;
-            if (aRandomNumber >= previousProbability && aRandomNumber < currentProbability)
+            foreach (var subBiome in subBiomes)
             {
-                selectedObject = probability.item;
-                break;
+                yield return map.StartCoroutine(subBiome.PreProcessMap(map));
             }
         }
 
-        // TODO: Respect min and max and shit
-        return selectedObject;
-    }
-    struct BiomeRate
-    {
-        public Biome biome;
-        public BiomeDropRate dropRate;
-
-        public BiomeRate(Biome biome, BiomeDropRate rate)
+        public static DungeonObject SelectRandomObject(BiomeDropRate[] rates)
         {
-            this.biome = biome;
-            this.dropRate = rate;
-        }
-    }
+            // Get the total of all probabilities
+            float totalProbability = rates.Sum(pob => pob.probability);
+            // Generate a random number within the probability range
+            float aRandomNumber = UnityEngine.Random.Range(0, totalProbability);
 
-    public static void GatherBiomes(Vector2Int pos, ref List<Biome> biomes, Biome parentBiome)
-    {
-        var subBiomesContainingXY = parentBiome.subBiomes.Where(b => b.area.Contains(pos));
-        foreach (var subBiome in subBiomesContainingXY)
-        {
-            biomes.Add(subBiome);
-            GatherBiomes(pos, ref biomes, subBiome);
-        }
-    }
-
-    public static void SpawnRandomObject(Tile tile)
-    {
-        int numStacksAlreadyPlaced = 0;
-        Vector2Int tilePos = new Vector2Int(tile.x, tile.y);
-        var containingBiomes = tile.map.biomes.Where(b => b.area.Contains(tilePos)).ToList();
-        var subBiomes = new List<Biome>();
-        foreach (var biome in containingBiomes)
-        {
-            GatherBiomes(tilePos, ref subBiomes, biome);
-        }
-        containingBiomes.AddRange(subBiomes);
-        float totalProbability = 0;
-
-        List<BiomeRate> viableDrops = new List<BiomeRate>();
-        foreach (var biome in containingBiomes)
-        {
-            totalProbability += biome.nothingProbability;
-            if (biome.nothingProbability != 0)
+            // Randomly select an object such that objects with a higher probability are more likely to be selected
+            float currentProbability = 0;
+            float previousProbability = 0;
+            DungeonObject selectedObject = null;
+            foreach (var probability in rates)
             {
-                var biomeRate = new BiomeRate(biome, null);
-                viableDrops.Add(biomeRate);
+                previousProbability = currentProbability;
+                currentProbability += probability.probability;
+                if (aRandomNumber >= previousProbability && aRandomNumber < currentProbability)
+                {
+                    selectedObject = probability.item;
+                    break;
+                }
             }
-            foreach (var dropRate in biome.objects)
+
+            // TODO: Respect min and max and shit
+            return selectedObject;
+        }
+        struct BiomeRate
+        {
+            public Biome biome;
+            public BiomeDropRate dropRate;
+
+            public BiomeRate(Biome biome, BiomeDropRate rate)
             {
-                if (dropRate.requireSpawnable && !tile.AllowsSpawn()) continue;
-                if (dropRate.onlySpawnOn != null && dropRate.onlySpawnOn.Length != 0)
+                this.biome = biome;
+                this.dropRate = rate;
+            }
+        }
+
+        public static void GatherBiomes(Vector2Int pos, ref List<Biome> biomes, Biome parentBiome)
+        {
+            var subBiomesContainingXY = parentBiome.subBiomes.Where(b => b.area.Contains(pos));
+            foreach (var subBiome in subBiomesContainingXY)
+            {
+                biomes.Add(subBiome);
+                GatherBiomes(pos, ref biomes, subBiome);
+            }
+        }
+
+        public static void SpawnRandomObject(Tile tile)
+        {
+            int numStacksAlreadyPlaced = 0;
+            Vector2Int tilePos = new Vector2Int(tile.x, tile.y);
+            var containingBiomes = tile.map.biomes.Where(b => b.area.Contains(tilePos)).ToList();
+            var subBiomes = new List<Biome>();
+            foreach (var biome in containingBiomes)
+            {
+                GatherBiomes(tilePos, ref subBiomes, biome);
+            }
+            containingBiomes.AddRange(subBiomes);
+            float totalProbability = 0;
+
+            List<BiomeRate> viableDrops = new List<BiomeRate>();
+            foreach (var biome in containingBiomes)
+            {
+                totalProbability += biome.nothingProbability;
+                if (biome.nothingProbability != 0)
                 {
-                    if (!tile.ContainsObjectOfType(dropRate.onlySpawnOn))
-                    {
-                        continue;
-                    }
-                }
-                if (dropRate.dontSpawnOn != null && dropRate.dontSpawnOn.Length != 0)
-                {
-                    if (tile.ContainsObjectOfType(dropRate.dontSpawnOn))
-                    {
-                        continue;
-                    }
-                }
-                numStacksAlreadyPlaced = 0;
-                biome.stacksSpawned.TryGetValue(dropRate.item, out numStacksAlreadyPlaced);
-                if (numStacksAlreadyPlaced < dropRate.maxQuantityPerBiome || dropRate.maxQuantityPerBiome == -1)
-                {
-                    var biomeRate = new BiomeRate(biome, dropRate);
+                    var biomeRate = new BiomeRate(biome, null);
                     viableDrops.Add(biomeRate);
-                    totalProbability += dropRate.probability;
+                }
+                foreach (var dropRate in biome.objects)
+                {
+                    if (dropRate.requireSpawnable && !tile.AllowsSpawn()) continue;
+                    if (dropRate.onlySpawnOn != null && dropRate.onlySpawnOn.Length != 0)
+                    {
+                        if (!tile.ContainsObjectOfType(dropRate.onlySpawnOn))
+                        {
+                            continue;
+                        }
+                    }
+                    if (dropRate.dontSpawnOn != null && dropRate.dontSpawnOn.Length != 0)
+                    {
+                        if (tile.ContainsObjectOfType(dropRate.dontSpawnOn))
+                        {
+                            continue;
+                        }
+                    }
+                    numStacksAlreadyPlaced = 0;
+                    biome.stacksSpawned.TryGetValue(dropRate.item, out numStacksAlreadyPlaced);
+                    if (numStacksAlreadyPlaced < dropRate.maxQuantityPerBiome || dropRate.maxQuantityPerBiome == -1)
+                    {
+                        var biomeRate = new BiomeRate(biome, dropRate);
+                        viableDrops.Add(biomeRate);
+                        totalProbability += dropRate.probability;
+                    }
                 }
             }
-        }
 
-        float r = UnityEngine.Random.Range(0, totalProbability);
+            float r = UnityEngine.Random.Range(0, totalProbability);
 
-        DropRate typeOfObjectToSpawn = null;
+            DropRate typeOfObjectToSpawn = null;
 
-        float currentProbability = 0;
-        float previousProbability = 0;
-        foreach (var biomeRate in viableDrops)
-        {
-            Biome biome = biomeRate.biome;
-            BiomeDropRate dropRate = biomeRate.dropRate;
-            if (dropRate == null)
+            float currentProbability = 0;
+            float previousProbability = 0;
+            foreach (var biomeRate in viableDrops)
             {
-                previousProbability = currentProbability;
-                currentProbability += biome.nothingProbability;
-            }
-            else
-            {
-                previousProbability = currentProbability;
-                currentProbability += dropRate.probability;
-            }
-            if (r >= previousProbability && r < currentProbability)
-            {
+                Biome biome = biomeRate.biome;
+                BiomeDropRate dropRate = biomeRate.dropRate;
                 if (dropRate == null)
                 {
-                    // Spawn nothing
-                    break;
+                    previousProbability = currentProbability;
+                    currentProbability += biome.nothingProbability;
                 }
                 else
                 {
-                    bool anyStacksPlaced = biome.stacksSpawned.TryGetValue(dropRate.item, out numStacksAlreadyPlaced);
-                    if (anyStacksPlaced)
+                    previousProbability = currentProbability;
+                    currentProbability += dropRate.probability;
+                }
+                if (r >= previousProbability && r < currentProbability)
+                {
+                    if (dropRate == null)
                     {
-                        biome.stacksSpawned[dropRate.item]++;
+                        // Spawn nothing
+                        break;
                     }
                     else
                     {
-                        biome.stacksSpawned[dropRate.item] = 1;
-                    }
+                        bool anyStacksPlaced = biome.stacksSpawned.TryGetValue(dropRate.item, out numStacksAlreadyPlaced);
+                        if (anyStacksPlaced)
+                        {
+                            biome.stacksSpawned[dropRate.item]++;
+                        }
+                        else
+                        {
+                            biome.stacksSpawned[dropRate.item] = 1;
+                        }
 
-                    typeOfObjectToSpawn = dropRate;
-                    break;
+                        typeOfObjectToSpawn = dropRate;
+                        break;
+                    }
                 }
+            }
+
+            if (typeOfObjectToSpawn != null)
+            {
+                int quantity = UnityEngine.Random.Range(typeOfObjectToSpawn.minQuantity, typeOfObjectToSpawn.maxQuantity + 1);
+                tile.SpawnAndAddObject(typeOfObjectToSpawn.item, quantity);
             }
         }
 
-        if (typeOfObjectToSpawn != null)
+        internal void DrawDebug()
         {
-            int quantity = UnityEngine.Random.Range(typeOfObjectToSpawn.minQuantity, typeOfObjectToSpawn.maxQuantity + 1);
-            tile.SpawnAndAddObject(typeOfObjectToSpawn.item, quantity);
+            DrawDebug(area);
         }
-    }
 
-    internal void DrawDebug()
-    {
-        DrawDebug(area);
-    }
-
-    virtual public void DrawDebug(RectIntExclusive area)
-    {
-        EditorUtil.DrawRect(Map.instance, area, Color.green);
+        virtual public void DrawDebug(RectIntExclusive area)
+        {
+            EditorUtil.DrawRect(Map.instance, area, Color.green);
+        }
     }
 }

@@ -1,81 +1,84 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using TMPro;
-using UnityEngine;
-
-public class StatusPanel : MonoBehaviour
+﻿namespace Noble.DungeonCrawler
 {
-    Camera cam;
-    public TextMeshProUGUI health;
-    public TextMeshProUGUI mana;
-    public TextMeshProUGUI gold;
-    public AnimationCurve highlightAnimation;
-    public InventoryGUI inventory;
-    Player player;
+    using Noble.TileEngine;
+    using System.Collections;
+    using TMPro;
+    using UnityEngine;
 
-    int oldHealth, oldGold;
-    int visualGold;
-
-    Coroutine highlightHealthProcess;
-    Coroutine highlightGoldProcess;
-    Coroutine incrementGoldProcess;
-
-    void Start ()
+    public class StatusPanel : MonoBehaviour
     {
-        cam = GetComponentInParent<Camera>();
-        player = Player.instance;
-	}
-	
-	void Update ()
-    {
-        if (!player.identity) return;
+        Camera cam;
+        public TextMeshProUGUI health;
+        public TextMeshProUGUI mana;
+        public TextMeshProUGUI gold;
+        public AnimationCurve highlightAnimation;
+        public InventoryGUI inventory;
+        Player player;
 
-        if (player.identity.health != oldHealth)
+        int oldHealth, oldGold;
+        int visualGold;
+
+        Coroutine highlightHealthProcess;
+        Coroutine highlightGoldProcess;
+        Coroutine incrementGoldProcess;
+
+        void Start()
         {
-            health.text = "";
-            if (player.identity.health < 10)
+            cam = GetComponentInParent<Camera>();
+            player = Player.instance;
+        }
+
+        void Update()
+        {
+            if (!player.identity) return;
+
+            if (player.identity.health != oldHealth)
             {
-                health.text = "0";
+                health.text = "";
+                if (player.identity.health < 10)
+                {
+                    health.text = "0";
+                }
+                health.text += player.identity.health.ToString();
+                if (highlightHealthProcess != null) StopCoroutine(highlightHealthProcess);
+                highlightHealthProcess = StartCoroutine(HighlightText(health, Color.red));
+                oldHealth = player.identity.health;
             }
-            health.text += player.identity.health.ToString();
-            if (highlightHealthProcess != null) StopCoroutine(highlightHealthProcess);
-            highlightHealthProcess = StartCoroutine(HighlightText(health, Color.red));
-            oldHealth = player.identity.health;
-        }
-        
-        if (player.identity.gold != oldGold)
-        {
-            if (incrementGoldProcess == null)
+
+            if (player.identity.gold != oldGold)
             {
-                incrementGoldProcess = StartCoroutine(IncrementGold());
+                if (incrementGoldProcess == null)
+                {
+                    incrementGoldProcess = StartCoroutine(IncrementGold());
+                }
+                if (highlightGoldProcess != null) StopCoroutine(highlightGoldProcess);
+                highlightGoldProcess = StartCoroutine(HighlightText(gold, Color.yellow));
+                oldGold = player.identity.gold;
             }
-            if (highlightGoldProcess != null) StopCoroutine(highlightGoldProcess);
-            highlightGoldProcess = StartCoroutine(HighlightText(gold, Color.yellow));
-            oldGold = player.identity.gold;
         }
-	}
 
-    IEnumerator IncrementGold()
-    {
-        while(visualGold < player.identity.gold)
+        IEnumerator IncrementGold()
         {
-            yield return new WaitForSeconds(.1f);
-            visualGold++;
+            while (visualGold < player.identity.gold)
+            {
+                yield return new WaitForSeconds(.1f);
+                visualGold++;
 
-            gold.text = visualGold.ToString();
+                gold.text = visualGold.ToString();
+            }
+            incrementGoldProcess = null;
         }
-        incrementGoldProcess = null;
-    }
 
-    IEnumerator HighlightText(TextMeshProUGUI textMesh, Color color)
-    {
-        float t = 0;
-        float duration = 1f;
-        while (t < duration)
+        IEnumerator HighlightText(TextMeshProUGUI textMesh, Color color)
         {
-            yield return new WaitForEndOfFrame();
-            t += Time.deltaTime;
-            textMesh.color = Color.Lerp(color, Color.white, highlightAnimation.Evaluate(t/duration));
+            float t = 0;
+            float duration = 1f;
+            while (t < duration)
+            {
+                yield return new WaitForEndOfFrame();
+                t += Time.deltaTime;
+                textMesh.color = Color.Lerp(color, Color.white, highlightAnimation.Evaluate(t / duration));
+            }
         }
     }
 }

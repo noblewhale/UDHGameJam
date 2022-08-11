@@ -1,70 +1,73 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class InventoryGUI : MonoBehaviour
+﻿namespace Noble.DungeonCrawler
 {
-    public InventorySlotGUI slotPrefab;
-    public Dictionary<string, InventorySlotGUI> slots = new Dictionary<string, InventorySlotGUI>();
+    using Noble.TileEngine;
+    using System.Collections.Generic;
+    using UnityEngine;
 
-    public void Update()
+    public class InventoryGUI : MonoBehaviour
     {
-        if (!Player.instance.identity) return;
+        public InventorySlotGUI slotPrefab;
+        public Dictionary<string, InventorySlotGUI> slots = new Dictionary<string, InventorySlotGUI>();
 
-        DungeonObject playerOb = Player.instance.identity;
-        foreach (var item in playerOb.inventory.items)
+        public void Update()
         {
-            InventorySlotGUI slot;
-            bool hasItem = slots.TryGetValue(item.Key, out slot);
-            if (hasItem)
+            if (!Player.instance.identity) return;
+
+            DungeonObject playerOb = Player.instance.identity;
+            foreach (var item in playerOb.inventory.items)
             {
-                // Update quantity
+                InventorySlotGUI slot;
+                bool hasItem = slots.TryGetValue(item.Key, out slot);
+                if (hasItem)
+                {
+                    // Update quantity
+                }
+                else
+                {
+                    AddSlot(item.Value);
+                }
             }
-            else
+
+            var slotsToRemove = new List<KeyValuePair<string, InventorySlotGUI>>();
+            foreach (var slot in slots)
             {
-                AddSlot(item.Value);
+                if (!playerOb.inventory.items.ContainsKey(slot.Key))
+                {
+                    slotsToRemove.Add(slot);
+                }
             }
-        }
 
-        var slotsToRemove = new List<KeyValuePair<string, InventorySlotGUI>>();
-        foreach (var slot in slots)
-        {
-            if (!playerOb.inventory.items.ContainsKey(slot.Key))
+            foreach (var kv in slotsToRemove)
             {
-                slotsToRemove.Add(slot);
+                RemoveSlot(kv.Key);
             }
         }
 
-        foreach (var kv in slotsToRemove)
+        void RemoveSlot(string key)
         {
-            RemoveSlot(kv.Key);
+            Destroy(slots[key].gameObject);
+            slots.Remove(key);
+            UpdateIndexes();
         }
-    }
 
-    void RemoveSlot(string key)
-    {
-        Destroy(slots[key].gameObject);
-        slots.Remove(key);
-        UpdateIndexes();
-    }
-
-    void UpdateIndexes()
-    {
-        int i = 0;
-        foreach (var slot in slots)
+        void UpdateIndexes()
         {
-            slot.Value.index = i;
-            i++;
+            int i = 0;
+            foreach (var slot in slots)
+            {
+                slot.Value.index = i;
+                i++;
+            }
         }
-    }
 
-    void AddSlot(DungeonObject item)
-    {
-        var slot = Instantiate(slotPrefab.gameObject, transform).GetComponent<InventorySlotGUI>();
-        slot.Init(item);
+        void AddSlot(DungeonObject item)
+        {
+            var slot = Instantiate(slotPrefab.gameObject, transform).GetComponent<InventorySlotGUI>();
+            slot.Init(item);
 
-        slots.Add(item.objectName, slot);
+            slots.Add(item.objectName, slot);
 
-        UpdateIndexes();
+            UpdateIndexes();
+        }
     }
 }

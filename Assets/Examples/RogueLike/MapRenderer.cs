@@ -1,40 +1,41 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class MapRenderer : MonoBehaviour
+﻿namespace Noble.DungeonCrawler
 {
-    public float vertical;
-    public float horizontal;
+    using UnityEngine;
 
-    public static MapRenderer instance;
-    public Material material;
-
-    void Awake()
+    public class MapRenderer : MonoBehaviour
     {
-        instance = this;
+        public float vertical;
+        public float horizontal;
 
-        material = GetComponent<MeshRenderer>().sharedMaterial;
+        public static MapRenderer instance;
+        public Material material;
 
-        float maxWidth = Mathf.Min(Camera.main.orthographicSize * 2 * 1.525f, Camera.main.orthographicSize * 2 * Camera.main.aspect * .8f);
-        transform.localScale = new Vector3(maxWidth, maxWidth, 1);
-        float x, y;
-        if (horizontal < 0)
+        void Awake()
         {
-            x = -transform.localScale.x / 2 + Camera.main.orthographicSize * Camera.main.aspect + horizontal;
+            instance = this;
+
+            material = GetComponent<MeshRenderer>().sharedMaterial;
+
+            float maxWidth = Mathf.Min(Camera.main.orthographicSize * 2 * 1.525f, Camera.main.orthographicSize * 2 * Camera.main.aspect * .8f);
+            transform.localScale = new Vector3(maxWidth, maxWidth, 1);
+            float x, y;
+            if (horizontal < 0)
+            {
+                x = -transform.localScale.x / 2 + Camera.main.orthographicSize * Camera.main.aspect + horizontal;
+            }
+            else
+            {
+                x = transform.localScale.x / 2 - Camera.main.orthographicSize * Camera.main.aspect + horizontal;
+            }
+            if (vertical < 0)
+            {
+                y = -transform.localScale.y / 2 + Camera.main.orthographicSize + vertical;
+            }
+            else
+            {
+                y = transform.localScale.y / 2 - Camera.main.orthographicSize + vertical;
+            }
+            transform.localPosition = new Vector3(x, y, transform.localPosition.z);
         }
-        else
-        {
-            x = transform.localScale.x / 2 - Camera.main.orthographicSize * Camera.main.aspect + horizontal;
-        }
-        if (vertical < 0)
-        {
-            y = -transform.localScale.y / 2 + Camera.main.orthographicSize + vertical;
-        }
-        else
-        {
-            y = transform.localScale.y / 2 - Camera.main.orthographicSize + vertical;
-        }
-        transform.localPosition = new Vector3(x, y, transform.localPosition.z);
     }
 }
