@@ -38,10 +38,10 @@ public class Map : MonoBehaviour
     public List<Tile> tilesInRandomOrder = new List<Tile>();
 
     public event Action OnMapLoaded;
+    public event Action OnMapGenerationStarted;
+    public event Action OnMapCleared;
 
     public float mapGenerationAnimationDelay = 0;
-
-    public int dungeonLevel = 1;
 
     public static Map instance;
 
@@ -82,34 +82,36 @@ public class Map : MonoBehaviour
             Destroy(biome);
         }
         biomes.Clear();
+
+        OnMapCleared?.Invoke();
     }
 
     public IEnumerator RegenerateMap()
     {
-        isDoneGeneratingMap = false;
-        Player.instance.playerInput.isInputEnabled = false;
-        PlayerCamera cam = PlayerCamera.instance;
-        float playerPosY = Player.instance.identity.transform.position.y + cam.cameraOffset;
-        while (Mathf.Abs(cam.transform.position.y - playerPosY) > .01f)
-        {
-            yield return new WaitForEndOfFrame();
-        }
-        dungeonLevel++;
         ClearMap();
         yield return StartCoroutine(GenerateMap());
-        Player.instance.playerInput.ResetInput();
     }
 
     IEnumerator GenerateMap()
     {
         isDoneGeneratingMap = false;
+
+        OnMapGenerationStarted?.Invoke();
+
         //UnityEditor.SceneView.FocusWindowIfItsOpen(typeof(UnityEditor.SceneView));
+
+        // Place the biomes
         PlaceBiomes();
+
+        // Pre-process each biome
         yield return StartCoroutine(PreProcessBiomes());
+
+        // Spawn things on tiles based on biomes
         ForEachTile(Biome.SpawnRandomObject);
-        PostProcessMap();
+
         isDoneGeneratingMap = true;
-        if (OnMapLoaded != null) OnMapLoaded();
+
+        OnMapLoaded?.Invoke();
     }
 
     void Update()
@@ -158,19 +160,6 @@ public class Map : MonoBehaviour
         {
             yield return StartCoroutine(biome.PreProcessMap(this));
         }
-    }
-
-    void PostProcessMap()
-    {
-        for (int y = 0; y < height; y++)
-        {
-            for (int x = 0; x < width; x++)
-            {
-                tilesInRandomOrder.Add(tileObjects[y][x]);
-            }
-        }
-
-        tilesInRandomOrder = tilesInRandomOrder.OrderBy(a => UnityEngine.Random.value).ToList();
     }
 
     public void AddTile(int x, int y)

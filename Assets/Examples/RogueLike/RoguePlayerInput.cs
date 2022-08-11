@@ -96,8 +96,8 @@ public class RoguePlayerInput : PlayerInput
 
         if (doSomething)
         {
-            newTileX = map.WrapX(newTileX);
-            newTileY = Mathf.Clamp(newTileY, 0, map.height - 1);
+            newTileX = Map.instance.WrapX(newTileX);
+            newTileY = Mathf.Clamp(newTileY, 0, Map.instance.height - 1);
 
             PlayerBehaviour.instance.SetNextActionTarget(newTileX, newTileY);
         }

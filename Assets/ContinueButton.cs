@@ -10,5 +10,6 @@ public class ContinueButton : MonoBehaviour
     {
         window.SetActive(false);
         PlayerCamera.instance.owner = Player.instance.identity;
+        Player.instance.playerInput.enabled = true;
     }
 }

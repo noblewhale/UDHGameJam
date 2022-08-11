@@ -77,10 +77,12 @@
 				float d = pow(fromCenter.x * fromCenter.x + fromCenter.y * fromCenter.y, .5) / .5f;// pow(.5, .5);
 
 				if (d > 1) discard;
+
+				fixed4 background = fixed4(14 / 255.0, 14 / 255.0, 14 / 255.0, 1);
+
 				if (d < .1)
 				{
-					//return fixed4(32/255.0, 33/255.0, 38/255.0, 1);
-					return fixed4(0, 0, 0, 0);
+					return background;
 				}
 				else
 				{
@@ -92,12 +94,12 @@
 				float x = 1 - (angle / (2 * 3.14159));
 				float y = 1 - d + _DistanceOffset;
 
-				if (y < 0 || y > 1) return fixed4(0, 0, 0, 0);
+				if (y < 0 || y > 1) return fixed4(0, 0, 0, 1);
 
 				float2 idk = float2(x, y);
 
 				fixed4 col = tex2D(_MainTex, idk);
-				col = lerp(fixed4(32 / 255.0, 33 / 255.0, 38 / 255.0, 0), col, min(1, pow(d*9, 2)));
+				col = lerp(background, col, min(1, pow(d*9, 2)));
 				// apply fog
 				UNITY_APPLY_FOG(i.fogCoord, col);
 				return col;

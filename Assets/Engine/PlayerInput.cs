@@ -4,29 +4,18 @@ using UnityEngine;
 public class PlayerInput : MonoBehaviour
 {
     protected CommandQueue commandQueue = new CommandQueue();
-    public Map map;
-
-    public bool isInputEnabled = true;
 
     public bool isWaitingForPlayerInput = false;
     public bool hasReceivedInput = false;
     KeyCode[] allKeys;
 
-    public virtual void Awake()
+    public virtual void Start()
     {
-        map = FindObjectOfType<Map>().GetComponent<Map>();
         allKeys = (KeyCode[])Enum.GetValues(typeof(KeyCode));
-    }
-
-    public virtual void ResetInput()
-    {
-        commandQueue.Clear();
-        isInputEnabled = true;
     }
 
     public virtual void Update()
     {
-        if (!isInputEnabled) return;
         if (!Player.instance.identity) return;
         if (!isWaitingForPlayerInput) return;
 
@@ -102,8 +91,8 @@ public class PlayerInput : MonoBehaviour
 
         if (doSomething)
         {
-            newTileX = Mathf.Clamp(newTileX, 0, map.width - 1);
-            newTileY = Mathf.Clamp(newTileY, 0, map.height - 1);
+            newTileX = Mathf.Clamp(newTileX, 0, Map.instance.width - 1);
+            newTileY = Mathf.Clamp(newTileY, 0, Map.instance.height - 1);
 
             PlayerBehaviour.instance.SetNextActionTarget(newTileX, newTileY);
         }
