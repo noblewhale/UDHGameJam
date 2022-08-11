@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
+﻿using UnityEngine;
 
 public static class PolarMapUtil
 {
     public static Vector2 GetPositionRelativeToMap(Vector3 screenPos)
     {
-        Vector2 mousePosRelativeToMapRenderer = ((Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition) - (Vector2)Camera.main.transform.position) - (Vector2)MapRenderer.instance.transform.localPosition;
+        Vector2 mousePosRelativeToMapRenderer = ((Vector2)Camera.main.ScreenToWorldPoint(screenPos) - (Vector2)Camera.main.transform.position) - (Vector2)MapRenderer.instance.transform.localPosition;
         mousePosRelativeToMapRenderer /= MapRenderer.instance.transform.localScale;
         Vector2 rotated = new Vector2();
         float rotation = MapRenderer.instance.material.GetFloat("_Rotation");

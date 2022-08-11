@@ -71,16 +71,13 @@ public class TimeManager : MonoBehaviour
                     {
                         if (Player.instance.identity.GetComponent<Tickable>() == ob)
                         {
-                            if (Player.instance.playerInput.hasReceivedInput)
+                            if (PlayerInput.instance.HasInput)
                             {
                                 isPlayerAction = true;
                                 isInterrupted = false;
-                                Player.instance.playerInput.hasReceivedInput = false;
-                                Player.instance.playerInput.isWaitingForPlayerInput = false;
                             }
                             else
                             {
-                                Player.instance.playerInput.isWaitingForPlayerInput = true;
                                 currentAction = null;
                                 break;
                             }

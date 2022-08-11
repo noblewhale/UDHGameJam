@@ -6,7 +6,7 @@ using System.Linq;
 
 public class PlayerBehaviour : TickableBehaviour
 {
-    struct BehaviourAction
+    protected struct BehaviourAction
     {
         public delegate bool StartAction();
         public delegate bool ContinueAction();
@@ -16,8 +16,7 @@ public class PlayerBehaviour : TickableBehaviour
         public FinishAction finishAction;
     }
 
-    BehaviourAction nextAction;
-    int nextActionTargetX, nextActionTargetY;
+    protected BehaviourAction nextAction;
 
     public static PlayerBehaviour instance;
 
@@ -29,7 +28,9 @@ public class PlayerBehaviour : TickableBehaviour
 
     public override bool StartAction(out ulong duration)
     {
-        DetermineAutoAction(nextActionTargetX, nextActionTargetY, out duration);
+        Command command = PlayerInput.instance.commandQueue.Dequeue();
+
+        DetermineAutoAction(command, out duration);
         if (nextAction.startAction != null)
         {
             return nextAction.startAction();
@@ -59,8 +60,32 @@ public class PlayerBehaviour : TickableBehaviour
         return 1;
     }
 
-    public void DetermineAutoAction(int newTileX, int newTileY, out ulong duration)
+    virtual public void DetermineAutoAction(Command command, out ulong duration)
     {
+        int newTileX = Player.instance.identity.x;
+        int newTileY = Player.instance.identity.y;
+
+        bool doSomething = true;
+        switch (command.key)
+        {
+            case KeyCode.W: newTileY++; break;
+            case KeyCode.S: newTileY--; break;
+            case KeyCode.D: newTileX++; break;
+            case KeyCode.A: newTileX--; break;
+            default: doSomething = false; break;
+        }
+
+        if (doSomething)
+        {
+            newTileX = Mathf.Clamp(newTileX, 0, Map.instance.width - 1);
+            newTileY = Mathf.Clamp(newTileY, 0, Map.instance.height - 1);
+        }
+        else
+        {
+            duration = 0;
+            return;
+        }
+
         var identityCreature = owner.GetComponent<Creature>();
         nextAction = new BehaviourAction();
         duration = 1;
@@ -124,11 +149,5 @@ public class PlayerBehaviour : TickableBehaviour
                 }
             }
         }
-    }
-
-    public void SetNextActionTarget(int newTileX, int newTileY)
-    {
-        nextActionTargetX = newTileX;
-        nextActionTargetY = newTileY;
     }
 }

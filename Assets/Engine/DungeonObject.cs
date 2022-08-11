@@ -16,7 +16,20 @@ public class DungeonObject : MonoBehaviour
     public CreatureEvent OnSteppedOn;
     public Vector3 originalGlyphPosition;
     public Map map;
-    public int x, y;
+
+    Vector2Int position = Vector2Int.zero;
+    public int x
+    {
+        get => position.x;
+        set => position.x = value;
+    }
+
+    public int y
+    {
+        get => position.y;
+        set => position.y = value;
+    }
+
     public int previousX, previousY;
     public int quantity = 1;
     public bool canBePickedUp;

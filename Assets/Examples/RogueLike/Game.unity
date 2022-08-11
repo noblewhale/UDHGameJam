@@ -1971,7 +1971,6 @@ MonoBehaviour:
   tileWidth: 0.5
   tileHeight: 0.5
   mapGenerationAnimationDelay: 0
-  dungeonLevel: 1
   warpedMapCamera: {fileID: 519420031}
   isDoneGeneratingMap: 0
 --- !u!114 &896254852
@@ -2259,15 +2258,12 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1185871473}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3ef95f3247e879543b9c176b41c785f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  map: {fileID: 896254850}
-  isInputEnabled: 1
   isWaitingForPlayerInput: 0
-  hasReceivedInput: 0
   mapCamera: {fileID: 519420031}
   mapRenderer: {fileID: 190724728}
 --- !u!1 &1243041196
@@ -7442,7 +7438,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ddd0c896d8f310e46a0e98eca91558d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1296174615
+--- !u!114 &1296174620
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -7451,7 +7447,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1296174613}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 43122d9fb0bef3d44b27a6187a7410a0, type: 3}
+  m_Script: {fileID: 11500000, guid: b440fe4ad7c88d343ba2fae62aa8bd42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1354077976
