@@ -72,8 +72,11 @@
         public event Action onDeath;
         public Tile tile;
 
+        public Tickable tickable { get; private set; }
+
         virtual protected void Awake()
         {
+            tickable = GetComponent<Tickable>();
             map = FindObjectOfType<Map>();
             glyphs = GetComponentInChildren<Glyphs>();
             if (glyphs)

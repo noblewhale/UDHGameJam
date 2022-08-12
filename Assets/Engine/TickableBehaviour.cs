@@ -1,6 +1,7 @@
 ﻿namespace Noble.TileEngine
 {
-	using UnityEngine;
+    using System.Collections;
+    using UnityEngine;
 
 	public class TickableBehaviour : MonoBehaviour
 	{
@@ -13,7 +14,18 @@
 
 		virtual public float GetActionConfidence() { return 0; }
 
-		virtual public bool StartAction(out ulong duration) { duration = 1; return true; }
+		virtual public bool IsActionACoroutine() { return false; }
+
+		virtual public void StartAction()
+        {
+			owner.tickable.nextActionTime = TimeManager.instance.Time + 1;
+		}
+
+		virtual public IEnumerator StartActionCoroutine() 
+		{ 
+			owner.tickable.nextActionTime = TimeManager.instance.Time + 1;
+			yield return null;
+		}
 		
 		virtual public void StartSubAction(ulong time) { }
 		virtual public bool ContinueSubAction(ulong time) { return true; }

@@ -1,6 +1,7 @@
 ﻿namespace Noble.DungeonCrawler
 {
     using Noble.TileEngine;
+    using System.Collections;
     using UnityEngine;
 
     public class MovementBehaviourTowardsPlayer : TickableBehaviour
@@ -16,10 +17,9 @@
             owningCreature = owner.GetComponent<Creature>();
         }
 
-        public override bool StartAction(out ulong duration)
+        public override void StartAction()
         {
-            duration = owningCreature.ticksPerMove;
-            return false;
+            owner.tickable.nextActionTime = TimeManager.instance.Time + owningCreature.ticksPerMove;
         }
 
         public override bool ContinueSubAction(ulong time)

@@ -1,6 +1,7 @@
 ﻿namespace Noble.DungeonCrawler
 {
     using Noble.TileEngine;
+    using System.Collections;
     using System.Collections.Generic;
     using UnityEngine;
 
@@ -8,11 +9,10 @@
     {
         Creature nextAttackTarget;
 
-        public override bool StartAction(out ulong duration)
+        public override void StartAction()
         {
-            duration = owner.GetComponent<Creature>().ticksPerAttack;
+            owner.tickable.nextActionTime = TimeManager.instance.Time + owner.GetComponent<Creature>().ticksPerAttack;
             owner.GetComponent<Creature>().StartAttack(nextAttackTarget.baseObject);
-            return false;
         }
 
         public override bool ContinueSubAction(ulong time)

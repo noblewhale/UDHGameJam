@@ -14,7 +14,7 @@
         public float cameraOffset = 3;
         public float rotation;
         float cameraVelocity;
-        public Camera camera;
+        new public Camera camera;
 
         public Material polarWarpMaterial;
 

@@ -2,12 +2,29 @@
 {
     using Noble.TileEngine;
     using System;
-    using System.Linq;
     using UnityEngine;
 
-    internal class RoguePlayerBehaviour : PlayerBehaviour
+    internal class RoguePlayerTickable : Tickable
     {
-        public override void DetermineAutoAction(Command command, out ulong duration)
+        public AttackBehaviour attackBehaviour;
+        public MoveBehaviour moveBehaviour;
+        public FireAOEBehaviour fireAOEBehaviour;
+
+        override public TickableBehaviour DetermineBehaviour()
+        {
+            Command command = PlayerInput.instance.commandQueue.Dequeue();
+
+            if (command.key == KeyCode.F)
+            {
+                return fireAOEBehaviour;
+            }
+            else
+            {
+                return DefaultAction(command);
+            }
+        }
+
+        public TickableBehaviour DefaultAction(Command command)
         {
             int newTileX = Player.instance.identity.x;
             int newTileY = Player.instance.identity.y;
@@ -98,72 +115,22 @@
             }
             else
             {
-                duration = 0;
-                return;
+                owner.tickable.nextActionTime = TimeManager.instance.Time + 1;
+                return null;
             }
-
-            var identityCreature = owner.GetComponent<Creature>();
-            nextAction = new BehaviourAction();
-            duration = 1;
 
             var tileActingOn = owner.map.tileObjects[newTileY][newTileX];
 
             if (!tileActingOn.IsCollidable())
             {
-                duration = identityCreature.ticksPerMove;
-                nextAction.finishAction = () =>
-                {
-                    owner.map.TryMoveObject(owner, newTileX, newTileY);
-                    if (owner.tile.objectList.Any(x => x.canBePickedUp))
-                    {
-                        owner.PickUpAll();
-                    }
-                };
+                moveBehaviour.targetX = newTileX;
+                moveBehaviour.targetY = newTileY;
+                return moveBehaviour;
             }
             else
             {
-                foreach (var dOb in tileActingOn.objectList)
-                {
-                    if (dOb.isCollidable)
-                    {
-                        duration = identityCreature.ticksPerAttack;
-                        if (dOb.GetComponent<Door>())
-                        {
-                            nextAction.startAction = () =>
-                            {
-                                owner.map.TryMoveObject(owner, newTileX, newTileY);
-                                identityCreature.StartAttack(dOb);
-                                return false;
-                            };
-                            nextAction.continueAction = () =>
-                            {
-                                return identityCreature.ContinueAttack(dOb);
-                            };
-                            nextAction.finishAction = () =>
-                            {
-                                identityCreature.FinishAttack(dOb);
-                            };
-                        }
-                        else
-                        {
-                            nextAction.startAction = () =>
-                            {
-                                identityCreature.StartAttack(dOb);
-                                return false;
-                            };
-                            nextAction.continueAction = () =>
-                            {
-                                return identityCreature.ContinueAttack(dOb);
-                            };
-                            nextAction.finishAction = () =>
-                            {
-                                owner.map.TryMoveObject(owner, newTileX, newTileY);
-                                identityCreature.FinishAttack(dOb);
-                            };
-                        }
-                        break;
-                    }
-                }
+                attackBehaviour.targetTile = tileActingOn;
+                return attackBehaviour;
             }
         }
     }

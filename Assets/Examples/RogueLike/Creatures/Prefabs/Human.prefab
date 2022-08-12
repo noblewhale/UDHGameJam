@@ -255,8 +255,11 @@ GameObject:
   - component: {fileID: 4449152399196672}
   - component: {fileID: 114099248689140840}
   - component: {fileID: 114982603892130690}
-  - component: {fileID: 114137244388563158}
   - component: {fileID: 7757072968582786266}
+  - component: {fileID: 1296174627}
+  - component: {fileID: 1296174625}
+  - component: {fileID: 1296174626}
+  - component: {fileID: 5764264089095922149}
   m_Layer: 0
   m_Name: Human
   m_TagString: Untagged
@@ -300,8 +303,6 @@ MonoBehaviour:
       m_Calls: []
   originalGlyphPosition: {x: 0, y: 0, z: 0}
   map: {fileID: 0}
-  x: 0
-  y: 0
   previousX: 0
   previousY: 0
   quantity: 1
@@ -332,7 +333,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bcd10d15a30478449e00ad96e33416d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  race: 0
   mana: 0
   strength: 1
   dexterity: 1
@@ -386,22 +386,6 @@ MonoBehaviour:
   baseObject: {fileID: 0}
   tickable: {fileID: 0}
   attackAnimationDuration: 0.2
---- !u!114 &114137244388563158
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1522651028941318}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 33e528001075db141841e958448f6a29, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  nextActionTime: 0
-  behaviours: []
-  owner: {fileID: 0}
-  markedForRemoval: 0
 --- !u!114 &7757072968582786266
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -422,6 +406,67 @@ MonoBehaviour:
     onlySpawnOn: []
     dontSpawnOn: []
     requireSpawnable: 0
+--- !u!114 &1296174627
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1522651028941318}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b440fe4ad7c88d343ba2fae62aa8bd42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nextActionTime: 0
+  lastActionTime: 0
+  behaviours: []
+  owner: {fileID: 0}
+  markedForRemoval: 0
+  nextBehaviour: {fileID: 0}
+  attackBehaviour: {fileID: 1296174626}
+  moveBehaviour: {fileID: 1296174625}
+  fireAOEBehaviour: {fileID: 5764264089095922149}
+--- !u!114 &1296174625
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1522651028941318}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f1004bf5d3220c4eabdc7e4c5719cac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetX: 0
+  targetY: 0
+--- !u!114 &1296174626
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1522651028941318}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34ffcf7667e5c7b4da20d0da498f6cd9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 0}
+--- !u!114 &5764264089095922149
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1522651028941318}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee73b63536556484381d8aa98390d930, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 0}
 --- !u!1 &1558883353446150
 GameObject:
   m_ObjectHideFlags: 0

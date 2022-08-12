@@ -140,8 +140,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4353142694964920}
-  - component: {fileID: 114344298477969240}
-  - component: {fileID: 114815297398214668}
+  - component: {fileID: 7661974386834564205}
   m_Layer: 0
   m_Name: Highlight
   m_TagString: Untagged
@@ -165,7 +164,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114344298477969240
+--- !u!114 &7661974386834564205
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -174,7 +173,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1472893009727524}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ddd0c896d8f310e46a0e98eca91558d9, type: 3}
+  m_Script: {fileID: 11500000, guid: 9cc28d68ca3620944b24a1ca0e73b855, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   objectName: 
@@ -182,28 +181,14 @@ MonoBehaviour:
   illuminationRange: 0
   OnSteppedOn:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 114815297398214668}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: OnSteppedOn
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   originalGlyphPosition: {x: 0, y: 0, z: 0}
   map: {fileID: 0}
-  x: 0
-  y: 0
   previousX: 0
   previousY: 0
   quantity: 1
   canBePickedUp: 0
-  isAlwaysLit: 0
+  isAlwaysLit: 1
   canTakeDamage: 0
   isVisibleWhenNotInSight: 1
   isWeilded: 0
@@ -212,20 +197,9 @@ MonoBehaviour:
   health: 1
   isCollidable: 0
   blocksLineOfSight: 0
-  coversObjectsBeneath: 1
+  coversObjectsBeneath: 0
   preventsObjectSpawning: 0
-  hasBeenSeen: 0
+  hasBeenSeen: 1
   hasDoneDamageFlash: 0
   tile: {fileID: 0}
---- !u!114 &114815297398214668
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1472893009727524}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e21062faa9479704bae5fd0cb0238630, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  enableKeyboardControl: 0

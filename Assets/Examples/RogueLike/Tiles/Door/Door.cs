@@ -31,7 +31,8 @@
 
             if (isOpen && !wasOpen)
             {
-                GetComponent<Tickable>().nextBehaviour = GetComponent<DoorOpenBehaviour>();
+                TimeManager.instance.ForceNextAction(tickable);
+                tickable.nextBehaviour = GetComponent<DoorOpenBehaviour>();
             }
         }
 

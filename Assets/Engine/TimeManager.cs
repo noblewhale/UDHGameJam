@@ -38,7 +38,7 @@
 
                     var ob = currentTickableNode.Value;
 
-                    if (Player.instance.identity.GetComponent<Tickable>() == ob)
+                    if (Player.instance.identity.tickable == ob)
                     {
                         while (!PlayerInput.instance.HasInput) yield return new WaitForEndOfFrame();
                         
@@ -47,8 +47,18 @@
 
                     if (Time >= ob.nextActionTime)
                     {
-                        ob.StartNewAction(out ulong actionDuration);
-                        ob.nextActionTime = Time + actionDuration;
+                        var behaviour = ob.GetBehaviourToExecute();
+                        if (behaviour != null)
+                        {
+                            if (behaviour.IsActionACoroutine())
+                            {
+                                yield return ob.StartActionCoroutine();
+                            }
+                            else
+                            {
+                                ob.StartAction();
+                            }
+                        }
                     }
 
                     ob.StartSubAction();
@@ -71,7 +81,6 @@
                     {
                         ob.FinishAction();
                     }
-
 
                     if (isInterrupted && ob == interruptingTickable)
                     {
@@ -98,21 +107,13 @@
             }
         }
 
-        //public void ForceNextAction(Tickable tickable)
-        //{
-        //    if (currentTickableNode == tickable.listNode || (currentTickableNode == currentAction.listNode && currentTickableNode.Previous == tickable.listNode)) return;
-        //    tickable.nextActionTime = time;
-        //    tickableObjects.Remove(tickable.listNode);
-        //    if (currentTickableNode == currentAction.listNode)
-        //    {
-        //        tickable.listNode = tickableObjects.AddBefore(currentAction.listNode, tickable);
-        //    }
-        //    else
-        //    {
-        //        tickable.listNode = tickableObjects.AddAfter(currentTickableNode, tickable);
-        //        currentTickableNode = tickable.listNode;
-        //    }
-        //}
+        public void ForceNextAction(Tickable tickable)
+        {
+            if (currentTickableNode == tickable.listNode) return;
+            tickable.nextActionTime = Time;
+            tickableObjects.Remove(tickable.listNode);
+            tickable.listNode = tickableObjects.AddBefore(currentTickableNode, tickable);
+        }
 
         public void Interrupt(Tickable interruptingTickable)
         {

@@ -49,28 +49,14 @@
             return behaviour;
         }
 
-        public bool StartNewAction(out ulong actionDuration)
+        public TickableBehaviour GetBehaviourToExecute()
         {
             currentBehaviour = null;
-            actionDuration = 1;
+            nextActionTime = TimeManager.instance.Time + 1;
 
             if (nextBehaviour == null)
             {
-                var confidences = behaviours.Where(x => x.enabled).Select(x => x.GetActionConfidence());
-                float totalConfidence = confidences.Sum();
-                float aRandomNumber = UnityEngine.Random.Range(0, totalConfidence);
-
-                float currentConfidence = 0;
-                float previousConfidence = 0;
-                for (int i = 0; i < confidences.Count(); i++)
-                {
-                    previousConfidence = currentConfidence;
-                    currentConfidence += confidences.ElementAt(i);
-                    if (aRandomNumber >= previousConfidence && aRandomNumber < currentConfidence)
-                    {
-                        currentBehaviour = behaviours[i];
-                    }
-                }
+                currentBehaviour = DetermineBehaviour();
             }
             else
             {
@@ -78,12 +64,39 @@
                 nextBehaviour = null;
             }
 
-            if (currentBehaviour)
+            lastActionTime = TimeManager.instance.Time;
+            return currentBehaviour;
+        }
+
+        virtual public TickableBehaviour DetermineBehaviour()
+        {
+            var confidences = behaviours.Where(x => x.enabled).Select(x => x.GetActionConfidence());
+            float totalConfidence = confidences.Sum();
+            float aRandomNumber = UnityEngine.Random.Range(0, totalConfidence);
+
+            float currentConfidence = 0;
+            float previousConfidence = 0;
+            for (int i = 0; i < confidences.Count(); i++)
             {
-                lastActionTime = TimeManager.instance.Time;
-                return currentBehaviour.StartAction(out actionDuration);
+                previousConfidence = currentConfidence;
+                currentConfidence += confidences.ElementAt(i);
+                if (aRandomNumber >= previousConfidence && aRandomNumber < currentConfidence)
+                {
+                    return behaviours[i];
+                }
             }
-            return true;
+
+            return null;
+        }
+
+        virtual public void StartAction()
+        {
+            if (currentBehaviour) currentBehaviour.StartAction();
+        }
+
+        virtual public IEnumerator StartActionCoroutine()
+        {
+            if (currentBehaviour) yield return currentBehaviour.StartActionCoroutine();
         }
 
         virtual public void StartSubAction()

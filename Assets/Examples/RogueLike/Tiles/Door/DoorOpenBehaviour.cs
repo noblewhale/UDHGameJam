@@ -1,18 +1,18 @@
 ﻿namespace Noble.DungeonCrawler
 {
     using Noble.TileEngine;
+    using System.Collections;
     using UnityEngine;
 
     public class DoorOpenBehaviour : TickableBehaviour
     {
         public Animator animator;
 
-        public override bool StartAction(out ulong duration)
+        public override void StartAction()
         {
             animator.speed = 1;
             animator.SetTrigger("Open");
-            duration = 2;
-            return false;
+            owner.tickable.nextActionTime = TimeManager.instance.Time + 2;
         }
 
         public override void StartSubAction(ulong time)

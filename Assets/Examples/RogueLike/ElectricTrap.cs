@@ -1,6 +1,7 @@
 ﻿namespace Noble.DungeonCrawler
 {
     using Noble.TileEngine;
+    using System.Collections;
     using UnityEngine;
 
     public class ElectricTrap : TickableBehaviour
@@ -10,7 +11,6 @@
         DungeonObject creatureThatSteppedOnTrap;
         float actionStartTime;
         ulong lastTriggerTime;
-        ulong cooldown = 1;
 
         public void OnSteppedOn(DungeonObject creature)
         {
@@ -20,15 +20,14 @@
             lastTriggerTime = TimeManager.instance.Time;
             shouldTrigger = true;
             creatureThatSteppedOnTrap = creature;
-            //TimeManager.instance.ForceNextAction(owner.GetComponent<Tickable>());
+            TimeManager.instance.ForceNextAction(owner.GetComponent<Tickable>());
         }
 
-        public override bool StartAction(out ulong duration)
+        public override void StartAction()
         {
             shouldTrigger = false;
-            duration = 1;
+            owner.tickable.nextActionTime = TimeManager.instance.Time + 1;
             actionStartTime = Time.time;
-            return false;
         }
 
         public override bool ContinueSubAction(ulong time)
