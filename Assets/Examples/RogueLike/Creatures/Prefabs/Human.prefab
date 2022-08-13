@@ -256,10 +256,9 @@ GameObject:
   - component: {fileID: 114099248689140840}
   - component: {fileID: 114982603892130690}
   - component: {fileID: 7757072968582786266}
-  - component: {fileID: 1296174627}
+  - component: {fileID: 8674176763204507038}
   - component: {fileID: 1296174625}
   - component: {fileID: 1296174626}
-  - component: {fileID: 5764264089095922149}
   m_Layer: 0
   m_Name: Human
   m_TagString: Untagged
@@ -406,7 +405,7 @@ MonoBehaviour:
     onlySpawnOn: []
     dontSpawnOn: []
     requireSpawnable: 0
---- !u!114 &1296174627
+--- !u!114 &8674176763204507038
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -415,7 +414,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1522651028941318}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b440fe4ad7c88d343ba2fae62aa8bd42, type: 3}
+  m_Script: {fileID: 11500000, guid: 33e528001075db141841e958448f6a29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   nextActionTime: 0
@@ -424,9 +423,6 @@ MonoBehaviour:
   owner: {fileID: 0}
   markedForRemoval: 0
   nextBehaviour: {fileID: 0}
-  attackBehaviour: {fileID: 1296174626}
-  moveBehaviour: {fileID: 1296174625}
-  fireAOEBehaviour: {fileID: 5764264089095922149}
 --- !u!114 &1296174625
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -453,20 +449,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34ffcf7667e5c7b4da20d0da498f6cd9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
---- !u!114 &5764264089095922149
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1522651028941318}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ee73b63536556484381d8aa98390d930, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  target: {fileID: 0}
+  targetTile: {fileID: 0}
 --- !u!1 &1558883353446150
 GameObject:
   m_ObjectHideFlags: 0

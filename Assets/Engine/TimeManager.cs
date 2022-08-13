@@ -67,10 +67,11 @@
 
                     if (isOnCamera && ob.owner.tile.isInView && ob.owner.tile.isLit)
                     {
-                        while (!isInterrupted)
+                        while (true)
                         {
                             bool isDone = ob.ContinueSubAction();
                             if (isDone) break;
+                            if (Player.instance.identity.tickable != ob && isInterrupted) break;
                             yield return new WaitForEndOfFrame();
                         }
                     }

@@ -53,15 +53,10 @@
         public int health { get { return baseObject.health; } }
         public int gold { get { return baseObject.gold; } }
 
-        float attackAnimationTime = 0;
+        public float attackAnimationTime = 0;
         public float attackAnimationDuration = .5f;
-        float attackAnimationScale = 1;
-        bool attackWillHit = false;
-
-        Vector3 upLeft;
-        Vector3 downLeft;
-        Vector3 upRight;
-        Vector3 downRight;
+        public float attackAnimationScale = 1;
+        //bool attackWillHit = false;
 
         void Awake()
         {
@@ -69,10 +64,6 @@
             tickable = GetComponent<Tickable>();
             baseObject.onMove += OnMove;
             baseObject.onPickedUpObject += OnPickedUpObject;
-            upLeft = (Vector2.up + Vector2.left).normalized;
-            downLeft = (Vector2.down + Vector2.left).normalized;
-            upRight = (Vector2.up + Vector2.right).normalized;
-            downRight = (Vector2.down + Vector2.right).normalized;
         }
 
         void OnPickedUpObject(DungeonObject ob)
@@ -91,7 +82,7 @@
         }
 
         // TODO: Wrapping
-        Direction GetDirection(int oldX, int oldY, int newX, int newY)
+        public Direction GetDirection(int oldX, int oldY, int newX, int newY)
         {
             int xDif = oldX - newX;
             int yDif = oldY - newY;
@@ -114,110 +105,112 @@
             }
         }
 
-        public void StartAttack(DungeonObject dOb)
-        {
-            Creature creature = dOb.GetComponent<Creature>();
+        //public void StartAttack(DungeonObject targetObject)
+        //{
+        //    Creature targetCreature = targetObject.GetComponent<Creature>();
 
-            lastDirectionAttackedOrMoved = GetDirection(dOb.x, dOb.y, x, y);
+        //    lastDirectionAttackedOrMoved = GetDirection(targetObject.x, targetObject.y, x, y);
 
-            attackWillHit = false;
+        //    attackWillHit = false;
 
-            if (creature != null)
-            {
-                float roll = UnityEngine.Random.Range(0, 20);
-                roll += dexterity;
-                if (roll > creature.dexterity)
-                {
-                    // Hit, but do we do damange?
-                    if (roll > creature.dexterity + creature.defense)
-                    {
-                        // Got past armor / defense
-                        attackWillHit = true;
-                    }
-                }
-            }
+        //    if (targetCreature != null)
+        //    {
+        //        float roll = UnityEngine.Random.Range(0, 20);
+        //        roll += dexterity;
+        //        if (roll > targetCreature.dexterity)
+        //        {
+        //            // Hit, but do we do damange?
+        //            if (roll > targetCreature.dexterity + targetCreature.defense)
+        //            {
+        //                // Got past armor / defense
+        //                attackWillHit = true;
+        //            }
+        //        }
+        //    }
 
-            attackAnimationTime = 0;
-        }
+        //    attackAnimationTime = 0;
+        //}
 
-        public bool ContinueAttack(DungeonObject dOb)
-        {
-            Creature creature = dOb.GetComponent<Creature>();
-            var glyph = baseObject.glyphs;
+        //public bool ContinueAttack(DungeonObject dOb)
+        //{
+        //    Creature creature = dOb.GetComponent<Creature>();
+        //    var glyph = baseObject.glyphs;
 
-            if (!glyph) return true;
+        //    if (!glyph) return true;
 
-            Vector3 originalPosition = baseObject.originalGlyphPosition;
-            if (attackAnimationTime < attackAnimationDuration)
-            {
-                float offset = attackMovementAnimation.Evaluate(attackAnimationTime / attackAnimationDuration) * attackAnimationScale;
+        //    Vector3 originalPosition = baseObject.originalGlyphPosition;
+        //    if (attackAnimationTime < attackAnimationDuration)
+        //    {
+        //        float offset = attackMovementAnimation.Evaluate(attackAnimationTime / attackAnimationDuration) * attackAnimationScale;
 
-                switch (lastDirectionAttackedOrMoved)
-                {
-                    case Direction.UP: glyph.transform.localPosition = originalPosition + Vector3.up * offset; break;
-                    case Direction.DOWN: glyph.transform.localPosition = originalPosition + Vector3.down * offset; break;
-                    case Direction.RIGHT: glyph.transform.localPosition = originalPosition + Vector3.right * offset; break;
-                    case Direction.LEFT: glyph.transform.localPosition = originalPosition + Vector3.left * offset; break;
-                    case Direction.UP_LEFT: glyph.transform.localPosition = originalPosition + upLeft * offset; break;
-                    case Direction.DOWN_LEFT: glyph.transform.localPosition = originalPosition + downLeft * offset; break;
-                    case Direction.UP_RIGHT: glyph.transform.localPosition = originalPosition + upRight * offset; break;
-                    case Direction.DOWN_RIGHT: glyph.transform.localPosition = originalPosition + downRight * offset; break;
-                }
+        //        switch (lastDirectionAttackedOrMoved)
+        //        {
+        //            case Direction.UP: glyph.transform.localPosition = originalPosition + Vector3.up * offset; break;
+        //            case Direction.DOWN: glyph.transform.localPosition = originalPosition + Vector3.down * offset; break;
+        //            case Direction.RIGHT: glyph.transform.localPosition = originalPosition + Vector3.right * offset; break;
+        //            case Direction.LEFT: glyph.transform.localPosition = originalPosition + Vector3.left * offset; break;
+        //            case Direction.UP_LEFT: glyph.transform.localPosition = originalPosition + upLeft * offset; break;
+        //            case Direction.DOWN_LEFT: glyph.transform.localPosition = originalPosition + downLeft * offset; break;
+        //            case Direction.UP_RIGHT: glyph.transform.localPosition = originalPosition + upRight * offset; break;
+        //            case Direction.DOWN_RIGHT: glyph.transform.localPosition = originalPosition + downRight * offset; break;
+        //        }
 
-                if (attackWillHit && creature)
-                {
-                    creature.baseObject.DamageFlash(attackAnimationTime / attackAnimationDuration);
-                }
+        //        if (attackWillHit && creature)
+        //        {
+        //            creature.baseObject.DamageFlash(attackAnimationTime / attackAnimationDuration);
+        //        }
 
-                attackAnimationTime += Time.deltaTime;
+        //        attackAnimationTime += Time.deltaTime;
 
-                return false;
-            }
+        //        return false;
+        //    }
 
-            return true;
-        }
+        //    return true;
+        //}
 
-        public void FinishAttack(DungeonObject dOb)
-        {
-            Creature creature = dOb.GetComponent<Creature>();
-            Weapon weapon = null;
-            if (rightHandObject != null)
-            {
-                weapon = rightHandObject.GetComponent<Weapon>();
-            }
+        //public void FinishAttack(DungeonObject dOb)
+        //{
+        //    Creature creature = dOb.GetComponent<Creature>();
+        //    Weapon weapon = null;
+        //    if (rightHandObject != null)
+        //    {
+        //        weapon = rightHandObject.GetComponent<Weapon>();
+        //    }
 
-            if (attackWillHit && creature)
-            {
-                creature.baseObject.DamageFlash(1);
-                // Got past armor / defense
-                if (weapon == null)
-                {
-                    creature.baseObject.TakeDamage(1);
-                }
-                else
-                {
-                    int damage = UnityEngine.Random.Range(weapon.minBaseDamage, weapon.maxBaseDamage + 1);
-                    creature.baseObject.TakeDamage(damage);
-                }
-            }
+        //    if (attackWillHit && creature)
+        //    {
+        //        creature.baseObject.DamageFlash(1);
+        //        // Got past armor / defense
+        //        if (weapon == null)
+        //        {
+        //            creature.baseObject.TakeDamage(1);
+        //        }
+        //        else
+        //        {
+        //            int damage = UnityEngine.Random.Range(weapon.minBaseDamage, weapon.maxBaseDamage + 1);
+        //            creature.baseObject.TakeDamage(damage);
+        //        }
+        //    }
 
-            Vector3 originalPosition = baseObject.originalGlyphPosition;
-            baseObject.glyphs.transform.localPosition = originalPosition;
+        //    Vector3 originalPosition = baseObject.originalGlyphPosition;
+        //    baseObject.glyphs.transform.localPosition = originalPosition;
 
-            //tickable.nextActionTime = TimeManager.instance.time + (ulong)ticksPerAttack;
-        }
+        //    //tickable.nextActionTime = TimeManager.instance.time + (ulong)ticksPerAttack;
+        //}
 
         public void WeildRightHand(DungeonObject ob)
         {
             if (rightHandObject != null)
             {
                 rightHandObject.isWeilded = false;
+                rightHandObject.weildedBy = null;
                 rightHandObject.transform.parent = null;
                 rightHandObject.transform.position = new Vector3(-666, -666, -666);
                 baseObject.glyphs.glyphs.RemoveAll(g => rightHandObject.glyphs.glyphs.Contains(g));
             }
             rightHandObject = ob;
             ob.isWeilded = true;
+            rightHandObject.weildedBy = this;
             ob.transform.parent = rightHand.transform;
             ob.transform.localPosition = Vector3.zero;
             baseObject.glyphs.glyphs.AddRange(ob.glyphs.glyphs);

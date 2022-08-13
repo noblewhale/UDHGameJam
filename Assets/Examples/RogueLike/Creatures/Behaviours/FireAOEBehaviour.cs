@@ -6,8 +6,13 @@
 
     public class FireAOEBehaviour : TickableBehaviour
     {
-		DungeonObject targetObject;
+		Tile targetTile;
 		Creature identityCreature;
+
+		public GameObject fireballObjectPrefab;
+		public GameObject firePrefab;
+		GameObject fireballObject;
+		float animationStartTime = 0;
 
         override public void Awake()
         {
@@ -41,27 +46,41 @@
 			HighlightTile.instance.GetComponent<DungeonObject>().glyphs.glyphs[0].tint = Color.white;
 			HighlightTile.instance.enableKeyboardControl = true;
 
-			targetObject = null;
-			foreach (var dOb in HighlightTile.instance.tile.objectList)
-			{
-				if (dOb.isCollidable)
-				{
-					targetObject = dOb;
-				}
-			}
+			targetTile = HighlightTile.instance.tile;
 		}
 
 		override public void StartSubAction(ulong time) 
 		{
-			identityCreature.StartAttack(targetObject);
+			fireballObject = Instantiate(fireballObjectPrefab);
+			fireballObject.transform.position = identityCreature.transform.position - Vector3.forward;
+			animationStartTime = Time.time;
 		}
 		override public bool ContinueSubAction(ulong time) 
 		{
-			return identityCreature.ContinueAttack(targetObject);
+			float duration = ((Vector2)identityCreature.transform.position - (Vector2)targetTile.transform.position).magnitude / 5;
+			fireballObject.transform.position = (Vector3)Vector2.Lerp(identityCreature.transform.position, targetTile.transform.position, (Time.time - animationStartTime) / duration) - Vector3.forward;
+			return Time.time - animationStartTime > duration;
 		}
-		override public void FinishSubAction(ulong time) 
+		override public void FinishSubAction(ulong time)
 		{
-			identityCreature.FinishAttack(targetObject);
+			if (targetTile && targetTile.objectList != null)
+			{
+				DungeonObject targetObject = null;
+				foreach (var dOb in targetTile.objectList)
+				{
+					if (dOb.isCollidable)
+					{
+						targetObject = dOb;
+					}
+				}
+				if (targetObject)
+				{
+					targetObject.TakeDamage(10);
+				}
+			}
+			var fire = Instantiate(firePrefab);
+			targetTile.AddObject(fire.GetComponent<DungeonObject>());
+			Destroy(fireballObject);
 		}
 	}
 }

@@ -5,26 +5,8 @@
     using System.Collections.Generic;
     using UnityEngine;
 
-    public class AttackBehaviourAdjacent : TickableBehaviour
+    public class AttackBehaviourAdjacent : AttackBehaviour
     {
-        Creature nextAttackTarget;
-
-        public override void StartAction()
-        {
-            owner.tickable.nextActionTime = TimeManager.instance.Time + owner.GetComponent<Creature>().ticksPerAttack;
-            owner.GetComponent<Creature>().StartAttack(nextAttackTarget.baseObject);
-        }
-
-        public override bool ContinueSubAction(ulong time)
-        {
-            return owner.GetComponent<Creature>().ContinueAttack(nextAttackTarget.baseObject);
-        }
-
-        override public void FinishSubAction(ulong time)
-        {
-            owner.GetComponent<Creature>().FinishAttack(nextAttackTarget.baseObject);
-        }
-
         override public float GetActionConfidence()
         {
             List<Creature> adjacentHostileCreatures = new List<Creature>();
@@ -51,7 +33,7 @@
 
             if (adjacentHostileCreatures.Count > 0)
             {
-                nextAttackTarget = adjacentHostileCreatures[Random.Range(0, adjacentHostileCreatures.Count)];
+                targetTile = adjacentHostileCreatures[Random.Range(0, adjacentHostileCreatures.Count)].baseObject.tile;
 
                 return 2f;
             }
