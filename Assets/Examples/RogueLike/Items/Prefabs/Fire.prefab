@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4342481504457860}
   - component: {fileID: 114339594333797432}
+  - component: {fileID: 6583564211772057175}
+  - component: {fileID: 3313714127298622282}
   m_Layer: 0
   m_Name: Fire
   m_TagString: Untagged
@@ -50,18 +52,28 @@ MonoBehaviour:
   illuminationRange: 1
   OnSteppedOn:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6583564211772057175}
+        m_TargetAssemblyTypeName: Noble.DungeonCrawler.ElectricTrap, Assembly-CSharp
+        m_MethodName: OnSteppedOn
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   originalGlyphPosition: {x: 0, y: 0, z: 0}
   map: {fileID: 0}
   previousX: 0
   previousY: 0
   quantity: 1
-  canBePickedUp: 1
+  canBePickedUp: 0
   isAlwaysLit: 1
   canTakeDamage: 0
   isVisibleWhenNotInSight: 0
-  isWeilded: 0
-  weildedBy: {fileID: 0}
   pathingWeight: 0
   guiIcon: {fileID: 0}
   health: 1
@@ -72,6 +84,38 @@ MonoBehaviour:
   hasBeenSeen: 0
   hasDoneDamageFlash: 0
   tile: {fileID: 0}
+--- !u!114 &6583564211772057175
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1511826856884192}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: caa46d90b6820d3418907977bb3d14c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  delay: 0.1
+  knockBack: 0
+--- !u!114 &3313714127298622282
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1511826856884192}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33e528001075db141841e958448f6a29, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nextActionTime: 0
+  lastActionTime: 0
+  behaviours: []
+  owner: {fileID: 0}
+  markedForRemoval: 0
+  nextBehaviour: {fileID: 0}
 --- !u!1 &9131666509665340520
 GameObject:
   m_ObjectHideFlags: 0

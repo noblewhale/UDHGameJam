@@ -88,7 +88,7 @@
                 int nextX = (int)(myPos.x + Mathf.Sign(xDif));
                 nextX = owner.map.WrapX(nextX);
                 tile = owner.map.tileObjects[owner.y][nextX];
-                if (tile.IsCollidable() || tile.GetPathingWeight() > 5)
+                if (tile.IsCollidable() || tile.GetComponentInChildren<Trap>() || tile.GetPathingWeight() > 5)
                 {
                     horizontalBlocked = true;
                 }
@@ -98,7 +98,7 @@
                 bool verticalBlocked = false;
                 int nextY = (int)(myPos.y + Mathf.Sign(yDif));
                 tile = owner.map.tileObjects[nextY][owner.x];
-                if (tile.IsCollidable() || tile.GetPathingWeight() > 5)
+                if (tile.IsCollidable() || tile.GetComponentInChildren<Trap>() || tile.GetPathingWeight() > 5)
                 {
                     verticalBlocked = true;
                 }

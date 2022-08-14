@@ -4,9 +4,10 @@
     using System.Collections;
     using UnityEngine;
 
-    public class ElectricTrap : TickableBehaviour
+    public class Trap : TickableBehaviour
     {
         public float delay = .1f;
+        public bool knockBack = true;
         bool shouldTrigger = false;
         DungeonObject creatureThatSteppedOnTrap;
         float actionStartTime;
@@ -49,7 +50,7 @@
             {
                 creatureThatSteppedOnTrap.DamageFlash(1);
                 creatureThatSteppedOnTrap.TakeDamage(1);
-                if (creatureThatSteppedOnTrap.health != 0)
+                if (knockBack && creatureThatSteppedOnTrap.health != 0)
                 {
                     Map.instance.MoveObject(creatureThatSteppedOnTrap, creatureThatSteppedOnTrap.previousX, creatureThatSteppedOnTrap.previousY);
                 }

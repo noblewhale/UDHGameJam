@@ -40,21 +40,21 @@
             if (owner.y < owner.map.height - 1)
             {
                 adjacent = owner.map.tileObjects[owner.y + 1][owner.x];
-                if (!adjacent.IsCollidable()) adjacentAndOpen.Add(adjacent);
+                if (!adjacent.IsCollidable() && !adjacent.GetComponentInChildren<Trap>()) adjacentAndOpen.Add(adjacent);
             }
             if (owner.y > 0)
             {
                 adjacent = owner.map.tileObjects[owner.y - 1][owner.x];
-                if (!adjacent.IsCollidable()) adjacentAndOpen.Add(adjacent);
+                if (!adjacent.IsCollidable() && !adjacent.GetComponentInChildren<Trap>()) adjacentAndOpen.Add(adjacent);
             }
 
             int wrappedX = owner.map.WrapX(owner.x + 1);
             adjacent = owner.map.tileObjects[owner.y][wrappedX];
-            if (!adjacent.IsCollidable()) adjacentAndOpen.Add(adjacent);
+            if (!adjacent.IsCollidable() && !adjacent.GetComponentInChildren<Trap>()) adjacentAndOpen.Add(adjacent);
 
             wrappedX = owner.map.WrapX(owner.x - 1);
             adjacent = owner.map.tileObjects[owner.y][wrappedX];
-            if (!adjacent.IsCollidable()) adjacentAndOpen.Add(adjacent);
+            if (!adjacent.IsCollidable() && !adjacent.GetComponentInChildren<Trap>()) adjacentAndOpen.Add(adjacent);
 
             if (adjacentAndOpen.Count > 0)
             {

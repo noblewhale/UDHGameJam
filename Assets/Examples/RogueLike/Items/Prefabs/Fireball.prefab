@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4342481504457860}
   - component: {fileID: 114339594333797432}
+  - component: {fileID: -738208389167452911}
+  - component: {fileID: -6353288155522524805}
   m_Layer: 0
   m_Name: Fireball
   m_TagString: Untagged
@@ -70,6 +72,41 @@ MonoBehaviour:
   hasBeenSeen: 1
   hasDoneDamageFlash: 0
   tile: {fileID: 0}
+--- !u!111 &-738208389167452911
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1511826856884192}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: b552c3c816922d047b2c65dbb1a03796, type: 2}
+  m_Animations: []
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0
+--- !u!95 &-6353288155522524805
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1511826856884192}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 83fbc34936fa18c418c4eccb3e0f3580, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1691725983613444
 GameObject:
   m_ObjectHideFlags: 0
