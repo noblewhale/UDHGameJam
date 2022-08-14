@@ -200,20 +200,21 @@
 
         public void WeildRightHand(DungeonObject ob)
         {
-            if (rightHandObject != null)
+            Weildable oldWieldable = rightHandObject?.GetComponent<Weildable>();
+            Weildable newWeildable = ob?.GetComponent<Weildable>();
+
+            oldWieldable?.GetComponent<Weildable>().UnWeild();
+            if (rightHandObject)
             {
-                rightHandObject.isWeilded = false;
-                rightHandObject.weildedBy = null;
-                rightHandObject.transform.parent = null;
-                rightHandObject.transform.position = new Vector3(-666, -666, -666);
                 baseObject.glyphs.glyphs.RemoveAll(g => rightHandObject.glyphs.glyphs.Contains(g));
             }
+
             rightHandObject = ob;
-            ob.isWeilded = true;
-            rightHandObject.weildedBy = this;
-            ob.transform.parent = rightHand.transform;
-            ob.transform.localPosition = Vector3.zero;
-            baseObject.glyphs.glyphs.AddRange(ob.glyphs.glyphs);
+            newWeildable?.Weild(this, rightHand);
+            if (rightHandObject)
+            {
+                baseObject.glyphs.glyphs.AddRange(ob.glyphs.glyphs);
+            }
         }
 
         public void FaceDirection(Tile tile)

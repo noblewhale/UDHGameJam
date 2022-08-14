@@ -38,8 +38,6 @@
         public bool isAlwaysLit;
         public bool canTakeDamage = false;
         public bool isVisibleWhenNotInSight = true;
-        public bool isWeilded = false;
-        public Creature weildedBy = null;
         public int pathingWeight = 0;
         public Transform guiIcon;
 

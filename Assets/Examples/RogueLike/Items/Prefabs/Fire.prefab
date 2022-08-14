@@ -47,7 +47,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectName: Key
   viewDistance: 4
-  illuminationRange: 0
+  illuminationRange: 1
   OnSteppedOn:
     m_PersistentCalls:
       m_Calls: []
@@ -59,7 +59,7 @@ MonoBehaviour:
   canBePickedUp: 1
   isAlwaysLit: 1
   canTakeDamage: 0
-  isVisibleWhenNotInSight: 1
+  isVisibleWhenNotInSight: 0
   isWeilded: 0
   weildedBy: {fileID: 0}
   pathingWeight: 0
@@ -69,7 +69,7 @@ MonoBehaviour:
   blocksLineOfSight: 0
   coversObjectsBeneath: 0
   preventsObjectSpawning: 0
-  hasBeenSeen: 1
+  hasBeenSeen: 0
   hasDoneDamageFlash: 0
   tile: {fileID: 0}
 --- !u!1 &9131666509665340520

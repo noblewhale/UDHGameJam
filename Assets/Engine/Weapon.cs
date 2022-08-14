@@ -2,6 +2,7 @@
 {
     using UnityEngine;
 
+    [RequireComponent(typeof(Weildable))]
     public class Weapon : TickableBehaviour
     {
         public int minBaseDamage = 1;
@@ -11,12 +12,21 @@
 
         public Creature targetCreature;
 
+        public Transform handle;
+        public Weildable Weildable { get; private set; }
+
+        override public void Awake()
+        {
+            base.Awake();
+            Weildable = GetComponent<Weildable>();
+        }
+
         public override void FinishSubAction(ulong time)
         {
             if (!targetCreature) return;
 
             float roll = Random.Range(0, 20);
-            roll += owner.weildedBy.dexterity;
+            roll += GetComponent<Weildable>().WeildedBy.dexterity;
             if (roll > targetCreature.dexterity)
             {
                 // Hit, but do we do damange?

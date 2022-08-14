@@ -5,8 +5,6 @@ namespace Noble.DungeonCrawler
 
     public class HighlightTile : DungeonObject
     {
-        public bool enableKeyboardControl;
-
         Vector3 previousMousePos;
 
         public static HighlightTile instance;
@@ -39,63 +37,71 @@ namespace Noble.DungeonCrawler
                 }
             }
 
-            if (enableKeyboardControl && PlayerInput.instance.HasInput)
+        }
+
+        public bool Move(Command command)
+        { 
+            KeyCode key = command.key;
+
+            int newTileX = tile.x;
+            int newTileY = tile.y;
+
+            bool doSomething = true;
+            switch (key)
             {
-                Command command = PlayerInput.instance.commandQueue.Peek();
-                KeyCode key = command.key;
+                case KeyCode.UpArrow:
+                case KeyCode.W:
+                case KeyCode.Keypad8:
+                    newTileY++;
+                    break;
+                case KeyCode.DownArrow:
+                case KeyCode.S:
+                case KeyCode.Keypad2:
+                    newTileY--;
+                    break;
+                case KeyCode.RightArrow:
+                case KeyCode.D:
+                case KeyCode.Keypad6:
+                    newTileX++;
+                    break;
+                case KeyCode.LeftArrow:
+                case KeyCode.A:
+                case KeyCode.Keypad4:
+                    newTileX--;
+                    break;
+                case KeyCode.Keypad9:
+                    newTileY++;
+                    newTileX++;
+                    break;
+                case KeyCode.Keypad7:
+                    newTileY++;
+                    newTileX--;
+                    break;
+                case KeyCode.Keypad1:
+                    newTileY--;
+                    newTileX--;
+                    break;
+                case KeyCode.Keypad3:
+                    newTileY--;
+                    newTileX++;
+                    break;
+                default: 
+                    doSomething = false; 
+                    break;
+            }
 
-                int newTileX = tile.x;
-                int newTileY = tile.y;
+            newTileX = Map.instance.WrapX(newTileX);
 
-                bool doSomething = true;
-                switch (key)
+            if (doSomething)
+            {
+                if (newTileY >= 0 && newTileY < Map.instance.height)
                 {
-                    case KeyCode.UpArrow:
-                    case KeyCode.W:
-                    case KeyCode.Keypad8:
-                        newTileY++;
-                        break;
-                    case KeyCode.DownArrow:
-                    case KeyCode.S:
-                    case KeyCode.Keypad2:
-                        newTileY--;
-                        break;
-                    case KeyCode.RightArrow:
-                    case KeyCode.D:
-                    case KeyCode.Keypad6:
-                        newTileX++;
-                        break;
-                    case KeyCode.LeftArrow:
-                    case KeyCode.A:
-                    case KeyCode.Keypad4:
-                        newTileX--;
-                        break;
-                    case KeyCode.Keypad9:
-                        newTileY++;
-                        newTileX++;
-                        break;
-                    case KeyCode.Keypad7:
-                        newTileY++;
-                        newTileX--;
-                        break;
-                    case KeyCode.Keypad1:
-                        newTileY--;
-                        newTileX--;
-                        break;
-                    case KeyCode.Keypad3:
-                        newTileY--;
-                        newTileX++;
-                        break;
-                    default: doSomething = false; break;
-                }
-
-                if (doSomething)
-                {
-                    PlayerInput.instance.commandQueue.Dequeue();
                     tile?.RemoveObject(this);
                     Map.instance.tileObjects[newTileY][newTileX].AddObject(this);
                 }
             }
+
+            return doSomething;
         }
     }
 }

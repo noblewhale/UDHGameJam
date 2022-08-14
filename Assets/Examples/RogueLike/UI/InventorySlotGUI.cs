@@ -37,7 +37,8 @@
         {
             rect.anchoredPosition = Vector3.down * index * rect.rect.height;
             //transform.localPosition = Vector3.down * index * .2f;
-            if (item.isWeilded)
+            Weapon weapon = item.GetComponent<Weapon>();
+            if (weapon != null && weapon.Weildable.IsWeilded)
             {
                 label.text = "[" + item.objectName + "]";
             }
