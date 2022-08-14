@@ -61,8 +61,20 @@
 			Vector2 startPosition = identityCreature.leftHand.transform.position;
 			Vector2 endPosition = new Vector2(targetTile.transform.position.x + Map.instance.tileWidth/2, targetTile.transform.position.y + Map.instance.tileHeight/2);
 			float unitsPerSecond = 5;
-			float duration = (startPosition - endPosition).magnitude / unitsPerSecond;
 			float timeSinceAttackStart = Time.time - attackStartTime;
+			if ((endPosition - startPosition).magnitude > Map.instance.TotalWidth / 2)
+            {
+				if ((startPosition.x - Map.instance.transform.position.x) > Map.instance.TotalWidth / 2)
+                {
+					endPosition.x += Map.instance.TotalWidth;
+				}
+				else
+                {
+					endPosition.x -= Map.instance.TotalWidth;
+				}
+			}
+
+			float duration = (startPosition - endPosition).magnitude / unitsPerSecond;
 			fireballObject.transform.position = (Vector3)Vector2.Lerp(startPosition, endPosition, timeSinceAttackStart / duration) - Vector3.forward;
 
 			if (timeSinceAttackStart > duration)

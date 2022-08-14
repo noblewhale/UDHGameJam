@@ -61,8 +61,9 @@
 
         virtual public void Start()
         {
-            warpedMapCamera.orthographicSize = (width * tileWidth / warpedMapCamera.aspect) / 2.0f;
-            transform.position = new Vector3(-width * tileWidth / 2.0f, -height * tileHeight / 2.0f);
+            // Set the camera size so that the width is 3 times the map width so wrapping magic works.
+            warpedMapCamera.orthographicSize = (3 * TotalWidth / warpedMapCamera.aspect) / 2.0f;
+            transform.position = new Vector3(-TotalWidth / 2.0f, -TotalHeight / 2.0f);
 
             ClearMap();
             StartCoroutine(GenerateMap());

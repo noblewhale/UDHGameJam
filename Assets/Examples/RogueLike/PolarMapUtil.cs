@@ -39,7 +39,14 @@
                 unwarpedPos = unwarpedPos - Vector2.one * .5f;
                 unwarpedPos.x *= -1;
 
-                unwarpedPos = unwarpedPos * new Vector2(PlayerCamera.instance.camera.orthographicSize * 2 * PlayerCamera.instance.camera.aspect, PlayerCamera.instance.camera.orthographicSize * 2);
+                Vector2 cameraSize;
+                cameraSize.x = PlayerCamera.instance.camera.orthographicSize * 2 * PlayerCamera.instance.camera.aspect;
+                cameraSize.y = PlayerCamera.instance.camera.orthographicSize * 2;
+
+                // Account for camera being tripple width for wrapping magic
+                cameraSize.x /= 3;
+
+                unwarpedPos = unwarpedPos * cameraSize;
                 unwarpedPos += (Vector2)PlayerCamera.instance.camera.transform.position;
 
                 return true;

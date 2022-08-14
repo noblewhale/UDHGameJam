@@ -58,11 +58,8 @@
 			
 			fixed4 frag(v2f i) : SV_Target
 			{
-				float aspect = unity_OrthoParams.x / unity_OrthoParams.y;
 				// sample the texture
 				float3 fromCenter = float3(i.uv.x - .5, i.uv.y - .5, 0);
-
-				//fromCenter.x *= aspect;
 
 				float newX = fromCenter.x * sin(_Rotation) - fromCenter.y * cos(_Rotation);
 				float newY = fromCenter.x * cos(_Rotation) + fromCenter.y * sin(_Rotation);
@@ -74,7 +71,7 @@
 				float angle = acos(dot(normalized.xy, float2(0, 1)));
 				float3 check = cross(normalized, float3(0, 1, 0));
 				angle = angle * (check.z >= 0) + (2 * 3.14159 - angle) * (check.z < 0);
-				float d = pow(fromCenter.x * fromCenter.x + fromCenter.y * fromCenter.y, .5) / .5f;// pow(.5, .5);
+				float d = pow(fromCenter.x * fromCenter.x + fromCenter.y * fromCenter.y, .5) / .5f;
 
 				if (d > 1) discard;
 
@@ -87,7 +84,6 @@
 				else
 				{
 					d = (d - .1) / .9;
-					//d = log(1 + (d / (_SeaLevel * (1 + d*d*1)))) / log(1 + 1 / (_SeaLevel * (1 + d*d*1)));
 					d = log(1 + d / _SeaLevel) / log(1 + 1 / _SeaLevel);
 				}
 
@@ -96,12 +92,19 @@
 
 				if (y < 0 || y > 1) return fixed4(0, 0, 0, 1);
 
-				float2 idk = float2(x, y);
+				float2 unwarpedPosition = float2(x, y);
 
-				fixed4 col = tex2D(_MainTex, idk);
+				// Do the wrapping magic accounting for the fact that the camera is seeing 3 times the width of the map
+				float2 wrappedUV = unwarpedPosition;
+				wrappedUV.x = unwarpedPosition.x / 3.0f + .3333333f;
+				fixed4 col = tex2D(_MainTex, wrappedUV);
+				wrappedUV.x = unwarpedPosition.x / 3.0f;
+				col += tex2D(_MainTex, wrappedUV);
+				wrappedUV.x = unwarpedPosition.x / 3.0f + .6666666f;
+				col += tex2D(_MainTex, wrappedUV);
+
 				col = lerp(background, col, min(1, pow(d*9, 2)));
-				// apply fog
-				UNITY_APPLY_FOG(i.fogCoord, col);
+				
 				return col;
 			}
 			ENDCG
