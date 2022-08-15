@@ -1,9 +1,10 @@
 ﻿namespace Noble.DungeonCrawler
 {
     using Noble.TileEngine;
+    using System;
     using UnityEngine;
 
-    public class PlayerCamera : MonoBehaviour
+    class PlayerCamera : MonoBehaviour
     {
         public DungeonObject owner;
 
@@ -24,26 +25,29 @@
         {
             instance = this;
             camera = GetComponent<Camera>();
-            Map.instance.OnMapLoaded += OnMapLoaded;
+            Player.instance.identity.onSpawn += OnPlayerSpawned;
+            //Map.instance.OnMapLoaded += OnMapLoaded;
         }
 
         private void OnDestroy()
         {
-            Map.instance.OnMapLoaded -= OnMapLoaded;
+            Player.instance.identity.onSpawn -= OnPlayerSpawned;
+            //Map.instance.OnMapLoaded -= OnMapLoaded;
         }
 
-        void OnMapLoaded()
+        void OnPlayerSpawned()
         {
-            SetRotation(Player.instance.identity.x, Player.instance.identity.y, float.Epsilon, float.MaxValue);
-            SetY(Player.instance.identity.transform.position.y, 1, float.MaxValue);
+            CameraTarget.instance.UpdatePosition();
+
+            SetRotation(owner.x, 0, float.MaxValue);
+            SetY(owner.y * Map.instance.tileHeight + Map.instance.transform.position.y, 1, float.MaxValue);
         }
 
         void Update()
         {
             if (!owner) return;
-
-            SetRotation(owner.x, owner.y, rotationLerpFactor, rotationMaxSpeed * Time.deltaTime * 100);
-            SetY(owner.transform.position.y, movementLerpFactor, movementMaxSpeed);
+            SetRotation(owner.x, rotationLerpFactor, rotationMaxSpeed * Time.deltaTime * 100);
+            SetY(owner.y * Map.instance.tileHeight + Map.instance.transform.position.y, movementLerpFactor, movementMaxSpeed);
         }
 
         public void SetY(float worldY, float lerpFactor, float maxSpeed)
@@ -62,18 +66,36 @@
             camera.transform.position = new Vector3(targetPos.x, targetPos.y, camera.transform.position.z);
         }
 
-        public void SetRotation(int x, int y, float lerpFactor, float maxSpeed)
+        public void SetRotation(int x, float lerpFactor, float maxSpeed)
         {
             float percentOfWidth = (float)(x + .5f) / Map.instance.width;
             float targetRotation = 2 * Mathf.PI * (1 - percentOfWidth);
-            if (rotation < 0) rotation = 2 * Mathf.PI;
-            else if (rotation > 2 * Mathf.PI) rotation = 0;
             if (Mathf.Abs(targetRotation - rotation) > Mathf.PI)
             {
                 targetRotation = targetRotation - Mathf.Sign(targetRotation - rotation) * (2 * Mathf.PI);
             }
-            rotation = Mathf.SmoothDampAngle(rotation, targetRotation, ref cameraVelocity, lerpFactor, maxSpeed);
+            if (lerpFactor == 0)
+            {
+                rotation = targetRotation;
+            }
+            else if (rotation != targetRotation)
+            {
+                rotation = Mathf.SmoothDampAngle(rotation, targetRotation, ref cameraVelocity, lerpFactor, maxSpeed);
+            }
+            if (rotation < 0) rotation = rotation + 2 * Mathf.PI;
+            else if (rotation > 2 * Mathf.PI) rotation = rotation - 2*Mathf.PI;
             polarWarpMaterial.SetFloat("_Rotation", rotation - Mathf.PI / 2);
+        }
+
+        public Vector2Int GetTilePosition()
+        {
+            Vector2Int pos = Vector2Int.zero;
+            float mapRotation = polarWarpMaterial.GetFloat("_Rotation") + Mathf.PI / 2;
+            float percentOfWidth = 1 - mapRotation / (2 * Mathf.PI);
+            pos.x = (int)(percentOfWidth * Map.instance.width);
+            pos.y = (int)((camera.transform.position.y - .25f - Map.instance.transform.position.y) / Map.instance.tileHeight);
+
+            return pos;
         }
     }
 }

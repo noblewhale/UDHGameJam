@@ -22,7 +22,7 @@
 
             float d = warpedPos.magnitude / .5f;
             float _SeaLevel = MapRenderer.instance.material.GetFloat("_SeaLevel");
-            if (d < .1f)
+            if (d < .01f)
             {
                 return false;
             }

@@ -19,6 +19,7 @@
         public Vector3 originalGlyphPosition;
         public Map map;
 
+        [SerializeField]
         Vector2Int position = Vector2Int.zero;
         public int x
         {
@@ -69,6 +70,7 @@
         public event Action<DungeonObject> onPickedUpObject;
         public event Action<DungeonObject, bool> onCollision;
         public event Action onDeath;
+        public event Action onSpawn;
         public Tile tile;
 
         public Tickable tickable { get; private set; }
@@ -83,6 +85,11 @@
                 glyphsOb = glyphs.gameObject;
                 originalGlyphPosition = glyphs.transform.localPosition;
             }
+        }
+
+        public void Spawn()
+        {
+            onSpawn?.Invoke();
         }
 
         public void SetInView(bool isInView)

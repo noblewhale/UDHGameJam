@@ -149,16 +149,17 @@
 
             if (y <= 0 || y >= map.height - 1) return false;
 
+            int wrappedX = map.WrapX(x);
             int wrappedXLeft = map.WrapX(x - 1);
             int wrappedXRight = map.WrapX(x + 1);
             if (tiles[y][wrappedXLeft] == TileType.FLOOR && tiles[y][wrappedXRight] == TileType.FLOOR)
             {
-                if (tiles[y - 1][x] == TileType.NOTHING && tiles[y + 1][x] == TileType.NOTHING)
+                if (tiles[y - 1][wrappedX] == TileType.NOTHING && tiles[y + 1][wrappedX] == TileType.NOTHING)
                 {
                     return true;
                 }
             }
-            if (tiles[y - 1][x] == TileType.FLOOR && tiles[y + 1][x] == TileType.FLOOR)
+            if (tiles[y - 1][wrappedX] == TileType.FLOOR && tiles[y + 1][wrappedX] == TileType.FLOOR)
             {
                 if (tiles[y][wrappedXLeft] == TileType.NOTHING && tiles[y][wrappedXRight] == TileType.NOTHING)
                 {
@@ -349,6 +350,46 @@
                     }
                 }
             }
+
+            if (parent == root)
+            {
+                List<Vector2Int> leftTiles = GetLeftFloorTiles(parent.area);
+                List<Vector2Int> rightTiles = GetRightFloorTiles(parent.area);
+
+                // Get the overlap between the two above lists
+                bool isConnected = false;
+                var overlappingTiles = GetOverlap(leftTiles, rightTiles, false, out isConnected);
+                RectIntExclusive pathArea;
+
+                int numberOfWrappedPaths = Random.Range(1, 4);
+                for (int i = 0; i < numberOfWrappedPaths; i++)
+                {
+                    if (overlappingTiles.Count != 0)
+                    {
+                        // Pick a random y position within the overlapping area to add a connecting path
+                        int randomIndex = Random.Range(0, overlappingTiles.Count);
+                        int randomY = overlappingTiles[randomIndex].tileA.y;
+                        pathArea = AddStraightConnectingPath(randomY, parent.left.area, parent.right.area, true);
+                        if (animationDelay != 0)
+                        {
+                            UpdateTiles(pathArea);
+                        }
+                    }
+                    else
+                    {
+                        var leftTileIndex = Random.Range(0, leftTiles.Count);
+                        var rightTileIndex = Random.Range(0, rightTiles.Count);
+                        var leftTile = leftTiles[leftTileIndex];
+                        var rightTile = rightTiles[rightTileIndex];
+                        AddAngledPath(leftTile, rightTile, false);
+                        if (animationDelay != 0)
+                        {
+                            UpdateTiles(parent.area);
+                        }
+                    }
+                    yield return new WaitForSeconds(animationDelay);
+                }
+            }
         }
 
         private void AddAngledPath(Vector2Int start, Vector2Int end, bool isVertical)
@@ -453,14 +494,14 @@
 
         void SetTile(int x, int y, TileType value, bool inverted = false)
         {
-            if (inverted) tiles[x][y] = value;
-            else tiles[y][x] = value;
+            if (inverted) tiles[x][Map.instance.WrapX(y)] = value;
+            else tiles[y][Map.instance.WrapX(x)] = value;
         }
 
         TileType GetTile(int x, int y, bool inverted = false)
         {
-            if (inverted) return tiles[x][y];
-            else return tiles[y][x];
+            if (inverted) return tiles[x][Map.instance.WrapX(y)];
+            else return tiles[y][Map.instance.WrapX(x)];
         }
 
         private List<TilePair> GetOverlap(List<Vector2Int> tilesA, List<Vector2Int> tilesB, bool isVertical, out bool isConnected)

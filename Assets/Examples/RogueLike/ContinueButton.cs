@@ -7,11 +7,15 @@ namespace Noble.DungeonCrawler
     {
         public GameObject window;
 
+        public void Start()
+        {
+            PlayerInput.instance.enabled = false;
+        }
+
         public void Continue()
         {
             window.SetActive(false);
-            PlayerCamera.instance.owner = Player.instance.identity;
-            Player.instance.playerInput.enabled = true;
+            PlayerInput.instance.enabled = true;
         }
     }
 }

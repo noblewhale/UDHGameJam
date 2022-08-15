@@ -163,6 +163,8 @@
 
         public void AddObject(DungeonObject ob, bool isMove = false)
         {
+            bool isFirstPlacement = ob.tile == null;
+
             ob.transform.parent = transform;
             ob.transform.localPosition = Vector3.zero;
             objectList.AddFirst(ob);
@@ -180,6 +182,11 @@
             }
             SetInView(isInView);
             SetLit(isLit);
+
+            if (isFirstPlacement)
+            {
+                ob.Spawn();
+            }
         }
 
         public void RemoveObject(DungeonObject ob, bool destroyObject = false)

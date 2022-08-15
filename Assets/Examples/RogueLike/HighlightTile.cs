@@ -9,6 +9,8 @@ namespace Noble.DungeonCrawler
 
         public static HighlightTile instance;
 
+        Vector3 oldCameraPosition;
+
         override protected void Awake()
         {
             instance = this;
@@ -17,23 +19,34 @@ namespace Noble.DungeonCrawler
 
         void Update()
         {
-            if ((previousMousePos - Input.mousePosition).sqrMagnitude > 4)
+            if ((previousMousePos - Input.mousePosition).sqrMagnitude > 4 || oldCameraPosition != Player.instance.transform.position)
             {
                 previousMousePos = Input.mousePosition;
-                Vector2 relativeWorldPos = PolarMapUtil.GetPositionRelativeToMap(Input.mousePosition);
-                Vector2 unwarpedPos;
-                bool success = PolarMapUtil.UnwarpPosition(relativeWorldPos, out unwarpedPos);
-                if (success)
+
+                Vector2 mousePosRelativeToMapRenderer = ((Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition) - (Vector2)Camera.main.transform.position) - (Vector2)MapRenderer.instance.transform.localPosition;
+                mousePosRelativeToMapRenderer /= MapRenderer.instance.transform.localScale;
+                float angle = Vector2.Angle(mousePosRelativeToMapRenderer, Vector2.up);
+                bool ignoreInput = false;
+                ignoreInput |= angle > -40 && angle < 40;
+                ignoreInput |= mousePosRelativeToMapRenderer.y > 0 && mousePosRelativeToMapRenderer.magnitude < .075f;
+                if (!ignoreInput)
                 {
-                    bool isInsideMap = PolarMapUtil.PositionToTile(unwarpedPos, out int tileX, out int tileY);
-                    if (isInsideMap)
+                    Vector2 relativeWorldPos = PolarMapUtil.GetPositionRelativeToMap(Input.mousePosition);
+                    Vector2 unwarpedPos;
+                    bool success = PolarMapUtil.UnwarpPosition(relativeWorldPos, out unwarpedPos);
+                    if (success)
                     {
-                        if (tile == null || tileY != tile.y || tileX != tile.x)
+                        bool isInsideMap = PolarMapUtil.PositionToTile(unwarpedPos, out int tileX, out int tileY);
+                        if (isInsideMap)
                         {
-                            tile?.RemoveObject(this);
-                            Map.instance.tileObjects[tileY][tileX].AddObject(this);
+                            if (tile == null || tileY != tile.y || tileX != tile.x)
+                            {
+                                tile?.RemoveObject(this);
+                                Map.instance.tileObjects[tileY][tileX].AddObject(this);
+                            }
                         }
                     }
+                    oldCameraPosition = PlayerCamera.instance.transform.position;
                 }
             }
 

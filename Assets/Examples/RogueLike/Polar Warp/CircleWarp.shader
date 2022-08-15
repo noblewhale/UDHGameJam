@@ -96,16 +96,25 @@
 
 				// Do the wrapping magic accounting for the fact that the camera is seeing 3 times the width of the map
 				float2 wrappedUV = unwarpedPosition;
-				wrappedUV.x = unwarpedPosition.x / 3.0f + .3333333f;
-				fixed4 col = tex2D(_MainTex, wrappedUV);
-				wrappedUV.x = unwarpedPosition.x / 3.0f;
-				col += tex2D(_MainTex, wrappedUV);
-				wrappedUV.x = unwarpedPosition.x / 3.0f + .6666666f;
-				col += tex2D(_MainTex, wrappedUV);
+				fixed4 totalColor = fixed4(0, 0, 0, 0);
+				fixed4 color = fixed4(0, 0, 0, 0);
 
-				col = lerp(background, col, min(1, pow(d*9, 2)));
+
+				wrappedUV.x = unwarpedPosition.x / 3.0f + .3333333f;
+				color = tex2D(_MainTex, wrappedUV);
+				totalColor = totalColor * (1 - color.a) + color * color.a;
+
+				wrappedUV.x = unwarpedPosition.x / 3.0f;
+				color = tex2D(_MainTex, wrappedUV);
+				totalColor = totalColor * (1 - color.a) + color * color.a;
+
+				wrappedUV.x = unwarpedPosition.x / 3.0f + .6666666f;
+				color = tex2D(_MainTex, wrappedUV);
+				totalColor = totalColor * (1 - color.a) + color * color.a;
+
+				totalColor = lerp(background, totalColor, min(1, pow(d*9, 2)));
 				
-				return col;
+				return totalColor;
 			}
 			ENDCG
 		}
