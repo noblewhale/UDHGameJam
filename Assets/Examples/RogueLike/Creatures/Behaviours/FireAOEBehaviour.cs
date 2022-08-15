@@ -36,6 +36,7 @@
 			CameraTarget.instance.owner = HighlightTile.instance;
 			CameraTarget.instance.thresholdX = 6;
 			CameraTarget.instance.thresholdY = 4;
+			AimOverlay.instance.gameObject.SetActive(true);
 
 			HighlightTile.instance.GetComponent<DungeonObject>().glyphs.glyphs[0].tint = Color.red;
 			bool isDone = false;
@@ -56,6 +57,7 @@
 			CameraTarget.instance.owner = Player.instance.identity;
 			CameraTarget.instance.thresholdX = 0;
 			CameraTarget.instance.thresholdY = 0;
+			AimOverlay.instance.gameObject.SetActive(false);
 
 			targetTile = HighlightTile.instance.tile;
 		}
