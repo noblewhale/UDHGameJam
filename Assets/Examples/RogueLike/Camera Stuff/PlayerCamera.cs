@@ -9,12 +9,9 @@
         public DungeonObject owner;
 
         public float rotationMaxSpeed = .01f;
-        public float rotationLerpFactor = .5f;
         public float movementMaxSpeed = .1f;
-        public float movementLerpFactor = .5f;
         public float cameraOffset = 3;
-        public Vector3 rotation;
-        float cameraVelocity;
+        public float rotation;
         new public Camera camera;
 
         public Material polarWarpMaterial;
@@ -37,18 +34,18 @@
         {
             CameraTarget.instance.UpdatePosition();
 
-            SetRotation(owner.x, 0, float.MaxValue);
-            SetY(owner.y * Map.instance.tileHeight + Map.instance.transform.position.y, 1, float.MaxValue);
+            SetRotation(owner.x, float.MaxValue);
+            SetY(owner.y * Map.instance.tileHeight + Map.instance.transform.position.y, float.MaxValue);
         }
 
         void Update()
         {
             if (!owner) return;
-            SetRotation(owner.x, rotationLerpFactor, rotationMaxSpeed);
-            SetY(owner.y * Map.instance.tileHeight + Map.instance.transform.position.y, movementLerpFactor, movementMaxSpeed);
+            SetRotation(owner.x, rotationMaxSpeed);
+            SetY(owner.y * Map.instance.tileHeight + Map.instance.transform.position.y, movementMaxSpeed);
         }
 
-        public void SetY(float worldY, float lerpFactor, float maxSpeed)
+        public void SetY(float worldY, float maxSpeed)
         {
             cameraOffset = camera.orthographicSize - Map.instance.tileHeight * 5f;
             Vector2 targetPos = new Vector2(camera.transform.position.x, worldY + cameraOffset);
@@ -64,27 +61,40 @@
             camera.transform.position = new Vector3(targetPos.x, targetPos.y, camera.transform.position.z);
         }
 
-        public void SetRotation(int x, float lerpFactor, float maxSpeed)
+        public void SetRotation(int x, float maxSpeed)
         {
-            float percentOfWidth = (float)(x + .5f) / Map.instance.width;
-            Vector3 targetRotation = new Vector3(0, 0, 2 * Mathf.PI * (1 - percentOfWidth));
+            // .5 to line up with the middle of the tiles instead of the edges
+            float shiftedX = x + .5f;
+            // Normalize to the map width, but inverted because that's how the circle warp shader works
+            float normalizedX =  1 - shiftedX / Map.instance.width;
+            // The normalized x position tells us how for around the circle we are, or what percentage of 2*PI
+            float targetRotation = 2 * Mathf.PI * normalizedX;
 
-            if (Mathf.Abs(targetRotation.z - rotation.z) > Mathf.PI)
+            float differenceMagnitude = Mathf.Abs(targetRotation - rotation);
+            float direction = Mathf.Sign(targetRotation - rotation);
+
+            // If the difference between the current rotation and target rotation is large, then we want to use a "unwrapped" location instead
+            // This prevents the camera from going the long way around the circle when the current rotation and target rotation are on opposite sides of the seam
+            if (differenceMagnitude > Mathf.PI)
             {
-                targetRotation.z = targetRotation.z - Mathf.Sign(targetRotation.z - rotation.z) * (2 * Mathf.PI);
+                // This should either be a small negative number or a positive number a bit larger than 2*PI
+                targetRotation -= direction * 2 * Mathf.PI; 
+
+                // These will have changed
+                differenceMagnitude = Mathf.Abs(targetRotation - rotation);
+                direction = Mathf.Sign(targetRotation - rotation);
             }
-            if (lerpFactor == 0)
-            {
-                rotation.z = targetRotation.z;
-            }
-            else if (rotation.z != targetRotation.z)
-            {
-                float mag = Mathf.Min(Mathf.Abs(targetRotation.z - rotation.z), maxSpeed * Time.deltaTime * 100);
-                rotation.z += Mathf.Sign(targetRotation.z - rotation.z) * mag;
-            }
-            if (rotation.z < 0) rotation.z = rotation.z + 2 * Mathf.PI;
-            else if (rotation.z > 2 * Mathf.PI) rotation.z = rotation.z - 2*Mathf.PI;
-            polarWarpMaterial.SetFloat("_Rotation", rotation.z - Mathf.PI / 2);
+            
+            // This is a basic "Move towards" with a max speed
+            float howFarToMove = Mathf.Min(differenceMagnitude, maxSpeed * Time.deltaTime * 100);
+            rotation += direction * howFarToMove;
+
+            // Wrap the rotation to keep it between 0 and 2*PI
+            if (rotation < 0) rotation = rotation + 2 * Mathf.PI;
+            else if (rotation > 2 * Mathf.PI) rotation = rotation - 2*Mathf.PI;
+
+            // Finally set the rotation property on the shader, shifted by PI/2 because that's how the circle warp shader works
+            polarWarpMaterial.SetFloat("_Rotation", rotation - Mathf.PI / 2);
         }
 
         public Vector2Int GetTilePosition()
