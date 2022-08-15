@@ -13,7 +13,7 @@
         public float movementMaxSpeed = .1f;
         public float movementLerpFactor = .5f;
         public float cameraOffset = 3;
-        public float rotation;
+        public Vector3 rotation;
         float cameraVelocity;
         new public Camera camera;
 
@@ -26,13 +26,11 @@
             instance = this;
             camera = GetComponent<Camera>();
             Player.instance.identity.onSpawn += OnPlayerSpawned;
-            //Map.instance.OnMapLoaded += OnMapLoaded;
         }
 
         private void OnDestroy()
         {
             Player.instance.identity.onSpawn -= OnPlayerSpawned;
-            //Map.instance.OnMapLoaded -= OnMapLoaded;
         }
 
         void OnPlayerSpawned()
@@ -46,7 +44,7 @@
         void Update()
         {
             if (!owner) return;
-            SetRotation(owner.x, rotationLerpFactor, rotationMaxSpeed * Time.deltaTime * 100);
+            SetRotation(owner.x, rotationLerpFactor, rotationMaxSpeed);
             SetY(owner.y * Map.instance.tileHeight + Map.instance.transform.position.y, movementLerpFactor, movementMaxSpeed);
         }
 
@@ -54,7 +52,7 @@
         {
             cameraOffset = camera.orthographicSize - Map.instance.tileHeight * 5f;
             Vector2 targetPos = new Vector2(camera.transform.position.x, worldY + cameraOffset);
-            targetPos = Vector2.Lerp(camera.transform.position, targetPos, lerpFactor * Time.deltaTime * 100);
+            targetPos = Vector2.MoveTowards(camera.transform.position, targetPos, maxSpeed * Time.deltaTime * 100);
             Vector2 relativePos = targetPos - (Vector2)camera.transform.position;
 
             if (relativePos.magnitude > maxSpeed * Time.deltaTime * 100)
@@ -69,22 +67,24 @@
         public void SetRotation(int x, float lerpFactor, float maxSpeed)
         {
             float percentOfWidth = (float)(x + .5f) / Map.instance.width;
-            float targetRotation = 2 * Mathf.PI * (1 - percentOfWidth);
-            if (Mathf.Abs(targetRotation - rotation) > Mathf.PI)
+            Vector3 targetRotation = new Vector3(0, 0, 2 * Mathf.PI * (1 - percentOfWidth));
+
+            if (Mathf.Abs(targetRotation.z - rotation.z) > Mathf.PI)
             {
-                targetRotation = targetRotation - Mathf.Sign(targetRotation - rotation) * (2 * Mathf.PI);
+                targetRotation.z = targetRotation.z - Mathf.Sign(targetRotation.z - rotation.z) * (2 * Mathf.PI);
             }
             if (lerpFactor == 0)
             {
-                rotation = targetRotation;
+                rotation.z = targetRotation.z;
             }
-            else if (rotation != targetRotation)
+            else if (rotation.z != targetRotation.z)
             {
-                rotation = Mathf.SmoothDampAngle(rotation, targetRotation, ref cameraVelocity, lerpFactor, maxSpeed);
+                float mag = Mathf.Min(Mathf.Abs(targetRotation.z - rotation.z), maxSpeed * Time.deltaTime * 100);
+                rotation.z += Mathf.Sign(targetRotation.z - rotation.z) * mag;
             }
-            if (rotation < 0) rotation = rotation + 2 * Mathf.PI;
-            else if (rotation > 2 * Mathf.PI) rotation = rotation - 2*Mathf.PI;
-            polarWarpMaterial.SetFloat("_Rotation", rotation - Mathf.PI / 2);
+            if (rotation.z < 0) rotation.z = rotation.z + 2 * Mathf.PI;
+            else if (rotation.z > 2 * Mathf.PI) rotation.z = rotation.z - 2*Mathf.PI;
+            polarWarpMaterial.SetFloat("_Rotation", rotation.z - Mathf.PI / 2);
         }
 
         public Vector2Int GetTilePosition()

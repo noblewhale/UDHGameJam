@@ -57,7 +57,7 @@
         {
             pos.x += Map.instance.TotalWidth / 2;
             pos.y += Map.instance.TotalHeight / 2;
-            if (pos.x > 0 && pos.x < Map.instance.TotalWidth && pos.y > 0 && pos.y < Map.instance.TotalHeight)
+            if (pos.x >= 0 && pos.x < Map.instance.TotalWidth && pos.y >= 0 && pos.y < Map.instance.TotalHeight)
             {
                 x = (int)(pos.x / Map.instance.tileWidth);
                 y = (int)(pos.y / Map.instance.tileHeight);

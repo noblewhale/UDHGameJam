@@ -41,6 +41,7 @@ namespace Noble.DungeonCrawler
                         {
                             if (tile == null || tileY != tile.y || tileX != tile.x)
                             {
+                                //Debug.Log("moving highlight: " + tileX + " " + tileY);
                                 tile?.RemoveObject(this);
                                 Map.instance.tileObjects[tileY][tileX].AddObject(this);
                             }

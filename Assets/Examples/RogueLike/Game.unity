@@ -1558,9 +1558,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: {fileID: 119057286}
-  rotationMaxSpeed: 2
+  rotationMaxSpeed: 0.015
   rotationLerpFactor: 0.15
-  movementMaxSpeed: 0.05
+  movementMaxSpeed: 0.03
   movementLerpFactor: 0.075
   cameraOffset: 3.5
   rotation: 0
@@ -8407,7 +8407,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1370249025
 RectTransform:
   m_ObjectHideFlags: 0
