@@ -83,6 +83,30 @@
 		override public void StartSubAction(ulong time) 
 		{
 			attackStartTime = Time.time;
+
+			float dirX = PolarMapUtil.GetCircleDifference(owner.x, targetTile.x);
+			float dirY = targetTile.y - owner.y;
+			Vector2 direction = new Vector2(dirX, dirY);
+			float distance = direction.magnitude;
+			direction.Normalize();
+
+			float stepSize = Mathf.Min(Map.instance.tileWidth, Map.instance.tileHeight) * .9f;
+			Vector2 center = new Vector2(owner.x + .5f, owner.y + .5f);
+			for (int d = 1; d < distance / stepSize; d++)
+			{
+				Vector2 relative = center + direction * d * stepSize;
+
+				int y = (int)relative.y;
+				if (y < 0 || y >= Map.instance.height) break;
+
+				int wrappedX = (int)Map.instance.WrapX(relative.x);
+
+				if (Map.instance.tileObjects[y][wrappedX].IsCollidable() && (y != owner.y || wrappedX != owner.x))
+                {
+					targetTile = Map.instance.tileObjects[y][wrappedX];
+					break;
+                }
+			}
 		}
 		override public bool ContinueSubAction(ulong time) 
 		{
@@ -118,7 +142,7 @@
 		{
 			if (targetTile && targetTile.objectList != null)
 			{
-				DungeonObject targetObject = targetTile.objectList.SingleOrDefault(ob => ob.isCollidable);
+				DungeonObject targetObject = targetTile.objectList.FirstOrDefault(ob => ob.isCollidable);
 				if (targetObject)
 				{
 					targetObject.TakeDamage(10);

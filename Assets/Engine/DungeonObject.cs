@@ -187,6 +187,8 @@
 
         public void TakeDamage(int v)
         {
+            if (!canTakeDamage) return;
+
             hasDoneDamageFlash = false;
             health -= v;
 
