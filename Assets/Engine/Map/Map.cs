@@ -215,11 +215,11 @@
 
         public void ForEachTile(RectIntExclusive area, Action<Tile> action)
         {
-            for (int y = area.yMax; y >= area.yMin; y--)
+            for (int y = Math.Min(area.yMax, height - 1); y >= Math.Max(area.yMin, 0); y--)
             {
                 for (int x = area.xMax; x >= area.xMin; x--)
                 {
-                    var tile = tileObjects[y][x];
+                    var tile = tileObjects[y][WrapX(x)];
                     action(tile);
                 }
             }
@@ -269,7 +269,13 @@
 
         public void AddOutline(int tileX, int tileY, int radius)
         {
-            ForEachTile((t) => t.isDirty = false);
+            var area = new RectIntExclusive(
+               tileX - radius,
+               tileY - radius,
+               radius*2 + 1,
+               radius*2 + 1
+            );
+            ForEachTile(area, (t) => t.isDirty = false);
             Vector2 center = new Vector2(tileX + .5f, tileY + .5f);
             int numRays = 360;
             float stepSize = Mathf.Min(tileWidth, tileHeight) * .9f;
@@ -307,13 +313,18 @@
 
         public void Reveal(int tileX, int tileY, float radius)
         {
-            //ForEachTile(t => t.SetInView(false));
             tileObjects[tileY][tileX].SetInView(true);
             Vector2 center = new Vector2(tileX + .5f, tileY + .5f);
             int numRays = 360;
             float stepSize = Mathf.Min(tileWidth, tileHeight) * .9f;
 
-            //ForEachTile((t) => t.isDirty = false);
+            var area = new RectIntExclusive(
+                (int)(tileX - radius - 1),
+                (int)(tileY - radius - 1),
+                (int)(radius*2 + 3),
+                (int)(radius*2 + 3)
+            );
+            ForEachTile(area, (t) => t.isDirty = false);
             for (int r = 0; r < numRays; r++)
             {
                 float dirX = Mathf.Sin(2 * Mathf.PI * r / numRays);
@@ -329,13 +340,12 @@
 
                     int wrappedX = (int)WrapX(relative.x);
 
-                    //if (tileObjects[y][wrappedX].isDirty) continue;
-                    //tileObjects[y][wrappedX].isDirty = true;
-
-                    //if (tileObjects[y][wrappedX].isLit)
+                    if (!tileObjects[y][wrappedX].isDirty)
                     {
+                        tileObjects[y][wrappedX].isDirty = true;
                         tileObjects[y][wrappedX].SetInView(true);
                     }
+
                     if (tileObjects[y][wrappedX].DoesBlockLineOfSight() && (y != tileY || wrappedX != tileX))
                     {
                         break;
@@ -351,10 +361,6 @@
             {
                 foreach (var ob in tile.objectList)
                 {
-                    //if (ob.isAlwaysLit)
-                    //{
-                    //    ob.SetLit(true, tile.isInView);
-                    //}
                     if (ob.illuminationRange != 0)
                     {
                         Vector2 center = new Vector2(tile.x + .5f, tile.y + .5f);
@@ -362,12 +368,12 @@
                         float stepSize = Mathf.Min(tileWidth, tileHeight) * .9f;
 
                         var area = new RectIntExclusive(
-                            (int)(tile.x - ob.illuminationRange / 2), 
-                            (int)(tile.y - ob.illuminationRange / 2),
-                            (int)(ob.illuminationRange), 
-                            (int)(ob.illuminationRange)
-                        ); 
-                        //ForEachTile(area, (t) => t.isDirty = false);
+                            (int)(tile.x - ob.illuminationRange / 2 - 1), 
+                            (int)(tile.y - ob.illuminationRange / 2 - 1),
+                            (int)(ob.illuminationRange + 3), 
+                            (int)(ob.illuminationRange + 3)
+                        );
+                        ForEachTile(area, (t) => t.isDirty = false);
                         for (int r = 0; r < numRays; r++)
                         {
                             float dirX = Mathf.Sin(2 * Mathf.PI * r / numRays);
@@ -383,10 +389,12 @@
 
                                 int wrappedX = (int)WrapX(relative.x);
 
-                                //if (tileObjects[y][wrappedX].isDirty) continue;
-                                //tileObjects[y][wrappedX].isDirty = true;
+                                if (!tileObjects[y][wrappedX].isDirty)
+                                {
+                                    tileObjects[y][wrappedX].isDirty = true;
+                                    tileObjects[y][wrappedX].SetLit(true);
+                                }
 
-                                tileObjects[y][wrappedX].SetLit(true);
                                 if (tileObjects[y][wrappedX].DoesBlockLineOfSight() && (y != tile.y || wrappedX != tile.x))
                                 {
                                     break;
