@@ -92,13 +92,16 @@
             onSpawn?.Invoke();
         }
 
-        public void SetInView(bool isInView)
+        public void SetInView(bool isInView, bool reveal)
         {
-            if (isInView) hasBeenSeen = true;
+            if (isInView && reveal) hasBeenSeen = true;
 
             if (isInView)
             {
-                glyphs.SetRevealed(true);
+                if (hasBeenSeen)
+                {
+                    glyphs.SetRevealed(true);
+                }
             }
             else
             {
@@ -109,9 +112,15 @@
             }
         }
 
-        public void SetLit(bool isLit)
+        public void SetLit(bool isLit, bool reveal)
         {
+            if (isLit && reveal) hasBeenSeen = true;
+
             if (glyphs) glyphs.SetLit(isLit);
+            if (hasBeenSeen)
+            {
+                glyphs.SetRevealed(true);
+            }
         }
 
         public void CollideWith(DungeonObject ob, bool isInstigator)
@@ -194,6 +203,7 @@
         public void Move(int newX, int newY)
         {
             SetPosition(newX, newY);
+
             if (onMove != null) onMove(previousX, previousY, x, y);
         }
 
@@ -205,7 +215,7 @@
             y = newY;
             tile = map.tileObjects[y][x];
 
-            map.UpdateLighting();
+            //map.UpdateLighting();
 
             if (onSetPosition != null) onSetPosition(previousX, previousY, x, y);
         }

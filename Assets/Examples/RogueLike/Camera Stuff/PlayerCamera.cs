@@ -94,13 +94,13 @@
             else if (rotation > 2 * Mathf.PI) rotation = rotation - 2*Mathf.PI;
 
             // Finally set the rotation property on the shader, shifted by PI/2 because that's how the circle warp shader works
-            polarWarpMaterial.SetFloat("_Rotation", rotation - Mathf.PI / 2);
+            polarWarpMaterial.SetFloat("_Rotation", rotation);
         }
 
         public Vector2Int GetTilePosition()
         {
             Vector2Int pos = Vector2Int.zero;
-            float mapRotation = polarWarpMaterial.GetFloat("_Rotation") + Mathf.PI / 2;
+            float mapRotation = polarWarpMaterial.GetFloat("_Rotation");
             float percentOfWidth = 1 - mapRotation / (2 * Mathf.PI);
             pos.x = (int)(percentOfWidth * Map.instance.width);
             pos.y = (int)((camera.transform.position.y - .25f - Map.instance.transform.position.y) / Map.instance.tileHeight);

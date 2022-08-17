@@ -1,10 +1,14 @@
 ﻿namespace Noble.TileEngine
 {
+    using System;
     using UnityEngine;
+    using UnityEngine.InputSystem;
+    using UnityEngine.InputSystem.Controls;
 
     public class Command
     {
-        public KeyCode key;
+        public Key key;
+        public ButtonControl mouseButton;
         public Vector3 target;
 
         public override bool Equals(object obj)

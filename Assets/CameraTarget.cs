@@ -43,7 +43,7 @@ namespace Noble.DungeonCrawler
 
             if (Math.Abs(owner.y - y) <= thresholdY || thresholdX == 0)
             {
-                int circleDifference = Util.GetCircleDifference(x, owner.x);
+                int circleDifference = PolarMapUtil.GetCircleDifference(x, owner.x);
                 //Debug.Log("circle dif " + circleDifference);
                 if (Math.Abs(circleDifference) > thresholdX)
                 {
@@ -58,7 +58,7 @@ namespace Noble.DungeonCrawler
                 }
 
                 newX = Map.instance.WrapX(newX);
-                int cameraCircleDifference = Util.GetCircleDifference(cameraTile.x, newX);
+                int cameraCircleDifference = PolarMapUtil.GetCircleDifference(cameraTile.x, newX);
                 //Debug.Log("camera circle dif " + cameraCircleDifference);
                 cameraCircleDifference = Math.Clamp(cameraCircleDifference, -1, 1);
                 newX = cameraTile.x + cameraCircleDifference;

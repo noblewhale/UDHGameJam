@@ -14,8 +14,8 @@ namespace Noble.TileEngine
             IsWeilded = true;
             WeildedBy = weilder;
 
-            transform.parent = weilder.baseObject.glyphsOb.transform;
-            transform.localPosition = (hand.position - weilder.transform.position) - (handle.position - transform.position);
+            transform.parent = hand;
+            transform.localPosition = -(handle.position - transform.position);
         }
 
         public void UnWeild()

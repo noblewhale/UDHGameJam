@@ -19,21 +19,5 @@ namespace Noble.TileEngine
             DownRight = (Vector2.down + Vector2.right).normalized;
         }
 
-        public static int GetCircleDifference(int posA, int posB)
-        {
-            int circleDifference1 = posB - posA;
-            int circleDifference2;
-            if (posA < Map.instance.width / 2)
-            {
-                circleDifference2 = (posB - Map.instance.width) - posA;
-            }
-            else
-            {
-                circleDifference2 = (posB + Map.instance.width) - posA;
-            }
-
-            return Math.Abs(circleDifference1) < Math.Abs(circleDifference2) ? circleDifference1 : circleDifference2;
-        }
-
     }
 }

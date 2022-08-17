@@ -17,6 +17,9 @@
         public Tile[][] tileObjects;
         public List<Tile> tilesThatAllowSpawn = new List<Tile>();
 
+        public DungeonObject outlinePrefab;
+        public List<DungeonObject> outlineObjects = new List<DungeonObject>();
+
         public int width = 10;
         public int height = 1;
 
@@ -44,6 +47,8 @@
 
         public event Action OnMapLoaded;
         public event Action OnMapGenerationStarted;
+
+
         public event Action OnMapCleared;
 
         public float mapGenerationAnimationDelay = 0;
@@ -62,7 +67,7 @@
         virtual public void Start()
         {
             // Set the camera size so that the width is 3 times the map width so wrapping magic works.
-            warpedMapCamera.orthographicSize = (3 * TotalWidth / warpedMapCamera.aspect) / 2.0f;
+            warpedMapCamera.orthographicSize = (2 * TotalWidth / warpedMapCamera.aspect) / 2.0f;
             transform.position = new Vector3(-TotalWidth / 2.0f, -TotalHeight / 2.0f);
 
             ClearMap();
@@ -131,11 +136,11 @@
                 biome.DrawDebug();
             }
 
-            if (Input.GetKeyDown(KeyCode.R))
-            {
-                ClearMap();
-                StartCoroutine(GenerateMap());
-            }
+            //if (Input.GetKeyDown(KeyCode.R))
+            //{
+            //    ClearMap();
+            //    StartCoroutine(GenerateMap());
+            //}
         }
 
         virtual public void PlaceBiomes()
@@ -262,10 +267,9 @@
             tileObjects[newY][newX].AddObject(ob, true);
         }
 
-        public void Reveal(int tileX, int tileY, float radius)
+        public void AddOutline(int tileX, int tileY, int radius)
         {
-            ForEachTile(t => t.SetInView(false));
-            tileObjects[tileY][tileX].SetInView(true);
+            ForEachTile((t) => t.isDirty = false);
             Vector2 center = new Vector2(tileX + .5f, tileY + .5f);
             int numRays = 360;
             float stepSize = Mathf.Min(tileWidth, tileHeight) * .9f;
@@ -284,11 +288,55 @@
 
                     int wrappedX = (int)WrapX(relative.x);
 
-                    if (tileObjects[y][wrappedX].isLit)
+                    if (tileObjects[y][wrappedX].isDirty) continue;
+                    tileObjects[y][wrappedX].isDirty = true;
+
+                    outlineObjects.Add(tileObjects[y][wrappedX].SpawnAndAddObject(outlinePrefab, 1, true));
+                }
+            }
+        }
+
+        public void RemoveOutline()
+        {
+            foreach (DungeonObject outlineObject in outlineObjects)
+            {
+                outlineObject.tile.RemoveObject(outlineObject, true);
+            }
+            outlineObjects.Clear();
+        }
+
+        public void Reveal(int tileX, int tileY, float radius)
+        {
+            //ForEachTile(t => t.SetInView(false));
+            tileObjects[tileY][tileX].SetInView(true);
+            Vector2 center = new Vector2(tileX + .5f, tileY + .5f);
+            int numRays = 360;
+            float stepSize = Mathf.Min(tileWidth, tileHeight) * .9f;
+
+            //ForEachTile((t) => t.isDirty = false);
+            for (int r = 0; r < numRays; r++)
+            {
+                float dirX = Mathf.Sin(2 * Mathf.PI * r / numRays);
+                float dirY = Mathf.Cos(2 * Mathf.PI * r / numRays);
+                Vector2 direction = new Vector2(dirX, dirY);
+
+                for (int d = 1; d < radius / stepSize; d++)
+                {
+                    Vector2 relative = center + direction * d * stepSize;
+
+                    int y = (int)relative.y;
+                    if (y < 0 || y >= height) break;
+
+                    int wrappedX = (int)WrapX(relative.x);
+
+                    //if (tileObjects[y][wrappedX].isDirty) continue;
+                    //tileObjects[y][wrappedX].isDirty = true;
+
+                    //if (tileObjects[y][wrappedX].isLit)
                     {
                         tileObjects[y][wrappedX].SetInView(true);
                     }
-                    if (tileObjects[y][wrappedX].DoesBlockLineOfSight())
+                    if (tileObjects[y][wrappedX].DoesBlockLineOfSight() && (y != tileY || wrappedX != tileX))
                     {
                         break;
                     }
@@ -298,20 +346,29 @@
 
         public void UpdateLighting()
         {
+            Debug.Log("Update lighting");
             ForEachTile(t => t.SetLit(false));
             ForEachTile(tile =>
             {
                 foreach (var ob in tile.objectList)
                 {
-                    if (ob.isAlwaysLit)
-                    {
-                        ob.SetLit(true);
-                    }
+                    //if (ob.isAlwaysLit)
+                    //{
+                    //    ob.SetLit(true, tile.isInView);
+                    //}
                     if (ob.illuminationRange != 0)
                     {
                         Vector2 center = new Vector2(tile.x + .5f, tile.y + .5f);
                         int numRays = 360;
                         float stepSize = Mathf.Min(tileWidth, tileHeight) * .9f;
+
+                        var area = new RectIntExclusive(
+                            (int)(tile.x - ob.illuminationRange / 2), 
+                            (int)(tile.y - ob.illuminationRange / 2),
+                            (int)(ob.illuminationRange), 
+                            (int)(ob.illuminationRange)
+                        ); 
+                        //ForEachTile(area, (t) => t.isDirty = false);
                         for (int r = 0; r < numRays; r++)
                         {
                             float dirX = Mathf.Sin(2 * Mathf.PI * r / numRays);
@@ -327,8 +384,11 @@
 
                                 int wrappedX = (int)WrapX(relative.x);
 
+                                //if (tileObjects[y][wrappedX].isDirty) continue;
+                                //tileObjects[y][wrappedX].isDirty = true;
+
                                 tileObjects[y][wrappedX].SetLit(true);
-                                if (tileObjects[y][wrappedX].DoesBlockLineOfSight())
+                                if (tileObjects[y][wrappedX].DoesBlockLineOfSight() && (y != tile.y || wrappedX != tile.x))
                                 {
                                     break;
                                 }

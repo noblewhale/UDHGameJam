@@ -27,6 +27,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4912559064308704}
   - {fileID: 8258544401685662472}
@@ -53,8 +54,7 @@ MonoBehaviour:
       m_Calls: []
   originalGlyphPosition: {x: 0, y: 0, z: 0}
   map: {fileID: 0}
-  x: 0
-  y: 0
+  position: {x: 0, y: 0}
   previousX: 0
   previousY: 0
   quantity: 1
@@ -62,7 +62,7 @@ MonoBehaviour:
   isAlwaysLit: 0
   canTakeDamage: 0
   isVisibleWhenNotInSight: 1
-  isWeilded: 0
+  pathingWeight: 0
   guiIcon: {fileID: 8258544401685662472}
   health: 1
   isCollidable: 0
@@ -100,6 +100,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0.7071068, w: 0.7071068}
   m_LocalPosition: {x: 0.245, y: 0.242, z: 0}
   m_LocalScale: {x: 1.0704577, y: 1.0704577, z: 1.0704572}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4912559064308704}
   m_RootOrder: 0
@@ -115,6 +116,7 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -168,6 +170,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tint: {r: 1, g: 1, b: 1, a: 1}
+  extraTint: {r: 1, g: 1, b: 1, a: 1}
   isLit: 0
 --- !u!1 &1785431551397464
 GameObject:
@@ -196,6 +199,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4832976842269562}
   m_Father: {fileID: 4342481504457860}
@@ -230,7 +234,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8258544401685662472
 Transform:
   m_ObjectHideFlags: 0
@@ -241,6 +245,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4998570175976174911}
   m_Father: {fileID: 4342481504457860}
@@ -274,6 +279,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8258544401685662472}
   m_RootOrder: 0

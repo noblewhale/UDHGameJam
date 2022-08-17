@@ -56,6 +56,7 @@ MonoBehaviour:
       m_Calls: []
   originalGlyphPosition: {x: 0, y: 0, z: 0}
   map: {fileID: 0}
+  position: {x: 0, y: 0}
   previousX: 0
   previousY: 0
   quantity: 1
@@ -520,7 +521,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1293381564622908169
 Transform:
   m_ObjectHideFlags: 0

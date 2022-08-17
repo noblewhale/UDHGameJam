@@ -4,6 +4,8 @@
 	using System.Collections;
     using UnityEngine;
 	using System.Linq;
+    using UnityEngine.InputSystem;
+    using UnityEngine.InputSystem.Controls;
 
     public class FireAOEBehaviour : TickableBehaviour
     {
@@ -38,18 +40,33 @@
 			CameraTarget.instance.thresholdY = 4;
 			AimOverlay.instance.gameObject.SetActive(true);
 
+			Map.instance.AddOutline(Player.instance.identity.x, Player.instance.identity.y, 2);
+
+			if (!Cursor.visible)
+			{
+				Vector3 warpedPos = PolarMapUtil.WarpPosition(Player.instance.identity.tile.transform.position + Vector3.one * .25f);
+				warpedPos *= (Vector2)MapRenderer.instance.transform.lossyScale;
+				warpedPos += MapRenderer.instance.transform.position;
+				Debug.Log(warpedPos);
+				Vector2 screenPos = Camera.main.WorldToScreenPoint(warpedPos);
+
+				Mouse.current.WarpCursorPosition(screenPos);
+
+				Cursor.visible = true;
+			}
+
 			HighlightTile.instance.GetComponent<DungeonObject>().glyphs.glyphs[0].tint = Color.red;
 			bool isDone = false;
 			while (!isDone)
 			{
-				while (!PlayerInput.instance.HasInput) yield return new WaitForEndOfFrame();
-				Command nextCommand = PlayerInput.instance.commandQueue.Peek();
+				while (!PlayerInputHandler.instance.HasInput) yield return new WaitForEndOfFrame();
+				Command nextCommand = PlayerInputHandler.instance.commandQueue.Peek();
 				HighlightTile.instance.Move(nextCommand);
-				if (nextCommand.key == KeyCode.Space || nextCommand.key == KeyCode.Mouse0)
+				if (nextCommand.key == Key.Space || nextCommand.mouseButton == Mouse.current.leftButton)
 				{
 					isDone = true;
 				}
-				PlayerInput.instance.commandQueue.Dequeue();
+				PlayerInputHandler.instance.commandQueue.Dequeue();
 				yield return new WaitForEndOfFrame();
 			}
 			HighlightTile.instance.GetComponent<DungeonObject>().glyphs.glyphs[0].tint = Color.white;
@@ -58,6 +75,8 @@
 			CameraTarget.instance.thresholdX = 0;
 			CameraTarget.instance.thresholdY = 0;
 			AimOverlay.instance.gameObject.SetActive(false);
+
+			Map.instance.RemoveOutline();
 
 			targetTile = HighlightTile.instance.tile;
 		}

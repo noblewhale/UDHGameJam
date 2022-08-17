@@ -2,6 +2,7 @@ namespace Noble.DungeonCrawler
 {
     using Noble.TileEngine;
     using UnityEngine;
+    using UnityEngine.InputSystem;
 
     public class HighlightTile : DungeonObject
     {
@@ -19,11 +20,22 @@ namespace Noble.DungeonCrawler
 
         void Update()
         {
-            if ((previousMousePos - Input.mousePosition).sqrMagnitude > 4 || oldCameraPosition != Player.instance.transform.position)
-            {
-                previousMousePos = Input.mousePosition;
+            //if (!Cursor.visible)
+            //{
+            //    glyphs.glyphs[0].gameObject.SetActive(false);
+            //    return;
+            //}
+            //if (!glyphs.glyphs[0].gameObject.activeSelf)
+            //{
+            //    glyphs.glyphs[0].gameObject.SetActive(true);
+            //}
 
-                Vector2 mousePosRelativeToMapRenderer = ((Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition) - (Vector2)Camera.main.transform.position) - (Vector2)MapRenderer.instance.transform.localPosition;
+            Vector3 mousePos = Mouse.current.position.ReadValue();
+            if ((previousMousePos - mousePos).sqrMagnitude > 4 || oldCameraPosition != PlayerCamera.instance.transform.position)
+            {
+                previousMousePos = mousePos;
+
+                Vector2 mousePosRelativeToMapRenderer = ((Vector2)Camera.main.ScreenToWorldPoint(mousePos) - (Vector2)Camera.main.transform.position) - (Vector2)MapRenderer.instance.transform.localPosition;
                 mousePosRelativeToMapRenderer /= MapRenderer.instance.transform.localScale;
                 float angle = Vector2.Angle(mousePosRelativeToMapRenderer, Vector2.up);
                 bool ignoreInput = false;
@@ -31,7 +43,7 @@ namespace Noble.DungeonCrawler
                 ignoreInput |= mousePosRelativeToMapRenderer.y > 0 && mousePosRelativeToMapRenderer.magnitude < .075f;
                 if (!ignoreInput)
                 {
-                    Vector2 relativeWorldPos = PolarMapUtil.GetPositionRelativeToMap(Input.mousePosition);
+                    Vector2 relativeWorldPos = PolarMapUtil.GetPositionRelativeToMap(mousePos);
                     Vector2 unwarpedPos;
                     bool success = PolarMapUtil.UnwarpPosition(relativeWorldPos, out unwarpedPos);
                     if (success)
@@ -41,7 +53,6 @@ namespace Noble.DungeonCrawler
                         {
                             if (tile == null || tileY != tile.y || tileX != tile.x)
                             {
-                                //Debug.Log("moving highlight: " + tileX + " " + tileY);
                                 tile?.RemoveObject(this);
                                 Map.instance.tileObjects[tileY][tileX].AddObject(this);
                             }
@@ -50,12 +61,11 @@ namespace Noble.DungeonCrawler
                     oldCameraPosition = PlayerCamera.instance.transform.position;
                 }
             }
-
         }
 
         public bool Move(Command command)
-        { 
-            KeyCode key = command.key;
+        {
+            Key key = command.key;
 
             int newTileX = tile.x;
             int newTileY = tile.y;
@@ -63,39 +73,39 @@ namespace Noble.DungeonCrawler
             bool doSomething = true;
             switch (key)
             {
-                case KeyCode.UpArrow:
-                case KeyCode.W:
-                case KeyCode.Keypad8:
+                case Key.UpArrow:
+                case Key.W:
+                case Key.Numpad8:
                     newTileY++;
                     break;
-                case KeyCode.DownArrow:
-                case KeyCode.S:
-                case KeyCode.Keypad2:
+                case Key.DownArrow:
+                case Key.S:
+                case Key.Numpad2:
                     newTileY--;
                     break;
-                case KeyCode.RightArrow:
-                case KeyCode.D:
-                case KeyCode.Keypad6:
+                case Key.RightArrow:
+                case Key.D:
+                case Key.Numpad6:
                     newTileX++;
                     break;
-                case KeyCode.LeftArrow:
-                case KeyCode.A:
-                case KeyCode.Keypad4:
+                case Key.LeftArrow:
+                case Key.A:
+                case Key.Numpad4:
                     newTileX--;
                     break;
-                case KeyCode.Keypad9:
+                case Key.Numpad9:
                     newTileY++;
                     newTileX++;
                     break;
-                case KeyCode.Keypad7:
+                case Key.Numpad7:
                     newTileY++;
                     newTileX--;
                     break;
-                case KeyCode.Keypad1:
+                case Key.Numpad1:
                     newTileY--;
                     newTileX--;
                     break;
-                case KeyCode.Keypad3:
+                case Key.Numpad3:
                     newTileY--;
                     newTileX++;
                     break;

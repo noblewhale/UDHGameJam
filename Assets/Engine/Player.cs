@@ -5,7 +5,7 @@
     public class Player : MonoBehaviour
     {
         public DungeonObject identity;
-        public PlayerInput playerInput;
+        public PlayerInputHandler playerInput;
 
         public static Player instance;
 

@@ -173,7 +173,7 @@
                 {
                     for (floodX = 0; floodX < map.width; floodX++)
                     {
-                        if (tiles[floodY][floodX] == TileType.FLOOR && !map.tileObjects[floodY][floodX].isFloodFilled)
+                        if (tiles[floodY][floodX] == TileType.FLOOR && !map.tileObjects[floodY][floodX].isDirty)
                         {
                             floorTileFound = true;
                             break;
@@ -204,11 +204,11 @@
             if (wrappedX < 0) wrappedX = map.width + wrappedX;
             else if (wrappedX >= map.width) wrappedX = wrappedX - map.width;
 
-            if (map.tileObjects[floodY][wrappedX].isFloodFilled) return;
+            if (map.tileObjects[floodY][wrappedX].isDirty) return;
 
             if (tiles[floodY][wrappedX] != TileType.WALL)
             {
-                map.tileObjects[floodY][wrappedX].isFloodFilled = true;
+                map.tileObjects[floodY][wrappedX].isDirty = true;
                 //map.tileObjects[floodY][wrappedX].objectList.First.Value.glyphs[0].color = Color.green;
             }
             else
@@ -236,7 +236,7 @@
             {
                 if (tiles[y][x] == TileType.FLOOR)
                 {
-                    if (!map.tileObjects[y][x].isFloodFilled)
+                    if (!map.tileObjects[y][x].isDirty)
                     {
                         switch (dir)
                         {

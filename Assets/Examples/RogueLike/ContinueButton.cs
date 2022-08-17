@@ -9,13 +9,13 @@ namespace Noble.DungeonCrawler
 
         public void Start()
         {
-            PlayerInput.instance.enabled = false;
+            PlayerInputHandler.instance.enabled = false;
         }
 
         public void Continue()
         {
             window.SetActive(false);
-            PlayerInput.instance.enabled = true;
+            PlayerInputHandler.instance.enabled = true;
         }
     }
 }

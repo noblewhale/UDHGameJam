@@ -1,7 +1,8 @@
-﻿using UnityEngine;
-
-namespace Noble.TileEngine
+﻿namespace Noble.TileEngine
 {
+    using UnityEngine;
+    using UnityEngine.InputSystem;
+
     public class PlayerTickable : Tickable
     {
 
@@ -10,7 +11,7 @@ namespace Noble.TileEngine
 
         override public TickableBehaviour DetermineBehaviour()
         {
-            Command command = PlayerInput.instance.commandQueue.Dequeue();
+            Command command = PlayerInputHandler.instance.commandQueue.Dequeue();
 
             ulong duration = 1;
 
@@ -20,10 +21,10 @@ namespace Noble.TileEngine
             bool doSomething = true;
             switch (command.key)
             {
-                case KeyCode.W: newTileY++; break;
-                case KeyCode.S: newTileY--; break;
-                case KeyCode.D: newTileX++; break;
-                case KeyCode.A: newTileX--; break;
+                case Key.W: newTileY++; break;
+                case Key.S: newTileY--; break;
+                case Key.D: newTileX++; break;
+                case Key.A: newTileX--; break;
                 default: doSomething = false; break;
             }
 

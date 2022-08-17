@@ -3,6 +3,8 @@
     using Noble.TileEngine;
     using System;
     using UnityEngine;
+    using UnityEngine.InputSystem;
+    using UnityEngine.InputSystem.Controls;
 
     internal class RoguePlayerTickable : Tickable
     {
@@ -12,9 +14,9 @@
 
         override public TickableBehaviour DetermineBehaviour()
         {
-            Command command = PlayerInput.instance.commandQueue.Dequeue();
+            Command command = PlayerInputHandler.instance.commandQueue.Dequeue();
 
-            if (command.key == KeyCode.F)
+            if (command.key == Key.F)
             {
                 return fireAOEBehaviour;
             }
@@ -31,9 +33,10 @@
 
             bool doSomething = true;
 
-            KeyCode key = command.key;
+            Key key = command.key;
+            var mouseButton = command.mouseButton;
 
-            if (key == KeyCode.Mouse0 || key == KeyCode.Mouse1)
+            if (mouseButton == Mouse.current.leftButton || mouseButton == Mouse.current.rightButton)
             {
                 Vector2 relativeWorldPos = PolarMapUtil.GetPositionRelativeToMap(command.target);
                 Vector2 unwarpedPos;
@@ -44,24 +47,24 @@
                     bool isInsideMap = PolarMapUtil.PositionToTile(unwarpedPos, out int tileX, out int tileY);
                     if (isInsideMap)
                     {
-                        int xDif = tileX - Player.instance.identity.x;
+                        int xDif = PolarMapUtil.GetCircleDifference(Player.instance.identity.x, tileX);
                         int yDif = tileY - Player.instance.identity.y;
                         if (Math.Abs(xDif) == Math.Abs(yDif))
                         {
-                            if (xDif > 0 && yDif > 0) key = KeyCode.Keypad9;
-                            else if (xDif > 0 && yDif < 0) key = KeyCode.Keypad3;
-                            else if (xDif < 0 && yDif < 0) key = KeyCode.Keypad1;
-                            else if (xDif < 0 && yDif > 0) key = KeyCode.Keypad7;
+                            if (xDif > 0 && yDif > 0) key = Key.Numpad9;
+                            else if (xDif > 0 && yDif < 0) key = Key.Numpad3;
+                            else if (xDif < 0 && yDif < 0) key = Key.Numpad1;
+                            else if (xDif < 0 && yDif > 0) key = Key.Numpad7;
                         }
                         else if (Math.Abs(xDif) > Math.Abs(yDif))
                         {
-                            if (xDif > 0) key = KeyCode.D;
-                            else key = KeyCode.A;
+                            if (xDif > 0) key = Key.D;
+                            else key = Key.A;
                         }
                         else // if (Math.Abs(xDif) < Math.Abs(yDif))
                         {
-                            if (yDif > 0) key = KeyCode.W;
-                            else key = KeyCode.S;
+                            if (yDif > 0) key = Key.W;
+                            else key = Key.S;
                         }
                     }
                 }
@@ -69,39 +72,39 @@
 
             switch (key)
             {
-                case KeyCode.UpArrow:
-                case KeyCode.W:
-                case KeyCode.Keypad8:
+                case Key.UpArrow:
+                case Key.W:
+                case Key.Numpad8:
                     newTileY++;
                     break;
-                case KeyCode.DownArrow:
-                case KeyCode.S:
-                case KeyCode.Keypad2:
+                case Key.DownArrow:
+                case Key.S:
+                case Key.Numpad2:
                     newTileY--;
                     break;
-                case KeyCode.RightArrow:
-                case KeyCode.D:
-                case KeyCode.Keypad6:
+                case Key.RightArrow:
+                case Key.D:
+                case Key.Numpad6:
                     newTileX++;
                     break;
-                case KeyCode.LeftArrow:
-                case KeyCode.A:
-                case KeyCode.Keypad4:
+                case Key.LeftArrow:
+                case Key.A:
+                case Key.Numpad4:
                     newTileX--;
                     break;
-                case KeyCode.Keypad9:
+                case Key.Numpad9:
                     newTileY++;
                     newTileX++;
                     break;
-                case KeyCode.Keypad7:
+                case Key.Numpad7:
                     newTileY++;
                     newTileX--;
                     break;
-                case KeyCode.Keypad1:
+                case Key.Numpad1:
                     newTileY--;
                     newTileX--;
                     break;
-                case KeyCode.Keypad3:
+                case Key.Numpad3:
                     newTileY--;
                     newTileX++;
                     break;

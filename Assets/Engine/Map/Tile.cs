@@ -9,7 +9,7 @@
         public int x;
         public int y;
         public Map map;
-        public bool isFloodFilled;
+        public bool isDirty;
         public float gapBetweenLayers = .1f;
 
         public bool isInView = false;
@@ -78,7 +78,7 @@
                 {
                     if (ob.glyphsOb)
                     {
-                        ob.SetInView(true);
+                        ob.SetInView(true, isLit);
                     }
                     if (ob.coversObjectsBeneath) break;
                 }
@@ -87,14 +87,15 @@
             {
                 foreach (var ob in objectList)
                 {
-                    ob.SetInView(false);
+                    ob.SetInView(false, isLit);
                 }
             }
         }
 
         public void SetLit(bool isLit)
         {
-            if (isAlwaysLit && isLit == false) return;
+            if (isAlwaysLit) isLit = true;
+            //if (isAlwaysLit && isLit == false) return;
 
             this.isLit = isLit;
             if (isLit)
@@ -103,7 +104,7 @@
                 {
                     if (ob.glyphsOb)
                     {
-                        ob.SetLit(true);
+                        ob.SetLit(true, isInView);
                     }
                     if (ob.coversObjectsBeneath) break;
                 }
@@ -112,7 +113,7 @@
             {
                 foreach (var ob in objectList)
                 {
-                    ob.SetLit(false);
+                    ob.SetLit(false, isInView);
                 }
             }
         }
@@ -131,18 +132,18 @@
             transform.localPosition = new Vector3(x * map.tileWidth, y * map.tileHeight, 0);
 
             int l = 0;
-            foreach (var ob in objectList)
+            foreach (var ob in objectList.Reverse())
             {
-                ob.transform.localPosition = new Vector3(ob.transform.localPosition.x, ob.transform.localPosition.y, l * gapBetweenLayers);
+                ob.transform.localPosition = new Vector3(ob.transform.localPosition.x, ob.transform.localPosition.y, -l * gapBetweenLayers);
                 l++;
             }
         }
 
-        public DungeonObject SpawnAndAddObject(DungeonObject dungeonObject, int quantity = 1)
+        public DungeonObject SpawnAndAddObject(DungeonObject dungeonObject, int quantity = 1, bool addToBottom = false)
         {
             var ob = Instantiate(dungeonObject).GetComponent<DungeonObject>();
             ob.quantity = quantity;
-            AddObject(ob);
+            AddObject(ob, false, addToBottom);
 
             return ob;
         }
@@ -161,13 +162,20 @@
             objectList.Clear();
         }
 
-        public void AddObject(DungeonObject ob, bool isMove = false)
+        public void AddObject(DungeonObject ob, bool isMove = false, bool addToBottom = false)
         {
             bool isFirstPlacement = ob.tile == null;
 
             ob.transform.parent = transform;
             ob.transform.localPosition = Vector3.zero;
-            objectList.AddFirst(ob);
+            if (addToBottom)
+            {
+                objectList.AddLast(ob);
+            }
+            else
+            {
+                objectList.AddFirst(ob);
+            }
             if (isMove)
             {
                 ob.Move(x, y);
@@ -179,6 +187,11 @@
             if (ob.preventsObjectSpawning)
             {
                 map.tilesThatAllowSpawn.Remove(this);
+            }
+
+            if (ob.illuminationRange != 0)
+            {
+                map.UpdateLighting();
             }
             SetInView(isInView);
             SetLit(isLit);
