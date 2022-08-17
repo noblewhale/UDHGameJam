@@ -139,6 +139,14 @@
             }
         }
 
+        public void UpdateLighting()
+        {
+            foreach (var ob in objectList)
+            {
+                ob.UpdateLighting();
+            }
+        }
+
         public DungeonObject SpawnAndAddObject(DungeonObject dungeonObject, int quantity = 1, bool addToBottom = false)
         {
             var ob = Instantiate(dungeonObject).GetComponent<DungeonObject>();
@@ -189,10 +197,8 @@
                 map.tilesThatAllowSpawn.Remove(this);
             }
 
-            if (ob.illuminationRange != 0)
-            {
-                map.UpdateLighting();
-            }
+            ob.UpdateLighting();
+
             SetInView(isInView);
             SetLit(isLit);
 

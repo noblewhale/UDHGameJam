@@ -92,6 +92,51 @@
             onSpawn?.Invoke();
         }
 
+        public void UpdateLighting()
+        {
+            if (illuminationRange == 0) return;
+
+            Vector2 center = new Vector2(x + .5f, y + .5f);
+            int numRays = 360;
+            float stepSize = Mathf.Min(map.tileWidth, map.tileHeight) * .9f;
+
+            var area = new RectIntExclusive(
+                (int)(x - illuminationRange / 2 - 1),
+                (int)(y - illuminationRange / 2 - 1),
+                (int)(illuminationRange + 3),
+                (int)(illuminationRange + 3)
+            );
+
+            map.ForEachTile(area, (t) => t.isDirty = false);
+            for (int r = 0; r < numRays; r++)
+            {
+                float dirX = Mathf.Sin(2 * Mathf.PI * r / numRays);
+                float dirY = Mathf.Cos(2 * Mathf.PI * r / numRays);
+                Vector2 direction = new Vector2(dirX, dirY);
+
+                for (int d = 1; d < illuminationRange / stepSize; d++)
+                {
+                    Vector2 relative = center + direction * d * stepSize;
+
+                    int y = (int)relative.y;
+                    if (y < 0 || y >= map.height) break;
+
+                    int wrappedX = (int)map.WrapX(relative.x);
+
+                    if (!map.tileObjects[y][wrappedX].isDirty)
+                    {
+                        map.tileObjects[y][wrappedX].isDirty = true;
+                        map.tileObjects[y][wrappedX].SetLit(true);
+                    }
+
+                    if (map.tileObjects[y][wrappedX].DoesBlockLineOfSight() && (y != tile.y || wrappedX != tile.x))
+                    {
+                        break;
+                    }
+                }
+            }
+        }
+
         public void SetInView(bool isInView, bool reveal)
         {
             if (isInView && reveal) hasBeenSeen = true;

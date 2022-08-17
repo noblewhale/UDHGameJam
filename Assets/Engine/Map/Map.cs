@@ -357,53 +357,13 @@
         public void UpdateLighting()
         {
             ForEachTile(t => t.SetLit(false));
-            ForEachTile(tile =>
-            {
-                foreach (var ob in tile.objectList)
-                {
-                    if (ob.illuminationRange != 0)
-                    {
-                        Vector2 center = new Vector2(tile.x + .5f, tile.y + .5f);
-                        int numRays = 360;
-                        float stepSize = Mathf.Min(tileWidth, tileHeight) * .9f;
+            ForEachTile(t => t.UpdateLighting());
+        }
 
-                        var area = new RectIntExclusive(
-                            (int)(tile.x - ob.illuminationRange / 2 - 1), 
-                            (int)(tile.y - ob.illuminationRange / 2 - 1),
-                            (int)(ob.illuminationRange + 3), 
-                            (int)(ob.illuminationRange + 3)
-                        );
-                        ForEachTile(area, (t) => t.isDirty = false);
-                        for (int r = 0; r < numRays; r++)
-                        {
-                            float dirX = Mathf.Sin(2 * Mathf.PI * r / numRays);
-                            float dirY = Mathf.Cos(2 * Mathf.PI * r / numRays);
-                            Vector2 direction = new Vector2(dirX, dirY);
-
-                            for (int d = 1; d < ob.illuminationRange / stepSize; d++)
-                            {
-                                Vector2 relative = center + direction * d * stepSize;
-
-                                int y = (int)relative.y;
-                                if (y < 0 || y >= height) break;
-
-                                int wrappedX = (int)WrapX(relative.x);
-
-                                if (!tileObjects[y][wrappedX].isDirty)
-                                {
-                                    tileObjects[y][wrappedX].isDirty = true;
-                                    tileObjects[y][wrappedX].SetLit(true);
-                                }
-
-                                if (tileObjects[y][wrappedX].DoesBlockLineOfSight() && (y != tile.y || wrappedX != tile.x))
-                                {
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                }
-            });
+        public void UpdateLighting(RectIntExclusive area)
+        {
+            ForEachTile(area, t => t.SetLit(false));
+            ForEachTile(area, t => t.UpdateLighting());
         }
 
         public void ForEachTileThatAllowsSpawn(Action<Tile> doThis, RectIntExclusive area)

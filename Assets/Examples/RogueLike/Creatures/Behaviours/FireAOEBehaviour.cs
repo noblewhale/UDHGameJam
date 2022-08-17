@@ -127,8 +127,6 @@
 			}
 			var fire = Instantiate(firePrefab);
 			targetTile.AddObject(fire.GetComponent<DungeonObject>());
-			Map.instance.UpdateLighting();
-			Map.instance.Reveal(Player.instance.identity.x, Player.instance.identity.y, Player.instance.identity.viewDistance);
 			
 			Destroy(fireballObject);
 		}
