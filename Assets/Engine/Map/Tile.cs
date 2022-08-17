@@ -25,6 +25,7 @@
             this.x = x;
             this.y = y;
             map.tilesThatAllowSpawn.Add(this);
+            transform.localPosition = new Vector3(x * map.tileWidth, y * map.tileHeight, 0);
 
             //SetInView(true);
         }
@@ -126,19 +127,6 @@
             }
         }
 
-        public void Update()
-        {
-            if (map == null) return;
-            transform.localPosition = new Vector3(x * map.tileWidth, y * map.tileHeight, 0);
-
-            int l = 0;
-            foreach (var ob in objectList.Reverse())
-            {
-                ob.transform.localPosition = new Vector3(ob.transform.localPosition.x, ob.transform.localPosition.y, -l * gapBetweenLayers);
-                l++;
-            }
-        }
-
         public void UpdateLighting()
         {
             foreach (var ob in objectList)
@@ -206,6 +194,21 @@
             {
                 ob.Spawn();
             }
+
+            UpdateObjectLayers();
+        }
+
+        public void UpdateObjectLayers()
+        { 
+            int l = 0;
+            var el = objectList.Last;
+            while (el != null)
+            {
+                var ob = el.Value;
+                ob.transform.localPosition = new Vector3(ob.transform.localPosition.x, ob.transform.localPosition.y, -l * gapBetweenLayers);
+                l++;
+                el = el.Previous;
+            }
         }
 
         public void RemoveObject(DungeonObject ob, bool destroyObject = false)
@@ -226,6 +229,13 @@
             }
             SetInView(isInView);
             SetLit(isLit);
+
+            if (ob.illuminationRange != 0)
+            {
+                map.UpdateLighting(ob.x, ob.y, ob.illuminationRange);
+            }
+
+            UpdateObjectLayers();
         }
 
         public void RemoveAllObjects()

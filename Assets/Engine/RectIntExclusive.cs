@@ -21,7 +21,7 @@
             set
             {
                 _xMax = value;
-                _width = _xMax - xMin + 1;
+                _width = _xMax - xMin;
             }
         }
 
@@ -34,7 +34,7 @@
             set
             {
                 _yMax = value;
-                _height = _yMax - yMin + 1;
+                _height = _yMax - yMin;
             }
         }
 
@@ -47,7 +47,7 @@
             set
             {
                 _width = value;
-                _xMax = xMin + _width - 1;
+                _xMax = xMin + _width;
             }
         }
 
@@ -60,7 +60,7 @@
             set
             {
                 _height = value;
-                _yMax = yMin + _height - 1;
+                _yMax = yMin + _height;
             }
         }
 
@@ -70,8 +70,8 @@
             yMin = y;
             _width = w;
             _height = h;
-            _xMax = xMin + _width - 1;
-            _yMax = yMin + _height - 1;
+            _xMax = xMin + _width;
+            _yMax = yMin + _height;
         }
 
         public void SetMinMax(int xMin, int xMax, int yMin, int yMax)
@@ -101,7 +101,7 @@
 
         public bool Contains(int x, int y)
         {
-            return x >= xMin && x <= xMax && y >= yMin && y <= yMax;
+            return x >= xMin && x < xMax && y >= yMin && y < yMax;
         }
 
         public override string ToString()

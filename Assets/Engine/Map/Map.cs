@@ -156,12 +156,12 @@
                 if (biome.minHeight == -1) biome.minHeight = height;
                 if (biome.maxHeight == -1) biome.maxHeight = height;
                 if (biome.minX == -1) biome.minX = width - 1;
-                if (biome.maxX == -1) biome.maxX = width - 1;
+                if (biome.maxX == -1) biome.maxX = width;
                 if (biome.minY == -1) biome.minY = height - 1;
-                if (biome.maxY == -1) biome.maxY = height - 1;
+                if (biome.maxY == -1) biome.maxY = height;
 
-                int biomeWidth = Random.Range(biome.minWidth, biome.maxWidth + 1);
-                int biomeHeight = Random.Range(biome.minHeight, biome.maxHeight + 1);
+                int biomeWidth = Random.Range(biome.minWidth, biome.maxWidth);
+                int biomeHeight = Random.Range(biome.minHeight, biome.maxHeight);
                 int biomeX = Random.Range(biome.minX, biome.maxX - biomeWidth + 1);
                 int biomeY = Random.Range(biome.minY, biome.maxY - biomeHeight + 1);
                 biome.area = new RectIntExclusive(biomeX, biomeY, biomeWidth, biomeHeight);
@@ -215,9 +215,9 @@
 
         public void ForEachTile(RectIntExclusive area, Action<Tile> action)
         {
-            for (int y = Math.Min(area.yMax, height - 1); y >= Math.Max(area.yMin, 0); y--)
+            for (int y = Math.Min(area.yMax - 1, height - 1); y >= Math.Max(area.yMin, 0); y--)
             {
-                for (int x = area.xMax; x >= area.xMin; x--)
+                for (int x = area.xMax - 1; x >= area.xMin; x--)
                 {
                     var tile = tileObjects[y][WrapX(x)];
                     action(tile);
@@ -366,6 +366,17 @@
             ForEachTile(area, t => t.UpdateLighting());
         }
 
+        public void UpdateLighting(int x, int y, float radius)
+        {
+            var area = new RectIntExclusive(
+                (int)(x - radius - 1), 
+                (int)(y - radius - 1), 
+                (int)(x + radius + 3), 
+                (int)(y + radius + 3)
+            );
+            UpdateLighting(area);
+        }
+
         public void ForEachTileThatAllowsSpawn(Action<Tile> doThis, RectIntExclusive area)
         {
             // If the area is larger than the total number of floor tiles it is more efficient to use the precomputed list
@@ -374,9 +385,9 @@
                 ForEachTileThatAllowsSpawn(doThis);
                 return;
             }
-            for (int y = area.yMax; y >= area.yMin; y--)
+            for (int y = area.yMax - 1; y >= area.yMin; y--)
             {
-                for (int x = area.xMax; x >= area.xMin; x--)
+                for (int x = area.xMax - 1; x >= area.xMin; x--)
                 {
                     var tile = tileObjects[y][x];
                     if (tile.AllowsSpawn())

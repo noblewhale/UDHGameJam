@@ -1,9 +1,11 @@
 ﻿namespace Noble.DungeonCrawler
 {
     using Noble.TileEngine;
+    using System;
     using System.Collections;
     using System.Collections.Generic;
     using UnityEngine;
+    using Random = UnityEngine.Random;
 
     [CreateAssetMenu]
     public class Level1Alt : Biome
@@ -221,32 +223,39 @@
                 int areaHeight = parent.area.height - 2;
                 int minWidth = Mathf.Max(1, areaWidth / 3);
                 int minHeight = Mathf.Max(1, areaHeight / 3);
-                int w = UnityEngine.Random.Range(minWidth, areaWidth);
-                int h = UnityEngine.Random.Range(minHeight, areaHeight);
-                int xMin = UnityEngine.Random.Range(parent.area.xMin + 1, parent.area.xMax - (w - 1));
-                int yMin = UnityEngine.Random.Range(parent.area.yMin + 1, parent.area.yMax - (h - 1));
+                int w = Random.Range(minWidth, areaWidth);
+                int h = Random.Range(minHeight, areaHeight);
+                int xMin = Random.Range(parent.area.xMin + 1, parent.area.xMax - w - 2);
+                int yMin = Random.Range(parent.area.yMin + 1, parent.area.yMax - h - 2);
                 var rect = new RectIntExclusive(xMin, yMin, w, h);
                 parent.room = rect;
 
-                for (int y = rect.yMin; y <= rect.yMax; y++)
+                try
                 {
-                    for (int x = rect.xMin; x <= rect.xMax; x++)
+                    for (int y = rect.yMin; y < rect.yMax; y++)
                     {
-                        tiles[y][x] = TileType.FLOOR;
+                        for (int x = rect.xMin; x < rect.xMax; x++)
+                        {
+                            tiles[y][x] = TileType.FLOOR;
+                        }
                     }
                 }
+                catch (Exception e)
+                {
+                    Debug.Log(e);
+                }
 
-                //var roomCreatures = Instantiate(scorpions);
-                //roomCreatures.area = rect;
-                //subBiomes.Add(roomCreatures);
+                var roomCreatures = Instantiate(scorpions);
+                roomCreatures.area = rect;
+                subBiomes.Add(roomCreatures);
 
                 var roomTraps = Instantiate(electricTraps);
                 roomTraps.area = new RectIntExclusive(rect.xMin + 1, rect.yMin + 1, rect.width - 2, rect.height - 2);
                 subBiomes.Add(roomTraps);
 
-                for (int y = rect.yMin - 1; y <= rect.yMax + 1; y++)
+                for (int y = rect.yMin - 1; y < rect.yMax + 1; y++)
                 {
-                    for (int x = rect.xMin - 1; x <= rect.xMax + 1; x++)
+                    for (int x = rect.xMin - 1; x < rect.xMax + 1; x++)
                     {
                         Map.instance.tileObjects[y][Map.instance.WrapX(x)].isAlwaysLit = true;
                         Map.instance.tileObjects[y][Map.instance.WrapX(x)].SetLit(true);
@@ -284,7 +293,7 @@
                         if (overlappingTiles.Count != 0)
                         {
                             // Pick a random x position within the overlapping area to add a connecting path
-                            int randomIndex = UnityEngine.Random.Range(0, overlappingTiles.Count);
+                            int randomIndex = Random.Range(0, overlappingTiles.Count);
                             int randomX = overlappingTiles[randomIndex].tileA.x;
                             pathArea = AddStraightConnectingPath(randomX, parent.left.area, parent.right.area, false);
                             if (animationDelay != 0)
@@ -294,8 +303,8 @@
                         }
                         else
                         {
-                            var bottomTileIndex = UnityEngine.Random.Range(0, topTilesInBottomSplit.Count);
-                            var topTileIndex = UnityEngine.Random.Range(0, bottomTilesInTopSplit.Count);
+                            var bottomTileIndex = Random.Range(0, topTilesInBottomSplit.Count);
+                            var topTileIndex = Random.Range(0, bottomTilesInTopSplit.Count);
                             var bottomTile = topTilesInBottomSplit[bottomTileIndex];
                             var topTile = bottomTilesInTopSplit[topTileIndex];
                             AddAngledPath(bottomTile, topTile, true);
@@ -336,8 +345,8 @@
                         }
                         else
                         {
-                            var leftTileIndex = UnityEngine.Random.Range(0, rightTilesInLeftSplit.Count);
-                            var rightTileIndex = UnityEngine.Random.Range(0, leftTilesInRightSplit.Count);
+                            var leftTileIndex = Random.Range(0, rightTilesInLeftSplit.Count);
+                            var rightTileIndex = Random.Range(0, leftTilesInRightSplit.Count);
                             var leftTile = rightTilesInLeftSplit[leftTileIndex];
                             var rightTile = leftTilesInRightSplit[rightTileIndex];
                             AddAngledPath(leftTile, rightTile, false);
@@ -539,9 +548,9 @@
         List<Vector2Int> GetTopFloorTiles(RectIntExclusive area)
         {
             List<Vector2Int> floorTiles = new List<Vector2Int>();
-            for (int x = area.xMin; x <= area.xMax; x++)
+            for (int x = area.xMin; x < area.xMax; x++)
             {
-                for (int y = area.yMax; y >= area.yMin; y--)
+                for (int y = area.yMax - 1; y >= area.yMin; y--)
                 {
                     if (tiles[y][x] == TileType.FLOOR)
                     {
@@ -560,9 +569,9 @@
         List<Vector2Int> GetBottomFloorTiles(RectIntExclusive area)
         {
             List<Vector2Int> floorTiles = new List<Vector2Int>();
-            for (int x = area.xMin; x <= area.xMax; x++)
+            for (int x = area.xMin; x < area.xMax; x++)
             {
-                for (int y = area.yMin; y <= area.yMax; y++)
+                for (int y = area.yMin; y < area.yMax; y++)
                 {
                     if (tiles[y][x] == TileType.FLOOR)
                     {
@@ -581,9 +590,9 @@
         List<Vector2Int> GetRightFloorTiles(RectIntExclusive area)
         {
             List<Vector2Int> floorTiles = new List<Vector2Int>();
-            for (int y = area.yMin; y <= area.yMax; y++)
+            for (int y = area.yMin; y < area.yMax; y++)
             {
-                for (int x = area.xMax; x >= area.xMin; x--)
+                for (int x = area.xMax - 1; x >= area.xMin; x--)
                 {
                     if (tiles[y][x] == TileType.FLOOR)
                     {
@@ -602,9 +611,9 @@
         List<Vector2Int> GetLeftFloorTiles(RectIntExclusive area)
         {
             List<Vector2Int> floorTiles = new List<Vector2Int>();
-            for (int y = area.yMin; y <= area.yMax; y++)
+            for (int y = area.yMin; y < area.yMax; y++)
             {
-                for (int x = area.xMin; x <= area.xMax; x++)
+                for (int x = area.xMin; x < area.xMax; x++)
                 {
                     if (tiles[y][x] == TileType.FLOOR)
                     {
@@ -622,7 +631,7 @@
 
         IEnumerator GenerateAreas(Node parent, float splitProbability)
         {
-            if (UnityEngine.Random.value > splitProbability) yield break;
+            if (Random.value > splitProbability) yield break;
 
             bool horizontalHasRoom = parent.area.width > (minBSPArea * 2);
             bool verticalHasRoom = parent.area.height > (minBSPArea * 2);
@@ -641,13 +650,13 @@
             {
                 if (parent.area.width > parent.area.height) splitHorizontal = true;
                 else if (parent.area.height > parent.area.width) splitHorizontal = false;
-                else if (UnityEngine.Random.value > .5f) splitHorizontal = false;
+                else if (Random.value > .5f) splitHorizontal = false;
                 else splitHorizontal = true;
             }
 
             if (splitHorizontal)
             {
-                int splitX = UnityEngine.Random.Range(parent.area.xMin + minBSPArea, parent.area.xMax - minBSPArea);
+                int splitX = Random.Range(parent.area.xMin + minBSPArea, parent.area.xMax - minBSPArea);
                 RectIntExclusive newArea = new RectIntExclusive();
                 newArea.xMin = parent.area.xMin;
                 newArea.xMax = splitX;
@@ -661,7 +670,7 @@
                 yield return Map.instance.StartCoroutine(GenerateAreas(child1, splitProbability * .8f));
 
                 newArea = new RectIntExclusive();
-                newArea.xMin = splitX + 1;
+                newArea.xMin = splitX;
                 newArea.xMax = parent.area.xMax;
                 newArea.yMin = parent.area.yMin;
                 newArea.yMax = parent.area.yMax;
@@ -674,7 +683,7 @@
             }
             else
             {
-                int splitY = UnityEngine.Random.Range(parent.area.yMin + minBSPArea, parent.area.yMax - minBSPArea);
+                int splitY = Random.Range(parent.area.yMin + minBSPArea, parent.area.yMax - minBSPArea);
                 RectIntExclusive newArea = new RectIntExclusive();
                 newArea.xMin = parent.area.xMin;
                 newArea.xMax = parent.area.xMax;
@@ -690,7 +699,7 @@
                 newArea = new RectIntExclusive();
                 newArea.xMin = parent.area.xMin;
                 newArea.xMax = parent.area.xMax;
-                newArea.yMin = splitY + 1;
+                newArea.yMin = splitY;
                 newArea.yMax = parent.area.yMax;
                 Node child2 = new Node();
                 child2.area = newArea;
@@ -704,9 +713,9 @@
         public void UpdateTiles(RectIntExclusive area)
         {
             var map = Map.instance;
-            for (int y = area.yMin; y <= area.yMax; y++)
+            for (int y = area.yMin; y < area.yMax; y++)
             {
-                for (int x = area.xMin; x <= area.xMax; x++)
+                for (int x = area.xMin; x < area.xMax; x++)
                 {
                     AddTileObjects(map, x, y);
                 }

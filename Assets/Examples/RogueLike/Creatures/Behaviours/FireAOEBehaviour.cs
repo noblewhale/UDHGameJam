@@ -47,7 +47,6 @@
 				Vector3 warpedPos = PolarMapUtil.WarpPosition(Player.instance.identity.tile.transform.position + Vector3.one * .25f);
 				warpedPos *= (Vector2)MapRenderer.instance.transform.lossyScale;
 				warpedPos += MapRenderer.instance.transform.position;
-				Debug.Log(warpedPos);
 				Vector2 screenPos = Camera.main.WorldToScreenPoint(warpedPos);
 
 				Mouse.current.WarpCursorPosition(screenPos);
