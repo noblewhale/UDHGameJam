@@ -346,7 +346,6 @@
 
         public void UpdateLighting()
         {
-            Debug.Log("Update lighting");
             ForEachTile(t => t.SetLit(false));
             ForEachTile(tile =>
             {

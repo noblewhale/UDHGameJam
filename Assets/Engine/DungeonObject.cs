@@ -115,6 +115,7 @@
         public void SetLit(bool isLit, bool reveal)
         {
             if (isLit && reveal) hasBeenSeen = true;
+            if (isAlwaysLit) isLit = true;
 
             if (glyphs) glyphs.SetLit(isLit);
             if (hasBeenSeen)
