@@ -1598,7 +1598,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   owner: {fileID: 119057286}
   rotationMaxSpeed: 0.015
-  movementMaxSpeed: 0.03
+  movementMaxSpeed: 0.035
   cameraOffset: 3.5
   rotation: 0
   camera: {fileID: 0}
@@ -2639,6 +2639,7 @@ MonoBehaviour:
     type: 3}
   biomeTypes:
   - {fileID: 11400000, guid: 708a604b36905574e819da5ba1f76891, type: 2}
+  - {fileID: 11400000, guid: c5f22687274f57c48a389e16806785b4, type: 2}
   biomes: []
   tilesThatAllowSpawn: []
   outlinePrefab: {fileID: -6944675546895815483, guid: 087227423c0cf7b4a85be69db76cf797,
