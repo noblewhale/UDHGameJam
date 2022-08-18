@@ -25,7 +25,7 @@
             Vector2 relativeToPlayerCamera = unwarpedPos - (Vector2)PlayerCamera.instance.camera.transform.position;
             float normalizedX = 1 - relativeToPlayerCamera.x / Map.instance.TotalWidth + .5f;
             float angle = normalizedX * Mathf.PI * 2;
-            angle -= MapRenderer.instance.material.GetFloat("_Rotation");
+            angle -= MapRenderer.instance.material.GetFloat("_Rotation") + Mathf.PI;
             float normalizedY = .5f + relativeToPlayerCamera.y / (PlayerCamera.instance.camera.orthographicSize * 2);
             float d = 1 - normalizedY;
             d = Mathf.Pow(d, 2 - 1/_SeaLevel);

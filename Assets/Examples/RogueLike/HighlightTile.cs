@@ -11,6 +11,7 @@ namespace Noble.DungeonCrawler
         public static HighlightTile instance;
 
         Vector3 oldCameraPosition;
+        public bool isKeyboardControlled;
 
         override protected void Awake()
         {
@@ -20,20 +21,21 @@ namespace Noble.DungeonCrawler
 
         void Update()
         {
-            //if (!Cursor.visible)
-            //{
-            //    glyphs.glyphs[0].gameObject.SetActive(false);
-            //    return;
-            //}
-            //if (!glyphs.glyphs[0].gameObject.activeSelf)
-            //{
-            //    glyphs.glyphs[0].gameObject.SetActive(true);
-            //}
+            if (!Cursor.visible && !isKeyboardControlled)
+            {
+                glyphs.glyphs[0].gameObject.SetActive(false);
+                return;
+            }
+            if (!glyphs.glyphs[0].gameObject.activeSelf)
+            {
+                glyphs.glyphs[0].gameObject.SetActive(true);
+            }
 
             Vector3 mousePos = Mouse.current.position.ReadValue();
-            if ((previousMousePos - mousePos).sqrMagnitude > 4 || oldCameraPosition != PlayerCamera.instance.transform.position)
+            if ((previousMousePos - mousePos).sqrMagnitude > 8 || (oldCameraPosition != PlayerCamera.instance.transform.position && Cursor.visible))
             {
                 previousMousePos = mousePos;
+                isKeyboardControlled = false;
 
                 Vector2 mousePosRelativeToMapRenderer = ((Vector2)Camera.main.ScreenToWorldPoint(mousePos) - (Vector2)Camera.main.transform.position) - (Vector2)MapRenderer.instance.transform.localPosition;
                 mousePosRelativeToMapRenderer /= MapRenderer.instance.transform.localScale;

@@ -227,7 +227,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 50
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 0
   alphaUsage: 1
@@ -255,9 +255,21 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 1
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -1543,7 +1555,7 @@ TextureImporter:
     secondaryTextures: []
     nameFileIdTable:
       shields_18: 21300036
-      shields_50: 21300100
+      shields_2: 21300004
       shields_33: 21300066
       shields_57: 21300114
       shields_24: 21300048
@@ -1573,8 +1585,8 @@ TextureImporter:
       shields_46: 21300092
       shields_41: 21300082
       shields_19: 21300038
-      shields_8: 21300016
       shields_56: 21300112
+      shields_8: 21300016
       shields_35: 21300070
       shields_43: 21300086
       shields_23: 21300046
@@ -1601,7 +1613,7 @@ TextureImporter:
       shields_34: 21300068
       shields_12: 21300024
       shields_40: 21300080
-      shields_2: 21300004
+      shields_50: 21300100
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

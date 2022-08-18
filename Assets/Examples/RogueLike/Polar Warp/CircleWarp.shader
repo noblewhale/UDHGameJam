@@ -51,6 +51,7 @@ Shader "Unlit/CircleWarp"
 
 			// The texture to warp
 			sampler2D _MainTex;
+			float4 _MainTex_TexelSize;
 			// The depth texture to use for outlines
 			sampler2D _Depth;
 			// The rotation to apply to the circular warp
@@ -189,11 +190,11 @@ Shader "Unlit/CircleWarp"
 				// Sample the left quarter
 				// This allows foreground objects to move off the left of the map but appear as if they are re-entering from the right
 				float2 wrappedUV = uv;
-				wrappedUV.x = (uv.x - .5f) / 2.0f;
+				wrappedUV.x = uv.x - .5f;
 				float4 leftColor = tex2D(_MainTex, wrappedUV);
 
 				// Sample the right quarter for similar reasons
-				wrappedUV.x = uv.x / 2.0f + MAX_X;
+				wrappedUV.x = uv.x + .5f;
 				float4 rightColor = tex2D(_MainTex, wrappedUV);
 
 				// If left of center, overlay the right quarter. If right of center, overlay the left quarter.
@@ -225,15 +226,25 @@ Shader "Unlit/CircleWarp"
 				float2 unwarpedUV = UnWarp(distance, angle);
 
 				// Transform the unwarped position to account for the extra wide camera
-				float2 squishedUV = unwarpedUV;
 				// The entire map exists between .25 and .75, the extra space will be used for wrapping
-				squishedUV.x = squishedUV.x / 2.0f + MIN_X;
+				float2 squishedUV = unwarpedUV;
+				squishedUV.x = (squishedUV.x / 2.0f + MIN_X);
+
+				// We need to ensure that the new texel coordinates do not end up outside the area on the texture taken up by the map
+				float epsilon = _MainTex_TexelSize.x;
+				bool leftEdge = squishedUV.x <= (.25 + epsilon);
+				bool rightEdge = squishedUV.x >= (.75 - epsilon);
+				squishedUV.x = (leftEdge) * (.25 + epsilon) + (!leftEdge) * squishedUV.x;
+				squishedUV.x = (rightEdge) * (.75 - epsilon) + (!rightEdge) * squishedUV.x;
+
+				// Make sure to always align with an actual texel
+				squishedUV.x = epsilon * (int)(squishedUV.x / epsilon);
 				
 				// Ok finally sample the texture
 				fixed4 totalColor = tex2D(_MainTex, squishedUV);
 
 				// Apply the wrapping (more texture samples)
-				totalColor = Wrap(unwarpedUV, totalColor);
+				totalColor = Wrap(squishedUV, totalColor);
 
 				// Apply a fade around the _InnerRadius
 				totalColor = lerp(_InnerColor, totalColor, min(1, pow((distance - _InnerRadius)/_InnerFadeSize, _InnerFadeExp)));

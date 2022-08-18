@@ -72,7 +72,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1088208281347038}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.25, y: 0.249, z: 0}
+  m_LocalPosition: {x: 0.5, y: 0.499, z: 0}
   m_LocalScale: {x: 1.51243, y: 1.51243, z: 1.51243}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -184,6 +184,7 @@ MonoBehaviour:
       m_Calls: []
   originalGlyphPosition: {x: 0, y: 0, z: 0}
   map: {fileID: 0}
+  position: {x: 0, y: 0}
   previousX: 0
   previousY: 0
   quantity: 1
@@ -191,7 +192,6 @@ MonoBehaviour:
   isAlwaysLit: 1
   canTakeDamage: 0
   isVisibleWhenNotInSight: 1
-  isWeilded: 0
   pathingWeight: 0
   guiIcon: {fileID: 0}
   health: 1
@@ -202,4 +202,4 @@ MonoBehaviour:
   hasBeenSeen: 1
   hasDoneDamageFlash: 0
   tile: {fileID: 0}
-  enableKeyboardControl: 0
+  isKeyboardControlled: 0

@@ -42,18 +42,26 @@
 
 			Map.instance.AddOutline(Player.instance.identity.x, Player.instance.identity.y, 2);
 
+			//if (!Cursor.visible)
+			//{
+			//	Vector3 warpedPos = PolarMapUtil.WarpPosition(Player.instance.identity.tile.transform.position + Vector3.one * .25f);
+			//	warpedPos *= (Vector2)MapRenderer.instance.transform.lossyScale;
+			//	warpedPos += MapRenderer.instance.transform.position;
+			//	Vector2 screenPos = Camera.main.WorldToScreenPoint(warpedPos);
+
+			//	Mouse.current.WarpCursorPosition(screenPos);
+
+			//	Cursor.visible = true;
+			//}
+
 			if (!Cursor.visible)
 			{
-				Vector3 warpedPos = PolarMapUtil.WarpPosition(Player.instance.identity.tile.transform.position + Vector3.one * .25f);
-				warpedPos *= (Vector2)MapRenderer.instance.transform.lossyScale;
-				warpedPos += MapRenderer.instance.transform.position;
-				Vector2 screenPos = Camera.main.WorldToScreenPoint(warpedPos);
-
-				Mouse.current.WarpCursorPosition(screenPos);
-
-				Cursor.visible = true;
+				HighlightTile.instance.tile?.RemoveObject(HighlightTile.instance);
+				Map.instance.tileObjects[Player.instance.identity.y][Player.instance.identity.x].AddObject(HighlightTile.instance);
 			}
 
+			HighlightTile.instance.GetComponent<DungeonObject>().glyphs.glyphs[0].gameObject.SetActive(true);
+			HighlightTile.instance.isKeyboardControlled = true;
 			HighlightTile.instance.GetComponent<DungeonObject>().glyphs.glyphs[0].tint = Color.red;
 			bool isDone = false;
 			while (!isDone)
@@ -69,6 +77,7 @@
 				yield return new WaitForEndOfFrame();
 			}
 			HighlightTile.instance.GetComponent<DungeonObject>().glyphs.glyphs[0].tint = Color.white;
+			HighlightTile.instance.isKeyboardControlled = false;
 
 			CameraTarget.instance.owner = Player.instance.identity;
 			CameraTarget.instance.thresholdX = 0;
@@ -112,7 +121,7 @@
 		{
 			Vector2 startPosition = identityCreature.leftHand.transform.position;
 			Vector2 endPosition = new Vector2(targetTile.transform.position.x + Map.instance.tileWidth/2, targetTile.transform.position.y + Map.instance.tileHeight/2);
-			float unitsPerSecond = 5;
+			float unitsPerSecond = 10;
 			float timeSinceAttackStart = Time.time - attackStartTime;
 			if ((endPosition - startPosition).magnitude > Map.instance.TotalWidth / 2)
             {

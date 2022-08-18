@@ -407,7 +407,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 50
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 0
   alphaUsage: 1
@@ -435,9 +435,21 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 1
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -3022,8 +3034,8 @@ TextureImporter:
       chests_50: 21300100
       chests_97: 21300194
       chests_81: 21300162
-      chests_106: 21300212
       chests_114: 21300228
+      chests_106: 21300212
       chests_56: 21300112
       chests_8: 21300016
       chests_27: 21300054
@@ -3034,22 +3046,22 @@ TextureImporter:
       chests_34: 21300068
       chests_113: 21300226
       chests_24: 21300048
-      chests_35: 21300070
       chests_103: 21300206
+      chests_107: 21300214
+      chests_112: 21300224
       chests_63: 21300126
       chests_46: 21300092
-      chests_10: 21300020
+      chests_35: 21300070
       chests_14: 21300028
       chests_79: 21300158
+      chests_10: 21300020
       chests_104: 21300208
       chests_21: 21300042
       chests_88: 21300176
       chests_66: 21300132
       chests_93: 21300186
-      chests_107: 21300214
       chests_70: 21300140
       chests_48: 21300096
-      chests_112: 21300224
       chests_51: 21300102
       chests_110: 21300220
       chests_61: 21300122
@@ -3062,12 +3074,12 @@ TextureImporter:
       chests_12: 21300024
       chests_32: 21300064
       chests_17: 21300034
-      chests_40: 21300080
-      chests_55: 21300110
       chests_99: 21300198
+      chests_55: 21300110
       chests_57: 21300114
       chests_71: 21300142
       chests_116: 21300232
+      chests_40: 21300080
       chests_37: 21300074
       chests_72: 21300144
       chests_87: 21300174

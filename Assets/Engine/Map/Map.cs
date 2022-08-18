@@ -66,7 +66,7 @@
 
         virtual public void Start()
         {
-            // Set the camera size so that the width is 3 times the map width so wrapping magic works.
+            // Set the camera size so that the width is 2 times the map width so wrapping magic works.
             warpedMapCamera.orthographicSize = (2 * TotalWidth / warpedMapCamera.aspect) / 2.0f;
             transform.position = new Vector3(-TotalWidth / 2.0f, -TotalHeight / 2.0f);
 
@@ -278,7 +278,7 @@
             ForEachTile(area, (t) => t.isDirty = false);
             Vector2 center = new Vector2(tileX + .5f, tileY + .5f);
             int numRays = 360;
-            float stepSize = Mathf.Min(tileWidth, tileHeight) * .9f;
+            float stepSize = .4f;
             for (int r = 0; r < numRays; r++)
             {
                 float dirX = Mathf.Sin(2 * Mathf.PI * r / numRays);

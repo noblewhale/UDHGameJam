@@ -16,8 +16,16 @@
             // The height controls the level of detail. Using the screen's height seems to give good results.
             int height = Screen.height;
 
-            // The 2.25 is a fudge to get the tiles looking squarish...the 3 is from the extra wide camera for wrapping magic
-            int width = (int)(height * 2.25f) * 2;
+            // We want tiles to be the most square in the middle
+            // So the spect ratio needs to be the same as the ratio of the height to the circumference (PI)
+            // The inner radius also needs to be accounted for
+            //float innerRadius = renderQuad.sharedMaterial.GetFloat("_InnerRadius");
+            //float aspect = Mathf.PI * (1 - innerRadius*2);
+            // That all goes out the window with the distance magic that happens though so instead we use a nice fudge number picked via experimentation
+            float aspect = 2.25f;
+            // Times 2 for wrapping magic
+            int width = (int)(height * aspect) * 2;
+            width = 4 * (width / 4);
             var renderTexture = new RenderTexture(width, height, 0, RenderTextureFormat.ARGB32);
             var depthTexture = new RenderTexture(width, height, 24, RenderTextureFormat.Depth);
             renderTexture.filterMode = FilterMode.Point;

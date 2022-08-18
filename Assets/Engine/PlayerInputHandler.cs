@@ -38,7 +38,7 @@
                 lastMouseMoveTime = Time.realtimeSinceStartup;
             }
 
-            if (Time.realtimeSinceStartup - lastMouseMoveTime > 1)
+            if (Time.realtimeSinceStartup - lastMouseMoveTime > 3)
             {
                 Cursor.visible = false;
             }

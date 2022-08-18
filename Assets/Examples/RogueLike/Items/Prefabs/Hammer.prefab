@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 312753589675583701}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.25, y: 0.1821, z: 0.5}
+  m_LocalPosition: {x: 0.669, y: 0.3351, z: 0.5}
   m_LocalScale: {x: 0.65, y: 1.6052395, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -239,6 +239,7 @@ MonoBehaviour:
       m_Calls: []
   originalGlyphPosition: {x: 0, y: 0, z: 0}
   map: {fileID: 0}
+  position: {x: 0, y: 0}
   previousX: 0
   previousY: 0
   quantity: 1
@@ -312,7 +313,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3196934914895267844}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.081, y: 0.29, z: 0}
+  m_LocalPosition: {x: 0.331, y: 0.53999996, z: 0}
   m_LocalScale: {x: -0.65, y: 0.65, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
