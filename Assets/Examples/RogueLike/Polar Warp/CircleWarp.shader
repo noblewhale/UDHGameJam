@@ -236,13 +236,12 @@ Shader "Unlit/CircleWarp"
 				bool rightEdge = squishedUV.x >= (.75 - epsilon);
 				squishedUV.x = (leftEdge) * (.25 + epsilon) + (!leftEdge) * squishedUV.x;
 				squishedUV.x = (rightEdge) * (.75 - epsilon) + (!rightEdge) * squishedUV.x;
-
-				// Make sure to always align with an actual texel
-				squishedUV.x = epsilon * (int)(squishedUV.x / epsilon);
 				
 				// Ok finally sample the texture
 				fixed4 totalColor = tex2D(_MainTex, squishedUV);
-
+				
+				//return totalColor;
+				
 				// Apply the wrapping (more texture samples)
 				totalColor = Wrap(squishedUV, totalColor);
 

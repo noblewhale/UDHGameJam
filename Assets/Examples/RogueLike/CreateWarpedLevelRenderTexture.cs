@@ -1,38 +1,77 @@
 ﻿namespace Noble.DungeonCrawler
 {
+    using Noble.TileEngine;
     using UnityEngine;
 
     public class CreateWarpedLevelRenderTexture : MonoBehaviour
     {
         public MeshRenderer renderQuad;
-        void Awake()
+        void Start()
         {
+            Vector2 pixelSize = new Vector2(Camera.main.orthographicSize * 2 * Camera.main.aspect / Screen.width, Camera.main.orthographicSize * 2 / Screen.height);
             var camera = GetComponent<Camera>();
             camera.depthTextureMode = DepthTextureMode.Depth;
 
-            // Attempt to calculate the optimum size for the render texture based on screen resolution
-            // and the properties of the warp effect that is used to render the map
+            // If the width is not exactly this value then you will not get pixel perfect rendering to the render texture
+            int width = (int)(Map.instance.TotalWidth * 128 * 2);
+            int height = (int)(width / 4.5f);
 
-            // The height controls the level of detail. Using the screen's height seems to give good results.
-            int height = Screen.height;
-
-            // We want tiles to be the most square in the middle
-            // So the spect ratio needs to be the same as the ratio of the height to the circumference (PI)
-            // The inner radius also needs to be accounted for
-            //float innerRadius = renderQuad.sharedMaterial.GetFloat("_InnerRadius");
-            //float aspect = Mathf.PI * (1 - innerRadius*2);
-            // That all goes out the window with the distance magic that happens though so instead we use a nice fudge number picked via experimentation
-            float aspect = 2.25f;
-            // Times 2 for wrapping magic
-            int width = (int)(height * aspect) * 2;
-            width = 4 * (width / 4);
-            var renderTexture = new RenderTexture(width, height, 0, RenderTextureFormat.ARGB32);
-            var depthTexture = new RenderTexture(width, height, 24, RenderTextureFormat.Depth);
+            var renderTexture = new RenderTexture(width, height, 0, RenderTextureFormat.ARGB32, 0);
             renderTexture.filterMode = FilterMode.Point;
+            renderTexture.useMipMap = false;
+            renderTexture.antiAliasing = 1;
+
+            var depthTexture = new RenderTexture(width, height, 24, RenderTextureFormat.Depth);
+
             camera.targetTexture = renderTexture;
             camera.SetTargetBuffers(renderTexture.colorBuffer, depthTexture.depthBuffer);
+
             renderQuad.sharedMaterial.mainTexture = renderTexture;
             renderQuad.sharedMaterial.SetTexture("_Depth", depthTexture);
+
+            // Set the camera size so that the width is 2 times the map width so wrapping magic works.
+            camera.orthographicSize = (2 * Map.instance.TotalWidth / camera.aspect) / 2.0f;
+
+            float maxWidth = Mathf.Min(Camera.main.orthographicSize * 2 * 1.525f, Camera.main.orthographicSize * 2 * Camera.main.aspect * .8f);
+            //float w = 2*camera.orthographicSize * 2 * camera.aspect / Mathf.PI;
+            //int i = 2;
+            //while (w > maxWidth)
+            //{
+            //    w = (2 * camera.orthographicSize * 2 * camera.aspect / Mathf.PI) / i;
+            //    i++;
+            //}
+            //maxWidth = w;
+            maxWidth = pixelSize.x * (int)(maxWidth / pixelSize.x);
+            MapRenderer.instance.transform.localScale = new Vector3(maxWidth, maxWidth, 1);
+
+            float x, y;
+            if (MapRenderer.instance.horizontal < 0)
+            {
+                x = -MapRenderer.instance.transform.localScale.x / 2 + Camera.main.orthographicSize * Camera.main.aspect + MapRenderer.instance.horizontal;
+            }
+            else
+            {
+                x = MapRenderer.instance.transform.localScale.x / 2 - Camera.main.orthographicSize * Camera.main.aspect + MapRenderer.instance.horizontal;
+            }
+            if (MapRenderer.instance.vertical < 0)
+            {
+                y = -MapRenderer.instance.transform.localScale.y / 2 + Camera.main.orthographicSize + MapRenderer.instance.vertical;
+            }
+            else
+            {
+                y = MapRenderer.instance.transform.localScale.y / 2 - Camera.main.orthographicSize + MapRenderer.instance.vertical;
+            }
+
+            Vector3 desiredLocation = new Vector3(x, y, MapRenderer.instance.transform.localPosition.z);
+            //Vector3 desiredLocation = new Vector3(-Camera.main.orthographicSize * Camera.main.aspect + MapRenderer.instance.transform.localScale.x / 2, -Camera.main.orthographicSize + MapRenderer.instance.transform.localScale.y / 2, MapRenderer.instance.transform.localPosition.z);
+
+            Vector2 bottomLeft = desiredLocation - MapRenderer.instance.transform.localScale / 2;
+            Debug.Log(pixelSize.x);
+            bottomLeft.x = pixelSize.x * (int)(bottomLeft.x / pixelSize.x);// + pixelSize.x / 2.0f;
+            bottomLeft.y = pixelSize.y * (int)(bottomLeft.y / pixelSize.y);// + pixelSize.y / 2.0f;
+            desiredLocation = bottomLeft + (Vector2)MapRenderer.instance.transform.localScale / 2;
+            desiredLocation.z = MapRenderer.instance.transform.localPosition.z;
+            MapRenderer.instance.transform.localPosition = desiredLocation;
         }
     }
 }

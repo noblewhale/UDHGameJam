@@ -18,11 +18,14 @@
 
         public static PlayerCamera instance;
 
+        Vector2 targetPos;
+
         void Start()
         {
             instance = this;
             camera = GetComponent<Camera>();
             Player.instance.identity.onSpawn += OnPlayerSpawned;
+            targetPos = camera.transform.position;
         }
 
         private void OnDestroy()
@@ -48,17 +51,25 @@
         public void SetY(float worldY, float maxSpeed)
         {
             cameraOffset = camera.orthographicSize - Map.instance.tileHeight * 5f;
-            Vector2 targetPos = new Vector2(camera.transform.position.x, worldY + cameraOffset);
-            targetPos = Vector2.MoveTowards(camera.transform.position, targetPos, maxSpeed * Time.deltaTime * 100);
-            Vector2 relativePos = targetPos - (Vector2)camera.transform.position;
+            Vector2 nextTargetPos = new Vector2(camera.transform.position.x, worldY + cameraOffset);
+            nextTargetPos = Vector2.MoveTowards(targetPos, nextTargetPos, maxSpeed * Time.deltaTime * 100);
+            Vector2 relativePos = nextTargetPos - targetPos;
 
             if (relativePos.magnitude > maxSpeed * Time.deltaTime * 100)
             {
                 relativePos = relativePos.normalized * maxSpeed * Time.deltaTime * 100;
             }
 
-            targetPos = camera.transform.position + (Vector3)relativePos;
-            camera.transform.position = new Vector3(targetPos.x, targetPos.y, camera.transform.position.z);
+            nextTargetPos = targetPos + relativePos;
+            float pixelY = nextTargetPos.y;
+            if (MapRenderer.instance.material.mainTexture)
+            {
+                float texelUnitSize = MapRenderer.instance.material.mainTexture.texelSize.y * camera.orthographicSize * 2;
+                //float texelUnitSize = (1.0f / Screen.height) * camera.orthographicSize * 2;
+                pixelY = texelUnitSize * Mathf.Round(nextTargetPos.y / texelUnitSize) + texelUnitSize / 2.0f;
+            }
+            targetPos = nextTargetPos;
+            camera.transform.position = new Vector3(nextTargetPos.x, pixelY, camera.transform.position.z);
         }
 
         public void SetRotation(int x, float maxSpeed)

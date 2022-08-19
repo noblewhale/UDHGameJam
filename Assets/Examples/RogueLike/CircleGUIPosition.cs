@@ -2,7 +2,7 @@
 {
     using UnityEngine;
 
-    [ExecuteInEditMode]
+    //[ExecuteInEditMode]
     public class CircleGUIPosition : MonoBehaviour
     {
         public float distance = 0;
@@ -19,8 +19,8 @@
             rect = GetComponent<RectTransform>();
             var parentRect = rect.parent.GetComponent<RectTransform>();
             center = new Vector2(0, 0);
-            center.x += (mapRenderer.transform.position.x / (Camera.main.orthographicSize * 2 * 2340 / 1080.0f)) * 2340;
-            center.y += (mapRenderer.transform.position.y / (Camera.main.orthographicSize * 2)) * 1080;
+            center.x += (mapRenderer.transform.localPosition.x / (Camera.main.orthographicSize * 2 * 2340 / 1080.0f)) * 2340;
+            center.y += (mapRenderer.transform.localPosition.y / (Camera.main.orthographicSize * 2)) * 1080;
             radius = (mapRenderer.transform.localScale.y / (Camera.main.orthographicSize * 2)) * 1080 / 2;
         }
 

@@ -66,8 +66,6 @@
 
         virtual public void Start()
         {
-            // Set the camera size so that the width is 2 times the map width so wrapping magic works.
-            warpedMapCamera.orthographicSize = (2 * TotalWidth / warpedMapCamera.aspect) / 2.0f;
             transform.position = new Vector3(-TotalWidth / 2.0f, -TotalHeight / 2.0f);
 
             ClearMap();
