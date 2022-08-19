@@ -135,16 +135,23 @@ Shader "Unlit/CircleWarp"
 				return isOutline;
 			}
 
-			// Get the angle between the up vector and the input
+			// Get the angle between the down vector and the input
 			float CalculateVectorAngle(float2 input, float distance)
 			{
 				// Normalize so we can get the angle
 				input /= distance;
-				// The angle between the up vector to the normalized direction vector
-				float angle = acos(dot(DOWN.xy, input));
+				
+				float dotProduct = dot(DOWN.xy, input);
+				// The dot product can sometimes become larger than 1 when the input vector is very close to the down vector.
+				// This would cause the angle to be NAN, leading to some rendering artifacts, so let's not let that happen.
+				dotProduct = min(dotProduct, 1);
+
+				// Yay the angle (almost)
+				float angle = acos(dotProduct);
+
 				// Depending on the z component of the cross product we may need to invert the angle
 				float3 check = cross(DOWN, float3(input.x, input.y, 0));
-				// Invert if necessary. Otherwise angle cycles twice between 0 and PI and only half the texture gets sampled and mirrored
+				// Invert if necessary. Otherwise angle would cycle twice between 0 and PI and only half the texture would get sampled and mirrored
 				angle = angle * (check.z >= 0) + (2 * PI - angle) * (check.z < 0);
 
 				// Apply rotation
