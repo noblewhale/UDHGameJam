@@ -6,7 +6,7 @@
     public class CreateWarpedLevelRenderTexture : MonoBehaviour
     {
         public Map map;
-        public MeshRenderer renderQuad;
+        public MapRenderer render;
         void Awake()
         {
             Vector2 pixelSize = new Vector2(Camera.main.orthographicSize * 2 * Camera.main.aspect / Screen.width, Camera.main.orthographicSize * 2 / Screen.height);
@@ -27,8 +27,8 @@
             camera.targetTexture = renderTexture;
             camera.SetTargetBuffers(renderTexture.colorBuffer, depthTexture.depthBuffer);
 
-            renderQuad.sharedMaterial.mainTexture = renderTexture;
-            renderQuad.sharedMaterial.SetTexture("_Depth", depthTexture);
+            render.warpMaterial.mainTexture = renderTexture;
+            render.warpMaterial.SetTexture("_Depth", depthTexture);
 
             // Set the camera size so that the width is 2 times the map width so wrapping magic works.
             camera.orthographicSize = (2 * map.TotalWidth / camera.aspect) / 2.0f;
@@ -64,12 +64,9 @@
             }
 
             Vector3 desiredLocation = new Vector3(x, y, MapRenderer.instance.transform.localPosition.z);
-            //Vector3 desiredLocation = new Vector3(-Camera.main.orthographicSize * Camera.main.aspect + MapRenderer.instance.transform.localScale.x / 2, -Camera.main.orthographicSize + MapRenderer.instance.transform.localScale.y / 2, MapRenderer.instance.transform.localPosition.z);
-
             Vector2 bottomLeft = desiredLocation - MapRenderer.instance.transform.localScale / 2;
-            Debug.Log(pixelSize.x);
-            bottomLeft.x = pixelSize.x * (int)(bottomLeft.x / pixelSize.x);// + pixelSize.x / 2.0f;
-            bottomLeft.y = pixelSize.y * (int)(bottomLeft.y / pixelSize.y);// + pixelSize.y / 2.0f;
+            bottomLeft.x = pixelSize.x * (int)(bottomLeft.x / pixelSize.x);
+            bottomLeft.y = pixelSize.y * (int)(bottomLeft.y / pixelSize.y);
             desiredLocation = bottomLeft + (Vector2)MapRenderer.instance.transform.localScale / 2;
             desiredLocation.z = MapRenderer.instance.transform.localPosition.z;
             MapRenderer.instance.transform.localPosition = desiredLocation;

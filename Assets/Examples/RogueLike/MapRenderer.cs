@@ -8,13 +8,12 @@
         public float horizontal;
 
         public static MapRenderer instance;
-        public Material material;
+        public Material warpMaterial;
 
         void Awake()
         {
             instance = this;
-            material = GetComponent<MeshRenderer>().sharedMaterial;
-
+            warpMaterial = GetComponent<MeshRenderer>().material;
         }
 
         private void Start()

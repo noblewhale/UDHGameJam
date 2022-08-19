@@ -1674,7 +1674,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   map: {fileID: 896254850}
-  renderQuad: {fileID: 190724726}
+  render: {fileID: 190724725}
 --- !u!1 &526986532 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1088208281347038, guid: 20e36c6b7abc41244852cdf24829cf3b,

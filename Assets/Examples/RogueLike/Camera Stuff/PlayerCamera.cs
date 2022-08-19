@@ -14,8 +14,6 @@
         public float rotation;
         new public Camera camera;
 
-        public Material polarWarpMaterial;
-
         public static PlayerCamera instance;
 
         Vector2 targetPos;
@@ -62,9 +60,9 @@
 
             nextTargetPos = targetPos + relativePos;
             float pixelY = nextTargetPos.y;
-            if (MapRenderer.instance.material.mainTexture)
+            if (MapRenderer.instance.warpMaterial.mainTexture)
             {
-                float texelUnitSize = MapRenderer.instance.material.mainTexture.texelSize.y * camera.orthographicSize * 2;
+                float texelUnitSize = MapRenderer.instance.warpMaterial.mainTexture.texelSize.y * camera.orthographicSize * 2;
                 //float texelUnitSize = (1.0f / Screen.height) * camera.orthographicSize * 2;
                 pixelY = texelUnitSize * Mathf.Round(nextTargetPos.y / texelUnitSize) + texelUnitSize / 2.0f;
             }
@@ -105,13 +103,13 @@
             else if (rotation > 2 * Mathf.PI) rotation = rotation - 2*Mathf.PI;
 
             // Finally set the rotation property on the shader, shifted by PI/2 because that's how the circle warp shader works
-            polarWarpMaterial.SetFloat("_Rotation", rotation);
+            MapRenderer.instance.warpMaterial.SetFloat("_Rotation", rotation);
         }
 
         public Vector2Int GetTilePosition()
         {
             Vector2Int pos = Vector2Int.zero;
-            float mapRotation = polarWarpMaterial.GetFloat("_Rotation");
+            float mapRotation = MapRenderer.instance.warpMaterial.GetFloat("_Rotation");
             float percentOfWidth = 1 - mapRotation / (2 * Mathf.PI);
             pos.x = (int)(percentOfWidth * Map.instance.width);
             pos.y = (int)((camera.transform.position.y - .25f - Map.instance.transform.position.y) / Map.instance.tileHeight);
