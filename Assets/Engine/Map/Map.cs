@@ -47,8 +47,6 @@
 
         public event Action OnMapLoaded;
         public event Action OnMapGenerationStarted;
-
-
         public event Action OnMapCleared;
 
         public float mapGenerationAnimationDelay = 0;
@@ -62,12 +60,11 @@
         virtual public void Awake()
         {
             instance = this;
+            transform.position = new Vector3(-TotalWidth / 2.0f, -TotalHeight / 2.0f);
         }
 
         virtual public void Start()
         {
-            transform.position = new Vector3(-TotalWidth / 2.0f, -TotalHeight / 2.0f);
-
             ClearMap();
             StartCoroutine(GenerateMap());
         }

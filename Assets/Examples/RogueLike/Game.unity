@@ -1673,6 +1673,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 575fa0ddeb4625b409fd446c73b603e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  map: {fileID: 896254850}
   renderQuad: {fileID: 190724726}
 --- !u!1 &526986532 stripped
 GameObject:

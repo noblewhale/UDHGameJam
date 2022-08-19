@@ -5,15 +5,16 @@
 
     public class CreateWarpedLevelRenderTexture : MonoBehaviour
     {
+        public Map map;
         public MeshRenderer renderQuad;
-        void Start()
+        void Awake()
         {
             Vector2 pixelSize = new Vector2(Camera.main.orthographicSize * 2 * Camera.main.aspect / Screen.width, Camera.main.orthographicSize * 2 / Screen.height);
             var camera = GetComponent<Camera>();
             camera.depthTextureMode = DepthTextureMode.Depth;
 
             // If the width is not exactly this value then you will not get pixel perfect rendering to the render texture
-            int width = (int)(Map.instance.TotalWidth * 128 * 2);
+            int width = (int)(map.TotalWidth * 128 * 2);
             int height = (int)(width / 4.5f);
 
             var renderTexture = new RenderTexture(width, height, 0, RenderTextureFormat.ARGB32, 0);
@@ -30,7 +31,7 @@
             renderQuad.sharedMaterial.SetTexture("_Depth", depthTexture);
 
             // Set the camera size so that the width is 2 times the map width so wrapping magic works.
-            camera.orthographicSize = (2 * Map.instance.TotalWidth / camera.aspect) / 2.0f;
+            camera.orthographicSize = (2 * map.TotalWidth / camera.aspect) / 2.0f;
 
             float maxWidth = Mathf.Min(Camera.main.orthographicSize * 2 * 1.525f, Camera.main.orthographicSize * 2 * Camera.main.aspect * .8f);
             //float w = 2*camera.orthographicSize * 2 * camera.aspect / Mathf.PI;
