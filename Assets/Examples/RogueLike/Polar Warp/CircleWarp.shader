@@ -78,7 +78,7 @@ Shader "Unlit/CircleWarp"
 			// Angles are calculated from this vector
 			static const float3 DOWN = float3(0, -1, 0);
 			// It's a PI
-			static const float PI = 3.14159f;
+			static const float PI = 3.1415926535897932384626433832795028841971693993751058209749445923078164062;
 			
 			// Just your standard vertex shader
 			v2f vert(appdata v)
@@ -232,6 +232,12 @@ Shader "Unlit/CircleWarp"
 				// Use angle and distance to get unwarped position
 				float2 unwarpedUV = UnWarp(distance, angle);
 
+				float circlePixelHeight = 1 / (11.5 * 8);
+				//unwarpedUV.y = circlePixelHeight * (int)(unwarpedUV.y / circlePixelHeight);
+
+				float circlePixelWidth = (2 * PI) / (26 * 8);// *(1 + (PI / 2) * circlePixelHeight * (int)(unwarpedUV.y / circlePixelHeight));
+				//angle = circlePixelWidth * (int)(angle / circlePixelWidth);
+
 				// Transform the unwarped position to account for the extra wide camera
 				// The entire map exists between .25 and .75, the extra space will be used for wrapping
 				float2 squishedUV = unwarpedUV;
@@ -251,6 +257,17 @@ Shader "Unlit/CircleWarp"
 				
 				// Apply the wrapping (more texture samples)
 				totalColor = Wrap(squishedUV, totalColor);
+
+				/*float gridThicknessX = .01 * unwarpedUV.y + .002;
+				float distanceFromGridLineX = angle % circlePixelWidth;
+				bool isGridLineX = distanceFromGridLineX < gridThicknessX&& distanceFromGridLineX > -gridThicknessX;
+				float4 gridColor = float4(0, 0, 0, 0);
+				if (isGridLineX) gridColor = float4(.25, .25, .25, .1);
+				float distanceFromGridLineY = unwarpedUV.y % circlePixelHeight;
+				bool isGridLineY = distanceFromGridLineY < .002f && distanceFromGridLineY > -.002f;
+				if (isGridLineY) gridColor = float4(.25, .25, .25, .1);
+				totalColor.rgb = totalColor.rgb * (1 - gridColor.a) + gridColor.rgb * gridColor.a;
+				totalColor.a += gridColor.a;*/
 
 				// Apply a fade around the _InnerRadius
 				totalColor = lerp(_InnerColor, totalColor, min(1, pow((distance - _InnerRadius)/_InnerFadeSize, _InnerFadeExp)));

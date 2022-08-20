@@ -14,15 +14,15 @@
             camera.depthTextureMode = DepthTextureMode.Depth;
 
             // If the width is not exactly this value then you will not get pixel perfect rendering to the render texture
-            int width = (int)(map.TotalWidth * 128 * 2);
-            int height = (int)(width / 4.5f);
+            int renderTextureWidth = (int)(map.TotalWidth * 128 * 2);
+            int renderTextureHeight = (int)(renderTextureWidth / 4.5f);
 
-            var renderTexture = new RenderTexture(width, height, 0, RenderTextureFormat.ARGB32, 0);
+            var renderTexture = new RenderTexture(renderTextureWidth, renderTextureHeight, 0, RenderTextureFormat.ARGB32, 0);
             renderTexture.filterMode = FilterMode.Point;
             renderTexture.useMipMap = false;
             renderTexture.antiAliasing = 1;
 
-            var depthTexture = new RenderTexture(width, height, 24, RenderTextureFormat.Depth);
+            var depthTexture = new RenderTexture(renderTextureWidth, renderTextureHeight, 24, RenderTextureFormat.Depth);
 
             camera.targetTexture = renderTexture;
             camera.SetTargetBuffers(renderTexture.colorBuffer, depthTexture.depthBuffer);
@@ -33,17 +33,21 @@
             // Set the camera size so that the width is 2 times the map width so wrapping magic works.
             camera.orthographicSize = (2 * map.TotalWidth / camera.aspect) / 2.0f;
 
-            float maxWidth = Mathf.Min(Camera.main.orthographicSize * 2 * 1.525f, Camera.main.orthographicSize * 2 * Camera.main.aspect * .8f);
-            //float w = 2*camera.orthographicSize * 2 * camera.aspect / Mathf.PI;
-            //int i = 2;
-            //while (w > maxWidth)
-            //{
-            //    w = (2 * camera.orthographicSize * 2 * camera.aspect / Mathf.PI) / i;
-            //    i++;
-            //}
-            //maxWidth = w;
-            maxWidth = pixelSize.x * (int)(maxWidth / pixelSize.x);
-            MapRenderer.instance.transform.localScale = new Vector3(maxWidth, maxWidth, 1);
+            float renderQuadHeight;
+            float renderQuadWidthMax = Mathf.Min(Camera.main.orthographicSize * 2 * 1.525f, Camera.main.orthographicSize * 2 * Camera.main.aspect * .8f);
+            float renderQuadWidthMin = Mathf.Min(Camera.main.orthographicSize * 2 * 1.45f, Camera.main.orthographicSize * 2 * Camera.main.aspect * .8f);
+            float w = 2 * camera.orthographicSize * 2 * camera.aspect / Mathf.PI;
+            int i = 2;
+            while (w > renderQuadWidthMax)
+            {
+                w = (2 * camera.orthographicSize * 2 * camera.aspect / Mathf.PI) / i;
+                i++;
+            }
+            float renderQuadWidth = Mathf.Max(w, renderQuadWidthMin);
+            //renderQuadWidth = (2 * camera.orthographicSize * 2 * camera.aspect / Mathf.PI) / (i - 2);
+            renderQuadWidth = pixelSize.x * (int)(renderQuadWidth / pixelSize.x);
+            renderQuadHeight = pixelSize.y * (int)(renderQuadWidth / pixelSize.y);
+            MapRenderer.instance.transform.localScale = new Vector3(renderQuadWidth, renderQuadHeight, 1);
 
             float x, y;
             if (MapRenderer.instance.horizontal < 0)
