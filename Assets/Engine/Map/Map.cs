@@ -311,7 +311,7 @@
             tileObjects[tileY][tileX].SetInView(true);
             Vector2 center = new Vector2(tileX + .5f, tileY + .5f);
             int numRays = 360;
-            float stepSize = Mathf.Min(tileWidth, tileHeight) * .9f;
+            float stepSize = .4f;
 
             var area = new RectIntExclusive(
                 (int)(tileX - radius - 1),

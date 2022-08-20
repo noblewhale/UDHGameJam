@@ -32,7 +32,7 @@ namespace Noble.DungeonCrawler
             }
 
             Vector3 mousePos = Mouse.current.position.ReadValue();
-            if ((previousMousePos - mousePos).sqrMagnitude > 8 || (oldCameraPosition != PlayerCamera.instance.transform.position && Cursor.visible))
+            if ((previousMousePos - mousePos).sqrMagnitude > -1 || (oldCameraPosition != PlayerCamera.instance.transform.position && Cursor.visible))
             {
                 previousMousePos = mousePos;
                 isKeyboardControlled = false;

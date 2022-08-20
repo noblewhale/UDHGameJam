@@ -17,7 +17,7 @@
 
         override public void StartAction()
 		{
-			owner.tickable.nextActionTime = identityCreature.ticksPerMove;
+			owner.tickable.nextActionTime = TimeManager.instance.Time + identityCreature.ticksPerMove;
 		}
 
 		override public void FinishSubAction(ulong time) 

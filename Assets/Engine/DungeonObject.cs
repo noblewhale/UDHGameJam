@@ -98,7 +98,7 @@
 
             Vector2 center = new Vector2(x + .5f, y + .5f);
             int numRays = 360;
-            float stepSize = Mathf.Min(map.tileWidth, map.tileHeight) * .9f;
+            float stepSize = .4f;
 
             var area = new RectIntExclusive(
                 (int)(x - illuminationRange / 2 - 1),

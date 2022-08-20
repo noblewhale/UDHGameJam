@@ -245,9 +245,9 @@
                     Debug.Log(e);
                 }
 
-                var roomCreatures = Instantiate(scorpions);
-                roomCreatures.area = rect;
-                subBiomes.Add(roomCreatures);
+                //var roomCreatures = Instantiate(scorpions);
+                //roomCreatures.area = rect;
+                //subBiomes.Add(roomCreatures);
 
                 var roomTraps = Instantiate(electricTraps);
                 roomTraps.area = new RectIntExclusive(rect.xMin + 1, rect.yMin + 1, rect.width - 2, rect.height - 2);

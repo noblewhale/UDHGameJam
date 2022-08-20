@@ -18,7 +18,7 @@ namespace Noble.TileEngine
 
 		override public void StartAction()
 		{
-			owner.tickable.nextActionTime = identityCreature.ticksPerAttack;
+			owner.tickable.nextActionTime = TimeManager.instance.Time + identityCreature.ticksPerAttack;
 			foreach (var dOb in targetTile.objectList)
 			{
 				if (dOb.isCollidable)

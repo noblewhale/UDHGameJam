@@ -144,7 +144,8 @@ Shader "Unlit/CircleWarp"
 				float dotProduct = dot(DOWN.xy, input);
 				// The dot product can sometimes become larger than 1 when the input vector is very close to the down vector.
 				// This would cause the angle to be NAN, leading to some rendering artifacts, so let's not let that happen.
-				dotProduct = min(dotProduct, 1);
+				// Also apparently there's some problem at -1 that creates a seam but adding this small arbitrary amount fixes it...
+				dotProduct = clamp(dotProduct, -1 + .0000001, 1);
 
 				// Yay the angle (almost)
 				float angle = acos(dotProduct);
@@ -194,6 +195,8 @@ Shader "Unlit/CircleWarp"
 			// Overlay either the left quarter or right quarter of the texture so achieve wrapping
 			float4 Wrap(float2 uv, fixed4 totalColor)
 			{
+				float epsilon = _MainTex_TexelSize.x;
+
 				// Sample the left quarter
 				// This allows foreground objects to move off the left of the map but appear as if they are re-entering from the right
 				float2 wrappedUV = uv;
@@ -201,7 +204,7 @@ Shader "Unlit/CircleWarp"
 				float4 leftColor = tex2D(_MainTex, wrappedUV);
 
 				// Sample the right quarter for similar reasons
-				wrappedUV.x = uv.x + .5f;
+				wrappedUV.x = uv.x + .5f;// -epsilon;
 				float4 rightColor = tex2D(_MainTex, wrappedUV);
 
 				// If left of center, overlay the right quarter. If right of center, overlay the left quarter.
