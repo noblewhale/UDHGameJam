@@ -13,7 +13,7 @@ Shader "Unlit/CircleWarp"
 		_SeaLevel("Sea Level", Float) = 5
 		_Rotation("Rotation", Float) = 0
 		_OutlineThickness("Outline Thickness", Vector) = (.0005, .004, 0, 0)
-		_OutlineColor("Outline Color", Color) = (1, 1, 1, 1)
+		[HDR]_OutlineColor("Outline Color", Color) = (1, 1, 1, 1)
 		_InnerRadius("Inner Radius", Float) = .1
 		_InnerFadeSize("Inner Fade Size", Float) = .25
 		_InnerFadeExp("Inner Fade Exponent", Float) = 4.0
@@ -277,11 +277,14 @@ Shader "Unlit/CircleWarp"
 				
 				// Use the depth buffer to determine if this is an outline pixel or not
 				bool isOutline = IsOutline(squishedUV);
+				float4 outlineColor = isOutline * _OutlineColor;
+				totalColor.rgb = totalColor.rgb * (1 - outlineColor.a) + outlineColor.rgb * outlineColor.a;
+				totalColor.a += outlineColor.a;
 
 				// Check if distance is within inner circle, if so use solid color instead of texture samples
 				bool isInsideInnerRadius = distance < _InnerRadius;
 
-				return isInsideInnerRadius * _InnerColor + !isInsideInnerRadius * (isOutline * _OutlineColor + !isOutline * totalColor);
+				return isInsideInnerRadius * _InnerColor + !isInsideInnerRadius * totalColor;
 			}
 			ENDCG
 		}

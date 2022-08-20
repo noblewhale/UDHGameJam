@@ -1,5 +1,6 @@
 ﻿namespace Noble.TileEngine
 {
+    using Noble.DungeonCrawler;
     using System;
     using System.Collections;
     using System.Collections.Generic;
@@ -208,7 +209,7 @@
             }
         }
 
-        public void ForEachTile(RectIntExclusive area, Action<Tile> action)
+        public void ForEachTileInArea(RectIntExclusive area, Action<Tile> action)
         {
             for (int y = Math.Min(area.yMax - 1, height - 1); y >= Math.Max(area.yMin, 0); y--)
             {
@@ -220,11 +221,33 @@
             }
         }
 
+        public void ForEachTileInPerimeter(RectIntExclusive area, Action<Tile> action)
+        {
+            Tile tile;
+            for (int x = area.xMax - 1; x >= area.xMin; x--)
+            {
+                tile = tileObjects[Math.Min(area.yMax - 1, height - 1)][WrapX(x)];
+                action(tile);
+            }
+            for (int y = Math.Min(area.yMax - 1, height - 1); y >= Math.Max(area.yMin, 0); y--)
+            {
+                tile = tileObjects[y][WrapX(area.xMin)];
+                action(tile);
+                tile = tileObjects[y][WrapX(area.xMax - 1)];
+                action(tile);
+            }
+            for (int x = area.xMax - 1; x >= area.xMin; x--)
+            {
+                tile = tileObjects[Math.Max(area.yMin, 0)][WrapX(x)];
+                action(tile);
+            }
+        }
+
         public List<Tile> GetTilesOfType(string type, RectIntExclusive area)
         {
             var tiles = new List<Tile>();
 
-            ForEachTile(area, (tile) =>
+            ForEachTileInArea(area, (tile) =>
             {
                 if (tile.ContainsObjectOfType(type))
                 {
@@ -264,37 +287,14 @@
 
         public void AddOutline(int tileX, int tileY, int radius)
         {
-            var area = new RectIntExclusive(
-               tileX - radius,
-               tileY - radius,
-               radius*2 + 1,
-               radius*2 + 1
-            );
-            ForEachTile(area, (t) => t.isDirty = false);
-            Vector2 center = new Vector2(tileX + .5f, tileY + .5f);
-            int numRays = 360;
-            float stepSize = .4f;
-            for (int r = 0; r < numRays; r++)
-            {
-                float dirX = Mathf.Sin(2 * Mathf.PI * r / numRays);
-                float dirY = Mathf.Cos(2 * Mathf.PI * r / numRays);
-                Vector2 direction = new Vector2(dirX, dirY);
-
-                for (int d = 1; d < radius / stepSize; d++)
+            ForEachTileInRadius(
+                tileX, tileY, 
+                radius,
+                (Tile t) =>
                 {
-                    Vector2 relative = center + direction * d * stepSize;
-
-                    int y = (int)relative.y;
-                    if (y < 0 || y >= height) break;
-
-                    int wrappedX = (int)WrapX(relative.x);
-
-                    if (tileObjects[y][wrappedX].isDirty) continue;
-                    tileObjects[y][wrappedX].isDirty = true;
-
-                    outlineObjects.Add(tileObjects[y][wrappedX].SpawnAndAddObject(outlinePrefab, 1, true));
+                    outlineObjects.Add(t.SpawnAndAddObject(outlinePrefab, 1, true));
                 }
-            }
+            );
         }
 
         public void RemoveOutline()
@@ -309,22 +309,48 @@
         public void Reveal(int tileX, int tileY, float radius)
         {
             tileObjects[tileY][tileX].SetInView(true);
-            Vector2 center = new Vector2(tileX + .5f, tileY + .5f);
-            int numRays = 360;
+
+            ForEachTileInRadius(
+                tileX, tileY, 
+                radius, 
+                (Tile t) =>
+                {
+                    tileObjects[t.y][t.x].SetInView(true);
+                },
+                (Tile t) => 
+                {
+                    return tileObjects[t.y][t.x].DoesBlockLineOfSight() && (t.y != tileY || t.x != tileX);
+                }
+            );
+        }
+
+        public List<Tile> GetTilesInRadius(int centerX, int centerY, float radius)
+        {
+            List<Tile> tiles = new List<Tile>();
+            ForEachTileInRadius(centerX, centerY, radius, t => tiles.Add(t));
+            return tiles;
+        }
+
+        public void ForEachTileInRadius(int centerX, int centerY, float radius, Action<Tile> action, Func<Tile, bool> stopCondition = null)
+        {
+            // Start from the center of the tile
+            Vector2 center = new Vector2(centerX + .5f, centerY + .5f);
+
             float stepSize = .4f;
 
             var area = new RectIntExclusive(
-                (int)(tileX - radius - 1),
-                (int)(tileY - radius - 1),
-                (int)(radius*2 + 3),
-                (int)(radius*2 + 3)
+                (int)(centerX - radius - 1),
+                (int)(centerY - radius - 1),
+                (int)(radius * 2 + 3),
+                (int)(radius * 2 + 3)
             );
-            ForEachTile(area, (t) => t.isDirty = false);
-            for (int r = 0; r < numRays; r++)
+            ForEachTileInArea(area, (t) => t.isDirty = false);
+            ForEachTileInArea(area, (t) =>
             {
-                float dirX = Mathf.Sin(2 * Mathf.PI * r / numRays);
-                float dirY = Mathf.Cos(2 * Mathf.PI * r / numRays);
+                float dirX = PolarMapUtil.GetCircleDifference(centerX, t.x + .5f);
+                float dirY = (t.y + .5f) - centerY;
                 Vector2 direction = new Vector2(dirX, dirY);
+                direction.Normalize();
 
                 for (int d = 1; d < radius / stepSize; d++)
                 {
@@ -338,15 +364,12 @@
                     if (!tileObjects[y][wrappedX].isDirty)
                     {
                         tileObjects[y][wrappedX].isDirty = true;
-                        tileObjects[y][wrappedX].SetInView(true);
+                        action(tileObjects[y][wrappedX]);
                     }
 
-                    if (tileObjects[y][wrappedX].DoesBlockLineOfSight() && (y != tileY || wrappedX != tileX))
-                    {
-                        break;
-                    }
+                    if (stopCondition != null && stopCondition(tileObjects[y][wrappedX])) break;
                 }
-            }
+            });
         }
 
         public void UpdateLighting()
@@ -357,8 +380,8 @@
 
         public void UpdateLighting(RectIntExclusive area)
         {
-            ForEachTile(area, t => t.SetLit(false));
-            ForEachTile(area, t => t.UpdateLighting());
+            ForEachTileInArea(area, t => t.SetLit(false));
+            ForEachTileInArea(area, t => t.UpdateLighting());
         }
 
         public void UpdateLighting(int x, int y, float radius)

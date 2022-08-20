@@ -1,6 +1,8 @@
 namespace Noble.DungeonCrawler
 {
     using Noble.TileEngine;
+    using System.Collections.Generic;
+    using System.Linq;
     using UnityEngine;
     using UnityEngine.InputSystem;
 
@@ -12,6 +14,8 @@ namespace Noble.DungeonCrawler
 
         Vector3 oldCameraPosition;
         public bool isKeyboardControlled;
+        //public List<Tile> allowedTiles = null;
+        public float limitRadius = 0;
 
         override protected void Awake()
         {
@@ -21,6 +25,13 @@ namespace Noble.DungeonCrawler
 
         void Update()
         {
+            Vector3 mousePos = Mouse.current.position.ReadValue();
+            if ((previousMousePos - mousePos).sqrMagnitude > 8)
+            {
+                isKeyboardControlled = false;
+                previousMousePos = mousePos;
+            }
+
             if (!Cursor.visible && !isKeyboardControlled)
             {
                 glyphs.glyphs[0].gameObject.SetActive(false);
@@ -31,10 +42,8 @@ namespace Noble.DungeonCrawler
                 glyphs.glyphs[0].gameObject.SetActive(true);
             }
 
-            Vector3 mousePos = Mouse.current.position.ReadValue();
-            if ((previousMousePos - mousePos).sqrMagnitude > -1 || (oldCameraPosition != PlayerCamera.instance.transform.position && Cursor.visible))
+            if (!isKeyboardControlled || (oldCameraPosition != PlayerCamera.instance.transform.position && Cursor.visible))
             {
-                previousMousePos = mousePos;
                 isKeyboardControlled = false;
 
                 Vector2 mousePosRelativeToMapRenderer = ((Vector2)Camera.main.ScreenToWorldPoint(mousePos) - (Vector2)Camera.main.transform.position) - (Vector2)MapRenderer.instance.transform.localPosition;
@@ -53,6 +62,17 @@ namespace Noble.DungeonCrawler
                         bool isInsideMap = PolarMapUtil.PositionToTile(unwarpedPos, out int tileX, out int tileY);
                         if (isInsideMap)
                         {
+                            if (limitRadius != 0)
+                            {
+                                Vector2 dir = new Vector2(PolarMapUtil.GetCircleDifference(Player.instance.identity.x, tileX), tileY - Player.instance.identity.y);
+                                float distance = dir.magnitude - .5f;
+                                if (distance > limitRadius)
+                                {
+                                    dir = dir.normalized * limitRadius;
+                                    tileX = map.WrapX((int)(Player.instance.identity.x + dir.x + .5f));
+                                    tileY = (int)(Player.instance.identity.y + dir.y + .5f);
+                                }
+                            }
                             if (tile == null || tileY != tile.y || tileX != tile.x)
                             {
                                 tile?.RemoveObject(this);
@@ -111,8 +131,8 @@ namespace Noble.DungeonCrawler
                     newTileY--;
                     newTileX++;
                     break;
-                default: 
-                    doSomething = false; 
+                default:
+                    doSomething = false;
                     break;
             }
 
@@ -120,10 +140,25 @@ namespace Noble.DungeonCrawler
 
             if (doSomething)
             {
+                if (limitRadius != 0)
+                {
+                    Vector2 dir = new Vector2(PolarMapUtil.GetCircleDifference(Player.instance.identity.x, newTileX), newTileY - Player.instance.identity.y);
+                    float distance = dir.magnitude - .5f;
+                    if (distance > limitRadius)
+                    {
+                        doSomething = false;
+                    }
+                }
+            }
+
+            if (doSomething)
+            {
                 if (newTileY >= 0 && newTileY < Map.instance.height)
                 {
+                    isKeyboardControlled = true;
                     tile?.RemoveObject(this);
                     Map.instance.tileObjects[newTileY][newTileX].AddObject(this);
+                    oldCameraPosition = PlayerCamera.instance.transform.position;
                 }
             }
 

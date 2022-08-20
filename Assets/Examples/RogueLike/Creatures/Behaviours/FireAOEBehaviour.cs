@@ -54,11 +54,13 @@
 			//	Cursor.visible = true;
 			//}
 
-			if (!Cursor.visible)
+			//if (!Cursor.visible)
 			{
 				HighlightTile.instance.tile?.RemoveObject(HighlightTile.instance);
 				Map.instance.tileObjects[Player.instance.identity.y][Player.instance.identity.x].AddObject(HighlightTile.instance);
 			}
+
+			HighlightTile.instance.limitRadius = 2;
 
 			HighlightTile.instance.GetComponent<DungeonObject>().glyphs.glyphs[0].gameObject.SetActive(true);
 			HighlightTile.instance.isKeyboardControlled = true;
@@ -78,6 +80,8 @@
 			}
 			HighlightTile.instance.GetComponent<DungeonObject>().glyphs.glyphs[0].tint = Color.white;
 			HighlightTile.instance.isKeyboardControlled = false;
+
+			HighlightTile.instance.limitRadius = 0;
 
 			CameraTarget.instance.owner = Player.instance.identity;
 			CameraTarget.instance.thresholdX = 0;
