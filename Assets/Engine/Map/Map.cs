@@ -372,7 +372,7 @@
         virtual public List<Tile> GetTilesInRadiusStraightLines(int centerX, int centerY, float radius, Func<Tile, bool> stopCondition = null)
         {
             var tilesInRadius = GetTilesInRadius(centerX, centerY, radius, stopCondition);
-            tilesInRadius.RemoveAll((t) => t.x != centerX && t.y != centerY && (t.x - centerX) != (t.y - centerY) && (t.x - centerX) != -(t.y - centerY));
+            tilesInRadius.RemoveAll((t) => t.x != centerX && t.y != centerY && GetXDifference(centerX, t.x) != (t.y - centerY) && GetXDifference(centerX, t.x) != -(t.y - centerY));
             return tilesInRadius;
         }
 
@@ -395,7 +395,6 @@
                 {
                     Vector2 direction = new Vector2(Mathf.Sin(r), Mathf.Cos(r));
 
-                    //Debug.DrawLine((Vector2)transform.position + center, (Vector2)transform.position + center + direction * radius, Color.magenta, 4);
                     tilesInArea.AddRange(GetTilesInRay(center, direction, radius, stopCondition));
                 }
             }
@@ -413,31 +412,6 @@
             }
         }
 
-        //virtual public void ForEachTileInRay(Vector2 start, Vector2 dir, float distance, Action<Tile> action, Func<Tile, bool> stopCondition = null)
-        //{
-        //    float stepSize = .4f;
-
-        //    for (int d = 1; d < distance / stepSize; d++)
-        //    {
-        //        Vector2 relative = start + dir * d * stepSize;
-
-        //        Debug.DrawLine((Vector2)transform.position + start, (Vector2)transform.position + relative, Color.magenta, 4);
-
-        //        int y = (int)relative.y;
-        //        if (y < 0 || y >= height) break;
-
-        //        var tile = GetTile(relative.x, y);
-
-        //        if (!tile.isDirty)
-        //        {
-        //            tile.isDirty = true;
-        //            action(tile);
-        //        }
-
-        //        if (stopCondition != null && stopCondition(tile)) break;
-        //    }
-        //}
-
         virtual public List<Tile> GetTilesInRay(Vector2 start, Vector2 dir, float distance, Func<Tile, bool> stopCondition = null)
         {
             List<Tile> tiles = new List<Tile>();
@@ -447,7 +421,7 @@
             {
                 Vector2 relative = start + dir * d * stepSize;
 
-                Debug.DrawLine((Vector2)transform.position + start, (Vector2)transform.position + relative, Color.magenta, 4);
+                //Debug.DrawLine((Vector2)transform.position + start, (Vector2)transform.position + relative, Color.magenta, 4);
 
                 int y = (int)relative.y;
                 if (y < 0 || y >= height) break;
