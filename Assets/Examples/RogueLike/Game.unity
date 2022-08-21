@@ -1840,7 +1840,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 575fa0ddeb4625b409fd446c73b603e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  map: {fileID: 0}
+  map: {fileID: 896254853}
   render: {fileID: 190724725}
 --- !u!1 &526986532 stripped
 GameObject:
@@ -2989,6 +2989,7 @@ MonoBehaviour:
     type: 3}
   biomeTypes:
   - {fileID: 11400000, guid: 708a604b36905574e819da5ba1f76891, type: 2}
+  - {fileID: 11400000, guid: c5f22687274f57c48a389e16806785b4, type: 2}
   biomes: []
   tilesThatAllowSpawn: []
   outlinePrefab: {fileID: -6944675546895815483, guid: 087227423c0cf7b4a85be69db76cf797,
@@ -8888,6 +8889,22 @@ MonoBehaviour:
   attackBehaviour: {fileID: 1296174626}
   moveBehaviour: {fileID: 1296174625}
   fireAOEBehaviour: {fileID: 1296174627}
+  iceRayBehaviour: {fileID: 1296174632}
+--- !u!114 &1296174632
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1296174613}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 306288af27795af408e5152239aafadf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fireballObjectPrefab: {fileID: 1511826856884192, guid: 4df3d242e568055468042aa8164b5b2f,
+    type: 3}
+  firePrefab: {fileID: 1511826856884192, guid: cce84be517f5a80408651f08be066ca1, type: 3}
 --- !u!1 &1345861964
 GameObject:
   m_ObjectHideFlags: 0

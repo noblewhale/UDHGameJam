@@ -49,7 +49,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectName: Key
   viewDistance: 4
-  illuminationRange: 1
+  illuminationRange: 0
   OnSteppedOn:
     m_PersistentCalls:
       m_Calls:

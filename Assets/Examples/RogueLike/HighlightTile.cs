@@ -14,7 +14,7 @@ namespace Noble.DungeonCrawler
 
         Vector3 oldCameraPosition;
         public bool isKeyboardControlled;
-        public float limitRadius = 0;
+        public List<Tile> allowedTiles = null;
 
         override protected void Awake()
         {
@@ -61,15 +61,25 @@ namespace Noble.DungeonCrawler
                         bool isInsideMap = PolarMapUtil.PositionToTile(unwarpedPos, out int tileX, out int tileY);
                         if (isInsideMap)
                         {
-                            if (limitRadius != 0)
+                            if (allowedTiles != null && allowedTiles.Count > 0)
                             {
-                                Vector2 dir = new Vector2(Map.instance.GetXDifference(Player.instance.identity.x, tileX), tileY - Player.instance.identity.y);
-                                float distance = dir.magnitude - .5f;
-                                if (distance > limitRadius)
+                                if (!allowedTiles.Contains(Map.instance.GetTile(tileX, tileY)))
                                 {
-                                    dir = dir.normalized * limitRadius;
-                                    tileX = map.GetXPositionOnMap((int)(Player.instance.identity.x + dir.x + .5f));
-                                    tileY = (int)(Player.instance.identity.y + dir.y + .5f);
+                                    float minDistance = float.MaxValue;
+                                    Tile closestTile = null;
+                                    foreach (Tile allowedTile in allowedTiles)
+                                    {
+                                        Vector2Int difference = Map.instance.GetDifference(new Vector2Int(tileX, tileY), new Vector2Int(allowedTile.x, allowedTile.y));
+                                        float distance = difference.magnitude;
+                                        if (distance < minDistance)
+                                        {
+                                            minDistance = distance;
+                                            closestTile = allowedTile;
+                                        }
+                                    }
+
+                                    tileX = closestTile.x;
+                                    tileY = closestTile.y;
                                 }
                             }
                             if (tile == null || tileY != tile.y || tileX != tile.x)
@@ -139,11 +149,9 @@ namespace Noble.DungeonCrawler
 
             if (doSomething)
             {
-                if (limitRadius != 0)
+                if (allowedTiles != null && allowedTiles.Count > 0)
                 {
-                    Vector2 dir = new Vector2(Map.instance.GetXDifference(Player.instance.identity.x, newTileX), newTileY - Player.instance.identity.y);
-                    float distance = dir.magnitude - .5f;
-                    if (distance > limitRadius)
+                    if (!allowedTiles.Contains(Map.instance.GetTile(newTileX, newTileY)))
                     {
                         doSomething = false;
                     }

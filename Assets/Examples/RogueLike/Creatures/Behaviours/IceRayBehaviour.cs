@@ -6,8 +6,10 @@
 	using System.Linq;
     using UnityEngine.InputSystem;
     using UnityEngine.InputSystem.Controls;
+    using System;
+    using System.Collections.Generic;
 
-    public class FireAOEBehaviour : TickableBehaviour
+    public class IceRayBehaviour : TickableBehaviour
     {
 		Tile targetTile;
 		Creature identityCreature;
@@ -16,7 +18,8 @@
 		public GameObject firePrefab;
 		GameObject fireballObject;
 		float attackStartTime = 0;
-		public float radius = 2;
+
+		public float radius = 3;
 
         override public void Awake()
         {
@@ -41,7 +44,7 @@
 			CameraTarget.instance.thresholdY = 4;
 			AimOverlay.instance.gameObject.SetActive(true);
 
-			var allowedTiles = Map.instance.GetTilesInRadius(
+			var allowedTiles = Map.instance.GetTilesInRadiusStraightLines(
 				Player.instance.identity.x, Player.instance.identity.y,
 				radius
 			);
@@ -87,30 +90,6 @@
 		override public void StartSubAction(ulong time) 
 		{
 			attackStartTime = Time.time;
-
-			float dirX = Map.instance.GetXDifference(owner.x, targetTile.x);
-			float dirY = targetTile.y - owner.y;
-			Vector2 direction = new Vector2(dirX, dirY);
-			float distance = direction.magnitude;
-			direction.Normalize();
-
-			float stepSize = Mathf.Min(Map.instance.tileWidth, Map.instance.tileHeight) * .9f;
-			Vector2 center = new Vector2(owner.x + .5f, owner.y + .5f);
-			for (int d = 1; d < distance / stepSize; d++)
-			{
-				Vector2 relative = center + direction * d * stepSize;
-
-				int y = (int)relative.y;
-				if (y < 0 || y >= Map.instance.height) break;
-
-				int wrappedX = (int)Map.instance.GetXPositionOnMap(relative.x);
-
-				if (Map.instance.tileObjects[y][wrappedX].IsCollidable() && (y != owner.y || wrappedX != owner.x))
-                {
-					targetTile = Map.instance.tileObjects[y][wrappedX];
-					break;
-                }
-			}
 		}
 		override public bool ContinueSubAction(ulong time) 
 		{
@@ -144,17 +123,42 @@
 		}
 		override public void FinishSubAction(ulong time)
 		{
-			if (targetTile && targetTile.objectList != null)
+			float dirX = Map.instance.GetXDifference(owner.x, targetTile.x);
+			float dirY = targetTile.y - owner.y;
+			Vector2 direction = new Vector2(dirX, dirY);
+			float distance = direction.magnitude;
+			direction.Normalize();
+			var area = new RectIntExclusive();
+			area.SetMinMax(Math.Min(owner.x, targetTile.x), Math.Max(owner.x, targetTile.x) + 1, Math.Min(owner.y, targetTile.y), Math.Max(owner.y, targetTile.y) + 1);
+
+			var tilesInRay = new List<Tile>();
+			lock (Map.instance.isDirtyLock)
 			{
-				DungeonObject targetObject = targetTile.objectList.FirstOrDefault(ob => ob.isCollidable);
-				if (targetObject)
-				{
-					targetObject.TakeDamage(10);
-				}
+				Map.instance.ForEachTile((t) => t.isDirty = false);
+				tilesInRay = Map.instance.GetTilesInRay(
+					new Vector2(owner.x + .5f, owner.y + .5f),
+					direction,
+					distance
+				);
 			}
-			var fire = Instantiate(firePrefab);
-			targetTile.AddObject(fire.GetComponent<DungeonObject>());
-			
+
+			foreach (Tile t in tilesInRay)
+			{
+				if (t == owner.tile) continue;
+
+				if (t.objectList != null)
+				{
+					DungeonObject targetObject = t.objectList.FirstOrDefault(ob => ob.isCollidable);
+					if (targetObject)
+					{
+						targetObject.TakeDamage(10);
+					}
+				}
+
+				var fire = Instantiate(firePrefab);
+				t.AddObject(fire.GetComponent<DungeonObject>());
+			}
+
 			Destroy(fireballObject);
 		}
 	}

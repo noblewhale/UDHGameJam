@@ -11,6 +11,7 @@
         public AttackBehaviour attackBehaviour;
         public MoveBehaviour moveBehaviour;
         public FireAOEBehaviour fireAOEBehaviour;
+        public IceRayBehaviour iceRayBehaviour;
 
         override public TickableBehaviour DetermineBehaviour()
         {
@@ -18,7 +19,8 @@
 
             if (command.key == Key.F)
             {
-                return fireAOEBehaviour;
+                //return fireAOEBehaviour;
+                return iceRayBehaviour;
             }
             else
             {

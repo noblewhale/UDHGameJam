@@ -26,6 +26,8 @@
         public float tileWidth = 1;
         public float tileHeight = 1;
 
+        public object isDirtyLock = new object();
+
         public float TotalWidth
         {
             get
@@ -320,16 +322,14 @@
             tileObjects[newY][newX].AddObject(ob, true);
         }
 
-        virtual public void AddOutline(int tileX, int tileY, int radius)
+        virtual public void AddOutline(List<Tile> tiles)
         {
-            ForEachTileInRadius(
-                tileX, tileY, 
-                radius,
-                (Tile t) =>
-                {
-                    outlineObjects.Add(t.SpawnAndAddObject(outlinePrefab, 1, true));
-                }
-            );
+            foreach (Tile tile in tiles) AddOutline(tile);
+        }
+
+        virtual public void AddOutline(Tile tile)
+        {
+            outlineObjects.Add(tile.SpawnAndAddObject(outlinePrefab, 1, true));
         }
 
         virtual public void RemoveOutline()
@@ -359,14 +359,24 @@
             );
         }
 
-        virtual public List<Tile> GetTilesInRadius(int centerX, int centerY, float radius)
+        virtual public void ForEachTileInRadius(int centerX, int centerY, float radius, Action<Tile> action, Func<Tile, bool> stopCondition = null)
         {
-            List<Tile> tiles = new List<Tile>();
-            ForEachTileInRadius(centerX, centerY, radius, t => tiles.Add(t));
-            return tiles;
+            var tilesInRadius = GetTilesInRadius(centerX, centerY, radius, stopCondition);
+
+            foreach(Tile tile in tilesInRadius)
+            {
+                action(tile);
+            }
         }
 
-        virtual public void ForEachTileInRadius(int centerX, int centerY, float radius, Action<Tile> action, Func<Tile, bool> stopCondition = null)
+        virtual public List<Tile> GetTilesInRadiusStraightLines(int centerX, int centerY, float radius, Func<Tile, bool> stopCondition = null)
+        {
+            var tilesInRadius = GetTilesInRadius(centerX, centerY, radius, stopCondition);
+            tilesInRadius.RemoveAll((t) => t.x != centerX && t.y != centerY && (t.x - centerX) != (t.y - centerY) && (t.x - centerX) != -(t.y - centerY));
+            return tilesInRadius;
+        }
+
+        virtual public List<Tile> GetTilesInRadius(int centerX, int centerY, float radius, Func<Tile, bool> stopCondition = null)
         {
             // Start from the center of the tile
             Vector2 center = new Vector2(centerX + .5f, centerY + .5f);
@@ -377,15 +387,83 @@
                 (int)(radius * 2 + 3),
                 (int)(radius * 2 + 3)
             );
-            ForEachTileInArea(area, (t) => t.isDirty = false);
-
-            for (float r = 0; r < Mathf.PI * 2; r += 2 * Mathf.PI / 360)
+            List<Tile> tilesInArea = new List<Tile>();
+            lock (isDirtyLock)
             {
-                Vector2 direction = new Vector2(Mathf.Sin(r), Mathf.Cos(r));
+                ForEachTileInArea(area, (t) => t.isDirty = false);
+                for (float r = 0; r < Mathf.PI * 2; r += 2 * Mathf.PI / 360)
+                {
+                    Vector2 direction = new Vector2(Mathf.Sin(r), Mathf.Cos(r));
 
-                //Debug.DrawLine((Vector2)transform.position + center, (Vector2)transform.position + center + direction * radius, Color.magenta, 4);
-                ForEachTileInRay(center, direction, radius, action, stopCondition);
+                    //Debug.DrawLine((Vector2)transform.position + center, (Vector2)transform.position + center + direction * radius, Color.magenta, 4);
+                    tilesInArea.AddRange(GetTilesInRay(center, direction, radius, stopCondition));
+                }
             }
+
+            return tilesInArea;
+        }
+
+        virtual public void ForEachTileInRay(Vector2 start, Vector2 dir, float distance, Action<Tile> action, Func<Tile, bool> stopCondition = null)
+        {
+            var tilesInRay = GetTilesInRay(start, dir, distance, stopCondition);
+
+            foreach (Tile tile in tilesInRay)
+            {
+                action(tile);
+            }
+        }
+
+        //virtual public void ForEachTileInRay(Vector2 start, Vector2 dir, float distance, Action<Tile> action, Func<Tile, bool> stopCondition = null)
+        //{
+        //    float stepSize = .4f;
+
+        //    for (int d = 1; d < distance / stepSize; d++)
+        //    {
+        //        Vector2 relative = start + dir * d * stepSize;
+
+        //        Debug.DrawLine((Vector2)transform.position + start, (Vector2)transform.position + relative, Color.magenta, 4);
+
+        //        int y = (int)relative.y;
+        //        if (y < 0 || y >= height) break;
+
+        //        var tile = GetTile(relative.x, y);
+
+        //        if (!tile.isDirty)
+        //        {
+        //            tile.isDirty = true;
+        //            action(tile);
+        //        }
+
+        //        if (stopCondition != null && stopCondition(tile)) break;
+        //    }
+        //}
+
+        virtual public List<Tile> GetTilesInRay(Vector2 start, Vector2 dir, float distance, Func<Tile, bool> stopCondition = null)
+        {
+            List<Tile> tiles = new List<Tile>();
+            float stepSize = .4f;
+
+            for (int d = 1; d < distance / stepSize; d++)
+            {
+                Vector2 relative = start + dir * d * stepSize;
+
+                Debug.DrawLine((Vector2)transform.position + start, (Vector2)transform.position + relative, Color.magenta, 4);
+
+                int y = (int)relative.y;
+                if (y < 0 || y >= height) break;
+
+                var tile = GetTile(relative.x, y);
+
+                if (!tile.isDirty)
+                {
+                    tile.isDirty = true;
+                    tiles.Add(tile);
+                }
+
+                if (stopCondition != null && stopCondition(tile)) break;
+            }
+
+            return tiles;
         }
 
         virtual public Vector2 GetDifference(Vector2 start, Vector2 end) => new Vector2(GetXDifference(start.x, end.x), GetYDifference(start.y, end.y));
@@ -399,29 +477,6 @@
         virtual public int GetXDifference(int startX, int endX) => endX - startX;
 
         virtual public int GetYDifference(int startY, int endY) => endY - startY;
-
-        virtual public void ForEachTileInRay(Vector2 start, Vector2 dir, float distance, Action<Tile> action, Func<Tile, bool> stopCondition = null)
-        {
-            float stepSize = .4f;
-
-            for (int d = 1; d < distance / stepSize; d++)
-            {
-                Vector2 relative = start + dir * d * stepSize;
-
-                int y = (int)relative.y;
-                if (y < 0 || y >= height) break;
-
-                var tile = GetTile(relative.x, y);
-
-                if (!tile.isDirty)
-                {
-                    tile.isDirty = true;
-                    action(tile);
-                }
-
-                if (stopCondition != null && stopCondition(tile)) break;
-            }
-        }
 
         virtual public void UpdateLighting()
         {
