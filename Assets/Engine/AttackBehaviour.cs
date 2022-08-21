@@ -32,7 +32,7 @@ namespace Noble.TileEngine
 		{
 			Creature targetCreature = targetObject.GetComponent<Creature>();
 
-			identityCreature.lastDirectionAttackedOrMoved = identityCreature.GetDirection(targetObject.x, targetObject.y, identityCreature.x, identityCreature.y);
+			identityCreature.lastDirectionAttackedOrMoved = identityCreature.GetDirection(identityCreature.x, identityCreature.y, targetObject.x, targetObject.y);
 
 			attackWillHit = false;
 

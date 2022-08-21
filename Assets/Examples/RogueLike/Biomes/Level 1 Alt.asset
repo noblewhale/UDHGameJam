@@ -83,7 +83,7 @@ MonoBehaviour:
     requireSpawnable: 1
     minQuantityPerBiome: 1
     maxQuantityPerBiome: 1
-  scorpions: {fileID: 11400000, guid: 19c7d0686e5dc124d9de1ad1c5b145f0, type: 2}
+  scorpions: {fileID: 11400000, guid: e153ed94aabb1ba409688229eb45c0bc, type: 2}
   rats: {fileID: 11400000, guid: c5f22687274f57c48a389e16806785b4, type: 2}
   items: {fileID: 11400000, guid: ffc53738e5eacc84a89fa4c8d9683115, type: 2}
   electricTraps: {fileID: 11400000, guid: 433d166f26262984aa6d32a753a33961, type: 2}

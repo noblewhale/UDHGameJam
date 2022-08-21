@@ -84,8 +84,8 @@
         // TODO: Wrapping
         public Direction GetDirection(int oldX, int oldY, int newX, int newY)
         {
-            int xDif = oldX - newX;
-            int yDif = oldY - newY;
+            int xDif = newX - oldX;
+            int yDif = newY - oldY;
             if (Math.Abs(xDif) == Math.Abs(yDif))
             {
                 if (xDif > 0 && yDif > 0) return Direction.UP_RIGHT;
