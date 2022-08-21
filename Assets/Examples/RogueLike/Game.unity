@@ -8868,6 +8868,7 @@ MonoBehaviour:
   fireballObjectPrefab: {fileID: 1511826856884192, guid: 4df3d242e568055468042aa8164b5b2f,
     type: 3}
   firePrefab: {fileID: 1511826856884192, guid: cce84be517f5a80408651f08be066ca1, type: 3}
+  radius: 2
 --- !u!114 &1296174628
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8905,6 +8906,7 @@ MonoBehaviour:
   fireballObjectPrefab: {fileID: 1511826856884192, guid: 4df3d242e568055468042aa8164b5b2f,
     type: 3}
   firePrefab: {fileID: 1511826856884192, guid: cce84be517f5a80408651f08be066ca1, type: 3}
+  radius: 4
 --- !u!1 &1345861964
 GameObject:
   m_ObjectHideFlags: 0

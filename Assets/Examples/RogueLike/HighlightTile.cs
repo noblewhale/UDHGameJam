@@ -61,27 +61,6 @@ namespace Noble.DungeonCrawler
                         bool isInsideMap = PolarMapUtil.PositionToTile(unwarpedPos, out int tileX, out int tileY);
                         if (isInsideMap)
                         {
-                            if (allowedTiles != null && allowedTiles.Count > 0)
-                            {
-                                if (!allowedTiles.Contains(Map.instance.GetTile(tileX, tileY)))
-                                {
-                                    float minDistance = float.MaxValue;
-                                    Tile closestTile = null;
-                                    foreach (Tile allowedTile in allowedTiles)
-                                    {
-                                        Vector2Int difference = Map.instance.GetDifference(new Vector2Int(tileX, tileY), new Vector2Int(allowedTile.x, allowedTile.y));
-                                        float distance = difference.magnitude;
-                                        if (distance < minDistance)
-                                        {
-                                            minDistance = distance;
-                                            closestTile = allowedTile;
-                                        }
-                                    }
-
-                                    tileX = closestTile.x;
-                                    tileY = closestTile.y;
-                                }
-                            }
                             if (tile == null || tileY != tile.y || tileX != tile.x)
                             {
                                 tile?.RemoveObject(this);
@@ -90,6 +69,29 @@ namespace Noble.DungeonCrawler
                         }
                     }
                     oldCameraPosition = PlayerCamera.instance.transform.position;
+                }
+            }
+            if (allowedTiles != null && allowedTiles.Count > 0)
+            {
+                if (!allowedTiles.Contains(Map.instance.GetTile(x, y)))
+                {
+                    float minDistance = float.MaxValue;
+                    Tile closestTile = null;
+                    foreach (Tile allowedTile in allowedTiles)
+                    {
+                        Vector2Int difference = Map.instance.GetDifference(new Vector2Int(x, y), new Vector2Int(allowedTile.x, allowedTile.y));
+                        float distance = difference.magnitude;
+                        if (distance < minDistance)
+                        {
+                            minDistance = distance;
+                            closestTile = allowedTile;
+                        }
+                    }
+                    if (tile == null || closestTile != tile)
+                    {
+                        tile?.RemoveObject(this);
+                        Map.instance.tileObjects[closestTile.y][closestTile.x].AddObject(this);
+                    }
                 }
             }
         }

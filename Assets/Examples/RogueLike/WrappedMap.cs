@@ -51,8 +51,8 @@
 
         override public float GetXPositionOnMap(float x)
         {
-            if (x < 0) x += width;
-            else if (x >= width) x -= width;
+            if (x < 0) x += TotalWidth;
+            else if (x >= TotalWidth) x -= TotalWidth;
             return x;
         }
 

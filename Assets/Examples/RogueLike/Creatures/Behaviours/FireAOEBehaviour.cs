@@ -48,9 +48,6 @@
 
 			Map.instance.AddOutline(allowedTiles);
 
-			HighlightTile.instance.tile?.RemoveObject(HighlightTile.instance);
-			Map.instance.tileObjects[Player.instance.identity.y][Player.instance.identity.x].AddObject(HighlightTile.instance);
-
 			HighlightTile.instance.allowedTiles = allowedTiles;
 
 			HighlightTile.instance.GetComponent<DungeonObject>().glyphs.glyphs[0].gameObject.SetActive(true);

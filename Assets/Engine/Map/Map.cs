@@ -217,7 +217,7 @@
         }
 
         virtual public Tile GetTile(int x, int y) => GetTile(new Vector2Int(x, y));
-        virtual public Tile GetTile(float x, float y) => GetTile(new Vector2(x, y));
+        virtual public Tile GetTile(float x, float y) => GetTile(new Vector2Int(Mathf.FloorToInt(x), Mathf.FloorToInt(y)));
 
         virtual public Tile GetTile(Vector2Int position)
         {
@@ -227,8 +227,7 @@
 
         virtual public Tile GetTile(Vector2 position)
         {
-            position = GetPositionOnMap(position);
-            return tileObjects[(int)position.y][(int)position.x];
+            return GetTile(new Vector2Int(Mathf.FloorToInt(position.x), Mathf.FloorToInt(position.y)));
         }
 
         virtual public void ForEachTile(Action<Tile> action)
@@ -417,11 +416,13 @@
             List<Tile> tiles = new List<Tile>();
             float stepSize = .4f;
 
+            Vector2 prev = start;
             for (int d = 1; d < distance / stepSize; d++)
             {
                 Vector2 relative = start + dir * d * stepSize;
 
-                //Debug.DrawLine((Vector2)transform.position + start, (Vector2)transform.position + relative, Color.magenta, 4);
+                //Debug.DrawLine((Vector2)transform.position + prev, (Vector2)transform.position + relative, new Color(Random.value, Random.value, Random.value), 4);
+                prev = relative;
 
                 int y = (int)relative.y;
                 if (y < 0 || y >= height) break;

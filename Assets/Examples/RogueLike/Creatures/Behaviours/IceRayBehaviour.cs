@@ -44,15 +44,12 @@
 			CameraTarget.instance.thresholdY = 4;
 			AimOverlay.instance.gameObject.SetActive(true);
 
-			var allowedTiles = Map.instance.GetTilesInRadiusStraightLines(
+			var allowedTiles = Map.instance.GetTilesInRadius(
 				Player.instance.identity.x, Player.instance.identity.y,
-				radius
+				1
 			);
 
 			Map.instance.AddOutline(allowedTiles);
-
-			HighlightTile.instance.tile?.RemoveObject(HighlightTile.instance);
-			Map.instance.tileObjects[Player.instance.identity.y][Player.instance.identity.x].AddObject(HighlightTile.instance);
 
 			HighlightTile.instance.allowedTiles = allowedTiles;
 
@@ -90,6 +87,13 @@
 		override public void StartSubAction(ulong time) 
 		{
 			attackStartTime = Time.time;
+
+			// Actual target tile is radius units in direction of selected tile
+			Vector2 playerTile = new Vector2(Player.instance.identity.x + .5f, Player.instance.identity.y + .5f);
+			Vector2 dir = Map.instance.GetDifference(playerTile, new Vector2(targetTile.x + .5f, targetTile.y + .5f));
+			Vector2 dirNorm = dir.normalized;
+			Vector2 target = playerTile + dirNorm * radius;
+			targetTile = Map.instance.GetTile(target.x, target.y);
 		}
 		override public bool ContinueSubAction(ulong time) 
 		{
@@ -123,18 +127,23 @@
 		}
 		override public void FinishSubAction(ulong time)
 		{
-			float dirX = Map.instance.GetXDifference(owner.x, targetTile.x);
-			float dirY = targetTile.y - owner.y;
+			int dirX = Map.instance.GetXDifference(owner.x, targetTile.x);
+			int dirY = targetTile.y - owner.y;
 			Vector2 direction = new Vector2(dirX, dirY);
 			float distance = direction.magnitude;
 			direction.Normalize();
 			var area = new RectIntExclusive();
-			area.SetMinMax(Math.Min(owner.x, targetTile.x), Math.Max(owner.x, targetTile.x) + 1, Math.Min(owner.y, targetTile.y), Math.Max(owner.y, targetTile.y) + 1);
+			area.SetMinMax(
+				Math.Min(owner.x, owner.x + dirX),
+				Math.Max(owner.x, owner.x + dirX) + 1,
+				Math.Min(owner.y, owner.y + dirY),
+				Math.Max(owner.y, owner.y + dirY) + 1
+			);
 
 			var tilesInRay = new List<Tile>();
 			lock (Map.instance.isDirtyLock)
 			{
-				Map.instance.ForEachTile((t) => t.isDirty = false);
+				Map.instance.ForEachTileInArea(area, (t) => t.isDirty = false);
 				tilesInRay = Map.instance.GetTilesInRay(
 					new Vector2(owner.x + .5f, owner.y + .5f),
 					direction,
@@ -145,7 +154,6 @@
 			foreach (Tile t in tilesInRay)
 			{
 				if (t == owner.tile) continue;
-
 				if (t.objectList != null)
 				{
 					DungeonObject targetObject = t.objectList.FirstOrDefault(ob => ob.isCollidable);
