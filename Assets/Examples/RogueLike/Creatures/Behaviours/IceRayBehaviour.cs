@@ -4,95 +4,76 @@
 	using System.Collections;
     using UnityEngine;
 	using System.Linq;
-    using UnityEngine.InputSystem;
-    using UnityEngine.InputSystem.Controls;
     using System;
     using System.Collections.Generic;
 
-    public class IceRayBehaviour : TickableBehaviour
+    public class IceRayBehaviour : TargetableBehaviour
     {
-		Tile targetTile;
-		Creature identityCreature;
-
 		public GameObject fireballObjectPrefab;
 		public GameObject firePrefab;
 		GameObject fireballObject;
 		float attackStartTime = 0;
 
-		public float radius = 3;
+		public float rayLength = 3;
 
         override public void Awake()
         {
 			base.Awake();
-			identityCreature = owner.GetComponent<Creature>();
 		}
 
-        public override bool IsActionACoroutine()
-        {
-			return true;
-        }
-
-        override public IEnumerator StartActionCoroutine()
+		override protected List<Tile> GetThreatenedTiles()
 		{
-			owner.tickable.nextActionTime = identityCreature.ticksPerAttack;
+			Vector2 ownerTile = new Vector2(owner.x + .5f, owner.y + .5f);
+			Vector2 dir = Map.instance.GetDifference(ownerTile, new Vector2(targetTile.x + .5f, targetTile.y + .5f));
+			Vector2 dirNorm = dir.normalized;
+			Vector2 target = ownerTile + dirNorm * rayLength;
+			Tile realTarget = Map.instance.GetTile(target.x, target.y);
 
-			fireballObject = Instantiate(fireballObjectPrefab);
-			fireballObject.transform.position = identityCreature.leftHand.transform.position - Vector3.forward;
-
-			CameraTarget.instance.owner = HighlightTile.instance;
-			CameraTarget.instance.thresholdX = 6;
-			CameraTarget.instance.thresholdY = 4;
-			AimOverlay.instance.gameObject.SetActive(true);
-
-			var allowedTiles = Map.instance.GetTilesInRadius(
-				Player.instance.identity.x, Player.instance.identity.y,
-				1
+			// Ray will fire rayLength units in direction of targetTile
+			int dirX = Map.instance.GetXDifference(owner.x, realTarget.x);
+			int dirY = realTarget.y - owner.y;
+			Vector2 direction = new Vector2(dirX, dirY);
+			float distance = direction.magnitude;
+			direction.Normalize();
+			var area = new RectIntExclusive();
+			area.SetMinMax(
+				Math.Min(owner.x, owner.x + dirX),
+				Math.Max(owner.x, owner.x + dirX) + 1,
+				Math.Min(owner.y, owner.y + dirY),
+				Math.Max(owner.y, owner.y + dirY) + 1
 			);
 
-			Map.instance.AddOutline(allowedTiles);
-
-			HighlightTile.instance.allowedTiles = allowedTiles;
-
-			HighlightTile.instance.GetComponent<DungeonObject>().glyphs.glyphs[0].gameObject.SetActive(true);
-			HighlightTile.instance.isKeyboardControlled = true;
-			HighlightTile.instance.GetComponent<DungeonObject>().glyphs.glyphs[0].tint = Color.red;
-			bool isDone = false;
-			while (!isDone)
+			var tilesInRay = new List<Tile>();
+			lock (Map.instance.isDirtyLock)
 			{
-				while (!PlayerInputHandler.instance.HasInput) yield return new WaitForEndOfFrame();
-				Command nextCommand = PlayerInputHandler.instance.commandQueue.Peek();
-				HighlightTile.instance.Move(nextCommand);
-				if (nextCommand.key == Key.Space || nextCommand.mouseButton == Mouse.current.leftButton)
-				{
-					isDone = true;
-				}
-				PlayerInputHandler.instance.commandQueue.Dequeue();
-				yield return new WaitForEndOfFrame();
+				Map.instance.ForEachTileInArea(area, (t) => t.isDirty = false);
+				tilesInRay = Map.instance.GetTilesInRay(
+					new Vector2(owner.x + .5f, owner.y + .5f),
+					direction,
+					distance,
+					null,
+					false
+				);
 			}
-			HighlightTile.instance.GetComponent<DungeonObject>().glyphs.glyphs[0].tint = Color.white;
-			HighlightTile.instance.isKeyboardControlled = false;
+			return tilesInRay;
+		}
 
-			HighlightTile.instance.allowedTiles = null;
-
-			CameraTarget.instance.owner = Player.instance.identity;
-			CameraTarget.instance.thresholdX = 0;
-			CameraTarget.instance.thresholdY = 0;
-			AimOverlay.instance.gameObject.SetActive(false);
-
-			Map.instance.RemoveOutline();
-
-			targetTile = HighlightTile.instance.tile;
+		override public IEnumerator StartActionCoroutine()
+		{
+			yield return base.StartActionCoroutine();
+			fireballObject = Instantiate(fireballObjectPrefab);
+			fireballObject.transform.position = identityCreature.leftHand.transform.position - Vector3.forward;
 		}
 
 		override public void StartSubAction(ulong time) 
 		{
 			attackStartTime = Time.time;
 
-			// Actual target tile is radius units in direction of selected tile
-			Vector2 playerTile = new Vector2(Player.instance.identity.x + .5f, Player.instance.identity.y + .5f);
-			Vector2 dir = Map.instance.GetDifference(playerTile, new Vector2(targetTile.x + .5f, targetTile.y + .5f));
+			// Actual target tile is rayLength units in direction of selected tile
+			Vector2 ownerTile = new Vector2(owner.x + .5f, owner.y + .5f);
+			Vector2 dir = Map.instance.GetDifference(ownerTile, new Vector2(targetTile.x + .5f, targetTile.y + .5f));
 			Vector2 dirNorm = dir.normalized;
-			Vector2 target = playerTile + dirNorm * radius;
+			Vector2 target = ownerTile + dirNorm * rayLength;
 			targetTile = Map.instance.GetTile(target.x, target.y);
 		}
 		override public bool ContinueSubAction(ulong time) 
@@ -147,13 +128,14 @@
 				tilesInRay = Map.instance.GetTilesInRay(
 					new Vector2(owner.x + .5f, owner.y + .5f),
 					direction,
-					distance
+					distance,
+					null,
+					false
 				);
 			}
 
 			foreach (Tile t in tilesInRay)
 			{
-				if (t == owner.tile) continue;
 				if (t.objectList != null)
 				{
 					DungeonObject targetObject = t.objectList.FirstOrDefault(ob => ob.isCollidable);

@@ -17,9 +17,6 @@
         public Tile[][] tileObjects;
         public List<Tile> tilesThatAllowSpawn = new List<Tile>();
 
-        public DungeonObject outlinePrefab;
-        public List<DungeonObject> outlineObjects = new List<DungeonObject>();
-
         public int width = 10;
         public int height = 1;
 
@@ -321,25 +318,6 @@
             tileObjects[newY][newX].AddObject(ob, true);
         }
 
-        virtual public void AddOutline(List<Tile> tiles)
-        {
-            foreach (Tile tile in tiles) AddOutline(tile);
-        }
-
-        virtual public void AddOutline(Tile tile)
-        {
-            outlineObjects.Add(tile.SpawnAndAddObject(outlinePrefab, 1, true));
-        }
-
-        virtual public void RemoveOutline()
-        {
-            foreach (DungeonObject outlineObject in outlineObjects)
-            {
-                outlineObject.tile.RemoveObject(outlineObject, true);
-            }
-            outlineObjects.Clear();
-        }
-
         virtual public void Reveal(int tileX, int tileY, float radius)
         {
             tileObjects[tileY][tileX].SetInView(true);
@@ -358,9 +336,9 @@
             );
         }
 
-        virtual public void ForEachTileInRadius(int centerX, int centerY, float radius, Action<Tile> action, Func<Tile, bool> stopCondition = null)
+        virtual public void ForEachTileInRadius(int centerX, int centerY, float radius, Action<Tile> action, Func<Tile, bool> stopCondition = null, bool includeStartTile = true)
         {
-            var tilesInRadius = GetTilesInRadius(centerX, centerY, radius, stopCondition);
+            var tilesInRadius = GetTilesInRadius(centerX, centerY, radius, stopCondition, includeStartTile);
 
             foreach(Tile tile in tilesInRadius)
             {
@@ -368,14 +346,14 @@
             }
         }
 
-        virtual public List<Tile> GetTilesInRadiusStraightLines(int centerX, int centerY, float radius, Func<Tile, bool> stopCondition = null)
+        virtual public List<Tile> GetTilesInRadiusStraightLines(int centerX, int centerY, float radius, Func<Tile, bool> stopCondition = null, bool includeStartTile = true)
         {
-            var tilesInRadius = GetTilesInRadius(centerX, centerY, radius, stopCondition);
+            var tilesInRadius = GetTilesInRadius(centerX, centerY, radius, stopCondition, includeStartTile);
             tilesInRadius.RemoveAll((t) => t.x != centerX && t.y != centerY && GetXDifference(centerX, t.x) != (t.y - centerY) && GetXDifference(centerX, t.x) != -(t.y - centerY));
             return tilesInRadius;
         }
 
-        virtual public List<Tile> GetTilesInRadius(int centerX, int centerY, float radius, Func<Tile, bool> stopCondition = null)
+        virtual public List<Tile> GetTilesInRadius(int centerX, int centerY, float radius, Func<Tile, bool> stopCondition = null, bool includeStartTile = true)
         {
             // Start from the center of the tile
             Vector2 center = new Vector2(centerX + .5f, centerY + .5f);
@@ -394,16 +372,16 @@
                 {
                     Vector2 direction = new Vector2(Mathf.Sin(r), Mathf.Cos(r));
 
-                    tilesInArea.AddRange(GetTilesInRay(center, direction, radius, stopCondition));
+                    tilesInArea.AddRange(GetTilesInRay(center, direction, radius, stopCondition, includeStartTile));
                 }
             }
 
             return tilesInArea;
         }
 
-        virtual public void ForEachTileInRay(Vector2 start, Vector2 dir, float distance, Action<Tile> action, Func<Tile, bool> stopCondition = null)
+        virtual public void ForEachTileInRay(Vector2 start, Vector2 dir, float distance, Action<Tile> action, Func<Tile, bool> stopCondition = null, bool includeStartTile = true)
         {
-            var tilesInRay = GetTilesInRay(start, dir, distance, stopCondition);
+            var tilesInRay = GetTilesInRay(start, dir, distance, stopCondition, includeStartTile);
 
             foreach (Tile tile in tilesInRay)
             {
@@ -411,7 +389,7 @@
             }
         }
 
-        virtual public List<Tile> GetTilesInRay(Vector2 start, Vector2 dir, float distance, Func<Tile, bool> stopCondition = null)
+        virtual public List<Tile> GetTilesInRay(Vector2 start, Vector2 dir, float distance, Func<Tile, bool> stopCondition = null, bool includeSourceTile = true)
         {
             List<Tile> tiles = new List<Tile>();
             float stepSize = .4f;
@@ -429,7 +407,7 @@
 
                 var tile = GetTile(relative.x, y);
 
-                if (!tile.isDirty)
+                if (!tile.isDirty && (includeSourceTile || tile.x != Mathf.FloorToInt(start.x) || tile.y != Mathf.FloorToInt(start.y)))
                 {
                     tile.isDirty = true;
                     tiles.Add(tile);

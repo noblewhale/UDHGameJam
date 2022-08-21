@@ -4,81 +4,63 @@
 	using System.Collections;
     using UnityEngine;
 	using System.Linq;
-    using UnityEngine.InputSystem;
-    using UnityEngine.InputSystem.Controls;
+    using System.Collections.Generic;
 
-    public class FireAOEBehaviour : TickableBehaviour
+    public class FireAOEBehaviour : TargetableBehaviour
     {
-		Tile targetTile;
-		Creature identityCreature;
-
 		public GameObject fireballObjectPrefab;
 		public GameObject firePrefab;
 		GameObject fireballObject;
 		float attackStartTime = 0;
-		public float radius = 2;
 
         override public void Awake()
         {
 			base.Awake();
-			identityCreature = owner.GetComponent<Creature>();
 		}
 
-        public override bool IsActionACoroutine()
-        {
-			return true;
-        }
-
-        override public IEnumerator StartActionCoroutine()
+		override protected List<Tile> GetThreatenedTiles()
 		{
-			owner.tickable.nextActionTime = identityCreature.ticksPerAttack;
+			List<Tile> threatenedTile = new List<Tile>();
+
+			float dirX = Map.instance.GetXDifference(owner.x, targetTile.x);
+			float dirY = targetTile.y - owner.y;
+			Vector2 direction = new Vector2(dirX, dirY);
+			float distance = direction.magnitude;
+			direction.Normalize();
+
+			float stepSize = Mathf.Min(Map.instance.tileWidth, Map.instance.tileHeight) * .9f;
+			Vector2 center = new Vector2(owner.x + .5f, owner.y + .5f);
+			for (int d = 1; d < distance / stepSize; d++)
+			{
+				Vector2 relative = center + direction * d * stepSize;
+
+				int y = (int)relative.y;
+				if (y < 0 || y >= Map.instance.height) break;
+
+				int wrappedX = (int)Map.instance.GetXPositionOnMap(relative.x);
+
+				if (Map.instance.tileObjects[y][wrappedX].IsCollidable() && (y != owner.y || wrappedX != owner.x))
+				{
+					threatenedTile.Add(Map.instance.tileObjects[y][wrappedX]);
+					break;
+				}
+			}
+
+			if (threatenedTile.Count == 0)
+            {
+				threatenedTile.Add(targetTile);
+            }				
+
+			return threatenedTile;
+		}
+
+
+		override public IEnumerator StartActionCoroutine()
+		{
+			yield return base.StartActionCoroutine();
 
 			fireballObject = Instantiate(fireballObjectPrefab);
 			fireballObject.transform.position = identityCreature.leftHand.transform.position - Vector3.forward;
-
-			CameraTarget.instance.owner = HighlightTile.instance;
-			CameraTarget.instance.thresholdX = 6;
-			CameraTarget.instance.thresholdY = 4;
-			AimOverlay.instance.gameObject.SetActive(true);
-
-			var allowedTiles = Map.instance.GetTilesInRadius(
-				Player.instance.identity.x, Player.instance.identity.y,
-				radius
-			);
-
-			Map.instance.AddOutline(allowedTiles);
-
-			HighlightTile.instance.allowedTiles = allowedTiles;
-
-			HighlightTile.instance.GetComponent<DungeonObject>().glyphs.glyphs[0].gameObject.SetActive(true);
-			HighlightTile.instance.isKeyboardControlled = true;
-			HighlightTile.instance.GetComponent<DungeonObject>().glyphs.glyphs[0].tint = Color.red;
-			bool isDone = false;
-			while (!isDone)
-			{
-				while (!PlayerInputHandler.instance.HasInput) yield return new WaitForEndOfFrame();
-				Command nextCommand = PlayerInputHandler.instance.commandQueue.Peek();
-				HighlightTile.instance.Move(nextCommand);
-				if (nextCommand.key == Key.Space || nextCommand.mouseButton == Mouse.current.leftButton)
-				{
-					isDone = true;
-				}
-				PlayerInputHandler.instance.commandQueue.Dequeue();
-				yield return new WaitForEndOfFrame();
-			}
-			HighlightTile.instance.GetComponent<DungeonObject>().glyphs.glyphs[0].tint = Color.white;
-			HighlightTile.instance.isKeyboardControlled = false;
-
-			HighlightTile.instance.allowedTiles = null;
-
-			CameraTarget.instance.owner = Player.instance.identity;
-			CameraTarget.instance.thresholdX = 0;
-			CameraTarget.instance.thresholdY = 0;
-			AimOverlay.instance.gameObject.SetActive(false);
-
-			Map.instance.RemoveOutline();
-
-			targetTile = HighlightTile.instance.tile;
 		}
 
 		override public void StartSubAction(ulong time) 

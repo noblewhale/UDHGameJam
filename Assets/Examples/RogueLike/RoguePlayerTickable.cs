@@ -19,7 +19,10 @@
 
             if (command.key == Key.F)
             {
-                //return fireAOEBehaviour;
+                return fireAOEBehaviour;
+            }
+            if (command.key == Key.G)
+            {
                 return iceRayBehaviour;
             }
             else

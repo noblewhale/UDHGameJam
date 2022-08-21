@@ -2992,9 +2992,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: c5f22687274f57c48a389e16806785b4, type: 2}
   biomes: []
   tilesThatAllowSpawn: []
-  outlinePrefab: {fileID: -6944675546895815483, guid: 087227423c0cf7b4a85be69db76cf797,
-    type: 3}
-  outlineObjects: []
   width: 26
   height: 44
   tileWidth: 1
@@ -8865,10 +8862,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee73b63536556484381d8aa98390d930, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetTile: {fileID: 0}
+  outlinePrefab: {fileID: -6944675546895815483, guid: 087227423c0cf7b4a85be69db76cf797,
+    type: 3}
+  threatenedPrefab: {fileID: -1016890846729075064, guid: bcf85fcdc9e919e4ca709f4cf3b06c9f,
+    type: 3}
+  aimingRadius: 3
   fireballObjectPrefab: {fileID: 1511826856884192, guid: 4df3d242e568055468042aa8164b5b2f,
     type: 3}
   firePrefab: {fileID: 1511826856884192, guid: cce84be517f5a80408651f08be066ca1, type: 3}
-  radius: 2
 --- !u!114 &1296174628
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8903,10 +8905,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 306288af27795af408e5152239aafadf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetTile: {fileID: 0}
+  outlinePrefab: {fileID: -6944675546895815483, guid: 087227423c0cf7b4a85be69db76cf797,
+    type: 3}
+  threatenedPrefab: {fileID: -1016890846729075064, guid: bcf85fcdc9e919e4ca709f4cf3b06c9f,
+    type: 3}
+  aimingRadius: 1
   fireballObjectPrefab: {fileID: 1511826856884192, guid: 4df3d242e568055468042aa8164b5b2f,
     type: 3}
   firePrefab: {fileID: 1511826856884192, guid: cce84be517f5a80408651f08be066ca1, type: 3}
-  radius: 4
+  rayLength: 7
 --- !u!1 &1345861964
 GameObject:
   m_ObjectHideFlags: 0
