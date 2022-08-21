@@ -14,7 +14,6 @@ namespace Noble.DungeonCrawler
 
         Vector3 oldCameraPosition;
         public bool isKeyboardControlled;
-        //public List<Tile> allowedTiles = null;
         public float limitRadius = 0;
 
         override protected void Awake()
@@ -64,12 +63,12 @@ namespace Noble.DungeonCrawler
                         {
                             if (limitRadius != 0)
                             {
-                                Vector2 dir = new Vector2(PolarMapUtil.GetCircleDifference(Player.instance.identity.x, tileX), tileY - Player.instance.identity.y);
+                                Vector2 dir = new Vector2(Map.instance.GetXDifference(Player.instance.identity.x, tileX), tileY - Player.instance.identity.y);
                                 float distance = dir.magnitude - .5f;
                                 if (distance > limitRadius)
                                 {
                                     dir = dir.normalized * limitRadius;
-                                    tileX = map.WrapX((int)(Player.instance.identity.x + dir.x + .5f));
+                                    tileX = map.GetXPositionOnMap((int)(Player.instance.identity.x + dir.x + .5f));
                                     tileY = (int)(Player.instance.identity.y + dir.y + .5f);
                                 }
                             }
@@ -136,13 +135,13 @@ namespace Noble.DungeonCrawler
                     break;
             }
 
-            newTileX = Map.instance.WrapX(newTileX);
+            newTileX = Map.instance.GetXPositionOnMap(newTileX);
 
             if (doSomething)
             {
                 if (limitRadius != 0)
                 {
-                    Vector2 dir = new Vector2(PolarMapUtil.GetCircleDifference(Player.instance.identity.x, newTileX), newTileY - Player.instance.identity.y);
+                    Vector2 dir = new Vector2(Map.instance.GetXDifference(Player.instance.identity.x, newTileX), newTileY - Player.instance.identity.y);
                     float distance = dir.magnitude - .5f;
                     if (distance > limitRadius)
                     {

@@ -23,11 +23,11 @@
                 GetHostileOccupants(adjacent, adjacentHostileCreatures);
             }
 
-            int wrappedX = owner.map.WrapX(owner.x + 1);
+            int wrappedX = owner.map.GetXPositionOnMap(owner.x + 1);
             adjacent = owner.map.tileObjects[owner.y][wrappedX];
             GetHostileOccupants(adjacent, adjacentHostileCreatures);
 
-            wrappedX = owner.map.WrapX(owner.x - 1);
+            wrappedX = owner.map.GetXPositionOnMap(owner.x - 1);
             adjacent = owner.map.tileObjects[owner.y][wrappedX];
             GetHostileOccupants(adjacent, adjacentHostileCreatures);
 

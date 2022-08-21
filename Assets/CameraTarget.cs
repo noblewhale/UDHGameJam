@@ -28,7 +28,9 @@ namespace Noble.DungeonCrawler
 
             Vector2Int cameraTile = PlayerCamera.instance.GetTilePosition();
 
-            if (Math.Abs(owner.y - y) > thresholdY)
+            Vector2Int circleDifference = Map.instance.GetDifference(new Vector2Int(x, y), new Vector2Int(owner.x, owner.y));
+
+            if (Math.Abs(circleDifference.y) > thresholdY)
             {
                 if (owner.y > y)
                 {
@@ -41,33 +43,29 @@ namespace Noble.DungeonCrawler
             }
             newY = Math.Clamp(newY, cameraTile.y - 1, cameraTile.y + 1);
 
-            if (Math.Abs(owner.y - y) <= thresholdY || thresholdX == 0)
+            if (Math.Abs(circleDifference.y) <= thresholdY || thresholdX == 0)
             {
-                int circleDifference = PolarMapUtil.GetCircleDifference(x, owner.x);
-                //Debug.Log("circle dif " + circleDifference);
-                if (Math.Abs(circleDifference) > thresholdX)
+                if (Math.Abs(circleDifference.x) > thresholdX)
                 {
-                    if (circleDifference > 0)
+                    if (circleDifference.x > 0)
                     {
-                        newX = (x + circleDifference) - thresholdX;
+                        newX = (x + circleDifference.x) - thresholdX;
                     }
                     else
                     {
-                        newX = (x + circleDifference) + thresholdX;
+                        newX = (x + circleDifference.x) + thresholdX;
                     }
                 }
 
-                newX = Map.instance.WrapX(newX);
-                int cameraCircleDifference = PolarMapUtil.GetCircleDifference(cameraTile.x, newX);
-                //Debug.Log("camera circle dif " + cameraCircleDifference);
+                newX = Map.instance.GetXPositionOnMap(newX);
+                int cameraCircleDifference = Map.instance.GetXDifference(cameraTile.x, newX);
                 cameraCircleDifference = Math.Clamp(cameraCircleDifference, -1, 1);
                 newX = cameraTile.x + cameraCircleDifference;
-                newX = Map.instance.WrapX(newX);
+                newX = Map.instance.GetXPositionOnMap(newX);
             }
 
             if ((newX != x || newY != y) && newX >= 0 && newX < Map.instance.width && newY >= 0 && newY < Map.instance.height)
             {
-                //Debug.Log("target pos " + newX + " " + newY);
                 Map.instance.MoveObject(this, newX, newY);
             }
         }

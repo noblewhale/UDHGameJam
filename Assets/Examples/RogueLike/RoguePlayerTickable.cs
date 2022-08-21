@@ -47,7 +47,7 @@
                     bool isInsideMap = PolarMapUtil.PositionToTile(unwarpedPos, out int tileX, out int tileY);
                     if (isInsideMap)
                     {
-                        int xDif = PolarMapUtil.GetCircleDifference(Player.instance.identity.x, tileX);
+                        int xDif = Map.instance.GetXDifference(Player.instance.identity.x, tileX);
                         int yDif = tileY - Player.instance.identity.y;
                         if (Math.Abs(xDif) == Math.Abs(yDif))
                         {
@@ -113,7 +113,7 @@
 
             if (doSomething)
             {
-                newTileX = Map.instance.WrapX(newTileX);
+                newTileX = Map.instance.GetXPositionOnMap(newTileX);
                 newTileY = Mathf.Clamp(newTileY, 0, Map.instance.height - 1);
             }
             else

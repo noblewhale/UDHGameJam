@@ -48,11 +48,11 @@
                 if (!adjacent.IsCollidable() && !adjacent.GetComponentInChildren<Trap>()) adjacentAndOpen.Add(adjacent);
             }
 
-            int wrappedX = owner.map.WrapX(owner.x + 1);
+            int wrappedX = owner.map.GetXPositionOnMap(owner.x + 1);
             adjacent = owner.map.tileObjects[owner.y][wrappedX];
             if (!adjacent.IsCollidable() && !adjacent.GetComponentInChildren<Trap>()) adjacentAndOpen.Add(adjacent);
 
-            wrappedX = owner.map.WrapX(owner.x - 1);
+            wrappedX = owner.map.GetXPositionOnMap(owner.x - 1);
             adjacent = owner.map.tileObjects[owner.y][wrappedX];
             if (!adjacent.IsCollidable() && !adjacent.GetComponentInChildren<Trap>()) adjacentAndOpen.Add(adjacent);
 

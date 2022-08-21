@@ -1840,7 +1840,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 575fa0ddeb4625b409fd446c73b603e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  map: {fileID: 896254850}
+  map: {fileID: 0}
   render: {fileID: 190724725}
 --- !u!1 &526986532 stripped
 GameObject:
@@ -2934,8 +2934,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 896254849}
-  - component: {fileID: 896254850}
   - component: {fileID: 896254852}
+  - component: {fileID: 896254853}
   m_Layer: 0
   m_Name: Map
   m_TagString: Untagged
@@ -2960,7 +2960,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &896254850
+--- !u!114 &896254852
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2969,7 +2969,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 896254848}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ed889c71733d286449cd1cd7076fdaee, type: 3}
+  m_Script: {fileID: 11500000, guid: a3c82569596ceec499eadbcabbbbb697, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mapCamera: {fileID: 519420031}
+--- !u!114 &896254853
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 896254848}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ffaf42e0c2e95447a0608df271b44b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   tilePrefab: {fileID: 114224584609318880, guid: 615271a170519e841b68e102a244428d,
@@ -2988,19 +3001,6 @@ MonoBehaviour:
   mapGenerationAnimationDelay: 0
   warpedMapCamera: {fileID: 519420031}
   isDoneGeneratingMap: 0
---- !u!114 &896254852
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 896254848}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a3c82569596ceec499eadbcabbbbb697, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mapCamera: {fileID: 519420031}
 --- !u!1 &948183938
 GameObject:
   m_ObjectHideFlags: 0
@@ -3640,7 +3640,7 @@ Camera:
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
   m_TargetEye: 3
-  m_HDR: 0
+  m_HDR: 1
   m_AllowMSAA: 0
   m_AllowDynamicResolution: 0
   m_ForceIntoRT: 0

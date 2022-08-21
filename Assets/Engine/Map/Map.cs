@@ -1,6 +1,5 @@
 ﻿namespace Noble.TileEngine
 {
-    using Noble.DungeonCrawler;
     using System;
     using System.Collections;
     using System.Collections.Generic;
@@ -173,29 +172,64 @@
             }
         }
 
-        public void AddTile(int x, int y)
+        virtual public void AddTile(int x, int y)
         {
             tileObjects[y][x] = Instantiate(tilePrefab, new Vector3(-666, -666, -666), Quaternion.identity).GetComponent<Tile>();
             tileObjects[y][x].Init(this, x, y);
         }
 
-        public float WrapX(float x)
+        virtual public Vector2 GetPositionOnMap(Vector2 pos)
         {
-            if (x < 0) x += width;
-            else if (x >= width) x -= width;
+            pos.x = GetXPositionOnMap(pos.x);
+            pos.y = GetYPositionOnMap(pos.y);
 
-            return x;
+            return pos;
         }
 
-        public int WrapX(int x)
+        virtual public Vector2Int GetPositionOnMap(Vector2Int pos)
         {
-            if (x < 0) x += width;
-            else if (x >= width) x -= width;
+            pos.x = GetXPositionOnMap(pos.x);
+            pos.y = GetYPositionOnMap(pos.y);
 
-            return x;
+            return pos;
         }
 
-        public void ForEachTile(Action<Tile> action)
+        virtual public int GetXPositionOnMap(int x)
+        {
+            return Math.Clamp(x, 0, width - 1);
+        }
+
+        virtual public int GetYPositionOnMap(int y)
+        {
+            return Math.Clamp(y, 0, height - 1);
+        }
+
+        virtual public float GetXPositionOnMap(float x)
+        {
+            return Mathf.Clamp(x, 0, TotalWidth);
+        }
+
+        virtual public float GetYPositionOnMap(float y)
+        {
+            return Mathf.Clamp(y, 0, TotalHeight);
+        }
+
+        virtual public Tile GetTile(int x, int y) => GetTile(new Vector2Int(x, y));
+        virtual public Tile GetTile(float x, float y) => GetTile(new Vector2(x, y));
+
+        virtual public Tile GetTile(Vector2Int position)
+        {
+            position = GetPositionOnMap(position);
+            return tileObjects[position.y][position.x];
+        }
+
+        virtual public Tile GetTile(Vector2 position)
+        {
+            position = GetPositionOnMap(position);
+            return tileObjects[(int)position.y][(int)position.x];
+        }
+
+        virtual public void ForEachTile(Action<Tile> action)
         {
             if (tileObjects == null) return;
             if (tileObjects.Length != height) return;
@@ -209,41 +243,42 @@
             }
         }
 
-        public void ForEachTileInArea(RectIntExclusive area, Action<Tile> action)
+        virtual public void ForEachTileInArea(RectIntExclusive area, Action<Tile> action)
         {
             for (int y = Math.Min(area.yMax - 1, height - 1); y >= Math.Max(area.yMin, 0); y--)
             {
                 for (int x = area.xMax - 1; x >= area.xMin; x--)
                 {
-                    var tile = tileObjects[y][WrapX(x)];
+                    var tile = GetTile(x, y);
                     action(tile);
                 }
             }
         }
 
-        public void ForEachTileInPerimeter(RectIntExclusive area, Action<Tile> action)
+        virtual public void ForEachTileInPerimeter(RectIntExclusive area, Action<Tile> action)
         {
             Tile tile;
             for (int x = area.xMax - 1; x >= area.xMin; x--)
             {
-                tile = tileObjects[Math.Min(area.yMax - 1, height - 1)][WrapX(x)];
+                tile = GetTile(x, Math.Min(area.yMax - 1, height - 1));
                 action(tile);
             }
             for (int y = Math.Min(area.yMax - 1, height - 1); y >= Math.Max(area.yMin, 0); y--)
             {
-                tile = tileObjects[y][WrapX(area.xMin)];
+                tile = GetTile(area.xMin, y);
                 action(tile);
-                tile = tileObjects[y][WrapX(area.xMax - 1)];
+
+                tile = GetTile(area.xMax - 1, y);
                 action(tile);
             }
             for (int x = area.xMax - 1; x >= area.xMin; x--)
             {
-                tile = tileObjects[Math.Max(area.yMin, 0)][WrapX(x)];
+                tile = GetTile(x, Math.Max(area.yMin, 0));
                 action(tile);
             }
         }
 
-        public List<Tile> GetTilesOfType(string type, RectIntExclusive area)
+        virtual public List<Tile> GetTilesOfType(string type, RectIntExclusive area)
         {
             var tiles = new List<Tile>();
 
@@ -258,7 +293,7 @@
             return tiles;
         }
 
-        public void TryMoveObject(DungeonObject ob, int newX, int newY)
+        virtual public void TryMoveObject(DungeonObject ob, int newX, int newY)
         {
             if (!tileObjects[newY][newX].IsCollidable())
             {
@@ -279,13 +314,13 @@
             }
         }
 
-        public void MoveObject(DungeonObject ob, int newX, int newY)
+        virtual public void MoveObject(DungeonObject ob, int newX, int newY)
         {
             tileObjects[ob.y][ob.x].RemoveObject(ob);
             tileObjects[newY][newX].AddObject(ob, true);
         }
 
-        public void AddOutline(int tileX, int tileY, int radius)
+        virtual public void AddOutline(int tileX, int tileY, int radius)
         {
             ForEachTileInRadius(
                 tileX, tileY, 
@@ -297,7 +332,7 @@
             );
         }
 
-        public void RemoveOutline()
+        virtual public void RemoveOutline()
         {
             foreach (DungeonObject outlineObject in outlineObjects)
             {
@@ -306,7 +341,7 @@
             outlineObjects.Clear();
         }
 
-        public void Reveal(int tileX, int tileY, float radius)
+        virtual public void Reveal(int tileX, int tileY, float radius)
         {
             tileObjects[tileY][tileX].SetInView(true);
 
@@ -324,19 +359,17 @@
             );
         }
 
-        public List<Tile> GetTilesInRadius(int centerX, int centerY, float radius)
+        virtual public List<Tile> GetTilesInRadius(int centerX, int centerY, float radius)
         {
             List<Tile> tiles = new List<Tile>();
             ForEachTileInRadius(centerX, centerY, radius, t => tiles.Add(t));
             return tiles;
         }
 
-        public void ForEachTileInRadius(int centerX, int centerY, float radius, Action<Tile> action, Func<Tile, bool> stopCondition = null)
+        virtual public void ForEachTileInRadius(int centerX, int centerY, float radius, Action<Tile> action, Func<Tile, bool> stopCondition = null)
         {
             // Start from the center of the tile
             Vector2 center = new Vector2(centerX + .5f, centerY + .5f);
-
-            float stepSize = .4f;
 
             var area = new RectIntExclusive(
                 (int)(centerX - radius - 1),
@@ -345,46 +378,64 @@
                 (int)(radius * 2 + 3)
             );
             ForEachTileInArea(area, (t) => t.isDirty = false);
-            ForEachTileInArea(area, (t) =>
+
+            for (float r = 0; r < Mathf.PI * 2; r += 2 * Mathf.PI / 360)
             {
-                float dirX = PolarMapUtil.GetCircleDifference(centerX, t.x + .5f);
-                float dirY = (t.y + .5f) - centerY;
-                Vector2 direction = new Vector2(dirX, dirY);
-                direction.Normalize();
+                Vector2 direction = new Vector2(Mathf.Sin(r), Mathf.Cos(r));
 
-                for (int d = 1; d < radius / stepSize; d++)
-                {
-                    Vector2 relative = center + direction * d * stepSize;
-
-                    int y = (int)relative.y;
-                    if (y < 0 || y >= height) break;
-
-                    int wrappedX = (int)WrapX(relative.x);
-
-                    if (!tileObjects[y][wrappedX].isDirty)
-                    {
-                        tileObjects[y][wrappedX].isDirty = true;
-                        action(tileObjects[y][wrappedX]);
-                    }
-
-                    if (stopCondition != null && stopCondition(tileObjects[y][wrappedX])) break;
-                }
-            });
+                //Debug.DrawLine((Vector2)transform.position + center, (Vector2)transform.position + center + direction * radius, Color.magenta, 4);
+                ForEachTileInRay(center, direction, radius, action, stopCondition);
+            }
         }
 
-        public void UpdateLighting()
+        virtual public Vector2 GetDifference(Vector2 start, Vector2 end) => new Vector2(GetXDifference(start.x, end.x), GetYDifference(start.y, end.y));
+
+        virtual public Vector2Int GetDifference(Vector2Int start, Vector2Int end) => new Vector2Int(GetXDifference(start.x, end.x), GetYDifference(start.y, end.y));
+
+        virtual public float GetXDifference(float startX, float endX) => endX - startX;
+
+        virtual public float GetYDifference(float startY, float endY) => endY - startY;
+
+        virtual public int GetXDifference(int startX, int endX) => endX - startX;
+
+        virtual public int GetYDifference(int startY, int endY) => endY - startY;
+
+        virtual public void ForEachTileInRay(Vector2 start, Vector2 dir, float distance, Action<Tile> action, Func<Tile, bool> stopCondition = null)
+        {
+            float stepSize = .4f;
+
+            for (int d = 1; d < distance / stepSize; d++)
+            {
+                Vector2 relative = start + dir * d * stepSize;
+
+                int y = (int)relative.y;
+                if (y < 0 || y >= height) break;
+
+                var tile = GetTile(relative.x, y);
+
+                if (!tile.isDirty)
+                {
+                    tile.isDirty = true;
+                    action(tile);
+                }
+
+                if (stopCondition != null && stopCondition(tile)) break;
+            }
+        }
+
+        virtual public void UpdateLighting()
         {
             ForEachTile(t => t.SetLit(false));
             ForEachTile(t => t.UpdateLighting());
         }
 
-        public void UpdateLighting(RectIntExclusive area)
+        virtual public void UpdateLighting(RectIntExclusive area)
         {
             ForEachTileInArea(area, t => t.SetLit(false));
             ForEachTileInArea(area, t => t.UpdateLighting());
         }
 
-        public void UpdateLighting(int x, int y, float radius)
+        virtual public void UpdateLighting(int x, int y, float radius)
         {
             var area = new RectIntExclusive(
                 (int)(x - radius - 1), 
@@ -395,7 +446,7 @@
             UpdateLighting(area);
         }
 
-        public void ForEachTileThatAllowsSpawn(Action<Tile> doThis, RectIntExclusive area)
+        virtual public void ForEachTileThatAllowsSpawn(Action<Tile> doThis, RectIntExclusive area)
         {
             // If the area is larger than the total number of floor tiles it is more efficient to use the precomputed list
             if (area.width * area.height > tilesThatAllowSpawn.Count)
@@ -416,7 +467,7 @@
             }
         }
 
-        public void ForEachTileThatAllowsSpawn(Action<Tile> doThis)
+        virtual public void ForEachTileThatAllowsSpawn(Action<Tile> doThis)
         {
             for (int i = tilesThatAllowSpawn.Count - 1; i >= 0; i--)
             {
@@ -425,7 +476,7 @@
             }
         }
 
-        public Tile GetRandomTileThatAllowsSpawn()
+        virtual public Tile GetRandomTileThatAllowsSpawn()
         {
             return tilesThatAllowSpawn[UnityEngine.Random.Range(0, tilesThatAllowSpawn.Count)];
         }

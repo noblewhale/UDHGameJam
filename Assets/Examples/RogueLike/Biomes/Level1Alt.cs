@@ -127,8 +127,8 @@
             var map = Map.instance;
             if (y <= 0 || y >= map.height - 1) return false;
             int floorCount = 0;
-            int wrappedXLeft = map.WrapX(x - 1);
-            int wrappedXRight = map.WrapX(x + 1);
+            int wrappedXLeft = map.GetXPositionOnMap(x - 1);
+            int wrappedXRight = map.GetXPositionOnMap(x + 1);
             if (tiles[y][wrappedXLeft] == TileType.FLOOR) floorCount++;
             if (tiles[y][wrappedXRight] == TileType.FLOOR) floorCount++;
             if (tiles[y - 1][x] == TileType.FLOOR) floorCount++;
@@ -151,9 +151,9 @@
 
             if (y <= 0 || y >= map.height - 1) return false;
 
-            int wrappedX = map.WrapX(x);
-            int wrappedXLeft = map.WrapX(x - 1);
-            int wrappedXRight = map.WrapX(x + 1);
+            int wrappedX = map.GetXPositionOnMap(x);
+            int wrappedXLeft = map.GetXPositionOnMap(x - 1);
+            int wrappedXRight = map.GetXPositionOnMap(x + 1);
             if (tiles[y][wrappedXLeft] == TileType.FLOOR && tiles[y][wrappedXRight] == TileType.FLOOR)
             {
                 if (tiles[y - 1][wrappedX] == TileType.NOTHING && tiles[y + 1][wrappedX] == TileType.NOTHING)
@@ -188,23 +188,23 @@
         bool HasAdjacentFloor(int x, int y)
         {
             var map = Map.instance;
-            int wrappedX = map.WrapX(x - 1);
+            int wrappedX = map.GetXPositionOnMap(x - 1);
             if (tiles[y][wrappedX] == TileType.FLOOR) return true;
-            wrappedX = map.WrapX(x + 1);
+            wrappedX = map.GetXPositionOnMap(x + 1);
             if (tiles[y][wrappedX] == TileType.FLOOR) return true;
             if (y > 0)
             {
-                wrappedX = map.WrapX(x - 1);
+                wrappedX = map.GetXPositionOnMap(x - 1);
                 if (tiles[y - 1][wrappedX] == TileType.FLOOR) return true;
-                wrappedX = map.WrapX(x + 1);
+                wrappedX = map.GetXPositionOnMap(x + 1);
                 if (tiles[y - 1][wrappedX] == TileType.FLOOR) return true;
                 if (tiles[y - 1][x] == TileType.FLOOR) return true;
             }
             if (y < map.height - 1)
             {
-                wrappedX = map.WrapX(x - 1);
+                wrappedX = map.GetXPositionOnMap(x - 1);
                 if (tiles[y + 1][wrappedX] == TileType.FLOOR) return true;
-                wrappedX = map.WrapX(x + 1);
+                wrappedX = map.GetXPositionOnMap(x + 1);
                 if (tiles[y + 1][wrappedX] == TileType.FLOOR) return true;
                 if (tiles[y + 1][x] == TileType.FLOOR) return true;
             }
@@ -257,8 +257,8 @@
                 {
                     for (int x = rect.xMin - 1; x < rect.xMax + 1; x++)
                     {
-                        Map.instance.tileObjects[y][Map.instance.WrapX(x)].isAlwaysLit = true;
-                        Map.instance.tileObjects[y][Map.instance.WrapX(x)].SetLit(true);
+                        Map.instance.tileObjects[y][Map.instance.GetXPositionOnMap(x)].isAlwaysLit = true;
+                        Map.instance.tileObjects[y][Map.instance.GetXPositionOnMap(x)].SetLit(true);
                     }
                 }
                 if (animationDelay != 0)
@@ -503,14 +503,14 @@
 
         void SetTile(int x, int y, TileType value, bool inverted = false)
         {
-            if (inverted) tiles[x][Map.instance.WrapX(y)] = value;
-            else tiles[y][Map.instance.WrapX(x)] = value;
+            if (inverted) tiles[x][Map.instance.GetXPositionOnMap(y)] = value;
+            else tiles[y][Map.instance.GetXPositionOnMap(x)] = value;
         }
 
         TileType GetTile(int x, int y, bool inverted = false)
         {
-            if (inverted) return tiles[x][Map.instance.WrapX(y)];
-            else return tiles[y][Map.instance.WrapX(x)];
+            if (inverted) return tiles[x][Map.instance.GetXPositionOnMap(y)];
+            else return tiles[y][Map.instance.GetXPositionOnMap(x)];
         }
 
         private List<TilePair> GetOverlap(List<Vector2Int> tilesA, List<Vector2Int> tilesB, bool isVertical, out bool isConnected)

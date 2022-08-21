@@ -86,7 +86,7 @@
 
                 bool horizontalBlocked = false;
                 int nextX = (int)(myPos.x + Mathf.Sign(xDif));
-                nextX = owner.map.WrapX(nextX);
+                nextX = owner.map.GetXPositionOnMap(nextX);
                 tile = owner.map.tileObjects[owner.y][nextX];
                 if (tile.IsCollidable() || tile.GetComponentInChildren<Trap>() || tile.GetPathingWeight() > 5)
                 {

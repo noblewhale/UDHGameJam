@@ -97,7 +97,7 @@
 		{
 			attackStartTime = Time.time;
 
-			float dirX = PolarMapUtil.GetCircleDifference(owner.x, targetTile.x);
+			float dirX = Map.instance.GetXDifference(owner.x, targetTile.x);
 			float dirY = targetTile.y - owner.y;
 			Vector2 direction = new Vector2(dirX, dirY);
 			float distance = direction.magnitude;
@@ -112,7 +112,7 @@
 				int y = (int)relative.y;
 				if (y < 0 || y >= Map.instance.height) break;
 
-				int wrappedX = (int)Map.instance.WrapX(relative.x);
+				int wrappedX = (int)Map.instance.GetXPositionOnMap(relative.x);
 
 				if (Map.instance.tileObjects[y][wrappedX].IsCollidable() && (y != owner.y || wrappedX != owner.x))
                 {
