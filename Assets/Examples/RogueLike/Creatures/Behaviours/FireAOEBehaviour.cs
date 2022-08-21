@@ -67,29 +67,7 @@
 		{
 			attackStartTime = Time.time;
 
-			float dirX = Map.instance.GetXDifference(owner.x, targetTile.x);
-			float dirY = targetTile.y - owner.y;
-			Vector2 direction = new Vector2(dirX, dirY);
-			float distance = direction.magnitude;
-			direction.Normalize();
-
-			float stepSize = Mathf.Min(Map.instance.tileWidth, Map.instance.tileHeight) * .9f;
-			Vector2 center = new Vector2(owner.x + .5f, owner.y + .5f);
-			for (int d = 1; d < distance / stepSize; d++)
-			{
-				Vector2 relative = center + direction * d * stepSize;
-
-				int y = (int)relative.y;
-				if (y < 0 || y >= Map.instance.height) break;
-
-				int wrappedX = (int)Map.instance.GetXPositionOnMap(relative.x);
-
-				if (Map.instance.tileObjects[y][wrappedX].IsCollidable() && (y != owner.y || wrappedX != owner.x))
-                {
-					targetTile = Map.instance.tileObjects[y][wrappedX];
-					break;
-                }
-			}
+			targetTile = GetThreatenedTiles()[0];
 		}
 		override public bool ContinueSubAction(ulong time) 
 		{

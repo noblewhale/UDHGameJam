@@ -108,31 +108,7 @@
 		}
 		override public void FinishSubAction(ulong time)
 		{
-			int dirX = Map.instance.GetXDifference(owner.x, targetTile.x);
-			int dirY = targetTile.y - owner.y;
-			Vector2 direction = new Vector2(dirX, dirY);
-			float distance = direction.magnitude;
-			direction.Normalize();
-			var area = new RectIntExclusive();
-			area.SetMinMax(
-				Math.Min(owner.x, owner.x + dirX),
-				Math.Max(owner.x, owner.x + dirX) + 1,
-				Math.Min(owner.y, owner.y + dirY),
-				Math.Max(owner.y, owner.y + dirY) + 1
-			);
-
-			var tilesInRay = new List<Tile>();
-			lock (Map.instance.isDirtyLock)
-			{
-				Map.instance.ForEachTileInArea(area, (t) => t.isDirty = false);
-				tilesInRay = Map.instance.GetTilesInRay(
-					new Vector2(owner.x + .5f, owner.y + .5f),
-					direction,
-					distance,
-					null,
-					false
-				);
-			}
+			var tilesInRay = GetThreatenedTiles();
 
 			foreach (Tile t in tilesInRay)
 			{
