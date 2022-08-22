@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4342481504457860}
   - component: {fileID: 114339594333797432}
-  - component: {fileID: -738208389167452911}
   - component: {fileID: -6353288155522524805}
   m_Layer: 0
   m_Name: Fireball
@@ -55,6 +54,7 @@ MonoBehaviour:
       m_Calls: []
   originalGlyphPosition: {x: 0, y: 0, z: 0}
   map: {fileID: 0}
+  position: {x: 0, y: 0}
   previousX: 0
   previousY: 0
   quantity: 1
@@ -72,21 +72,6 @@ MonoBehaviour:
   hasBeenSeen: 1
   hasDoneDamageFlash: 0
   tile: {fileID: 0}
---- !u!111 &-738208389167452911
-Animation:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1511826856884192}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Animation: {fileID: 7400000, guid: b552c3c816922d047b2c65dbb1a03796, type: 2}
-  m_Animations: []
-  m_WrapMode: 0
-  m_PlayAutomatically: 1
-  m_AnimatePhysics: 0
-  m_CullingType: 0
 --- !u!95 &-6353288155522524805
 Animator:
   serializedVersion: 4

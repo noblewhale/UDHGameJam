@@ -57,10 +57,10 @@
 
 		override public IEnumerator StartActionCoroutine()
 		{
-			yield return base.StartActionCoroutine();
-
 			fireballObject = Instantiate(fireballObjectPrefab);
 			fireballObject.transform.position = identityCreature.leftHand.transform.position - Vector3.forward;
+			
+			yield return base.StartActionCoroutine();
 		}
 
 		override public void StartSubAction(ulong time) 
