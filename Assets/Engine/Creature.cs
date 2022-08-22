@@ -81,26 +81,24 @@
             map.tileObjects[newY][newX].StepOn(baseObject);
         }
 
-        // TODO: Wrapping
         public Direction GetDirection(int oldX, int oldY, int newX, int newY)
         {
-            int xDif = newX - oldX;
-            int yDif = newY - oldY;
-            if (Math.Abs(xDif) == Math.Abs(yDif))
+            Vector2Int dif = Map.instance.GetDifference(new Vector2Int(oldX, oldY), new Vector2Int(newX, newY));
+            if (Math.Abs(dif.x) == Math.Abs(dif.y))
             {
-                if (xDif > 0 && yDif > 0) return Direction.UP_RIGHT;
-                else if (xDif > 0 && yDif < 0) return Direction.DOWN_RIGHT;
-                else if (xDif < 0 && yDif < 0) return Direction.DOWN_LEFT;
+                if (dif.x > 0 && dif.y > 0) return Direction.UP_RIGHT;
+                else if (dif.x > 0 && dif.y < 0) return Direction.DOWN_RIGHT;
+                else if (dif.x < 0 && dif.y < 0) return Direction.DOWN_LEFT;
                 else return Direction.UP_LEFT;
             }
-            else if (Math.Abs(xDif) > Math.Abs(yDif))
+            else if (Math.Abs(dif.x) > Math.Abs(dif.y))
             {
-                if (xDif > 0) return Direction.RIGHT;
+                if (dif.x > 0) return Direction.RIGHT;
                 else return Direction.LEFT;
             }
             else
             {
-                if (yDif > 0) return Direction.UP;
+                if (dif.y > 0) return Direction.UP;
                 else return Direction.DOWN;
             }
         }
