@@ -128,6 +128,14 @@
             {
 				var fire = Instantiate(firePrefab);
 				newProjectileTile.AddObject(fire.GetComponent<DungeonObject>());
+				if (newProjectileTile && newProjectileTile.objectList != null)
+				{
+					DungeonObject targetObject = newProjectileTile.objectList.FirstOrDefault(ob => ob.isCollidable);
+					if (targetObject)
+					{
+						targetObject.TakeDamage(10);
+					}
+				}
 			}
 			currentProjectileTile = newProjectileTile;
 
