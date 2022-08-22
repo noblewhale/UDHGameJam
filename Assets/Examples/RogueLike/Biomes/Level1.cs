@@ -70,9 +70,9 @@
 
         public void UpdateTiles(Map map, RectIntExclusive area)
         {
-            for (int y = area.yMin; y < area.yMax; y++)
+            for (int y = area.yMin; y <= area.yMax; y++)
             {
-                for (int x = area.xMin; x < area.xMax; x++)
+                for (int x = area.xMin; x <= area.xMax; x++)
                 {
                     AddTileObjects(map, x, y);
                 }

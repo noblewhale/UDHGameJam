@@ -12,9 +12,9 @@
         public static void DrawRect(Map map, RectIntExclusive area, Color color, Vector2 offset)
         {
             Vector2 lowerLeft = new Vector2(area.xMin + offset.x, area.yMin + offset.y);
-            Vector2 lowerRight = new Vector2(area.xMax - offset.x, area.yMin + offset.y);
-            Vector2 upperLeft = new Vector2(area.xMin + offset.x, area.yMax - offset.y);
-            Vector2 upperRight = new Vector2(area.xMax - offset.x, area.yMax - offset.y);
+            Vector2 lowerRight = new Vector2(area.xMax + 1 - offset.x, area.yMin + offset.y);
+            Vector2 upperLeft = new Vector2(area.xMin + offset.x, area.yMax + 1 - offset.y);
+            Vector2 upperRight = new Vector2(area.xMax + 1 - offset.x, area.yMax + 1 - offset.y);
 
             lowerLeft.x *= map.tileWidth;
             lowerLeft.y *= map.tileHeight;

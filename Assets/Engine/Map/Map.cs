@@ -243,9 +243,9 @@
 
         virtual public void ForEachTileInArea(RectIntExclusive area, Action<Tile> action)
         {
-            for (int y = Math.Min(area.yMax - 1, height - 1); y >= Math.Max(area.yMin, 0); y--)
+            for (int y = Math.Min(area.yMax, height - 1); y >= Math.Max(area.yMin, 0); y--)
             {
-                for (int x = area.xMax - 1; x >= area.xMin; x--)
+                for (int x = area.xMax; x >= area.xMin; x--)
                 {
                     var tile = GetTile(x, y);
                     action(tile);
@@ -256,20 +256,20 @@
         virtual public void ForEachTileInPerimeter(RectIntExclusive area, Action<Tile> action)
         {
             Tile tile;
-            for (int x = area.xMax - 1; x >= area.xMin; x--)
+            for (int x = area.xMax; x >= area.xMin; x--)
             {
-                tile = GetTile(x, Math.Min(area.yMax - 1, height - 1));
+                tile = GetTile(x, Math.Min(area.yMax, height - 1));
                 action(tile);
             }
-            for (int y = Math.Min(area.yMax - 1, height - 1); y >= Math.Max(area.yMin, 0); y--)
+            for (int y = Math.Min(area.yMax, height - 1); y >= Math.Max(area.yMin, 0); y--)
             {
                 tile = GetTile(area.xMin, y);
                 action(tile);
 
-                tile = GetTile(area.xMax - 1, y);
+                tile = GetTile(area.xMax, y);
                 action(tile);
             }
-            for (int x = area.xMax - 1; x >= area.xMin; x--)
+            for (int x = area.xMax; x >= area.xMin; x--)
             {
                 tile = GetTile(x, Math.Max(area.yMin, 0));
                 action(tile);
@@ -361,8 +361,8 @@
             var area = new RectIntExclusive(
                 (int)(centerX - radius - 1),
                 (int)(centerY - radius - 1),
-                (int)(radius * 2 + 3),
-                (int)(radius * 2 + 3)
+                (int)(radius * 2 + 2),
+                (int)(radius * 2 + 2)
             );
             List<Tile> tilesInArea = new List<Tile>();
             lock (isDirtyLock)
@@ -448,8 +448,8 @@
             var area = new RectIntExclusive(
                 (int)(x - radius - 1), 
                 (int)(y - radius - 1), 
-                (int)(x + radius + 3), 
-                (int)(y + radius + 3)
+                (int)(x + radius + 2), 
+                (int)(y + radius + 2)
             );
             UpdateLighting(area);
         }
@@ -462,9 +462,9 @@
                 ForEachTileThatAllowsSpawn(doThis);
                 return;
             }
-            for (int y = area.yMax - 1; y >= area.yMin; y--)
+            for (int y = area.yMax; y >= area.yMin; y--)
             {
-                for (int x = area.xMax - 1; x >= area.xMin; x--)
+                for (int x = area.xMax; x >= area.xMin; x--)
                 {
                     var tile = tileObjects[y][x];
                     if (tile.AllowsSpawn())

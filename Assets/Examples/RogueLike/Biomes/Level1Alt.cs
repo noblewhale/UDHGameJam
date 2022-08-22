@@ -158,14 +158,22 @@
             {
                 if (tiles[y - 1][wrappedX] == TileType.NOTHING && tiles[y + 1][wrappedX] == TileType.NOTHING)
                 {
-                    return true;
+                    if (tiles[y - 1][wrappedXLeft] == TileType.FLOOR || tiles[y + 1][wrappedXLeft] == TileType.FLOOR || 
+                        tiles[y - 1][wrappedXRight] == TileType.FLOOR || tiles[y + 1][wrappedXRight] == TileType.FLOOR)
+                    {
+                        return true;
+                    }
                 }
             }
             if (tiles[y - 1][wrappedX] == TileType.FLOOR && tiles[y + 1][wrappedX] == TileType.FLOOR)
             {
                 if (tiles[y][wrappedXLeft] == TileType.NOTHING && tiles[y][wrappedXRight] == TileType.NOTHING)
                 {
-                    return true;
+                    if (tiles[y - 1][wrappedXLeft] == TileType.FLOOR || tiles[y + 1][wrappedXLeft] == TileType.FLOOR ||
+                        tiles[y - 1][wrappedXRight] == TileType.FLOOR || tiles[y + 1][wrappedXRight] == TileType.FLOOR)
+                    {
+                        return true;
+                    }
                 }
             }
             return false;
@@ -221,20 +229,20 @@
                 // Leaf node, actually generate a room
                 int maxWidth = parent.area.width - 2;
                 int maxHeight = parent.area.height - 2;
-                int minWidth = Mathf.Max(1, maxWidth / 3);
-                int minHeight = Mathf.Max(1, maxHeight / 3);
+                int minWidth = Mathf.Max(2, maxWidth / 3);
+                int minHeight = Mathf.Max(2, maxHeight / 3);
                 int w = Random.Range(minWidth, maxWidth);
                 int h = Random.Range(minHeight, maxHeight);
-                int xMin = Random.Range(parent.area.xMin + 1, parent.area.xMax - w - 2);
-                int yMin = Random.Range(parent.area.yMin + 1, parent.area.yMax - h - 2);
+                int xMin = Random.Range(parent.area.xMin + 1, parent.area.xMax - w - 1);
+                int yMin = Random.Range(parent.area.yMin + 1, parent.area.yMax - h - 1);
                 var rect = new RectIntExclusive(xMin, yMin, w, h);
                 parent.room = rect;
 
                 try
                 {
-                    for (int y = rect.yMin; y < rect.yMax; y++)
+                    for (int y = rect.yMin; y <= rect.yMax; y++)
                     {
-                        for (int x = rect.xMin; x < rect.xMax; x++)
+                        for (int x = rect.xMin; x <= rect.xMax; x++)
                         {
                             tiles[y][x] = TileType.FLOOR;
                         }
@@ -250,12 +258,12 @@
                 subBiomes.Add(roomCreatures);
 
                 var roomTraps = Instantiate(electricTraps);
-                roomTraps.area = new RectIntExclusive(rect.xMin + 1, rect.yMin + 1, rect.width - 2, rect.height - 2);
+                roomTraps.area = new RectIntExclusive(rect.xMin + 1, rect.yMin + 1, rect.width - 1, rect.height - 1);
                 subBiomes.Add(roomTraps);
 
-                for (int y = rect.yMin - 1; y < rect.yMax + 1; y++)
+                for (int y = rect.yMin - 1; y <= rect.yMax + 1; y++)
                 {
-                    for (int x = rect.xMin - 1; x < rect.xMax + 1; x++)
+                    for (int x = rect.xMin - 1; x <= rect.xMax + 1; x++)
                     {
                         Map.instance.tileObjects[y][Map.instance.GetXPositionOnMap(x)].isAlwaysLit = true;
                         Map.instance.tileObjects[y][Map.instance.GetXPositionOnMap(x)].SetLit(true);
@@ -454,9 +462,9 @@
         {
             bool isFloor = GetTile(i, j, invert) == TileType.FLOOR;
             bool isLesserNeighborFloor = i - 1 >= area.Min(!invert) && GetTile(i - 1, j, invert) == TileType.FLOOR;
-            bool isGreaterNeighborFloor = i + 1 < area.Max(!invert) && GetTile(i + 1, j, invert) == TileType.FLOOR;
+            bool isGreaterNeighborFloor = i + 1 <= area.Max(!invert) && GetTile(i + 1, j, invert) == TileType.FLOOR;
             bool isLesserLesserNeighborFloor = i - 1 - 1 >= area.Min(!invert) && GetTile(i - 1 - 1, j, invert) == TileType.FLOOR;
-            bool isGreaterGreaterNeighborFloor = i + 1 + 1 < area.Max(!invert) && GetTile(i + 1 + 1, j, invert) == TileType.FLOOR;
+            bool isGreaterGreaterNeighborFloor = i + 1 + 1 <= area.Max(!invert) && GetTile(i + 1 + 1, j, invert) == TileType.FLOOR;
 
             SetTile(i, j, TileType.FLOOR, invert);
 
@@ -484,8 +492,8 @@
         // A door is placed at each end of the path if appropriate
         private RectIntExclusive AddStraightConnectingPath(int i, RectIntExclusive areaA, RectIntExclusive areaB, bool invert)
         {
-            int startOfPath = CreateStraightPath(i, areaA.Max(invert) - 1, areaA.Min(invert) - 1, areaA, invert);
-            int endOfPath = CreateStraightPath(i, areaB.Min(invert), areaB.Max(invert), areaB, invert);
+            int startOfPath = CreateStraightPath(i, areaA.Max(invert), areaA.Min(invert) - 1, areaA, invert);
+            int endOfPath = CreateStraightPath(i, areaB.Min(invert), areaB.Max(invert) + 1, areaB, invert);
 
             if (IsDoorSpot(i, startOfPath + 1, invert)) SetTile(i, startOfPath + 1, TileType.DOOR, invert);
             if (IsDoorSpot(i - 1, startOfPath, invert)) SetTile(i - 1, startOfPath, TileType.DOOR, invert);
@@ -548,9 +556,9 @@
         List<Vector2Int> GetTopFloorTiles(RectIntExclusive area)
         {
             List<Vector2Int> floorTiles = new List<Vector2Int>();
-            for (int x = area.xMin; x < area.xMax; x++)
+            for (int x = area.xMin; x <= area.xMax; x++)
             {
-                for (int y = area.yMax - 1; y >= area.yMin; y--)
+                for (int y = area.yMax; y >= area.yMin; y--)
                 {
                     if (tiles[y][x] == TileType.FLOOR)
                     {
@@ -569,9 +577,9 @@
         List<Vector2Int> GetBottomFloorTiles(RectIntExclusive area)
         {
             List<Vector2Int> floorTiles = new List<Vector2Int>();
-            for (int x = area.xMin; x < area.xMax; x++)
+            for (int x = area.xMin; x <= area.xMax; x++)
             {
-                for (int y = area.yMin; y < area.yMax; y++)
+                for (int y = area.yMin; y <= area.yMax; y++)
                 {
                     if (tiles[y][x] == TileType.FLOOR)
                     {
@@ -590,9 +598,9 @@
         List<Vector2Int> GetRightFloorTiles(RectIntExclusive area)
         {
             List<Vector2Int> floorTiles = new List<Vector2Int>();
-            for (int y = area.yMin; y < area.yMax; y++)
+            for (int y = area.yMin; y <= area.yMax; y++)
             {
-                for (int x = area.xMax - 1; x >= area.xMin; x--)
+                for (int x = area.xMax; x >= area.xMin; x--)
                 {
                     if (tiles[y][x] == TileType.FLOOR)
                     {
@@ -611,9 +619,9 @@
         List<Vector2Int> GetLeftFloorTiles(RectIntExclusive area)
         {
             List<Vector2Int> floorTiles = new List<Vector2Int>();
-            for (int y = area.yMin; y < area.yMax; y++)
+            for (int y = area.yMin; y <= area.yMax; y++)
             {
-                for (int x = area.xMin; x < area.xMax; x++)
+                for (int x = area.xMin; x <= area.xMax; x++)
                 {
                     if (tiles[y][x] == TileType.FLOOR)
                     {
@@ -656,7 +664,7 @@
 
             if (splitHorizontal)
             {
-                int splitX = Random.Range(parent.area.xMin + minBSPArea, parent.area.xMax - minBSPArea - 1);
+                int splitX = Random.Range(parent.area.xMin + minBSPArea, parent.area.xMax - minBSPArea);
                 RectIntExclusive newArea = new RectIntExclusive();
                 newArea.xMin = parent.area.xMin;
                 newArea.xMax = splitX;
@@ -670,7 +678,7 @@
                 yield return Map.instance.StartCoroutine(GenerateAreas(child1, splitProbability * .8f));
 
                 newArea = new RectIntExclusive();
-                newArea.xMin = splitX;
+                newArea.xMin = splitX + 1;
                 newArea.xMax = parent.area.xMax;
                 newArea.yMin = parent.area.yMin;
                 newArea.yMax = parent.area.yMax;
@@ -683,7 +691,7 @@
             }
             else
             {
-                int splitY = Random.Range(parent.area.yMin + minBSPArea, parent.area.yMax - minBSPArea - 1);
+                int splitY = Random.Range(parent.area.yMin + minBSPArea, parent.area.yMax - minBSPArea);
                 RectIntExclusive newArea = new RectIntExclusive();
                 newArea.xMin = parent.area.xMin;
                 newArea.xMax = parent.area.xMax;
@@ -699,7 +707,7 @@
                 newArea = new RectIntExclusive();
                 newArea.xMin = parent.area.xMin;
                 newArea.xMax = parent.area.xMax;
-                newArea.yMin = splitY;
+                newArea.yMin = splitY + 1;
                 newArea.yMax = parent.area.yMax;
                 Node child2 = new Node();
                 child2.area = newArea;
@@ -713,9 +721,9 @@
         public void UpdateTiles(RectIntExclusive area)
         {
             var map = Map.instance;
-            for (int y = area.yMin; y < area.yMax; y++)
+            for (int y = area.yMin; y <= area.yMax; y++)
             {
-                for (int x = area.xMin; x < area.xMax; x++)
+                for (int x = area.xMin; x <= area.xMax; x++)
                 {
                     AddTileObjects(map, x, y);
                 }
@@ -753,7 +761,7 @@
 
         void AddTileObjects(Map map, int x, int y)
         {
-            //map.tileObjects[y][x].isAlwaysLit = true;
+            map.tileObjects[y][x].isAlwaysLit = true;
 
             map.tileObjects[y][x].RemoveAllObjects();
             if (tiles[y][x] == TileType.NOTHING)
@@ -771,9 +779,9 @@
                     var type = tiles[y][x];
                     ob = GetRandomBaseTile(type);
                     var instanceOb = map.tileObjects[y][x].SpawnAndAddObject(ob);
-                    //instanceOb.isAlwaysLit = true;
-                    //instanceOb.isVisibleWhenNotInSight = true;
-                    //instanceOb.hasBeenSeen = true;
+                    instanceOb.isAlwaysLit = true;
+                    instanceOb.isVisibleWhenNotInSight = true;
+                    instanceOb.hasBeenSeen = true;
                     if (type == TileType.DOOR)
                     {
                         Direction orientation = Direction.UP;
@@ -789,7 +797,7 @@
                 }
             }
 
-            //map.tileObjects[y][x].SetLit(true);
+            map.tileObjects[y][x].SetLit(true);
         }
 
         public BiomeDropRate[] GetSpawnRatesForBaseType(TileType baseType)
