@@ -761,7 +761,7 @@
 
         void AddTileObjects(Map map, int x, int y)
         {
-            map.tileObjects[y][x].isAlwaysLit = true;
+            //map.tileObjects[y][x].isAlwaysLit = true;
 
             map.tileObjects[y][x].RemoveAllObjects();
             if (tiles[y][x] == TileType.NOTHING)
@@ -779,9 +779,9 @@
                     var type = tiles[y][x];
                     ob = GetRandomBaseTile(type);
                     var instanceOb = map.tileObjects[y][x].SpawnAndAddObject(ob);
-                    instanceOb.isAlwaysLit = true;
-                    instanceOb.isVisibleWhenNotInSight = true;
-                    instanceOb.hasBeenSeen = true;
+                    //instanceOb.isAlwaysLit = true;
+                    //instanceOb.isVisibleWhenNotInSight = true;
+                    //instanceOb.hasBeenSeen = true;
                     if (type == TileType.DOOR)
                     {
                         Direction orientation = Direction.UP;
@@ -797,7 +797,7 @@
                 }
             }
 
-            map.tileObjects[y][x].SetLit(true);
+            //map.tileObjects[y][x].SetLit(true);
         }
 
         public BiomeDropRate[] GetSpawnRatesForBaseType(TileType baseType)
