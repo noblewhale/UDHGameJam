@@ -203,3 +203,4 @@ MonoBehaviour:
   hasDoneDamageFlash: 0
   tile: {fileID: 0}
   isKeyboardControlled: 0
+  allowedTiles: []

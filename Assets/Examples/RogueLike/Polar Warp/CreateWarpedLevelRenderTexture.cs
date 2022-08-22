@@ -22,7 +22,7 @@
 
             // Create the render texture. May want to switch to HDR format here if we ever need it for effects. It does double an already very large texture size though.
             var renderTexture = new RenderTexture(renderTextureWidth, renderTextureHeight, 0, RenderTextureFormat.ARGB32);
-            renderTexture.filterMode = FilterMode.Point;
+            //renderTexture.filterMode = FilterMode.Point;
 
             // The depth texture is needed for the outline effect in the warp shader. It does not need to be very accurate though.
             var depthTexture = new RenderTexture(renderTextureWidth, renderTextureHeight, 16, RenderTextureFormat.Depth);
