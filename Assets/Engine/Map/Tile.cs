@@ -13,7 +13,7 @@
         public float gapBetweenLayers = .1f;
 
         public bool isInView = false;
-        public bool isLit = true;
+        public bool isLit = false;
         public bool isAlwaysLit = false;
 
         public LinkedList<DungeonObject> objectList = new LinkedList<DungeonObject>();
@@ -26,7 +26,7 @@
             this.y = y;
             map.tilesThatAllowSpawn.Add(this);
             transform.localPosition = new Vector3(x * map.tileWidth, y * map.tileHeight, 0);
-
+            if (isAlwaysLit) isLit = true;
             //SetInView(true);
         }
 

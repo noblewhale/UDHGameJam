@@ -62,7 +62,7 @@
         public bool blocksLineOfSight = false;
         public bool coversObjectsBeneath = false;
         public bool preventsObjectSpawning = false;
-        public bool hasBeenSeen = false;
+        bool hasBeenSeen = false;
         public bool hasDoneDamageFlash = false;
 
         public event Action<int, int, int, int> onMove;
