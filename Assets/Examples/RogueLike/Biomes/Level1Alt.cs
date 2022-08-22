@@ -219,12 +219,12 @@
             if (parent.left == null && parent.right == null)
             {
                 // Leaf node, actually generate a room
-                int areaWidth = parent.area.width - 2;
-                int areaHeight = parent.area.height - 2;
-                int minWidth = Mathf.Max(1, areaWidth / 3);
-                int minHeight = Mathf.Max(1, areaHeight / 3);
-                int w = Random.Range(minWidth, areaWidth);
-                int h = Random.Range(minHeight, areaHeight);
+                int maxWidth = parent.area.width - 2;
+                int maxHeight = parent.area.height - 2;
+                int minWidth = Mathf.Max(1, maxWidth / 3);
+                int minHeight = Mathf.Max(1, maxHeight / 3);
+                int w = Random.Range(minWidth, maxWidth);
+                int h = Random.Range(minHeight, maxHeight);
                 int xMin = Random.Range(parent.area.xMin + 1, parent.area.xMax - w - 2);
                 int yMin = Random.Range(parent.area.yMin + 1, parent.area.yMax - h - 2);
                 var rect = new RectIntExclusive(xMin, yMin, w, h);
@@ -360,45 +360,45 @@
                 }
             }
 
-            if (parent == root)
-            {
-                List<Vector2Int> leftTiles = GetLeftFloorTiles(parent.area);
-                List<Vector2Int> rightTiles = GetRightFloorTiles(parent.area);
+            //if (parent == root)
+            //{
+            //    List<Vector2Int> leftTiles = GetLeftFloorTiles(parent.area);
+            //    List<Vector2Int> rightTiles = GetRightFloorTiles(parent.area);
 
-                // Get the overlap between the two above lists
-                bool isConnected = false;
-                var overlappingTiles = GetOverlap(leftTiles, rightTiles, false, out isConnected);
-                RectIntExclusive pathArea;
+            //    // Get the overlap between the two above lists
+            //    bool isConnected = false;
+            //    var overlappingTiles = GetOverlap(leftTiles, rightTiles, false, out isConnected);
+            //    RectIntExclusive pathArea;
 
-                int numberOfWrappedPaths = Random.Range(1, 4);
-                for (int i = 0; i < numberOfWrappedPaths; i++)
-                {
-                    if (overlappingTiles.Count != 0)
-                    {
-                        // Pick a random y position within the overlapping area to add a connecting path
-                        int randomIndex = Random.Range(0, overlappingTiles.Count);
-                        int randomY = overlappingTiles[randomIndex].tileA.y;
-                        pathArea = AddStraightConnectingPath(randomY, parent.left.area, parent.right.area, true);
-                        if (animationDelay != 0)
-                        {
-                            UpdateTiles(pathArea);
-                        }
-                    }
-                    else
-                    {
-                        var leftTileIndex = Random.Range(0, leftTiles.Count);
-                        var rightTileIndex = Random.Range(0, rightTiles.Count);
-                        var leftTile = leftTiles[leftTileIndex];
-                        var rightTile = rightTiles[rightTileIndex];
-                        AddAngledPath(leftTile, rightTile, false);
-                        if (animationDelay != 0)
-                        {
-                            UpdateTiles(parent.area);
-                        }
-                    }
-                    yield return new WaitForSeconds(animationDelay);
-                }
-            }
+            //    int numberOfWrappedPaths = Random.Range(1, 4);
+            //    for (int i = 0; i < numberOfWrappedPaths; i++)
+            //    {
+            //        if (overlappingTiles.Count != 0)
+            //        {
+            //            // Pick a random y position within the overlapping area to add a connecting path
+            //            int randomIndex = Random.Range(0, overlappingTiles.Count);
+            //            int randomY = overlappingTiles[randomIndex].tileA.y;
+            //            pathArea = AddStraightConnectingPath(randomY, parent.area, parent.area, true);
+            //            if (animationDelay != 0)
+            //            {
+            //                UpdateTiles(pathArea);
+            //            }
+            //        }
+            //        else
+            //        {
+            //            var leftTileIndex = Random.Range(0, leftTiles.Count);
+            //            var rightTileIndex = Random.Range(0, rightTiles.Count);
+            //            var leftTile = leftTiles[leftTileIndex];
+            //            var rightTile = rightTiles[rightTileIndex];
+            //            AddAngledPath(leftTile, rightTile, false);
+            //            if (animationDelay != 0)
+            //            {
+            //                UpdateTiles(parent.area);
+            //            }
+            //        }
+            //        yield return new WaitForSeconds(animationDelay);
+            //    }
+            //}
         }
 
         private void AddAngledPath(Vector2Int start, Vector2Int end, bool isVertical)
@@ -453,9 +453,9 @@
         bool AddStraightPathTile(int i, int j, RectIntExclusive area, bool invert)
         {
             bool isFloor = GetTile(i, j, invert) == TileType.FLOOR;
-            bool isLesserNeighborFloor = i - 1 > area.Min(!invert) && GetTile(i - 1, j, invert) == TileType.FLOOR;
+            bool isLesserNeighborFloor = i - 1 >= area.Min(!invert) && GetTile(i - 1, j, invert) == TileType.FLOOR;
             bool isGreaterNeighborFloor = i + 1 < area.Max(!invert) && GetTile(i + 1, j, invert) == TileType.FLOOR;
-            bool isLesserLesserNeighborFloor = i - 1 - 1 > area.Min(!invert) && GetTile(i - 1 - 1, j, invert) == TileType.FLOOR;
+            bool isLesserLesserNeighborFloor = i - 1 - 1 >= area.Min(!invert) && GetTile(i - 1 - 1, j, invert) == TileType.FLOOR;
             bool isGreaterGreaterNeighborFloor = i + 1 + 1 < area.Max(!invert) && GetTile(i + 1 + 1, j, invert) == TileType.FLOOR;
 
             SetTile(i, j, TileType.FLOOR, invert);
@@ -484,7 +484,7 @@
         // A door is placed at each end of the path if appropriate
         private RectIntExclusive AddStraightConnectingPath(int i, RectIntExclusive areaA, RectIntExclusive areaB, bool invert)
         {
-            int startOfPath = CreateStraightPath(i, areaA.Max(invert), areaA.Min(invert), areaA, invert);
+            int startOfPath = CreateStraightPath(i, areaA.Max(invert) - 1, areaA.Min(invert) - 1, areaA, invert);
             int endOfPath = CreateStraightPath(i, areaB.Min(invert), areaB.Max(invert), areaB, invert);
 
             if (IsDoorSpot(i, startOfPath + 1, invert)) SetTile(i, startOfPath + 1, TileType.DOOR, invert);
@@ -656,7 +656,7 @@
 
             if (splitHorizontal)
             {
-                int splitX = Random.Range(parent.area.xMin + minBSPArea, parent.area.xMax - minBSPArea);
+                int splitX = Random.Range(parent.area.xMin + minBSPArea, parent.area.xMax - minBSPArea - 1);
                 RectIntExclusive newArea = new RectIntExclusive();
                 newArea.xMin = parent.area.xMin;
                 newArea.xMax = splitX;
@@ -683,7 +683,7 @@
             }
             else
             {
-                int splitY = Random.Range(parent.area.yMin + minBSPArea, parent.area.yMax - minBSPArea);
+                int splitY = Random.Range(parent.area.yMin + minBSPArea, parent.area.yMax - minBSPArea - 1);
                 RectIntExclusive newArea = new RectIntExclusive();
                 newArea.xMin = parent.area.xMin;
                 newArea.xMax = parent.area.xMax;
@@ -740,7 +740,7 @@
                     wallTiles.RemoveAt(i);
                 }
             }
-            int r = UnityEngine.Random.Range(0, wallTiles.Count);
+            int r = Random.Range(0, wallTiles.Count);
             var tileToSpawnDoorOn = wallTiles[r];
             for (var node = tileToSpawnDoorOn.objectList.First; node != null;)
             {
@@ -753,6 +753,8 @@
 
         void AddTileObjects(Map map, int x, int y)
         {
+            //map.tileObjects[y][x].isAlwaysLit = true;
+
             map.tileObjects[y][x].RemoveAllObjects();
             if (tiles[y][x] == TileType.NOTHING)
             {
@@ -769,7 +771,9 @@
                     var type = tiles[y][x];
                     ob = GetRandomBaseTile(type);
                     var instanceOb = map.tileObjects[y][x].SpawnAndAddObject(ob);
-
+                    //instanceOb.isAlwaysLit = true;
+                    //instanceOb.isVisibleWhenNotInSight = true;
+                    //instanceOb.hasBeenSeen = true;
                     if (type == TileType.DOOR)
                     {
                         Direction orientation = Direction.UP;
@@ -784,6 +788,8 @@
                     }
                 }
             }
+
+            //map.tileObjects[y][x].SetLit(true);
         }
 
         public BiomeDropRate[] GetSpawnRatesForBaseType(TileType baseType)

@@ -6,6 +6,7 @@
     // Like a RectInt but xMax and yMax do not include width and height
     // So a Rect at 0, 0 with width 1 and height 1 will have xMax and yMax of 0
     // This is designed to work more like arrays which have a max index one less than the array length
+    // This somehow turned into the exact opposite of what I wanted...fuck
     public struct RectIntExclusive
     {
         public int xMin, yMin;
