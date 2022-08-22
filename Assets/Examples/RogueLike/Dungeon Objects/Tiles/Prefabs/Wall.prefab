@@ -158,7 +158,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4809128006189728}
   - component: {fileID: 114024561291017924}
-  - component: {fileID: 4062975060737777598}
   m_Layer: 0
   m_Name: Wall
   m_TagString: Untagged
@@ -220,18 +219,6 @@ MonoBehaviour:
   hasBeenSeen: 0
   hasDoneDamageFlash: 0
   tile: {fileID: 0}
---- !u!114 &4062975060737777598
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1920995248641060}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 195782ddc90c1a045a692f15d665b9c8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &623971217689817633
 GameObject:
   m_ObjectHideFlags: 0

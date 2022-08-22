@@ -84,10 +84,10 @@ namespace Noble.TileEngine
 						case Direction.DOWN: glyph.transform.localPosition = originalPosition + Vector3.down * offset; break;
 						case Direction.RIGHT: glyph.transform.localPosition = originalPosition + Vector3.right * offset; break;
 						case Direction.LEFT: glyph.transform.localPosition = originalPosition + Vector3.left * offset; break;
-						case Direction.UP_LEFT: glyph.transform.localPosition = originalPosition + Util.UpLeft * offset; break;
-						case Direction.DOWN_LEFT: glyph.transform.localPosition = originalPosition + Util.DownLeft * offset; break;
-						case Direction.UP_RIGHT: glyph.transform.localPosition = originalPosition + Util.UpRight * offset; break;
-						case Direction.DOWN_RIGHT: glyph.transform.localPosition = originalPosition + Util.DownRight * offset; break;
+						case Direction.UP_LEFT: glyph.transform.localPosition = originalPosition + VectorUtil.UpLeft * offset; break;
+						case Direction.DOWN_LEFT: glyph.transform.localPosition = originalPosition + VectorUtil.DownLeft * offset; break;
+						case Direction.UP_RIGHT: glyph.transform.localPosition = originalPosition + VectorUtil.UpRight * offset; break;
+						case Direction.DOWN_RIGHT: glyph.transform.localPosition = originalPosition + VectorUtil.DownRight * offset; break;
 					}
 				}
 				if (attackWillHit && targetCreature)
