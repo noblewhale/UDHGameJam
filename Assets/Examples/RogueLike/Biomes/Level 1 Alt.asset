@@ -23,7 +23,7 @@ MonoBehaviour:
   minHeight: -1
   maxHeight: -1
   subBiomes: []
-  minBSPArea: 3
+  minBSPArea: 5
   nothings:
   - item: {fileID: 114396989050233776, guid: 6ff31623a9d415f4a8e85daae402c56b, type: 3}
     minQuantity: 1

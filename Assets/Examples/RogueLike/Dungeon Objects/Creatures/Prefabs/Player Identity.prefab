@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2988539640752929922}
   - component: {fileID: 3136713830131558310}
-  - component: {fileID: 2945509658985151072}
   - component: {fileID: 2245283075977600208}
   m_Layer: 0
   m_Name: HumanGlyph
@@ -27,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2986473811086504382}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.5, y: 0.5, z: -0.01}
+  m_LocalPosition: {x: 0, y: 0, z: -0.01}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -86,18 +85,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &2945509658985151072
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2986473811086504382}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6d28a00780c6e3442b4519f38f7db683, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &2245283075977600208
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -137,7 +124,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2986698475577974556}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.094, y: 0.25, z: 0}
+  m_LocalPosition: {x: -0.40600002, y: -0.25, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -154,6 +141,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2988263539083935508}
   - component: {fileID: 2945605307997242492}
+  - component: {fileID: 5311479753527016018}
   m_Layer: 0
   m_Name: Glyphs
   m_TagString: Untagged
@@ -169,7 +157,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2986766131271121742}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.5, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -194,6 +182,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damageFlashColor: {r: 1, g: 0, b: 0, a: 1}
   glyphs: []
+--- !u!114 &5311479753527016018
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2986766131271121742}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d28a00780c6e3442b4519f38f7db683, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2986911638681479516
 GameObject:
   m_ObjectHideFlags: 0
@@ -220,7 +220,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2986911638681479516}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.5, y: 0.5, z: -0.02}
+  m_LocalPosition: {x: 0, y: 0, z: -0.02}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -576,7 +576,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3912137005795565662}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.8379, y: 0.2155, z: 0}
+  m_LocalPosition: {x: 0.33789998, y: -0.2845, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

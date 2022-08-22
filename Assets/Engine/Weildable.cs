@@ -15,7 +15,7 @@ namespace Noble.TileEngine
             WeildedBy = weilder;
 
             transform.parent = hand;
-            transform.localPosition = -(handle.position - transform.position);
+            transform.position = hand.transform.position - (handle.position - transform.position);
         }
 
         public void UnWeild()

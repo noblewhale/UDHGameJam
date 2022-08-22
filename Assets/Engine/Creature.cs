@@ -109,17 +109,18 @@
             Weildable newWeildable = ob?.GetComponent<Weildable>();
 
             oldWieldable?.GetComponent<Weildable>().UnWeild();
-            if (rightHandObject)
-            {
-                baseObject.glyphs.glyphs.RemoveAll(g => rightHandObject.glyphs.glyphs.Contains(g));
-            }
+            //if (rightHandObject)
+            //{
+            //    baseObject.glyphs.glyphs.RemoveAll(g => rightHandObject.glyphs.glyphs.Contains(g));
+            //}
 
             rightHandObject = ob;
+            rightHandObject.SetLit(true, true);
             newWeildable?.Weild(this, rightHand);
-            if (rightHandObject)
-            {
-                baseObject.glyphs.glyphs.AddRange(ob.glyphs.glyphs);
-            }
+            //if (rightHandObject)
+            //{
+            //    baseObject.glyphs.glyphs.AddRange(ob.glyphs.glyphs);
+            //}
         }
 
         public void FaceDirection(Tile tile)
