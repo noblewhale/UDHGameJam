@@ -97,7 +97,7 @@
             if (illuminationRange == 0) return;
 
             map.ForEachTileInRadius(
-                x, y, 
+                new Vector2(x + .5f, y + .5f), 
                 illuminationRange, 
                 (Tile t) => 
                 {

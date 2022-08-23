@@ -8,19 +8,26 @@
 
     public class FireAOEBehaviour : TargetableBehaviour
     {
-		public GameObject fireballObjectPrefab;
-		public GameObject firePrefab;
-		GameObject fireballObject;
+		public GameObject projectilePrefab;
+		public GameObject elementalEffectPrefab;
+		GameObject projectile;
+
 		float attackStartTime = 0;
 
-        override public void Awake()
+		float projectileTravelSpeed = 10;
+		float projectileTravelDuration;
+
+		Vector2 projectileStartPosition;
+		Vector2 projectileEndPosition;
+
+		override public void Awake()
         {
 			base.Awake();
 		}
 
 		override protected List<Tile> GetThreatenedTiles()
 		{
-			List<Tile> threatenedTile = new List<Tile>();
+			threatenedTiles.Clear();
 
 			float dirX = Map.instance.GetXDifference(owner.x, targetTile.x);
 			float dirY = targetTile.y - owner.y;
@@ -39,58 +46,57 @@
 
 				int wrappedX = (int)Map.instance.GetXPositionOnMap(relative.x);
 
-				if (Map.instance.tileObjects[y][wrappedX].IsCollidable() && (y != owner.y || wrappedX != owner.x))
+				var tileInRay = Map.instance.tileObjects[y][wrappedX];
+
+				if (tileInRay.IsCollidable() && (y != owner.y || wrappedX != owner.x))
 				{
-					threatenedTile.Add(Map.instance.tileObjects[y][wrappedX]);
+					threatenedTiles.Add(tileInRay);
 					break;
 				}
 			}
 
-			if (threatenedTile.Count == 0)
+			if (threatenedTiles.Count == 0)
             {
-				threatenedTile.Add(targetTile);
+				threatenedTiles.Add(targetTile);
             }				
 
-			return threatenedTile;
+			return threatenedTiles;
 		}
 
 
 		override public IEnumerator StartActionCoroutine()
 		{
-			fireballObject = Instantiate(fireballObjectPrefab);
-			fireballObject.transform.position = identityCreature.leftHand.transform.position - Vector3.forward;
+			projectile = Instantiate(projectilePrefab);
+			projectile.transform.position = identityCreature.leftHand.transform.position - Vector3.forward;
 			
 			yield return base.StartActionCoroutine();
 		}
 
 		override public void StartSubAction(ulong time) 
 		{
-			attackStartTime = Time.time;
-
-			targetTile = GetThreatenedTiles()[0];
-		}
-		override public bool ContinueSubAction(ulong time) 
-		{
-			Vector2 startPosition = identityCreature.leftHand.transform.position;
-			Vector2 endPosition = new Vector2(targetTile.transform.position.x + Map.instance.tileWidth/2, targetTile.transform.position.y + Map.instance.tileHeight/2);
-			float unitsPerSecond = 10;
-			float timeSinceAttackStart = Time.time - attackStartTime;
-			if ((endPosition - startPosition).magnitude > Map.instance.TotalWidth / 2)
-            {
-				if ((startPosition.x - Map.instance.transform.position.x) > Map.instance.TotalWidth / 2)
-                {
-					endPosition.x += Map.instance.TotalWidth;
+			attackStartTime = Time.time; 
+			projectileStartPosition = identityCreature.leftHand.transform.position;
+			projectileEndPosition = new Vector2(threatenedTiles[0].transform.position.x + Map.instance.tileWidth / 2, threatenedTiles[0].transform.position.y + Map.instance.tileHeight / 2);
+			projectileTravelDuration = (projectileStartPosition - projectileEndPosition).magnitude / projectileTravelSpeed;
+			if ((projectileEndPosition - projectileStartPosition).magnitude > Map.instance.TotalWidth / 2)
+			{
+				if ((projectileStartPosition.x - Map.instance.transform.position.x) > Map.instance.TotalWidth / 2)
+				{
+					projectileEndPosition.x += Map.instance.TotalWidth;
 				}
 				else
-                {
-					endPosition.x -= Map.instance.TotalWidth;
+				{
+					projectileEndPosition.x -= Map.instance.TotalWidth;
 				}
 			}
+		}
 
-			float duration = (startPosition - endPosition).magnitude / unitsPerSecond;
-			fireballObject.transform.position = (Vector3)Vector2.Lerp(startPosition, endPosition, timeSinceAttackStart / duration) - Vector3.forward;
+		override public bool ContinueSubAction(ulong time) 
+		{
+			float timeSinceAttackStart = Time.time - attackStartTime;
+			projectile.transform.position = (Vector3)Vector2.Lerp(projectileStartPosition, projectileEndPosition, timeSinceAttackStart / projectileTravelDuration) - Vector3.forward;
 
-			if (timeSinceAttackStart > duration)
+			if (timeSinceAttackStart > projectileTravelDuration)
             {
 				return true;
             }
@@ -101,18 +107,18 @@
 		}
 		override public void FinishSubAction(ulong time)
 		{
-			if (targetTile && targetTile.objectList != null)
+			if (threatenedTiles[0] && threatenedTiles[0].objectList != null)
 			{
-				DungeonObject targetObject = targetTile.objectList.FirstOrDefault(ob => ob.isCollidable);
+				DungeonObject targetObject = threatenedTiles[0].objectList.FirstOrDefault(ob => ob.isCollidable);
 				if (targetObject)
 				{
 					targetObject.TakeDamage(10);
 				}
 			}
-			var fire = Instantiate(firePrefab);
-			targetTile.AddObject(fire.GetComponent<DungeonObject>());
+			var fire = Instantiate(elementalEffectPrefab);
+			threatenedTiles[0].AddObject(fire.GetComponent<DungeonObject>());
 			
-			Destroy(fireballObject);
+			Destroy(projectile);
 		}
 	}
 }

@@ -19,6 +19,7 @@
 
 		public DungeonObject threatenedPrefab;
 		protected List<DungeonObject> threatenedObjects = new List<DungeonObject>();
+		public List<Tile> threatenedTiles = new List<Tile>();
 
 		public float aimingRadius = 3;
 
@@ -51,10 +52,10 @@
 			outlineObjects.Clear();
 		}
 
-		virtual public void AddThreatened(List<Tile> tiles)
+		virtual public void AddThreatened(List<Tile> hits)
 		{
-			if (tiles == null) return;
-			foreach (Tile tile in tiles) AddThreatened(tile);
+			if (hits == null) return;
+			foreach (var hit in hits) AddThreatened(hit);
 		}
 
 		virtual public void AddThreatened(Tile tile)
@@ -81,7 +82,7 @@
 			AimOverlay.instance.gameObject.SetActive(true);
 
 			var allowedTiles = Map.instance.GetTilesInRadius(
-				Player.instance.identity.x, Player.instance.identity.y,
+				new Vector2(Player.instance.identity.x + .5f, Player.instance.identity.y + .5f),
 				aimingRadius,
 				null,
 				false

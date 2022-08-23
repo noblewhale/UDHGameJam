@@ -284,5 +284,23 @@
         {
             return !objectList.Any(x => x.preventsObjectSpawning);
         }
+
+        public static Tile GetClosestTile(List<Tile> tiles, Vector2 pos)
+        {
+            Tile closestTile = null;
+            float minDistance = float.MaxValue;
+
+            foreach (var tile in tiles)
+            {
+                float distance = Vector2.Distance(tile.transform.position, pos);
+                if (distance < minDistance)
+                {
+                    closestTile = tile;
+                    minDistance = distance;
+                }
+            }
+
+            return closestTile;
+        }
     }
 }

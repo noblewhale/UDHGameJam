@@ -26,8 +26,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2986473811086504382}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.01}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0.18, z: -0.01}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2988263539083935508}
@@ -74,9 +74,9 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 8b06d3e5368d2224c9dc52f583a202bd, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f2041e1ffcddf3d40bdb10581518b736, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
+  m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 0.37, y: 0.37}
@@ -124,7 +124,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2986698475577974556}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.40600002, y: -0.25, z: 0}
+  m_LocalPosition: {x: -0.304, y: 0.103, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -211,7 +211,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2988378339895463744
 Transform:
   m_ObjectHideFlags: 0
@@ -311,6 +311,7 @@ GameObject:
   - component: {fileID: 2987740549015043199}
   - component: {fileID: 2987740549015043192}
   - component: {fileID: 2987740549015043188}
+  - component: {fileID: 5664695084507759229}
   m_Layer: 0
   m_Name: Player Identity
   m_TagString: Untagged
@@ -369,7 +370,6 @@ MonoBehaviour:
   blocksLineOfSight: 0
   coversObjectsBeneath: 0
   preventsObjectSpawning: 1
-  hasBeenSeen: 0
   hasDoneDamageFlash: 0
   tile: {fileID: 0}
 --- !u!114 &2949319144300183498
@@ -503,10 +503,12 @@ MonoBehaviour:
     type: 3}
   threatenedPrefab: {fileID: -1016890846729075064, guid: bcf85fcdc9e919e4ca709f4cf3b06c9f,
     type: 3}
+  threatenedTiles: []
   aimingRadius: 3
-  fireballObjectPrefab: {fileID: 1511826856884192, guid: 4df3d242e568055468042aa8164b5b2f,
+  projectilePrefab: {fileID: 1511826856884192, guid: 4df3d242e568055468042aa8164b5b2f,
     type: 3}
-  firePrefab: {fileID: 1511826856884192, guid: cce84be517f5a80408651f08be066ca1, type: 3}
+  elementalEffectPrefab: {fileID: 1511826856884192, guid: cce84be517f5a80408651f08be066ca1,
+    type: 3}
 --- !u!114 &2987740549015043192
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -529,6 +531,7 @@ MonoBehaviour:
   moveBehaviour: {fileID: 2987740550008959593}
   fireAOEBehaviour: {fileID: 2987740549015043199}
   iceRayBehaviour: {fileID: 2987740549015043188}
+  coneBehaviour: {fileID: 5664695084507759229}
 --- !u!114 &2987740549015043188
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -546,11 +549,37 @@ MonoBehaviour:
     type: 3}
   threatenedPrefab: {fileID: -1016890846729075064, guid: bcf85fcdc9e919e4ca709f4cf3b06c9f,
     type: 3}
+  threatenedTiles: []
   aimingRadius: 1
   fireballObjectPrefab: {fileID: 1511826856884192, guid: 4df3d242e568055468042aa8164b5b2f,
     type: 3}
   firePrefab: {fileID: 1511826856884192, guid: cce84be517f5a80408651f08be066ca1, type: 3}
   rayLength: 7
+  unitsPerSecond: 10
+--- !u!114 &5664695084507759229
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2987011236448704078}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d84a3d1815d5b044faaeadb6ec29c21d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetTile: {fileID: 0}
+  outlinePrefab: {fileID: -6944675546895815483, guid: 087227423c0cf7b4a85be69db76cf797,
+    type: 3}
+  threatenedPrefab: {fileID: -1016890846729075064, guid: bcf85fcdc9e919e4ca709f4cf3b06c9f,
+    type: 3}
+  threatenedTiles: []
+  aimingRadius: 1
+  fireballObjectPrefab: {fileID: 1511826856884192, guid: 4df3d242e568055468042aa8164b5b2f,
+    type: 3}
+  firePrefab: {fileID: 1511826856884192, guid: cce84be517f5a80408651f08be066ca1, type: 3}
+  rayLength: 2.2
+  halfAngle: 0.44879895
   unitsPerSecond: 10
 --- !u!1 &3912137005795565662
 GameObject:

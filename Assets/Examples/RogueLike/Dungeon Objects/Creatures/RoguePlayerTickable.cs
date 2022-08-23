@@ -12,6 +12,7 @@
         public MoveBehaviour moveBehaviour;
         public FireAOEBehaviour fireAOEBehaviour;
         public IceRayBehaviour iceRayBehaviour;
+        public ConeBehaviour coneBehaviour;
 
         override public TickableBehaviour DetermineBehaviour()
         {
@@ -24,6 +25,10 @@
             if (command.key == Key.G)
             {
                 return iceRayBehaviour;
+            }
+            if (command.key == Key.H)
+            {
+                return coneBehaviour;
             }
             else
             {
