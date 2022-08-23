@@ -20,8 +20,9 @@
         public int width = 10;
         public int height = 1;
 
-        public float tileWidth = 1;
-        public float tileHeight = 1;
+        public Vector2 tileDimensions = new Vector2(1, 1);
+        public float tileWidth => tileDimensions.x;
+        public float tileHeight => tileDimensions.y;
 
         public object isDirtyLock = new object();
 
@@ -80,6 +81,7 @@
             ForEachTile(t =>
             {
                 t.DestroyAllObjects();
+                Debug.LogWarning("Clear map tile destroy");
                 Destroy(t.gameObject);
             });
             tileObjects = new Tile[height][];
@@ -183,54 +185,56 @@
             tileObjects[y][x].Init(this, x, y);
         }
 
-        virtual public Vector2 GetPositionOnMap(Vector2 pos)
+        virtual public Vector2 GetWorldPositionOnMap(Vector2 pos)
         {
-            pos.x = GetXPositionOnMap(pos.x);
-            pos.y = GetYPositionOnMap(pos.y);
+            pos.x = GetXWorldPositionOnMap(pos.x);
+            pos.y = GetYWorldPositionOnMap(pos.y);
 
             return pos;
         }
 
-        virtual public Vector2Int GetPositionOnMap(Vector2Int pos)
+        virtual public Vector2Int GetTilePositionOnMap(Vector2Int pos)
         {
-            pos.x = GetXPositionOnMap(pos.x);
-            pos.y = GetYPositionOnMap(pos.y);
+            pos.x = GetXTilePositionOnMap(pos.x);
+            pos.y = GetYTilePositionOnMap(pos.y);
 
             return pos;
         }
 
-        virtual public int GetXPositionOnMap(int x)
+        virtual public int GetXTilePositionOnMap(int x)
         {
             return Math.Clamp(x, 0, width - 1);
         }
 
-        virtual public int GetYPositionOnMap(int y)
+        virtual public int GetYTilePositionOnMap(int y)
         {
             return Math.Clamp(y, 0, height - 1);
         }
 
-        virtual public float GetXPositionOnMap(float x)
+        virtual public float GetXWorldPositionOnMap(float x)
         {
             return Mathf.Clamp(x, 0, TotalWidth);
         }
 
-        virtual public float GetYPositionOnMap(float y)
+        virtual public float GetYWorldPositionOnMap(float y)
         {
             return Mathf.Clamp(y, 0, TotalHeight);
         }
 
         virtual public Tile GetTile(int x, int y) => GetTile(new Vector2Int(x, y));
-        virtual public Tile GetTile(float x, float y) => GetTile(new Vector2Int(Mathf.FloorToInt(x), Mathf.FloorToInt(y)));
+        virtual public Tile GetTileFromWorldPosition(float x, float y) => GetTileFromWorldPosition(new Vector2(x, y));
 
-        virtual public Tile GetTile(Vector2Int position)
+        virtual public Tile GetTile(Vector2Int tilePosition)
         {
-            position = GetPositionOnMap(position);
-            return tileObjects[position.y][position.x];
+            tilePosition = GetTilePositionOnMap(tilePosition);
+            return tileObjects[tilePosition.y][tilePosition.x];
         }
 
-        virtual public Tile GetTile(Vector2 position)
+        virtual public Tile GetTileFromWorldPosition(Vector2 position)
         {
-            return GetTile(new Vector2Int(Mathf.FloorToInt(position.x), Mathf.FloorToInt(position.y)));
+            position /= tileDimensions;
+            var tilePos = new Vector2Int(Mathf.FloorToInt(position.x), Mathf.FloorToInt(position.y));
+            return GetTile(tilePos);
         }
 
         virtual public void ForEachTile(Action<Tile> action)
@@ -297,6 +301,11 @@
             return tiles;
         }
 
+        virtual public void TryMoveObject(DungeonObject ob, Vector2Int newPos)
+        {
+            TryMoveObject(ob, newPos.x, newPos.y);
+        }
+
         virtual public void TryMoveObject(DungeonObject ob, int newX, int newY)
         {
             if (!tileObjects[newY][newX].IsCollidable())
@@ -318,28 +327,35 @@
             }
         }
 
+        virtual public void MoveObject(DungeonObject ob, Vector2Int newPos)
+        {
+            if (ob.tile)
+            {
+                GetTile(ob.tilePosition).RemoveObject(ob);
+            }
+            GetTile(newPos).AddObject(ob, true);
+        }
+
         virtual public void MoveObject(DungeonObject ob, int newX, int newY)
         {
-            tileObjects[ob.y][ob.x].RemoveObject(ob);
-            tileObjects[newY][newX].AddObject(ob, true);
+            MoveObject(ob, new Vector2Int(newX, newY));
+        }
+
+        virtual public void Reveal(Vector2Int pos, float radius)
+        {
+            tileObjects[pos.y][pos.x].SetInView(true);
+
+            ForEachTileInRadius(
+                pos + tileDimensions / 2,
+                radius,
+                t => t.SetInView(true),
+                t => t.DoesBlockLineOfSight() && t.position != pos
+            );
         }
 
         virtual public void Reveal(int tileX, int tileY, float radius)
         {
-            tileObjects[tileY][tileX].SetInView(true);
-
-            ForEachTileInRadius(
-                new Vector2(tileX + tileWidth/2, tileY + tileHeight/2), 
-                radius, 
-                (Tile t) =>
-                {
-                    tileObjects[t.y][t.x].SetInView(true);
-                },
-                (Tile t) => 
-                {
-                    return tileObjects[t.y][t.x].DoesBlockLineOfSight() && (t.y != tileY || t.x != tileX);
-                }
-            );
+            Reveal(new Vector2Int(tileX, tileY), radius);
         }
 
         virtual public void ForEachTileInRadius(Vector2 start, float radius, Action<Tile> action, Func<Tile, bool> stopCondition = null, bool includeStartTile = true)
@@ -489,6 +505,7 @@
             Vector2 currentPosition;
             Tile currentTile;
             int y;
+            bool wasStopped = false;
             for (int d = 0; d < distance / stepSize; d++)
             {
                 currentPosition = start + dir * d * stepSize;
@@ -502,42 +519,52 @@
                 y = (int)currentPosition.y;
                 if (y < 0 || y >= height) break;
 
-                currentTile = GetTile(currentPosition.x, y);
+                currentTile = GetTileFromWorldPosition(currentPosition.x, y);
 
-                if (!currentTile.isDirty && (includeSourceTile || currentTile.x != Mathf.FloorToInt(start.x) || currentTile.y != Mathf.FloorToInt(start.y)))
+                if (includeSourceTile || currentTile.position != start.ToFloor())
                 {
-                    currentTile.isDirty = true;
-
-                    var hit = new TileAndPosition
+                    if (!currentTile.isDirty)
                     {
-                        tile = currentTile,
-                        hitPosition = currentPosition
-                    };
-                    tiles.Add(hit);
+                        currentTile.isDirty = true;
+
+                        var hit = new TileAndPosition
+                        {
+                            tile = currentTile,
+                            hitPosition = currentPosition
+                        };
+                        tiles.Add(hit);
+                    }
+
+                    if (stopCondition != null && stopCondition(currentTile))
+                    {
+                        wasStopped = true;
+                        break;
+                    }
                 }
-
-                if (stopCondition != null && stopCondition(currentTile)) break;
             }
 
-            Vector2 relative = start + dir * distance;
-            if (showDebug)
+            if (!wasStopped)
             {
-                Debug.DrawLine((Vector2)transform.position + prev, (Vector2)transform.position + relative, new Color(Random.value, Random.value, Random.value), 4);
-            }
-            y = (int)relative.y;
-            if (y >= 0 && y < height)
-            {
-                currentTile = GetTile(relative.x, y);
-
-                if (!currentTile.isDirty && (includeSourceTile || currentTile.x != Mathf.FloorToInt(start.x) || currentTile.y != Mathf.FloorToInt(start.y)))
+                Vector2 relative = start + dir * distance;
+                if (showDebug)
                 {
-                    currentTile.isDirty = true;
-                    var hit = new TileAndPosition
+                    Debug.DrawLine((Vector2)transform.position + prev, (Vector2)transform.position + relative, new Color(Random.value, Random.value, Random.value), 4);
+                }
+                y = (int)relative.y;
+                if (y >= 0 && y < height)
+                {
+                    currentTile = GetTileFromWorldPosition(relative.x, y);
+
+                    if (!currentTile.isDirty && (includeSourceTile || currentTile.position != start.ToFloor()))
                     {
-                        tile = currentTile,
-                        hitPosition = start + dir * distance
-                    };
-                    tiles.Add(hit);
+                        currentTile.isDirty = true;
+                        var hit = new TileAndPosition
+                        {
+                            tile = currentTile,
+                            hitPosition = start + dir * distance
+                        };
+                        tiles.Add(hit);
+                    }
                 }
             }
 
@@ -568,15 +595,16 @@
             ForEachTileInArea(area, t => t.UpdateLighting());
         }
 
+        virtual public void UpdateLighting(Vector2Int center, float radius)
+        {
+            var area = new RectIntExclusive();
+            area.SetToSquare(center, radius + 1);
+            UpdateLighting(area);
+        }
+
         virtual public void UpdateLighting(int x, int y, float radius)
         {
-            var area = new RectIntExclusive(
-                (int)(x - radius - 1), 
-                (int)(y - radius - 1), 
-                (int)(x + radius + 2), 
-                (int)(y + radius + 2)
-            );
-            UpdateLighting(area);
+            UpdateLighting(new Vector2Int(x, y), radius);
         }
 
         virtual public void ForEachTileThatAllowsSpawn(Action<Tile> doThis, RectIntExclusive area)

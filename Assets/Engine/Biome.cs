@@ -80,12 +80,11 @@ namespace Noble.TileEngine
         public static void SpawnRandomObject(Tile tile)
         {
             int numStacksAlreadyPlaced = 0;
-            Vector2Int tilePos = new Vector2Int(tile.x, tile.y);
-            var containingBiomes = tile.map.biomes.Where(b => b.area.Contains(tilePos)).ToList();
+            var containingBiomes = tile.map.biomes.Where(b => b.area.Contains(tile.position)).ToList();
             var subBiomes = new List<Biome>();
             foreach (var biome in containingBiomes)
             {
-                GatherBiomes(tilePos, ref subBiomes, biome);
+                GatherBiomes(tile.position, ref subBiomes, biome);
             }
             containingBiomes.AddRange(subBiomes);
             float totalProbability = 0;

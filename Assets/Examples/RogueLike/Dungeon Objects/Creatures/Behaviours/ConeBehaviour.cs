@@ -32,21 +32,18 @@
 
 		override protected List<Tile> GetThreatenedTiles()
 		{
-			Vector2 ownerTile = new Vector2(owner.x + Map.instance.tileWidth / 2, owner.y + Map.instance.tileHeight / 2);
-			lastConeDirection = Map.instance.GetDifference(ownerTile, new Vector2(targetTile.x + Map.instance.tileWidth / 2, targetTile.y + Map.instance.tileHeight / 2));
+			Vector2 centerOfOwnerTile = owner.tilePosition + Map.instance.tileDimensions / 2;
+			lastConeDirection = Map.instance.GetDifference(centerOfOwnerTile, targetTile.position + Map.instance.tileDimensions / 2);
 			lastConeDirection = lastConeDirection.normalized;
 
-			lastConeStartPos = ownerTile + lastConeDirection * (Mathf.Sqrt(2) * 1.02f);
-			lastConeStartPos.x = Mathf.Clamp(lastConeStartPos.x, owner.x - .01f, owner.x + 1.01f);
-			lastConeStartPos.y = Mathf.Clamp(lastConeStartPos.y, owner.y - .01f, owner.y + 1.01f);
+			float extraSpace = .02f;
+			lastConeStartPos = centerOfOwnerTile + lastConeDirection * ((Mathf.Sqrt(2) / 2) * (1 + extraSpace));
+            Vector2 minConePos = owner.tilePosition - Vector2.one * extraSpace / 2;
+            Vector2 maxConePos = owner.tilePosition + Vector2.one * (1 + extraSpace / 2);
+			lastConeStartPos.Clamp(minConePos, maxConePos);
 
 			var area = new RectIntExclusive();
-            area.SetMinMax(
-                Mathf.FloorToInt(owner.x - rayLength - 1),
-                Mathf.FloorToInt(owner.x + rayLength + 1),
-				Mathf.FloorToInt(owner.y - rayLength - 1),
-				Mathf.FloorToInt(owner.y + rayLength + 1)
-			);
+			area.SetToSquare(owner.tilePosition, rayLength + 1);
 
 			lock (Map.instance.isDirtyLock)
 			{
@@ -113,7 +110,7 @@
 
 					if (t >= 1)
 					{
-						var tileThatWasHit = Map.instance.GetTile(fireballObjects[i].transform.localPosition);
+						var tileThatWasHit = Map.instance.GetTileFromWorldPosition(fireballObjects[i].transform.localPosition);
 
 						// Destroy the fireball
 						Destroy(fireballObjects[i]);

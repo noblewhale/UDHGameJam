@@ -49,14 +49,14 @@
             return Math.Abs(circleDifference1) < Math.Abs(circleDifference2) ? circleDifference1 : circleDifference2;
         }
 
-        override public float GetXPositionOnMap(float x)
+        override public float GetXWorldPositionOnMap(float x)
         {
             if (x < 0) x += TotalWidth;
             else if (x >= TotalWidth) x -= TotalWidth;
             return x;
         }
 
-        override public int GetXPositionOnMap(int x)
+        override public int GetXTilePositionOnMap(int x)
         {
             if (x < 0) x += width;
             else if (x >= width) x -= width;

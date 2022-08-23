@@ -1,11 +1,11 @@
 ﻿namespace Noble.TileEngine
 {
 	using System.Linq;
+    using UnityEngine;
 
     public class MoveBehaviour : TickableBehaviour
     {
-		public int targetX;
-		public int targetY;
+		public Vector2Int targetTilePosition;
 
 		Creature identityCreature;
 
@@ -22,7 +22,7 @@
 
 		override public void FinishSubAction(ulong time) 
 		{
-			owner.map.TryMoveObject(owner, targetX, targetY);
+			owner.map.TryMoveObject(owner, targetTilePosition);
 			if (owner.tile.objectList.Any(x => x.canBePickedUp))
 			{
 				owner.PickUpAll();

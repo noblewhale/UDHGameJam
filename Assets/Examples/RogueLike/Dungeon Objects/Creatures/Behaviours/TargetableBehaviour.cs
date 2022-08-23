@@ -82,7 +82,7 @@
 			AimOverlay.instance.gameObject.SetActive(true);
 
 			var allowedTiles = Map.instance.GetTilesInRadius(
-				new Vector2(Player.instance.identity.x + .5f, Player.instance.identity.y + .5f),
+				Player.instance.identity.tilePosition + owner.map.tileDimensions / 2,
 				aimingRadius,
 				null,
 				false

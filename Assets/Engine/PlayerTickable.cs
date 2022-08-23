@@ -15,23 +15,22 @@
 
             ulong duration = 1;
 
-            int newTileX = Player.instance.identity.x;
-            int newTileY = Player.instance.identity.y;
+            Vector2Int newTilePosition = Player.instance.identity.tilePosition;
 
             bool doSomething = true;
             switch (command.key)
             {
-                case Key.W: newTileY++; break;
-                case Key.S: newTileY--; break;
-                case Key.D: newTileX++; break;
-                case Key.A: newTileX--; break;
+                case Key.W: newTilePosition.y++; break;
+                case Key.S: newTilePosition.y--; break;
+                case Key.D: newTilePosition.x++; break;
+                case Key.A: newTilePosition.x--; break;
                 default: doSomething = false; break;
             }
 
             if (doSomething)
             {
-                newTileX = Mathf.Clamp(newTileX, 0, Map.instance.width - 1);
-                newTileY = Mathf.Clamp(newTileY, 0, Map.instance.height - 1);
+                newTilePosition.x = Mathf.Clamp(newTilePosition.x, 0, Map.instance.width - 1);
+                newTilePosition.y = Mathf.Clamp(newTilePosition.y, 0, Map.instance.height - 1);
             }
             else
             {
@@ -39,12 +38,11 @@
                 return null;
             }
 
-            var tileActingOn = owner.map.tileObjects[newTileY][newTileX];
+            var tileActingOn = owner.map.tileObjects[newTilePosition.y][newTilePosition.x];
 
             if (!tileActingOn.IsCollidable())
             {
-                moveBehaviour.targetX = newTileX;
-                moveBehaviour.targetY = newTileY;
+                moveBehaviour.targetTilePosition = newTilePosition;
                 return moveBehaviour;
             }
             else

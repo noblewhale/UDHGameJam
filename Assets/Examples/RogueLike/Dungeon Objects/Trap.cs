@@ -52,7 +52,7 @@
                 creatureThatSteppedOnTrap.TakeDamage(1);
                 if (knockBack && creatureThatSteppedOnTrap.health != 0)
                 {
-                    Map.instance.MoveObject(creatureThatSteppedOnTrap, creatureThatSteppedOnTrap.previousX, creatureThatSteppedOnTrap.previousY);
+                    Map.instance.MoveObject(creatureThatSteppedOnTrap, creatureThatSteppedOnTrap.previousTilePosition);
                 }
             }
             creatureThatSteppedOnTrap = null;

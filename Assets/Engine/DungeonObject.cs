@@ -19,21 +19,12 @@
         public Vector3 originalGlyphPosition;
         public Map map;
 
-        [SerializeField]
-        Vector2Int position = Vector2Int.zero;
-        public int x
-        {
-            get => position.x;
-            set => position.x = value;
-        }
+        public Vector2Int tilePosition => tile.position;
 
-        public int y
-        {
-            get => position.y;
-            set => position.y = value;
-        }
+        public int x => tilePosition.x;
+        public int y => tilePosition.y;
 
-        public int previousX, previousY;
+        public Vector2Int previousTilePosition;
         public int quantity = 1;
         public bool canBePickedUp;
         public bool isAlwaysLit;
@@ -65,8 +56,8 @@
         bool hasBeenSeen = false;
         public bool hasDoneDamageFlash = false;
 
-        public event Action<int, int, int, int> onMove;
-        public event Action<int, int, int, int> onSetPosition;
+        public event Action<Vector2Int, Vector2Int> onMove;
+        public event Action<Vector2Int, Vector2Int> onSetPosition;
         public event Action<DungeonObject> onPickedUpObject;
         public event Action<DungeonObject, bool> onCollision;
         public event Action onDeath;
@@ -97,7 +88,7 @@
             if (illuminationRange == 0) return;
 
             map.ForEachTileInRadius(
-                new Vector2(x + .5f, y + .5f), 
+                tilePosition + map.tileDimensions / 2,
                 illuminationRange, 
                 (Tile t) => 
                 {
@@ -105,7 +96,7 @@
                 },
                 (Tile t) =>
                 {
-                    return t.DoesBlockLineOfSight() && (t.y != tile.y || t.x != tile.x);
+                    return t.DoesBlockLineOfSight() && (t != tile);
                 }
             );
         }
@@ -175,16 +166,17 @@
         virtual public void Die()
         {
             if (onDeath != null) onDeath();
-            map.tileObjects[y][x].objectList.Remove(this);
+            tile.objectList.Remove(this);
             DropItems();
             Destroy(gameObject);
+            Debug.LogWarning("DIE");
         }
 
         virtual public void DropItems()
         {
             foreach (var kv in inventory.items)
             {
-                map.tileObjects[y][x].AddObject(kv.Value);
+                tile.AddObject(kv.Value);
             }
         }
 
@@ -192,7 +184,7 @@
         {
             List<DungeonObject> itemsToRemoveFromTile = new List<DungeonObject>();
             List<DungeonObject> itemsToDestroy = new List<DungeonObject>();
-            foreach (var ob in map.tileObjects[y][x].objectList)
+            foreach (var ob in tile.objectList)
             {
                 if (ob.canBePickedUp)
                 {
@@ -214,31 +206,37 @@
 
             foreach (var ob in itemsToRemoveFromTile)
             {
-                map.tileObjects[y][x].RemoveObject(ob);
+                tile.RemoveObject(ob);
                 if (onPickedUpObject != null) onPickedUpObject(ob);
             }
-
+            Debug.LogWarning("Pick up destroy");
             foreach (var ob in itemsToDestroy) Destroy(ob);
+        }
+
+        public void Move(Vector2Int pos)
+        {
+            Move(pos.x, pos.y);
         }
 
         public void Move(int newX, int newY)
         {
             SetPosition(newX, newY);
 
-            if (onMove != null) onMove(previousX, previousY, x, y);
+            if (onMove != null) onMove(previousTilePosition, tilePosition);
+        }
+
+        public void SetPosition(Vector2Int position)
+        {
+            previousTilePosition = position;
+            //tilePosition = position;
+            tile = map.GetTile(position);
+
+            if (onSetPosition != null) onSetPosition(previousTilePosition, tilePosition);
         }
 
         public void SetPosition(int newX, int newY)
         {
-            previousX = x;
-            previousY = y;
-            x = newX;
-            y = newY;
-            tile = map.tileObjects[y][x];
-
-            //map.UpdateLighting();
-
-            if (onSetPosition != null) onSetPosition(previousX, previousY, x, y);
+            SetPosition(new Vector2Int(newX, newY));
         }
     }
 }

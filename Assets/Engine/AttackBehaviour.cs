@@ -32,7 +32,7 @@ namespace Noble.TileEngine
 		{
 			Creature targetCreature = targetObject.GetComponent<Creature>();
 
-			identityCreature.lastDirectionAttackedOrMoved = identityCreature.GetDirection(identityCreature.x, identityCreature.y, targetObject.x, targetObject.y);
+			identityCreature.lastDirectionAttackedOrMoved = identityCreature.GetDirection(identityCreature.tilePosition, targetObject.tilePosition);
 
 			attackWillHit = false;
 
@@ -119,7 +119,7 @@ namespace Noble.TileEngine
 		}
 		override public void FinishSubAction(ulong time) 
 		{
-			Map.instance.TryMoveObject(owner, targetTile.x, targetTile.y);
+			Map.instance.TryMoveObject(owner, targetTile.position);
 			Creature targetCreature = targetObject.GetComponent<Creature>();
 
 			Weapon weapon = null;

@@ -45,6 +45,7 @@
 
         void RemoveSlot(string key)
         {
+            Debug.LogWarning("Slot destroy");
             Destroy(slots[key].gameObject);
             slots.Remove(key);
             UpdateIndexes();

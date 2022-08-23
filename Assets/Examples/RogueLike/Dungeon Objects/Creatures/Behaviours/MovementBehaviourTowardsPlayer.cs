@@ -29,13 +29,13 @@
 
         public override void FinishSubAction(ulong time)
         {
-            owner.map.MoveObject(owner, nextMoveTarget.x, nextMoveTarget.y);
+            owner.map.MoveObject(owner, nextMoveTarget.position);
         }
 
         public override float GetActionConfidence()
         {
-            Vector2 playerPos = new Vector2(Player.instance.identity.x, Player.instance.identity.y);
-            Vector2 myPos = new Vector2(owner.x, owner.y);
+            Vector2Int playerPos = Player.instance.identity.tilePosition;
+            Vector2Int myPos = owner.tilePosition;
 
             float radius = radiusIfNotUsingViewDistance;
             if (useViewDistance) radius = owningCreature.baseObject.viewDistance;
@@ -47,29 +47,15 @@
             distanceToPlayer = Mathf.Min(distanceToPlayer, wrappedDistanceToPlayer, otherWrappedDistanceToPlayer);
             if (distanceToPlayer < radius && distanceToPlayer > 1f)
             {
-                int xDif = (int)(playerPos.x - owner.x);
-                int wrappedXDif = (int)(playerPos.x - (owner.x + owner.map.width));
-                int otherWrappedXDif = (int)(playerPos.x - (owner.x - owner.map.width));
+                Vector2Int dif = owner.map.GetDifference(myPos, playerPos);
 
-                if (Mathf.Abs(wrappedXDif) <= Mathf.Abs(xDif) && Mathf.Abs(wrappedXDif) <= Mathf.Abs(otherWrappedXDif))
-                {
-                    xDif = wrappedXDif;
-                }
-                else if (Mathf.Abs(otherWrappedXDif) < Mathf.Abs(xDif) && Mathf.Abs(otherWrappedXDif) < Mathf.Abs(wrappedXDif))
-                {
-                    xDif = otherWrappedXDif;
-                }
-
-                int yDif = (int)(playerPos.y - owner.y);
                 float r = Random.value;
-
-                bool moveHorizontal = false;
-
-                if (Mathf.Abs(xDif) > Mathf.Abs(yDif))
+                bool moveHorizontal;
+                if (Mathf.Abs(dif.x) > Mathf.Abs(dif.y))
                 {
                     moveHorizontal = true;
                 }
-                else if (Mathf.Abs(yDif) > Mathf.Abs(xDif))
+                else if (Mathf.Abs(dif.y) > Mathf.Abs(dif.x))
                 {
                     moveHorizontal = false;
                 }
@@ -82,13 +68,12 @@
                     moveHorizontal = false;
                 }
 
-                Tile tile;
 
                 bool horizontalBlocked = false;
-                int nextX = (int)(myPos.x + Mathf.Sign(xDif));
-                nextX = owner.map.GetXPositionOnMap(nextX);
-                tile = owner.map.tileObjects[owner.y][nextX];
-                if (tile.IsCollidable() || tile.GetComponentInChildren<Trap>() || tile.GetPathingWeight() > 5)
+                Vector2Int nextHorizontalPos = myPos;
+                nextHorizontalPos.x += (int)Mathf.Sign(dif.x);
+                Tile horizontalMoveTarget = owner.map.GetTile(nextHorizontalPos);
+                if (horizontalMoveTarget.IsCollidable() || horizontalMoveTarget.GetComponentInChildren<Trap>() || horizontalMoveTarget.GetPathingWeight() > 5)
                 {
                     horizontalBlocked = true;
                 }
@@ -96,9 +81,10 @@
                 if (moveHorizontal && horizontalBlocked) moveHorizontal = false;
 
                 bool verticalBlocked = false;
-                int nextY = (int)(myPos.y + Mathf.Sign(yDif));
-                tile = owner.map.tileObjects[nextY][owner.x];
-                if (tile.IsCollidable() || tile.GetComponentInChildren<Trap>() || tile.GetPathingWeight() > 5)
+                Vector2Int nextVerticalPos = myPos;
+                nextVerticalPos.y += (int)Mathf.Sign(dif.y);
+                Tile verticalMoveTarget = owner.map.GetTile(nextVerticalPos);
+                if (verticalMoveTarget.IsCollidable() || verticalMoveTarget.GetComponentInChildren<Trap>() || verticalMoveTarget.GetPathingWeight() > 5)
                 {
                     verticalBlocked = true;
                 }
@@ -109,11 +95,11 @@
                 {
                     if (moveHorizontal)
                     {
-                        nextMoveTarget = owner.map.tileObjects[owner.y][nextX];
+                        nextMoveTarget = horizontalMoveTarget;
                     }
                     else
                     {
-                        nextMoveTarget = owner.map.tileObjects[nextY][owner.x];
+                        nextMoveTarget = verticalMoveTarget;
                     }
 
                     return .5f;

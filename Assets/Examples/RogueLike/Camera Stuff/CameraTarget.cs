@@ -21,27 +21,26 @@ namespace Noble.DungeonCrawler
 
         void Update()
         {
-            if (owner == null) return;
+            if (owner == null || tile == null) return;
 
-            int newX = x;
-            int newY = y;
+            Vector2Int newPos = tilePosition;
 
             Vector2Int cameraTile = PlayerCamera.instance.GetTilePosition();
 
-            Vector2Int circleDifference = Map.instance.GetDifference(new Vector2Int(x, y), new Vector2Int(owner.x, owner.y));
+            Vector2Int circleDifference = Map.instance.GetDifference(tilePosition, owner.tilePosition);
 
             if (Math.Abs(circleDifference.y) > thresholdY)
             {
                 if (owner.y > y)
                 {
-                    newY = owner.y - thresholdY;
+                    newPos.y = owner.y - thresholdY;
                 }
                 else
                 {
-                    newY = owner.y + thresholdY;
+                    newPos.y = owner.y + thresholdY;
                 }
             }
-            newY = Math.Clamp(newY, cameraTile.y - 1, cameraTile.y + 1);
+            newPos.y = Math.Clamp(newPos.y, cameraTile.y - 1, cameraTile.y + 1);
 
             if (Math.Abs(circleDifference.y) <= thresholdY || thresholdX == 0)
             {
@@ -49,30 +48,30 @@ namespace Noble.DungeonCrawler
                 {
                     if (circleDifference.x > 0)
                     {
-                        newX = (x + circleDifference.x) - thresholdX;
+                        newPos.x = (x + circleDifference.x) - thresholdX;
                     }
                     else
                     {
-                        newX = (x + circleDifference.x) + thresholdX;
+                        newPos.x = (x + circleDifference.x) + thresholdX;
                     }
                 }
 
-                newX = Map.instance.GetXPositionOnMap(newX);
-                int cameraCircleDifference = Map.instance.GetXDifference(cameraTile.x, newX);
+                newPos.x = Map.instance.GetXTilePositionOnMap(newPos.x);
+                int cameraCircleDifference = Map.instance.GetXDifference(cameraTile.x, newPos.x);
                 cameraCircleDifference = Math.Clamp(cameraCircleDifference, -1, 1);
-                newX = cameraTile.x + cameraCircleDifference;
-                newX = Map.instance.GetXPositionOnMap(newX);
+                newPos.x = cameraTile.x + cameraCircleDifference;
+                newPos.x = Map.instance.GetXTilePositionOnMap(newPos.x);
             }
 
-            if ((newX != x || newY != y) && newX >= 0 && newX < Map.instance.width && newY >= 0 && newY < Map.instance.height)
+            if (newPos != tilePosition && newPos.x >= 0 && newPos.x < Map.instance.width && newPos.y >= 0 && newPos.y < Map.instance.height)
             {
-                Map.instance.MoveObject(this, newX, newY);
+                Map.instance.MoveObject(this, newPos);
             }
         }
 
         public void UpdatePosition()
         {
-            Map.instance.MoveObject(this, owner.x, owner.y);
+            Map.instance.MoveObject(this, owner.tilePosition);
         }
     }
 }

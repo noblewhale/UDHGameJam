@@ -6,8 +6,9 @@
 
     public class Tile : MonoBehaviour
     {
-        public int x;
-        public int y;
+        public Vector2Int position = Vector2Int.zero;
+        public int x => position.x;
+        public int y => position.y;
         public Map map;
         public bool isDirty;
         public float gapBetweenLayers = .1f;
@@ -22,8 +23,8 @@
         {
             transform.parent = map.transform;
             this.map = map;
-            this.x = x;
-            this.y = y;
+            position.x = x;
+            position.y = y;
             map.tilesThatAllowSpawn.Add(this);
             transform.localPosition = new Vector3(x * map.tileWidth, y * map.tileHeight, 0);
             if (isAlwaysLit) isLit = true;
@@ -146,6 +147,7 @@
 
         public void DestroyAllObjects()
         {
+            Debug.LogWarning("Destroy all objects");
             foreach (var ob in objectList)
             {
                 ob.inventory.DestroyAll();
@@ -174,11 +176,11 @@
             }
             if (isMove)
             {
-                ob.Move(x, y);
+                ob.Move(position);
             }
             else
             {
-                ob.SetPosition(x, y);
+                ob.SetPosition(position);
             }
             if (ob.preventsObjectSpawning)
             {
@@ -217,6 +219,7 @@
             objectList.Remove(ob);
             if (destroyObject)
             {
+                Debug.LogWarning("Remove destroy");
                 Destroy(ob.gameObject);
             }
 
@@ -232,7 +235,7 @@
 
             if (ob.illuminationRange != 0)
             {
-                map.UpdateLighting(ob.x, ob.y, ob.illuminationRange);
+                map.UpdateLighting(ob.tilePosition, ob.illuminationRange);
             }
 
             UpdateObjectLayers();
@@ -240,6 +243,9 @@
 
         public void RemoveAllObjects()
         {
+            if (objectList == null || objectList.Count == 0) return;
+
+            Debug.LogWarning("Remove all destroy");
             foreach (var dOb in objectList)
             {
                 Destroy(dOb.gameObject);
@@ -292,7 +298,7 @@
 
             foreach (var tile in tiles)
             {
-                float distance = Vector2.Distance(tile.transform.position, pos);
+                float distance = Vector2.Distance((Vector2)tile.transform.position + Map.instance.tileDimensions / 2, pos);
                 if (distance < minDistance)
                 {
                     closestTile = tile;

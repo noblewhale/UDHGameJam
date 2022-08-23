@@ -30,22 +30,17 @@
 
 		override protected List<Tile> GetThreatenedTiles()
 		{
-			Vector2 ownerTile = new Vector2(owner.x + Map.instance.tileWidth / 2, owner.y + Map.instance.tileWidth / 2);
-			Vector2 dir = Map.instance.GetDifference(ownerTile, new Vector2(targetTile.x + Map.instance.tileWidth / 2, targetTile.y + Map.instance.tileWidth / 2));
+			Vector2 centerOfOwnerTile = owner.tilePosition + Map.instance.tileDimensions / 2;
+			Vector2 dir = Map.instance.GetDifference(centerOfOwnerTile, targetTile.position + Map.instance.tileDimensions / 2);
 			Vector2 dirNorm = dir.normalized;
 			var area = new RectIntExclusive();
-			area.SetMinMax(
-				(int)(owner.x - rayLength),
-				(int)(owner.x + rayLength),
-				(int)(owner.y - rayLength),
-				(int)(owner.y + rayLength)
-			);
+			area.SetToSquare(owner.tilePosition, rayLength);
 
 			lock (Map.instance.isDirtyLock)
 			{
 				Map.instance.ForEachTileInArea(area, (t) => t.isDirty = false);
 				threatenedTiles = Map.instance.GetTilesInRay(
-					new Vector2(owner.x + Map.instance.tileWidth / 2, owner.y + Map.instance.tileWidth / 2),
+					owner.tilePosition + Map.instance.tileDimensions / 2,
 					dirNorm,
 					rayLength,
 					null,
@@ -70,7 +65,7 @@
 			attackStartTime = Time.time;
 
 			startRayPosition = Map.instance.transform.InverseTransformPoint(identityCreature.leftHand.transform.position);
-			endRayPosition = new Vector2(threatenedTiles.Last().transform.localPosition.x + Map.instance.tileWidth / 2, threatenedTiles.Last().transform.localPosition.y + Map.instance.tileHeight / 2);
+			endRayPosition = (Vector2)threatenedTiles.Last().transform.localPosition + Map.instance.tileDimensions / 2;
 			if ((endRayPosition - startRayPosition).magnitude > Map.instance.TotalWidth / 2)
 			{
 				if (startRayPosition.x > Map.instance.TotalWidth / 2)
@@ -84,6 +79,7 @@
 			}
 			duration = (startRayPosition - endRayPosition).magnitude / unitsPerSecond;
 		}
+
 		override public bool ContinueSubAction(ulong time) 
 		{
 			float timeSinceAttackStart = Time.time - attackStartTime;
@@ -103,7 +99,6 @@
                 }
             }
 			currentProjectileTile = closestTile;
-
 			if (timeSinceAttackStart > duration)
             {
 				return true;
@@ -113,6 +108,7 @@
 				return false;
             }
 		}
+
 		override public void FinishSubAction(ulong time)
 		{
 			Destroy(fireballObject);

@@ -41,7 +41,7 @@
 
         void Update()
         {
-            if (!owner) return;
+            if (!owner || owner.tile == null) return;
             SetRotation(owner.x, rotationMaxSpeed);
             SetY(owner.y * Map.instance.tileHeight + Map.instance.transform.position.y, movementMaxSpeed);
         }

@@ -45,10 +45,11 @@
         public DungeonObject baseObject;
         public Tickable tickable;
 
-        public int x { get { return baseObject.x; } }
-        public int y { get { return baseObject.y; } }
-        public Map map { get { return baseObject.map; } }
-        public Inventory inventory { get { return baseObject.inventory; } }
+        public Vector2Int tilePosition => baseObject.tilePosition;
+        public int x => baseObject.x;
+        public int y => baseObject.y;
+        public Map map => baseObject.map;
+        public Inventory inventory => baseObject.inventory;
 
         public int health { get { return baseObject.health; } }
         public int gold { get { return baseObject.gold; } }
@@ -74,16 +75,21 @@
             }
         }
 
-        void OnMove(int oldX, int oldY, int newX, int newY)
+        void OnMove(Vector2Int oldPos, Vector2Int newPos)
         {
-            lastDirectionAttackedOrMoved = GetDirection(oldX, oldY, newX, newY);
+            lastDirectionAttackedOrMoved = GetDirection(oldPos, newPos);
 
-            map.tileObjects[newY][newX].StepOn(baseObject);
+            map.GetTile(newPos).StepOn(baseObject);
         }
 
-        public Direction GetDirection(int oldX, int oldY, int newX, int newY)
+        public Direction GetDirection(Vector2Int start, Vector2Int end)
         {
-            Vector2Int dif = Map.instance.GetDifference(new Vector2Int(oldX, oldY), new Vector2Int(newX, newY));
+            return GetDirection(start.x, start.y, end.x, end.y);
+        }
+
+        public Direction GetDirection(int startX, int startY, int endX, int endY)
+        {
+            Vector2Int dif = Map.instance.GetDifference(new Vector2Int(startX, startY), new Vector2Int(endX, endY));
             if (Math.Abs(dif.x) == Math.Abs(dif.y))
             {
                 if (dif.x > 0 && dif.y > 0) return Direction.UP_RIGHT;

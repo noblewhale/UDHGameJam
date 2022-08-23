@@ -24,6 +24,8 @@ namespace Noble.DungeonCrawler
 
         void Update()
         {
+            if (!Map.instance.isDoneGeneratingMap) return;
+
             Vector3 mousePos = Mouse.current.position.ReadValue();
             if ((previousMousePos - mousePos).sqrMagnitude > 8)
             {
@@ -58,14 +60,12 @@ namespace Noble.DungeonCrawler
                     bool success = PolarMapUtil.UnwarpPosition(relativeWorldPos, out unwarpedPos);
                     if (success)
                     {
-                        bool isInsideMap = PolarMapUtil.PositionToTile(unwarpedPos, out int tileX, out int tileY);
-                        if (isInsideMap)
+                        Tile tileUnderMouse = Map.instance.GetTileFromWorldPosition(unwarpedPos);
+
+                        if (tile == null || tileUnderMouse != tile)
                         {
-                            if (tile == null || tileY != tile.y || tileX != tile.x)
-                            {
-                                tile?.RemoveObject(this);
-                                Map.instance.tileObjects[tileY][tileX].AddObject(this);
-                            }
+                            tile?.RemoveObject(this);
+                            tileUnderMouse.AddObject(this);
                         }
                     }
                     oldCameraPosition = PlayerCamera.instance.transform.position;
@@ -73,13 +73,13 @@ namespace Noble.DungeonCrawler
             }
             if (allowedTiles != null && allowedTiles.Count > 0)
             {
-                if (!allowedTiles.Contains(Map.instance.GetTile(x, y)))
+                if (!allowedTiles.Contains(tile))
                 {
                     float minDistance = float.MaxValue;
                     Tile closestTile = null;
                     foreach (Tile allowedTile in allowedTiles)
                     {
-                        Vector2Int difference = Map.instance.GetDifference(new Vector2Int(x, y), new Vector2Int(allowedTile.x, allowedTile.y));
+                        Vector2Int difference = Map.instance.GetDifference(tilePosition, allowedTile.position);
                         float distance = difference.magnitude;
                         if (distance < minDistance)
                         {
@@ -90,7 +90,7 @@ namespace Noble.DungeonCrawler
                     if (tile == null || closestTile != tile)
                     {
                         tile?.RemoveObject(this);
-                        Map.instance.tileObjects[closestTile.y][closestTile.x].AddObject(this);
+                        closestTile.AddObject(this);
                     }
                 }
             }
@@ -100,8 +100,7 @@ namespace Noble.DungeonCrawler
         {
             Key key = command.key;
 
-            int newTileX = tile.x;
-            int newTileY = tile.y;
+            Vector2Int newTilePos = tile.position;
 
             bool doSomething = true;
             switch (key)
@@ -109,51 +108,51 @@ namespace Noble.DungeonCrawler
                 case Key.UpArrow:
                 case Key.W:
                 case Key.Numpad8:
-                    newTileY++;
+                    newTilePos.y++;
                     break;
                 case Key.DownArrow:
                 case Key.S:
                 case Key.Numpad2:
-                    newTileY--;
+                    newTilePos.y--;
                     break;
                 case Key.RightArrow:
                 case Key.D:
                 case Key.Numpad6:
-                    newTileX++;
+                    newTilePos.x++;
                     break;
                 case Key.LeftArrow:
                 case Key.A:
                 case Key.Numpad4:
-                    newTileX--;
+                    newTilePos.x--;
                     break;
                 case Key.Numpad9:
-                    newTileY++;
-                    newTileX++;
+                    newTilePos.y++;
+                    newTilePos.x++;
                     break;
                 case Key.Numpad7:
-                    newTileY++;
-                    newTileX--;
+                    newTilePos.y++;
+                    newTilePos.x--;
                     break;
                 case Key.Numpad1:
-                    newTileY--;
-                    newTileX--;
+                    newTilePos.y--;
+                    newTilePos.x--;
                     break;
                 case Key.Numpad3:
-                    newTileY--;
-                    newTileX++;
+                    newTilePos.y--;
+                    newTilePos.x++;
                     break;
                 default:
                     doSomething = false;
                     break;
             }
 
-            newTileX = Map.instance.GetXPositionOnMap(newTileX);
+            newTilePos.x = Map.instance.GetXTilePositionOnMap(newTilePos.x);
 
             if (doSomething)
             {
                 if (allowedTiles != null && allowedTiles.Count > 0)
                 {
-                    if (!allowedTiles.Contains(Map.instance.GetTile(newTileX, newTileY)))
+                    if (!allowedTiles.Contains(Map.instance.GetTile(newTilePos)))
                     {
                         doSomething = false;
                     }
@@ -162,11 +161,11 @@ namespace Noble.DungeonCrawler
 
             if (doSomething)
             {
-                if (newTileY >= 0 && newTileY < Map.instance.height)
+                if (newTilePos.y >= 0 && newTilePos.y < Map.instance.height)
                 {
                     isKeyboardControlled = true;
                     tile?.RemoveObject(this);
-                    Map.instance.tileObjects[newTileY][newTileX].AddObject(this);
+                    Map.instance.GetTile(newTilePos).AddObject(this);
                     oldCameraPosition = PlayerCamera.instance.transform.position;
                 }
             }

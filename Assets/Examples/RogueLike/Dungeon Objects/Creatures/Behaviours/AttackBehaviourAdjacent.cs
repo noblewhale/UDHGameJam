@@ -14,21 +14,19 @@
             Tile adjacent;
             if (owner.y < owner.map.height - 1)
             {
-                adjacent = owner.map.tileObjects[owner.y + 1][owner.x];
+                adjacent = owner.map.GetTile(owner.tilePosition + Vector2Int.up);
                 GetHostileOccupants(adjacent, adjacentHostileCreatures);
             }
             if (owner.y > 0)
             {
-                adjacent = owner.map.tileObjects[owner.y - 1][owner.x];
+                adjacent = owner.map.GetTile(owner.tilePosition + Vector2Int.down);
                 GetHostileOccupants(adjacent, adjacentHostileCreatures);
             }
 
-            int wrappedX = owner.map.GetXPositionOnMap(owner.x + 1);
-            adjacent = owner.map.tileObjects[owner.y][wrappedX];
+            adjacent = owner.map.GetTile(owner.tilePosition + Vector2Int.right);
             GetHostileOccupants(adjacent, adjacentHostileCreatures);
 
-            wrappedX = owner.map.GetXPositionOnMap(owner.x - 1);
-            adjacent = owner.map.tileObjects[owner.y][wrappedX];
+            adjacent = owner.map.GetTile(owner.tilePosition + Vector2Int.left);
             GetHostileOccupants(adjacent, adjacentHostileCreatures);
 
             if (adjacentHostileCreatures.Count > 0)

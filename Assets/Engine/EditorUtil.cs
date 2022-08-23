@@ -16,14 +16,10 @@
             Vector2 upperLeft = new Vector2(area.xMin + offset.x, area.yMax + 1 - offset.y);
             Vector2 upperRight = new Vector2(area.xMax + 1 - offset.x, area.yMax + 1 - offset.y);
 
-            lowerLeft.x *= map.tileWidth;
-            lowerLeft.y *= map.tileHeight;
-            lowerRight.x *= map.tileWidth;
-            lowerRight.y *= map.tileHeight;
-            upperLeft.x *= map.tileWidth;
-            upperLeft.y *= map.tileHeight;
-            upperRight.x *= map.tileWidth;
-            upperRight.y *= map.tileHeight;
+            lowerLeft *= map.tileDimensions;
+            lowerRight *= map.tileDimensions;
+            upperLeft *= map.tileDimensions;
+            upperRight *= map.tileDimensions;
 
             lowerLeft += (Vector2)map.transform.position;
             lowerRight += (Vector2)map.transform.position;

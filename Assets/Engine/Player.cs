@@ -21,9 +21,9 @@
             Map.instance.OnMapLoaded += OnMapLoaded;
         }
 
-        void OnPositionChange(int oldX, int oldY, int newX, int newY)
+        void OnPositionChange(Vector2Int oldPos, Vector2Int newPos)
         {
-            Map.instance.Reveal(newX, newY, identity.viewDistance);
+            Map.instance.Reveal(newPos, identity.viewDistance);
         }
 
         void OnMapLoaded()
@@ -31,7 +31,7 @@
             Tile startTile = Map.instance.GetRandomTileThatAllowsSpawn();
             startTile.AddObject(identity);
             Map.instance.UpdateLighting();
-            Map.instance.Reveal(identity.x, identity.y, identity.viewDistance);
+            Map.instance.Reveal(identity.tilePosition, identity.viewDistance);
         }
     }
 }

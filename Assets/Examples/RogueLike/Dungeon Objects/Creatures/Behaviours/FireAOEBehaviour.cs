@@ -29,36 +29,29 @@
 		{
 			threatenedTiles.Clear();
 
-			float dirX = Map.instance.GetXDifference(owner.x, targetTile.x);
-			float dirY = targetTile.y - owner.y;
-			Vector2 direction = new Vector2(dirX, dirY);
+			Vector2 direction = Map.instance.GetDifference(owner.tilePosition, targetTile.position);
 			float distance = direction.magnitude;
 			direction.Normalize();
 
-			float stepSize = Mathf.Min(Map.instance.tileWidth, Map.instance.tileHeight) * .9f;
-			Vector2 center = new Vector2(owner.x + .5f, owner.y + .5f);
-			for (int d = 1; d < distance / stepSize; d++)
+			var area = new RectIntExclusive();
+			area.SetToSquare(owner.tilePosition, distance);
+
+			lock (Map.instance.isDirtyLock)
 			{
-				Vector2 relative = center + direction * d * stepSize;
-
-				int y = (int)relative.y;
-				if (y < 0 || y >= Map.instance.height) break;
-
-				int wrappedX = (int)Map.instance.GetXPositionOnMap(relative.x);
-
-				var tileInRay = Map.instance.tileObjects[y][wrappedX];
-
-				if (tileInRay.IsCollidable() && (y != owner.y || wrappedX != owner.x))
-				{
-					threatenedTiles.Add(tileInRay);
-					break;
-				}
+				Map.instance.ForEachTileInArea(area, (t) => t.isDirty = false);
+				threatenedTiles = Map.instance.GetTilesInRay(
+					owner.tilePosition + Map.instance.tileDimensions / 2,
+					direction,
+					distance,
+					t => t.IsCollidable(),
+					false
+				);
 			}
 
-			if (threatenedTiles.Count == 0)
-            {
-				threatenedTiles.Add(targetTile);
-            }				
+			if (threatenedTiles.Count > 1)
+			{
+				threatenedTiles = threatenedTiles.GetRange(threatenedTiles.Count - 1, 1);
+			}
 
 			return threatenedTiles;
 		}

@@ -1,12 +1,10 @@
 ﻿namespace Noble.DungeonCrawler
 {
     using Noble.TileEngine;
-    using System;
     using UnityEngine;
 
     public static class PolarMapUtil
     {
-
         public static Vector2 GetPositionRelativeToMap(Vector3 screenPos)
         {
             Vector2 mousePosRelativeToMapRenderer = ((Vector2)Camera.main.ScreenToWorldPoint(screenPos) - (Vector2)Camera.main.transform.position) - (Vector2)MapRenderer.instance.transform.localPosition;
@@ -28,7 +26,7 @@
             angle -= MapRenderer.instance.warpMaterial.GetFloat("_Rotation") + Mathf.PI;
             float normalizedY = .5f + relativeToPlayerCamera.y / (PlayerCamera.instance.camera.orthographicSize * 2);
             float d = 1 - normalizedY;
-            d = Mathf.Pow(d, 2 - 1/_SeaLevel);
+            d = Mathf.Pow(d, 2 - 1 / _SeaLevel);
             d = d * (1 - _InnerRadius) + _InnerRadius;
             d /= 2;
 
@@ -71,25 +69,10 @@
                 unwarpedPos = unwarpedPos * cameraSize;
                 unwarpedPos += (Vector2)PlayerCamera.instance.camera.transform.position;
 
-                return true;
-            }
-        }
+                unwarpedPos.x += Map.instance.TotalWidth / 2;
+                unwarpedPos.y += Map.instance.TotalHeight / 2;
 
-        public static bool PositionToTile(Vector2 pos, out int x, out int y)
-        {
-            pos.x += Map.instance.TotalWidth / 2;
-            pos.y += Map.instance.TotalHeight / 2;
-            if (pos.x >= 0 && pos.x < Map.instance.TotalWidth && pos.y >= 0 && pos.y < Map.instance.TotalHeight)
-            {
-                x = (int)(pos.x / Map.instance.tileWidth);
-                y = (int)(pos.y / Map.instance.tileHeight);
                 return true;
-            }
-            else
-            {
-                x = 0;
-                y = 0;
-                return false;
             }
         }
     }

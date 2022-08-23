@@ -38,8 +38,9 @@
 
         public TickableBehaviour DefaultAction(Command command)
         {
-            int newTileX = Player.instance.identity.x;
-            int newTileY = Player.instance.identity.y;
+            if (Player.instance.identity == null || Player.instance.identity.tile == null) return null;
+
+            Vector2Int newTilePos = Player.instance.identity.tilePosition;
 
             bool doSomething = true;
 
@@ -54,28 +55,24 @@
 
                 if (success)
                 {
-                    bool isInsideMap = PolarMapUtil.PositionToTile(unwarpedPos, out int tileX, out int tileY);
-                    if (isInsideMap)
+                    Tile tile = Map.instance.GetTileFromWorldPosition(unwarpedPos);
+                    Vector2Int dif = Map.instance.GetDifference(Player.instance.identity.tilePosition, tile.position);
+                    if (Math.Abs(dif.x) == Math.Abs(dif.y))
                     {
-                        int xDif = Map.instance.GetXDifference(Player.instance.identity.x, tileX);
-                        int yDif = tileY - Player.instance.identity.y;
-                        if (Math.Abs(xDif) == Math.Abs(yDif))
-                        {
-                            if (xDif > 0 && yDif > 0) key = Key.Numpad9;
-                            else if (xDif > 0 && yDif < 0) key = Key.Numpad3;
-                            else if (xDif < 0 && yDif < 0) key = Key.Numpad1;
-                            else if (xDif < 0 && yDif > 0) key = Key.Numpad7;
-                        }
-                        else if (Math.Abs(xDif) > Math.Abs(yDif))
-                        {
-                            if (xDif > 0) key = Key.D;
-                            else key = Key.A;
-                        }
-                        else // if (Math.Abs(xDif) < Math.Abs(yDif))
-                        {
-                            if (yDif > 0) key = Key.W;
-                            else key = Key.S;
-                        }
+                        if (dif.x > 0 && dif.y > 0) key = Key.Numpad9;
+                        else if (dif.x > 0 && dif.y < 0) key = Key.Numpad3;
+                        else if (dif.x < 0 && dif.y < 0) key = Key.Numpad1;
+                        else if (dif.x < 0 && dif.y > 0) key = Key.Numpad7;
+                    }
+                    else if (Math.Abs(dif.x) > Math.Abs(dif.y))
+                    {
+                        if (dif.x > 0) key = Key.D;
+                        else key = Key.A;
+                    }
+                    else // if (Math.Abs(xDif) < Math.Abs(yDif))
+                    {
+                        if (dif.y > 0) key = Key.W;
+                        else key = Key.S;
                     }
                 }
             }
@@ -85,46 +82,46 @@
                 case Key.UpArrow:
                 case Key.W:
                 case Key.Numpad8:
-                    newTileY++;
+                    newTilePos.y++;
                     break;
                 case Key.DownArrow:
                 case Key.S:
                 case Key.Numpad2:
-                    newTileY--;
+                    newTilePos.y--;
                     break;
                 case Key.RightArrow:
                 case Key.D:
                 case Key.Numpad6:
-                    newTileX++;
+                    newTilePos.x++;
                     break;
                 case Key.LeftArrow:
                 case Key.A:
                 case Key.Numpad4:
-                    newTileX--;
+                    newTilePos.x--;
                     break;
                 case Key.Numpad9:
-                    newTileY++;
-                    newTileX++;
+                    newTilePos.y++;
+                    newTilePos.x++;
                     break;
                 case Key.Numpad7:
-                    newTileY++;
-                    newTileX--;
+                    newTilePos.y++;
+                    newTilePos.x--;
                     break;
                 case Key.Numpad1:
-                    newTileY--;
-                    newTileX--;
+                    newTilePos.y--;
+                    newTilePos.x--;
                     break;
                 case Key.Numpad3:
-                    newTileY--;
-                    newTileX++;
+                    newTilePos.y--;
+                    newTilePos.x++;
                     break;
                 default: doSomething = false; break;
             }
 
             if (doSomething)
             {
-                newTileX = Map.instance.GetXPositionOnMap(newTileX);
-                newTileY = Mathf.Clamp(newTileY, 0, Map.instance.height - 1);
+                newTilePos.x = Map.instance.GetXTilePositionOnMap(newTilePos.x);
+                newTilePos.y = Mathf.Clamp(newTilePos.y, 0, Map.instance.height - 1);
             }
             else
             {
@@ -132,12 +129,11 @@
                 return null;
             }
 
-            var tileActingOn = owner.map.tileObjects[newTileY][newTileX];
+            var tileActingOn = owner.map.GetTile(newTilePos);
 
             if (!tileActingOn.IsCollidable())
             {
-                moveBehaviour.targetX = newTileX;
-                moveBehaviour.targetY = newTileY;
+                moveBehaviour.targetTilePosition = newTilePos;
                 return moveBehaviour;
             }
             else

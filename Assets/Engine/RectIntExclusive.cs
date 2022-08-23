@@ -38,6 +38,16 @@
             }
         }
 
+        internal void SetToSquare(Vector2Int center, float radius)
+        {
+            SetMinMax(
+                Mathf.FloorToInt(center.x - radius),
+                Mathf.FloorToInt(center.x + radius),
+                Mathf.FloorToInt(center.y - radius),
+                Mathf.FloorToInt(center.y + radius)
+            );
+        }
+
         public int width
         {
             get
