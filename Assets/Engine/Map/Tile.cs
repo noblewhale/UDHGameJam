@@ -147,7 +147,6 @@
 
         public void DestroyAllObjects()
         {
-            Debug.LogWarning("Destroy all objects");
             foreach (var ob in objectList)
             {
                 ob.inventory.DestroyAll();
@@ -219,7 +218,6 @@
             objectList.Remove(ob);
             if (destroyObject)
             {
-                Debug.LogWarning("Remove destroy");
                 Destroy(ob.gameObject);
             }
 
@@ -245,7 +243,6 @@
         {
             if (objectList == null || objectList.Count == 0) return;
 
-            Debug.LogWarning("Remove all destroy");
             foreach (var dOb in objectList)
             {
                 Destroy(dOb.gameObject);

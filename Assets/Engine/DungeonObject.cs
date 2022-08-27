@@ -97,7 +97,8 @@
                 (Tile t) =>
                 {
                     return t.DoesBlockLineOfSight() && (t != tile);
-                }
+                },
+                true
             );
         }
 
@@ -169,7 +170,6 @@
             tile.objectList.Remove(this);
             DropItems();
             Destroy(gameObject);
-            Debug.LogWarning("DIE");
         }
 
         virtual public void DropItems()
@@ -209,7 +209,6 @@
                 tile.RemoveObject(ob);
                 if (onPickedUpObject != null) onPickedUpObject(ob);
             }
-            Debug.LogWarning("Pick up destroy");
             foreach (var ob in itemsToDestroy) Destroy(ob);
         }
 

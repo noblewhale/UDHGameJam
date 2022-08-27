@@ -20,7 +20,6 @@
 
         public void DestroyAll()
         {
-            Debug.LogWarning("Inventory destroy");
             foreach (var kv in items)
             {
                 GameObject.Destroy(kv.Value.gameObject);

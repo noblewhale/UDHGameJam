@@ -81,7 +81,6 @@
             ForEachTile(t =>
             {
                 t.DestroyAllObjects();
-                Debug.LogWarning("Clear map tile destroy");
                 Destroy(t.gameObject);
             });
             tileObjects = new Tile[height][];
