@@ -5,6 +5,7 @@
     using System.Collections.Generic;
     using UnityEngine;
     using UnityEngine.Events;
+    using System.Linq;
 
     public class DungeonObject : MonoBehaviour
     {
@@ -182,34 +183,30 @@
 
         public void PickUpAll()
         {
-            List<DungeonObject> itemsToRemoveFromTile = new List<DungeonObject>();
-            List<DungeonObject> itemsToDestroy = new List<DungeonObject>();
-            foreach (var ob in tile.objectList)
+            foreach (var ob in tile.objectList.Reverse())
             {
                 if (ob.canBePickedUp)
                 {
-                    itemsToRemoveFromTile.Add(ob);
-                    DungeonObject existingOb;
-                    bool success = inventory.items.TryGetValue(ob.objectName, out existingOb);
-                    if (success)
-                    {
-                        existingOb.quantity += ob.quantity;
-                        itemsToDestroy.Add(ob);
-                    }
-                    else
-                    {
-                        inventory.items.Add(ob.objectName, ob);
-                    }
-                    ob.transform.position = new Vector3(-666, -666, -666);
+                    tile.RemoveObject(ob);
+                    AddToInventory(ob);
                 }
             }
+        }
 
-            foreach (var ob in itemsToRemoveFromTile)
+        public void AddToInventory(DungeonObject objectToPickUp)
+        {
+            DungeonObject existingOb;
+            bool success = inventory.items.TryGetValue(objectToPickUp.objectName, out existingOb);
+            if (success)
             {
-                tile.RemoveObject(ob);
-                if (onPickedUpObject != null) onPickedUpObject(ob);
+                existingOb.quantity += objectToPickUp.quantity;
             }
-            foreach (var ob in itemsToDestroy) Destroy(ob);
+            else
+            {
+                inventory.items.Add(objectToPickUp.objectName, objectToPickUp);
+            }
+            objectToPickUp.transform.position = new Vector3(-666, -666, -666);
+            if (onPickedUpObject != null) onPickedUpObject(objectToPickUp);
         }
 
         public void Move(Vector2Int pos)

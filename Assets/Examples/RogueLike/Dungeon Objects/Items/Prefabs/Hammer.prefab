@@ -239,9 +239,7 @@ MonoBehaviour:
       m_Calls: []
   originalGlyphPosition: {x: 0, y: 0, z: 0}
   map: {fileID: 0}
-  position: {x: 0, y: 0}
-  previousX: 0
-  previousY: 0
+  previousTilePosition: {x: 0, y: 0}
   quantity: 1
   canBePickedUp: 1
   isAlwaysLit: 0
@@ -254,7 +252,6 @@ MonoBehaviour:
   blocksLineOfSight: 0
   coversObjectsBeneath: 0
   preventsObjectSpawning: 0
-  hasBeenSeen: 0
   hasDoneDamageFlash: 0
   tile: {fileID: 0}
 --- !u!114 &3300319173108635374
@@ -287,6 +284,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   handle: {fileID: 1048204769378142790}
+  autoWeildRightHand: 1
+  autoWeildLeftHand: 0
 --- !u!1 &3196934914895267844
 GameObject:
   m_ObjectHideFlags: 0

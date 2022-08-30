@@ -1,0 +1,31 @@
+SET @left_rune_id_1 = 3;
+SET @right_rune_id_1 = 1;
+SET @right_rune_id_2 = 2;
+
+
+SELECT name FROM damage_type_effects 
+JOIN effects ON effect_id = effects.ID 
+WHERE damage_type_id IN (
+	SELECT damage_type_id FROM power_damage_types AS A JOIN rune_powers AS B ON A.power_id = B.power_id
+	WHERE rune_id = @left_rune_id_1 AND craft_order = 0 
+	AND A.power_id NOT IN (SELECT power_id FROM rune_powers WHERE craft_order = 1)
+)
+AND energized = 0
+UNION
+SELECT name FROM power_effects 
+JOIN effects ON effect_id = effects.ID 
+WHERE power_id IN (
+	SELECT power_id FROM rune_powers AS A 
+	WHERE rune_id = @left_rune_id_1 AND craft_order = 0 
+	AND power_id NOT IN (SELECT power_id FROM rune_powers WHERE craft_order = 1)
+)
+AND energized = 0
+UNION
+SELECT name FROM shape_effects 
+JOIN effects ON effect_id = effects.ID 
+WHERE shape_id IN (
+	SELECT shape_id FROM rune_shapes AS A 
+	WHERE rune_id = @right_rune_id_1 AND craft_order = 0 
+	AND shape_id IN (SELECT shape_id FROM rune_shapes WHERE rune_id = @right_rune_id_2 AND craft_order = 1)
+)
+AND energized = 0;

@@ -308,10 +308,7 @@ GameObject:
   - component: {fileID: 4814417233247408274}
   - component: {fileID: 2987740550008959593}
   - component: {fileID: 2987740550008959594}
-  - component: {fileID: 2987740549015043199}
   - component: {fileID: 2987740549015043192}
-  - component: {fileID: 2987740549015043188}
-  - component: {fileID: 5664695084507759229}
   m_Layer: 0
   m_Name: Player Identity
   m_TagString: Untagged
@@ -355,9 +352,7 @@ MonoBehaviour:
       m_Calls: []
   originalGlyphPosition: {x: 0, y: 0, z: 0}
   map: {fileID: 0}
-  position: {x: 0, y: 0}
-  previousX: 0
-  previousY: 0
+  previousTilePosition: {x: 0, y: 0}
   quantity: 1
   canBePickedUp: 0
   isAlwaysLit: 0
@@ -459,6 +454,13 @@ MonoBehaviour:
     onlySpawnOn: []
     dontSpawnOn: []
     requireSpawnable: 0
+  - item: {fileID: 491273678994927847, guid: aa79c56919e53d74ba13b5a51231375a, type: 3}
+    minQuantity: 1
+    maxQuantity: 1
+    probability: 1
+    onlySpawnOn: []
+    dontSpawnOn: []
+    requireSpawnable: 0
 --- !u!114 &2987740550008959593
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -471,8 +473,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f1004bf5d3220c4eabdc7e4c5719cac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetX: 0
-  targetY: 0
+  targetTilePosition: {x: 0, y: 0}
 --- !u!114 &2987740550008959594
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -486,29 +487,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetTile: {fileID: 0}
---- !u!114 &2987740549015043199
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2987011236448704078}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ee73b63536556484381d8aa98390d930, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targetTile: {fileID: 0}
-  outlinePrefab: {fileID: -6944675546895815483, guid: 087227423c0cf7b4a85be69db76cf797,
-    type: 3}
-  threatenedPrefab: {fileID: -1016890846729075064, guid: bcf85fcdc9e919e4ca709f4cf3b06c9f,
-    type: 3}
-  threatenedTiles: []
-  aimingRadius: 3
-  projectilePrefab: {fileID: 1511826856884192, guid: 4df3d242e568055468042aa8164b5b2f,
-    type: 3}
-  elementalEffectPrefab: {fileID: 1511826856884192, guid: cce84be517f5a80408651f08be066ca1,
-    type: 3}
 --- !u!114 &2987740549015043192
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -529,58 +507,9 @@ MonoBehaviour:
   nextBehaviour: {fileID: 0}
   attackBehaviour: {fileID: 2987740550008959594}
   moveBehaviour: {fileID: 2987740550008959593}
-  fireAOEBehaviour: {fileID: 2987740549015043199}
-  iceRayBehaviour: {fileID: 2987740549015043188}
-  coneBehaviour: {fileID: 5664695084507759229}
---- !u!114 &2987740549015043188
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2987011236448704078}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 306288af27795af408e5152239aafadf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targetTile: {fileID: 0}
-  outlinePrefab: {fileID: -6944675546895815483, guid: 087227423c0cf7b4a85be69db76cf797,
-    type: 3}
-  threatenedPrefab: {fileID: -1016890846729075064, guid: bcf85fcdc9e919e4ca709f4cf3b06c9f,
-    type: 3}
-  threatenedTiles: []
-  aimingRadius: 1
-  fireballObjectPrefab: {fileID: 1511826856884192, guid: 4df3d242e568055468042aa8164b5b2f,
-    type: 3}
-  firePrefab: {fileID: 1511826856884192, guid: cce84be517f5a80408651f08be066ca1, type: 3}
-  rayLength: 7
-  unitsPerSecond: 10
---- !u!114 &5664695084507759229
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2987011236448704078}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d84a3d1815d5b044faaeadb6ec29c21d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targetTile: {fileID: 0}
-  outlinePrefab: {fileID: -6944675546895815483, guid: 087227423c0cf7b4a85be69db76cf797,
-    type: 3}
-  threatenedPrefab: {fileID: -1016890846729075064, guid: bcf85fcdc9e919e4ca709f4cf3b06c9f,
-    type: 3}
-  threatenedTiles: []
-  aimingRadius: 1
-  fireballObjectPrefab: {fileID: 1511826856884192, guid: 4df3d242e568055468042aa8164b5b2f,
-    type: 3}
-  firePrefab: {fileID: 1511826856884192, guid: cce84be517f5a80408651f08be066ca1, type: 3}
-  rayLength: 2.2
-  halfAngle: 0.44879895
-  unitsPerSecond: 10
+  fireAOEBehaviour: {fileID: 0}
+  iceRayBehaviour: {fileID: 0}
+  coneBehaviour: {fileID: 0}
 --- !u!1 &3912137005795565662
 GameObject:
   m_ObjectHideFlags: 0

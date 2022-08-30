@@ -1,0 +1,3 @@
+SELECT min_damage, max_damage FROM rune_damages
+WHERE rune_id = @rune_id
+AND level = @level

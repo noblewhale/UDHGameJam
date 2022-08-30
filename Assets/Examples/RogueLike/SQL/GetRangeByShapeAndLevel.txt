@@ -1,0 +1,4 @@
+SELECT range FROM shape_ranges as A
+JOIN shapes as B ON A.shape_id = B.id
+WHERE B.name = @shape
+AND A.level = @level

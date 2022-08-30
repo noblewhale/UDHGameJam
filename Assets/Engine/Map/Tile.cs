@@ -295,7 +295,8 @@
 
             foreach (var tile in tiles)
             {
-                float distance = Vector2.Distance((Vector2)tile.transform.position + Map.instance.tileDimensions / 2, pos);
+                Vector2 difference = Map.instance.GetDifference((Vector2)tile.transform.position + Map.instance.tileDimensions / 2, pos);
+                float distance = difference.magnitude;
                 if (distance < minDistance)
                 {
                     closestTile = tile;

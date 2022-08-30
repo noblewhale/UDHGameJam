@@ -1,0 +1,60 @@
+SELECT B.power_id, B.power, B.runes, CONCAT(B.effects, ",", C.effects) as effects FROM (
+	SELECT A.power_id, A.power, A.runes, GROUP_CONCAT(e.name) as effects
+	FROM (
+		SELECT p.id as power_id, p.name AS power, GROUP_CONCAT(r.name) AS runes 
+		FROM rune_powers AS rp
+		JOIN powers AS p ON p.id = rp.power_id
+		JOIN runes AS r ON r.id = rp.rune_id
+		GROUP BY p.id
+	) as A
+	JOIN power_effects AS pe ON pe.power_id = A.power_id
+	JOIN effects AS e ON e.id = pe.effect_id
+	GROUP BY A.power_id
+) AS B
+JOIN (
+	SELECT A.power_id, A.power, A.runes, GROUP_CONCAT(e.name) as effects
+	FROM (
+		SELECT p.id as power_id, p.name AS power, GROUP_CONCAT(r.name) AS runes 
+		FROM rune_powers AS rp
+		JOIN powers AS p ON p.id = rp.power_id
+		JOIN runes AS r ON r.id = rp.rune_id
+		GROUP BY p.id
+	) as A
+	JOIN power_damage_types AS pdt ON pdt.power_id = A.power_id
+	JOIN damage_type_effects AS dte ON dte.damage_type_id = pdt.damage_type_id
+	JOIN effects AS e ON e.id = dte.effect_id
+	GROUP BY A.power_id
+) AS C
+ON B.power_id = C.power_id;
+
+SELECT 
+	p.id as power_id, 
+	s.id as shape_id,
+	GROUP_CONCAT(DISTINCT(dt.id)) as damage_type_ids,
+	p.name as power, 
+	s.name as shape, 
+	GROUP_CONCAT(DISTINCT(dt.name)) as damage_types,
+	GROUP_CONCAT(DISTINCT(e_dt.name)) as damage_type_effects,
+    GROUP_CONCAT(DISTINCT(e_p.name)) as power_effects,
+    GROUP_CONCAT(DISTINCT(e_s.name)) as shape_effects,
+	GROUP_CONCAT(DISTINCT(rp.rune_id)) as power_runes, 
+	GROUP_CONCAT(DISTINCT(rs.rune_id)) as shape_runes 
+FROM powers AS p 
+JOIN rune_powers AS rp ON p.id = rp.power_id 
+JOIN rune_shapes AS rs ON NOT EXISTS (
+	SELECT * FROM rune_shapes AS rs2 
+	WHERE rs.shape_id = rs2.shape_id 
+	AND rs2.rune_id IN (
+		SELECT rune_id FROM rune_powers AS rp2 WHERE rp2.power_id = rp.power_id
+	)
+)
+JOIN shapes AS s ON s.id = rs.shape_id
+JOIN power_damage_types AS pdt ON pdt.power_id = p.id
+JOIN damage_types AS dt ON dt.id = pdt.damage_type_id
+JOIN damage_type_effects AS dte ON dte.damage_type_id = dt.id
+JOIN effects AS e_dt ON e_dt.id = dte.effect_id
+LEFT OUTER JOIN power_effects AS pe ON pe.power_id = p.id
+LEFT OUTER JOIN effects AS e_p ON e_p.id = pe.effect_id
+LEFT OUTER JOIN shape_effects AS se ON se.shape_id = s.id
+LEFT OUTER JOIN effects AS e_s ON e_s.id = se.effect_id
+GROUP BY rp.power_id, rs.shape_id

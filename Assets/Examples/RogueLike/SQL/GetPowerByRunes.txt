@@ -1,0 +1,5 @@
+SELECT B.name FROM rune_powers AS A 
+JOIN powers AS B ON A.power_id = B.id
+WHERE rune_id = @rune1_id AND craft_order = 0 
+AND power_id IN (SELECT power_id FROM rune_powers WHERE rune_id = @rune2_id AND craft_order = 1);
+    

@@ -5,11 +5,11 @@
 
 	public class TickableBehaviour : MonoBehaviour
 	{
-		protected DungeonObject owner;
+		public DungeonObject owner;
 
 		virtual public void Awake()
 		{
-			owner = GetComponent<DungeonObject>();
+			owner = GetComponentInParent<DungeonObject>();
 		}
 
 		virtual public float GetActionConfidence() { return 0; }
@@ -18,12 +18,18 @@
 
 		virtual public void StartAction()
         {
-			owner.tickable.nextActionTime = TimeManager.instance.Time + 1;
+			if (owner.tickable)
+			{
+				owner.tickable.nextActionTime = TimeManager.instance.Time + 1;
+			}
 		}
 
 		virtual public IEnumerator StartActionCoroutine() 
-		{ 
-			owner.tickable.nextActionTime = TimeManager.instance.Time + 1;
+		{
+			if (owner.tickable)
+			{
+				owner.tickable.nextActionTime = TimeManager.instance.Time + 1;
+			}
 			yield return null;
 		}
 		

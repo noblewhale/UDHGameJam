@@ -1,0 +1,15 @@
+SELECT * FROM damage_type_effects 
+JOIN effects ON effect_id = effects.ID 
+WHERE damage_type_id IN (
+	SELECT damage_type_id FROM power_damage_types WHERE power_id = (
+		SELECT id FROM powers JOIN (
+			SELECT A.power_id FROM rune_powers AS A 
+			JOIN rune_powers AS B 
+			ON A.power_id = B.power_id 
+			WHERE A.rune_id = 2 AND A.order = 0 
+			AND B.rune_id = 1 AND B.order = 1
+		) AS C
+		WHERE C.power_id = powers.id
+	)
+)
+AND energized = 1;

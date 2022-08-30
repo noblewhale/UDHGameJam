@@ -677,9 +677,7 @@ MonoBehaviour:
       m_Calls: []
   originalGlyphPosition: {x: 0, y: 0, z: 0}
   map: {fileID: 0}
-  position: {x: 0, y: 0}
-  previousX: 0
-  previousY: 0
+  previousTilePosition: {x: 0, y: 0}
   quantity: 1
   canBePickedUp: 0
   isAlwaysLit: 0
@@ -692,7 +690,6 @@ MonoBehaviour:
   blocksLineOfSight: 0
   coversObjectsBeneath: 0
   preventsObjectSpawning: 0
-  hasBeenSeen: 0
   hasDoneDamageFlash: 0
   tile: {fileID: 0}
   owner: {fileID: 114099249943370364}
@@ -1806,7 +1803,7 @@ Camera:
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
   m_TargetEye: 0
-  m_HDR: 0
+  m_HDR: 1
   m_AllowMSAA: 0
   m_AllowDynamicResolution: 0
   m_ForceIntoRT: 0
@@ -2951,7 +2948,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 896254848}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -13, y: -22, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2994,8 +2991,7 @@ MonoBehaviour:
   tilesThatAllowSpawn: []
   width: 26
   height: 44
-  tileWidth: 1
-  tileHeight: 1
+  tileDimensions: {x: 1, y: 1}
   mapGenerationAnimationDelay: 0
   warpedMapCamera: {fileID: 519420031}
   isDoneGeneratingMap: 0
@@ -9555,37 +9551,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!1 &1724252245
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1724252246}
-  m_Layer: 0
-  m_Name: GameObject
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1724252246
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1724252245}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.42916, y: -8.662645, z: 0.8110323}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 12
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1780853196
 GameObject:
   m_ObjectHideFlags: 0
@@ -10155,6 +10120,58 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1965326927}
   m_CullTransparentMesh: 0
+--- !u!1 &1974792907
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1974792909}
+  - component: {fileID: 1974792908}
+  m_Layer: 0
+  m_Name: Test Database Something
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1974792908
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1974792907}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fe3509747b55ef43b75db9f930ffafd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GetPowerByRuneSQL: {fileID: 4900000, guid: 0eec69be1217807498135b6ebddcb7f5, type: 3}
+  GetPowerByRunesSQL: {fileID: 4900000, guid: 62b45f3e314f0cb44818bf060309f3e7, type: 3}
+  GetShapeByRuneSQL: {fileID: 4900000, guid: fb26950dd65152c45b1dd0c2f9c7da9c, type: 3}
+  GetShapeByRunesSQL: {fileID: 4900000, guid: 772ff7ea7d65a8e40a7fe0259097ab09, type: 3}
+  GetRangeByShapeAndLevelSQL: {fileID: 4900000, guid: ae88c68f4ed25524f808477ccadc1223,
+    type: 3}
+  GetDamageByRuneAndLevelSQL: {fileID: 4900000, guid: 740ec8eafcc3d82439202f2454a8202a,
+    type: 3}
+--- !u!4 &1974792909
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1974792907}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 12
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &114099249943370364 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2946421346593351712, guid: 6bc396195a0ca5947ac50cc11e3e41f2,

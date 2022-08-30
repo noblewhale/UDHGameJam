@@ -1,0 +1,13 @@
+SELECT * FROM shape_effects 
+JOIN effects ON effect_id = effects.ID 
+WHERE shape_id IN (
+		SELECT id FROM shapes JOIN (
+			SELECT A.shape_id FROM rune_shapes AS A 
+			JOIN rune_shapes AS B 
+			ON A.shape_id = B.shape_id 
+			WHERE A.rune_id = 2 AND A.order = 0 
+			AND B.rune_id = 1 AND B.order = 1
+		) AS C
+		WHERE C.shape_id = shapes.id
+)
+AND energized = 0;

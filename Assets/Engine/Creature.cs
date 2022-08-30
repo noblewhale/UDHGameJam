@@ -69,9 +69,15 @@
 
         void OnPickedUpObject(DungeonObject ob)
         {
-            if (ob.GetComponent<Weapon>() != null)
+            var weildable = ob.GetComponent<Weildable>();
+            if (weildable && weildable.autoWeildRightHand)
             {
                 WeildRightHand(ob);
+            }
+
+            if (weildable && weildable.autoWeildLeftHand)
+            {
+                WeildLeftHand(ob);
             }
         }
 
@@ -123,6 +129,26 @@
             rightHandObject = ob;
             rightHandObject.SetLit(true, true);
             newWeildable?.Weild(this, rightHand);
+            //if (rightHandObject)
+            //{
+            //    baseObject.glyphs.glyphs.AddRange(ob.glyphs.glyphs);
+            //}
+        }
+
+        public void WeildLeftHand(DungeonObject ob)
+        {
+            Weildable oldWieldable = leftHandObject?.GetComponent<Weildable>();
+            Weildable newWeildable = ob?.GetComponent<Weildable>();
+
+            oldWieldable?.GetComponent<Weildable>().UnWeild();
+            //if (rightHandObject)
+            //{
+            //    baseObject.glyphs.glyphs.RemoveAll(g => rightHandObject.glyphs.glyphs.Contains(g));
+            //}
+
+            leftHandObject = ob;
+            leftHandObject.SetLit(true, true);
+            newWeildable?.Weild(this, leftHand);
             //if (rightHandObject)
             //{
             //    baseObject.glyphs.glyphs.AddRange(ob.glyphs.glyphs);

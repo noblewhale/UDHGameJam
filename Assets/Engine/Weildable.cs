@@ -9,13 +9,21 @@ namespace Noble.TileEngine
 
         public Transform handle;
 
+        public bool autoWeildRightHand = false;
+        public bool autoWeildLeftHand = false;
+
         public void Weild(Creature weilder, Transform hand)
         {
             IsWeilded = true;
             WeildedBy = weilder;
 
             transform.parent = hand;
-            transform.position = hand.transform.position - (handle.position - transform.position);
+            Vector3 handlePos = transform.position;
+            if (handle)
+            {
+                handlePos = handle.position;
+            }
+            transform.position = hand.transform.position - (handlePos - transform.position);
         }
 
         public void UnWeild()

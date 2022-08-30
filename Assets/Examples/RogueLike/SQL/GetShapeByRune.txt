@@ -1,0 +1,4 @@
+SELECT B.name FROM rune_shapes AS A 
+JOIN shapes AS B ON A.shape_id = B.id
+WHERE rune_id = @rune_id AND craft_order = 0 
+AND shape_id NOT IN (SELECT shape_id FROM rune_shapes WHERE craft_order = 1);

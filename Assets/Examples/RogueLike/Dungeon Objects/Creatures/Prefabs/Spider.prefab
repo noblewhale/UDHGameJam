@@ -58,9 +58,7 @@ MonoBehaviour:
       m_Calls: []
   originalGlyphPosition: {x: 0, y: 0, z: 0}
   map: {fileID: 0}
-  position: {x: 0, y: 0}
-  previousX: 0
-  previousY: 0
+  previousTilePosition: {x: 0, y: 0}
   quantity: 1
   canBePickedUp: 0
   isAlwaysLit: 0
@@ -68,12 +66,11 @@ MonoBehaviour:
   isVisibleWhenNotInSight: 0
   pathingWeight: 0
   guiIcon: {fileID: 0}
-  health: 1
+  health: 11
   isCollidable: 1
   blocksLineOfSight: 0
   coversObjectsBeneath: 0
   preventsObjectSpawning: 1
-  hasBeenSeen: 0
   hasDoneDamageFlash: 0
   tile: {fileID: 0}
 --- !u!114 &114238227866493274
@@ -173,6 +170,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 833be36acda985c40b8919bf0b143819, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  owner: {fileID: 0}
   targetTile: {fileID: 0}
 --- !u!114 &114129307105589948
 MonoBehaviour:
@@ -186,6 +184,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c55d35453e00a274dbfd2f36a9563cd3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  owner: {fileID: 0}
   useViewDistance: 1
   radiusIfNotUsingViewDistance: 0
 --- !u!114 &114178137825594656

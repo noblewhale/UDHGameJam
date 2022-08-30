@@ -357,9 +357,9 @@
             Reveal(new Vector2Int(tileX, tileY), radius);
         }
 
-        virtual public void ForEachTileInRadius(Vector2 start, float radius, Action<Tile> action, Func<Tile, bool> stopCondition = null, bool includeStartTile = true)
+        virtual public void ForEachTileInRadius(Vector2 start, float radius, Action<Tile> action, Func<Tile, bool> stopCondition = null, bool includeSourceTile = false)
         {
-            var tilesInRadius = GetTilesInRadius(start, radius, stopCondition, includeStartTile);
+            var tilesInRadius = GetTilesInRadius(start, radius, stopCondition, includeSourceTile);
 
             foreach(var tile in tilesInRadius)
             {
@@ -367,15 +367,15 @@
             }
         }
 
-        virtual public List<Tile> GetTilesInRadiusStraightLines(Vector2 start, float radius, Func<Tile, bool> stopCondition = null, bool includeStartTile = true)
+        virtual public List<Tile> GetTilesInRadiusStraightLines(Vector2 start, float radius, Func<Tile, bool> stopCondition = null, bool includeSourceTile = false)
         {
-            var tileHitsInRadius = GetTileHitsInRadiusStraightLines(start, radius, stopCondition, includeStartTile);
+            var tileHitsInRadius = GetTileHitsInRadiusStraightLines(start, radius, stopCondition, includeSourceTile);
             return tileHitsInRadius.ConvertAll((hit) => hit.tile);
         }
 
-        virtual public List<TileAndPosition> GetTileHitsInRadiusStraightLines(Vector2 start, float radius, Func<Tile, bool> stopCondition = null, bool includeStartTile = true)
+        virtual public List<TileAndPosition> GetTileHitsInRadiusStraightLines(Vector2 start, float radius, Func<Tile, bool> stopCondition = null, bool includeSourceTile = false)
         {
-            var tilesInRadius = GetTileHitsInRadius(start, radius, stopCondition, includeStartTile);
+            var tilesInRadius = GetTileHitsInRadius(start, radius, stopCondition, includeSourceTile);
             tilesInRadius.RemoveAll(
                 (hit) => 
                     hit.tile.x != (int)start.x && 
@@ -386,24 +386,24 @@
             return tilesInRadius;
         }
 
-        virtual public List<Tile> GetTilesInRadius(Vector2 start, float radius, Func<Tile, bool> stopCondition = null, bool includeStartTile = true)
+        virtual public List<Tile> GetTilesInRadius(Vector2 start, float radius, Func<Tile, bool> stopCondition = null, bool includeSourceTile = false)
         {
-            var tileHitsInRadius = GetTileHitsInRadius(start, radius, stopCondition, includeStartTile);
+            var tileHitsInRadius = GetTileHitsInRadius(start, radius, stopCondition, includeSourceTile);
             return tileHitsInRadius.ConvertAll((hit) => hit.tile);
         }
 
-        virtual public List<TileAndPosition> GetTileHitsInRadius(Vector2 start, float radius, Func<Tile, bool> stopCondition = null, bool includeStartTile = true)
+        virtual public List<TileAndPosition> GetTileHitsInRadius(Vector2 start, float radius, Func<Tile, bool> stopCondition = null, bool includeSourceTile = false)
         {
-            return GetTileHitsInArc(start, radius, 0, Mathf.PI * 2, stopCondition, includeStartTile);
+            return GetTileHitsInArc(start, radius, 0, Mathf.PI * 2, stopCondition, includeSourceTile);
         }
 
-        virtual public List<Tile> GetTilesInArc(Vector2 start, float radius, float arcAngleStart, float arcAngleEnd, Func<Tile, bool> stopCondition = null, bool includeStartTile = true)
+        virtual public List<Tile> GetTilesInArc(Vector2 start, float radius, float arcAngleStart, float arcAngleEnd, Func<Tile, bool> stopCondition = null, bool includeSourceTile = false)
         {
-            var hits = GetTileHitsInArc(start, radius, arcAngleStart, arcAngleEnd, stopCondition, includeStartTile);
+            var hits = GetTileHitsInArc(start, radius, arcAngleStart, arcAngleEnd, stopCondition, includeSourceTile);
             return hits.ConvertAll(h => h.tile);
         }
 
-        virtual public List<TileAndPosition> GetTileHitsInArc(Vector2 start, float radius, float arcAngleStart, float arcAngleEnd, Func<Tile, bool> stopCondition = null, bool includeStartTile = true)
+        virtual public List<TileAndPosition> GetTileHitsInArc(Vector2 start, float radius, float arcAngleStart, float arcAngleEnd, Func<Tile, bool> stopCondition = null, bool includeSourceTile = false)
         {
             var area = new RectIntExclusive(
                 (int)(start.x - radius - 1),
@@ -430,25 +430,25 @@
                     if (r < 0) r += Mathf.PI * 2;
                     Vector2 direction = new Vector2(Mathf.Sin(r), Mathf.Cos(r));
 
-                    tilesInArea.AddRange(GetTileHitsInRay(start, direction, radius, stopCondition, includeStartTile));
+                    tilesInArea.AddRange(GetTileHitsInRay_Dirty(start, direction, radius, stopCondition, includeSourceTile));
                 }
             }
 
             return tilesInArea;
         }
-        virtual public List<Tile> GetTilesInTruncatedArc(Vector2 start, float radius, float arcAngleStart, float arcAngleEnd, Func<Tile, bool> stopCondition = null, bool includeStartTile = true)
+        virtual public List<Tile> GetTilesInTruncatedArc(Vector2 start, float radius, float arcAngleStart, float arcAngleEnd, Func<Tile, bool> stopCondition = null, bool includeSourceTile = false)
         {
-            var hits = GetTileHitsInTruncatedArc(start, radius, arcAngleStart, arcAngleEnd, stopCondition, includeStartTile);
+            var hits = GetTileHitsInTruncatedArc(start, radius, arcAngleStart, arcAngleEnd, stopCondition, includeSourceTile);
             return hits.ConvertAll(h => h.tile);
         }
 
-        virtual public List<TileAndPosition> GetTileHitsInTruncatedArc(Vector2 start, float radius, float arcAngleStart, float arcAngleEnd, Func<Tile, bool> stopCondition = null, bool includeStartTile = true)
+        virtual public List<TileAndPosition> GetTileHitsInTruncatedArc(Vector2 start, float radius, float arcAngleStart, float arcAngleEnd, Func<Tile, bool> stopCondition = null, bool includeSourceTile = false)
         {
             var area = new RectIntExclusive(
-                (int)(start.x - radius - 1),
-                (int)(start.y - radius - 1),
-                (int)(radius * 2 + 2),
-                (int)(radius * 2 + 2)
+                Mathf.FloorToInt(start.x - radius - 1),
+                Mathf.FloorToInt(start.y - radius - 1),
+                Mathf.CeilToInt(radius * 2 + 2),
+                Mathf.CeilToInt(radius * 2 + 2)
             );
             List<TileAndPosition> tilesInArea = new List<TileAndPosition>();
             lock (isDirtyLock)
@@ -473,16 +473,16 @@
 
                     float truncatedDistance = shortDistance / Mathf.Cos(Mathf.Abs((r - arcAngleStart) - dif / 2));
 
-                    tilesInArea.AddRange(GetTileHitsInRay(start, direction, truncatedDistance, stopCondition, includeStartTile, .4f, true));
+                    tilesInArea.AddRange(GetTileHitsInRay_Dirty(start, direction, truncatedDistance, stopCondition, includeSourceTile, .4f, true));
                 }
             }
 
             return tilesInArea;
         }
 
-        virtual public void ForEachTileInRay(Vector2 start, Vector2 dir, float distance, Action<Tile> action, Func<Tile, bool> stopCondition = null, bool includeStartTile = true)
+        virtual public void ForEachTileInRay(Vector2 start, Vector2 dir, float distance, Action<Tile> action, Func<Tile, bool> stopCondition = null, bool includeSourceTile = false)
         {
-            var tilesInRay = GetTileHitsInRay(start, dir, distance, stopCondition, includeStartTile);
+            var tilesInRay = GetTileHitsInRay(start, dir, distance, stopCondition, includeSourceTile);
 
             foreach (var hit in tilesInRay)
             {
@@ -490,13 +490,46 @@
             }
         }
 
-        virtual public List<Tile> GetTilesInRay(Vector2 start, Vector2 dir, float distance, Func<Tile, bool> stopCondition = null, bool includeSourceTile = true, float stepSize = .4f, bool showDebug = false)
+        virtual public List<Tile> GetTilesInRay(Vector2 start, Vector2 end, Func<Tile, bool> stopCondition = null, bool includeSourceTile = false, float stepSize = .4f, bool showDebug = false)
+        {
+            var hits = GetTileHitsInRay(start, end, stopCondition, includeSourceTile, stepSize, showDebug);
+            return hits.ConvertAll(h => h.tile);
+        }
+
+        virtual public List<Tile> GetTilesInRay(Vector2 start, Vector2 dir, float distance, Func<Tile, bool> stopCondition = null, bool includeSourceTile = false, float stepSize = .4f, bool showDebug = false)
         {
             var hits = GetTileHitsInRay(start, dir, distance, stopCondition, includeSourceTile, stepSize, showDebug);
             return hits.ConvertAll(h => h.tile);
         }
 
-        virtual public List<TileAndPosition> GetTileHitsInRay(Vector2 start, Vector2 dir, float distance, Func<Tile, bool> stopCondition = null, bool includeSourceTile = true, float stepSize = .4f, bool showDebug = false)
+        virtual public List<TileAndPosition> GetTileHitsInRay(Vector2 start, Vector2 end, Func<Tile, bool> stopCondition = null, bool includeSourceTile = false, float stepSize = .4f, bool showDebug = false)
+        {
+            Vector2 direction = GetDifference(start, end);
+            float distance = direction.magnitude;
+            direction.Normalize();
+
+            return GetTileHitsInRay(start, direction, distance, stopCondition, includeSourceTile, stepSize, showDebug);
+        }
+
+        virtual public List<TileAndPosition> GetTileHitsInRay(Vector2 start, Vector2 dir, float distance, Func<Tile, bool> stopCondition = null, bool includeSourceTile = false, float stepSize = .4f, bool showDebug = false)
+        {
+            var area = new RectIntExclusive();
+            area.SetMinMax(
+                Mathf.Min(Mathf.FloorToInt(start.x), Mathf.FloorToInt(start.x + dir.x * distance)),
+                Mathf.Max(Mathf.CeilToInt(start.x), Mathf.CeilToInt(start.x + dir.x * distance)),
+                Mathf.Min(Mathf.FloorToInt(start.y), Mathf.FloorToInt(start.y + dir.y * distance)),
+                Mathf.Max(Mathf.CeilToInt(start.y), Mathf.CeilToInt(start.y + dir.y * distance))
+            );
+            List<TileAndPosition> tilesInRay;
+            lock (isDirtyLock)
+            {
+                ForEachTileInArea(area, (t) => t.isDirty = false);
+                tilesInRay = GetTileHitsInRay_Dirty(start, dir, distance, stopCondition, includeSourceTile, stepSize, showDebug);
+            }
+            return tilesInRay;
+        }
+
+        virtual public List<TileAndPosition> GetTileHitsInRay_Dirty(Vector2 start, Vector2 dir, float distance, Func<Tile, bool> stopCondition = null, bool includeSourceTile = false, float stepSize = .4f, bool showDebug = false)
         {
             List<TileAndPosition> tiles = new List<TileAndPosition>();
 
