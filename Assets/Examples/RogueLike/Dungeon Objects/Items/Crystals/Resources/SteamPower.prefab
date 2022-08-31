@@ -45,8 +45,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: {fileID: 0}
+  shapeBehaviour: {fileID: 0}
+  minDamage: 0
+  maxDamage: 0
   projectilePrefab: {fileID: 1511826856884192, guid: 4df3d242e568055468042aa8164b5b2f,
     type: 3}
-  elementalEffectPrefab: {fileID: 1511826856884192, guid: cce84be517f5a80408651f08be066ca1,
+  elementalEffectPrefab: {fileID: 1511826856884192, guid: 376c98eebae07c145a6c9e66148d731c,
     type: 3}
-  shapeBehaviour: {fileID: 0}
+  unitsPerSecond: 10

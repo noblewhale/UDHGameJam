@@ -92,6 +92,14 @@
                     ob.SetInView(false, isLit);
                 }
             }
+
+            //if (!isVisible)
+            {
+                foreach (var ob in objectList)
+                {
+                    ob.SetLit(isVisible && isLit, isVisible);
+                }
+            }
         }
 
         public void SetLit(bool isLit)
@@ -106,7 +114,7 @@
                 {
                     if (ob.glyphsOb)
                     {
-                        ob.SetLit(true, isInView);
+                        ob.SetLit(isInView, isInView);
                     }
                     if (ob.coversObjectsBeneath) break;
                 }
@@ -125,6 +133,14 @@
             foreach (var ob in objectList)
             {
                 ob.SteppedOn(creature);
+            }
+        }
+
+        public void PreStepOn(DungeonObject creature)
+        {
+            foreach (var ob in objectList)
+            {
+                ob.PreSteppedOn(creature);
             }
         }
 
@@ -186,7 +202,10 @@
                 map.tilesThatAllowSpawn.Remove(this);
             }
 
-            ob.UpdateLighting();
+            //if (ob.illuminationRange != 0)
+            {
+                map.UpdateLighting(ob.tilePosition, ob.illuminationRange);
+            }
 
             SetInView(isInView);
             SetLit(isLit);
@@ -228,13 +247,14 @@
                     map.tilesThatAllowSpawn.Add(this);
                 }
             }
-            SetInView(isInView);
-            SetLit(isLit);
 
-            if (ob.illuminationRange != 0)
+            //if (ob.illuminationRange != 0)
             {
                 map.UpdateLighting(ob.tilePosition, ob.illuminationRange);
             }
+
+            SetInView(isInView);
+            SetLit(isLit);
 
             UpdateObjectLayers();
         }

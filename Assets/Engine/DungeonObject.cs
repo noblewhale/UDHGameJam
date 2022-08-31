@@ -14,9 +14,9 @@
         [Serializable]
         public class CreatureEvent : UnityEvent<DungeonObject> { }
 
-        public float viewDistance = 4;
         public float illuminationRange = 0;
         public CreatureEvent OnSteppedOn;
+        public CreatureEvent OnPreSteppedOn;
         public Vector3 originalGlyphPosition;
         public Map map;
 
@@ -59,6 +59,8 @@
 
         public event Action<Vector2Int, Vector2Int> onMove;
         public event Action<Vector2Int, Vector2Int> onSetPosition;
+        public event Action<Vector2Int, Vector2Int> onPreMove;
+        public event Action<Vector2Int, Vector2Int> onPreSetPosition;
         public event Action<DungeonObject> onPickedUpObject;
         public event Action<DungeonObject, bool> onCollision;
         public event Action onDeath;
@@ -129,7 +131,8 @@
             if (isAlwaysLit) isLit = true;
 
             if (glyphs) glyphs.SetLit(isLit);
-            if (hasBeenSeen)
+
+            if ((isVisibleWhenNotInSight || tile.isInView) && hasBeenSeen && glyphs)
             {
                 glyphs.SetRevealed(true);
             }
@@ -142,7 +145,12 @@
 
         public void SteppedOn(DungeonObject creature)
         {
-            OnSteppedOn.Invoke(creature);
+            OnSteppedOn?.Invoke(creature);
+        }
+
+        public void PreSteppedOn(DungeonObject creature)
+        {
+            OnPreSteppedOn?.Invoke(creature);
         }
 
         public void DamageFlash(float animationTime)
@@ -211,28 +219,20 @@
 
         public void Move(Vector2Int pos)
         {
-            Move(pos.x, pos.y);
+            SetPosition(pos, true);
         }
 
-        public void Move(int newX, int newY)
+        public void SetPosition(Vector2Int position, bool isMove = false)
         {
-            SetPosition(newX, newY);
+            if (isMove && onPreMove != null) onPreMove(tilePosition, position);
+            if (onPreSetPosition != null) onPreSetPosition(tilePosition, position);
 
-            if (onMove != null) onMove(previousTilePosition, tilePosition);
-        }
-
-        public void SetPosition(Vector2Int position)
-        {
-            previousTilePosition = position;
-            //tilePosition = position;
             tile = map.GetTile(position);
 
+            if (isMove && onMove != null) onMove(previousTilePosition, tilePosition);
             if (onSetPosition != null) onSetPosition(previousTilePosition, tilePosition);
-        }
 
-        public void SetPosition(int newX, int newY)
-        {
-            SetPosition(new Vector2Int(newX, newY));
+            previousTilePosition = position;
         }
     }
 }

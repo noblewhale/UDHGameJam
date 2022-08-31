@@ -20,20 +20,21 @@ namespace Noble.DungeonCrawler
 			threatenedTiles = Map.instance.GetTilesInRay(rayStart, rayEnd, t => t.IsCollidable(), false);
 
 			// We only care about the last tile in the line, whether we hit something collidable, or just reached the target
-			if (threatenedTiles.Count > 1)
+			if (threatenedTiles.Count >= 1)
 			{
+				Debug.Log("fuck");
 				threatenedTiles = threatenedTiles.GetRange(threatenedTiles.Count - 1, 1);
-			}
 
-			foreach (Vector2Int relativeLocation in shape)
-            {
-				Vector2Int pos = threatenedTiles[0].position + relativeLocation;
-				Tile threatenedTile = Map.instance.GetTile(pos);
-				if (threatenedTiles[0] != threatenedTile)
+				foreach (Vector2Int relativeLocation in shape)
 				{
-					threatenedTiles.Add(threatenedTile);
+					Vector2Int pos = threatenedTiles[0].position + relativeLocation;
+					Tile threatenedTile = Map.instance.GetTile(pos);
+					if (threatenedTiles[0] != threatenedTile)
+					{
+						threatenedTiles.Add(threatenedTile);
+					}
 				}
-            }
+			}
 
 			return threatenedTiles;
 		}

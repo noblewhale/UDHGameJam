@@ -23,7 +23,8 @@
 
         void OnPositionChange(Vector2Int oldPos, Vector2Int newPos)
         {
-            Map.instance.Reveal(newPos, identity.viewDistance);
+            Map.instance.UpdateIsVisible(oldPos, identity.GetComponent<Creature>().effectiveViewDistance, false);
+            Map.instance.UpdateIsVisible(newPos, identity.GetComponent<Creature>().effectiveViewDistance, true);
         }
 
         void OnMapLoaded()
@@ -31,7 +32,7 @@
             Tile startTile = Map.instance.GetRandomTileThatAllowsSpawn();
             startTile.AddObject(identity);
             Map.instance.UpdateLighting();
-            Map.instance.Reveal(identity.tilePosition, identity.viewDistance);
+            Map.instance.UpdateIsVisible(identity.tilePosition, identity.GetComponent<Creature>().effectiveViewDistance, true);
         }
     }
 }

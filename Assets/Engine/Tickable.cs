@@ -14,24 +14,24 @@
         public LinkedListNode<Tickable> listNode;
         public List<TickableBehaviour> behaviours = new List<TickableBehaviour>();
         public DungeonObject owner;
-        TickableBehaviour currentBehaviour;
+        public List<TickableBehaviour> currentBehaviours = new List<TickableBehaviour>();
         public bool markedForRemoval = false;
 
         public TickableBehaviour nextBehaviour;
 
-        void Awake()
+        virtual public void Awake()
         {
             behaviours = GetComponents<TickableBehaviour>().ToList();
             owner = GetComponent<DungeonObject>();
             owner.onDeath += OnDeath;
         }
 
-        void Start()
+        virtual public void Start()
         {
             listNode = TimeManager.instance.tickableObjects.AddLast(this);
         }
 
-        void OnDestroy()
+        virtual public void OnDestroy()
         {
             owner.onDeath -= OnDeath;
             markedForRemoval = true;
@@ -49,23 +49,25 @@
             return behaviour;
         }
 
-        public TickableBehaviour GetBehaviourToExecute()
+        public List<TickableBehaviour> GetBehavioursToExecute()
         {
-            currentBehaviour = null;
+            currentBehaviours.Clear();
             nextActionTime = TimeManager.instance.Time + 1;
 
             if (nextBehaviour == null)
             {
-                currentBehaviour = DetermineBehaviour();
+                currentBehaviours.Add(DetermineBehaviour());
             }
             else
             {
-                currentBehaviour = nextBehaviour;
+                currentBehaviours.Add(nextBehaviour);
                 nextBehaviour = null;
             }
 
+            currentBehaviours.AddRange(behaviours.Where(x => x.enabled && x.executeEveryTick));
+
             lastActionTime = TimeManager.instance.Time;
-            return currentBehaviour;
+            return currentBehaviours;
         }
 
         virtual public TickableBehaviour DetermineBehaviour()
@@ -87,36 +89,6 @@
             }
 
             return null;
-        }
-
-        virtual public void StartAction()
-        {
-            if (currentBehaviour) currentBehaviour.StartAction();
-        }
-
-        virtual public IEnumerator StartActionCoroutine()
-        {
-            if (currentBehaviour) yield return currentBehaviour.StartActionCoroutine();
-        }
-
-        virtual public void StartSubAction()
-        {
-            if (currentBehaviour) currentBehaviour.StartSubAction(TimeManager.instance.Time - lastActionTime);
-        }
-
-        virtual public bool ContinueSubAction()
-        {
-            if (currentBehaviour) return currentBehaviour.ContinueSubAction(TimeManager.instance.Time - lastActionTime);
-            return true;
-        }
-        virtual public void FinishSubAction()
-        {
-            if (currentBehaviour) currentBehaviour.FinishSubAction(TimeManager.instance.Time - lastActionTime);
-        }
-
-        virtual public void FinishAction()
-        {
-            if (currentBehaviour) currentBehaviour.FinishAction();
         }
     }
 }

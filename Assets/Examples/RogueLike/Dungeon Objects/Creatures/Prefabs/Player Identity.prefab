@@ -345,9 +345,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectName: Human
-  viewDistance: 8
   illuminationRange: 1
   OnSteppedOn:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPreSteppedOn:
     m_PersistentCalls:
       m_Calls: []
   originalGlyphPosition: {x: 0, y: 0, z: 0}
@@ -357,7 +359,7 @@ MonoBehaviour:
   canBePickedUp: 0
   isAlwaysLit: 0
   canTakeDamage: 1
-  isVisibleWhenNotInSight: 0
+  isVisibleWhenNotInSight: 1
   pathingWeight: 0
   guiIcon: {fileID: 0}
   health: 10
@@ -386,6 +388,7 @@ MonoBehaviour:
   intelligence: 1
   charisma: 1
   defense: 1
+  viewDistance: 4
   ticksPerMove: 1
   ticksPerAttack: 1
   attackMovementAnimation:
@@ -473,6 +476,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f1004bf5d3220c4eabdc7e4c5719cac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  owner: {fileID: 0}
+  executeEveryTick: 0
   targetTilePosition: {x: 0, y: 0}
 --- !u!114 &2987740550008959594
 MonoBehaviour:
@@ -486,6 +491,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34ffcf7667e5c7b4da20d0da498f6cd9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  owner: {fileID: 0}
+  executeEveryTick: 0
   targetTile: {fileID: 0}
 --- !u!114 &2987740549015043192
 MonoBehaviour:
@@ -503,13 +510,11 @@ MonoBehaviour:
   lastActionTime: 0
   behaviours: []
   owner: {fileID: 0}
+  currentBehaviours: []
   markedForRemoval: 0
   nextBehaviour: {fileID: 0}
   attackBehaviour: {fileID: 2987740550008959594}
   moveBehaviour: {fileID: 2987740550008959593}
-  fireAOEBehaviour: {fileID: 0}
-  iceRayBehaviour: {fileID: 0}
-  coneBehaviour: {fileID: 0}
 --- !u!1 &3912137005795565662
 GameObject:
   m_ObjectHideFlags: 0

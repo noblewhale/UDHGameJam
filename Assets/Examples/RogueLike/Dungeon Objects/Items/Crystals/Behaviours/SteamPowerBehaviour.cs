@@ -10,16 +10,17 @@ namespace Noble.DungeonCrawler
     {
 		public GameObject projectilePrefab;
 		public GameObject elementalEffectPrefab;
-		List<GameObject> projectileObjects = new List<GameObject>();
+		GameObject projectileObject;
+		List<(GameObject, Tile)> secondaryProjectileObjects = new List<(GameObject, Tile)>();
 
 		protected float attackStartTime = 0;
 		protected Creature identityCreature => owner.gameObject.GetComponentInParent<Creature>(true);
 
 		public float unitsPerSecond = 10;
 
-		List<Vector2> startProjectilePositions = new List<Vector2>();
-		List<Vector2> endProjectilePositions = new List<Vector2>();
-		List<float> durations = new List<float>();
+		Vector2 startProjectilePosition;
+		Vector2 endProjectilePosition;
+		float duration;
 
 		override public void Awake()
 		{
@@ -32,31 +33,37 @@ namespace Noble.DungeonCrawler
 			
 			attackStartTime = Time.time;
 
-			foreach (var tile in shapeBehaviour.threatenedTiles)
+			Vector2 startVisualRayPosition = Map.instance.transform.InverseTransformPoint(identityCreature.leftHand.transform.position);
+			Vector2 endVisualRayPosition = new Vector2(shapeBehaviour.threatenedTiles[0].transform.localPosition.x + Map.instance.tileWidth / 2, shapeBehaviour.threatenedTiles[0].transform.localPosition.y + Map.instance.tileHeight / 2);
+			if ((endVisualRayPosition - startVisualRayPosition).magnitude > Map.instance.TotalWidth / 2)
 			{
-				Vector2 startVisualRayPosition = Map.instance.transform.InverseTransformPoint(identityCreature.leftHand.transform.position);
-				Vector2 endVisualRayPosition = new Vector2(tile.transform.localPosition.x + Map.instance.tileWidth / 2, tile.transform.localPosition.y + Map.instance.tileHeight / 2);
-				if ((endVisualRayPosition - startVisualRayPosition).magnitude > Map.instance.TotalWidth / 2)
+				if (startVisualRayPosition.x > Map.instance.TotalWidth / 2)
 				{
-					if (startVisualRayPosition.x > Map.instance.TotalWidth / 2)
-					{
-						endVisualRayPosition.x += Map.instance.TotalWidth;
-					}
-					else
-					{
-						endVisualRayPosition.x -= Map.instance.TotalWidth;
-					}
+					endVisualRayPosition.x += Map.instance.TotalWidth;
 				}
-				float duration = (startVisualRayPosition - endVisualRayPosition).magnitude / unitsPerSecond;
+				else
+				{
+					endVisualRayPosition.x -= Map.instance.TotalWidth;
+				}
+			}
 
-				startProjectilePositions.Add(startVisualRayPosition);
-				endProjectilePositions.Add(endVisualRayPosition);
-				durations.Add(duration);
+			duration = (startVisualRayPosition - endVisualRayPosition).magnitude / unitsPerSecond;
+			startProjectilePosition = startVisualRayPosition;
+			endProjectilePosition = endVisualRayPosition;
 
-				GameObject projectile = Instantiate(projectilePrefab);
-				projectile.transform.parent = Map.instance.transform;
-				projectile.transform.position = identityCreature.leftHand.transform.position - Vector3.forward;
-				projectileObjects.Add(projectile);
+			GameObject projectile = Instantiate(projectilePrefab);
+			projectile.transform.parent = Map.instance.transform;
+			projectile.transform.position = identityCreature.leftHand.transform.position - Vector3.forward;
+			projectileObject = projectile;
+
+			foreach (Tile tile in shapeBehaviour.threatenedTiles)
+            {
+				if (tile == shapeBehaviour.threatenedTiles[0]) continue;
+
+				GameObject secondaryProjectile = Instantiate(projectilePrefab);
+				secondaryProjectile.transform.parent = Map.instance.transform;
+				secondaryProjectileObjects.Add((secondaryProjectile, tile));
+				secondaryProjectile.SetActive(false);
 			}
 		}
 
@@ -65,25 +72,66 @@ namespace Noble.DungeonCrawler
 			bool allDone = true; 
 			float timeSinceAttackStart = Time.time - attackStartTime;
 
-			for (int i = 0; i < projectileObjects.Count; i++)
-			{
-				float t = timeSinceAttackStart / durations[i];
 
-				if (projectileObjects[i] != null)
+			if (projectileObject != null)
+			{
+				float t = timeSinceAttackStart / duration;
+
+				projectileObject.transform.localPosition = (Vector3)Vector2.Lerp(startProjectilePosition, endProjectilePosition, t) - Vector3.forward;
+
+				if (t >= 1)
 				{
-					projectileObjects[i].transform.localPosition = (Vector3)Vector2.Lerp(startProjectilePositions[i], endProjectilePositions[i], t) - Vector3.forward;
+					attackStartTime = Time.time;
+					var tileThatWasHit = Map.instance.GetTileFromWorldPosition(projectileObject.transform.localPosition);
+
+					// Destroy the projectile
+					Destroy(projectileObject);
+					projectileObject = null;
+
+					// Add the trap
+					var fire = Instantiate(elementalEffectPrefab);
+					tileThatWasHit.AddObject(fire.GetComponent<DungeonObject>());
+
+					// Do the damage
+					if (tileThatWasHit && tileThatWasHit.objectList != null)
+					{
+						DungeonObject targetObject = tileThatWasHit.objectList.FirstOrDefault(ob => ob.isCollidable);
+						if (targetObject)
+						{
+							targetObject.TakeDamage((int)Random.Range(minDamage, maxDamage));
+						}
+					}
+					foreach ((GameObject secondaryProjectile, Tile tile) in secondaryProjectileObjects)
+					{
+						secondaryProjectile.SetActive(true);
+					}
+					allDone = false;
+				}
+				else
+				{
+					allDone = false;
+				}
+			}
+			else
+			{
+				float t = timeSinceAttackStart / .15f;
+				foreach ((GameObject secondaryProjectile, Tile tile) in secondaryProjectileObjects)
+                {
+					if (secondaryProjectile == null) continue;
+
+					Vector2 endSecondaryProjectilePosition = new Vector2(tile.transform.localPosition.x + Map.instance.tileWidth / 2, tile.transform.localPosition.y + Map.instance.tileHeight / 2);
+					secondaryProjectile.transform.localPosition = (Vector3)Vector2.Lerp(endProjectilePosition, endSecondaryProjectilePosition, t) - Vector3.forward;
 
 					if (t >= 1)
 					{
-						var tileThatWasHit = Map.instance.GetTileFromWorldPosition(projectileObjects[i].transform.localPosition);
+						var tileThatWasHit = Map.instance.GetTileFromWorldPosition(secondaryProjectile.transform.localPosition);
 
-						// Destroy the fireball
-						Destroy(projectileObjects[i]);
-						projectileObjects[i] = null;
+						// Destroy the projectile
+						Destroy(secondaryProjectile);
 
-						// Add the fire
-						var fire = Instantiate(elementalEffectPrefab);
-						tileThatWasHit.AddObject(fire.GetComponent<DungeonObject>());
+						// Add the trap
+						var trap = Instantiate(elementalEffectPrefab);
+						tileThatWasHit.AddObject(trap.GetComponent<DungeonObject>());
 
 						// Do the damage
 						if (tileThatWasHit && tileThatWasHit.objectList != null)
@@ -100,7 +148,7 @@ namespace Noble.DungeonCrawler
 						allDone = false;
 					}
 				}
-			}
+            }
 
 			if (allDone)
 			{
@@ -113,14 +161,12 @@ namespace Noble.DungeonCrawler
 		}
 		override public void FinishSubAction(ulong time)
 		{
-			foreach (var fireball in projectileObjects)
+			if (projectileObject != null) Destroy(projectileObject);
+			foreach ((GameObject secondaryProjectile, _) in secondaryProjectileObjects)
 			{
-				if (fireball != null) Destroy(fireball);
+				if (secondaryProjectile != null) Destroy(secondaryProjectile);
 			}
-			projectileObjects.Clear();
-			startProjectilePositions.Clear();
-			endProjectilePositions.Clear();
-			durations.Clear();
+			secondaryProjectileObjects.Clear();
 		}
 	}
 }

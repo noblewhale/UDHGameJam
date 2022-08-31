@@ -6,6 +6,7 @@
 	public class TickableBehaviour : MonoBehaviour
 	{
 		public DungeonObject owner;
+		public bool executeEveryTick = false;
 
 		virtual public void Awake()
 		{

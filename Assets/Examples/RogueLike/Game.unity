@@ -670,9 +670,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectName: 
-  viewDistance: 4
   illuminationRange: 0
   OnSteppedOn:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPreSteppedOn:
     m_PersistentCalls:
       m_Calls: []
   originalGlyphPosition: {x: 0, y: 0, z: 0}
@@ -10191,6 +10193,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2946421346593351712, guid: 6bc396195a0ca5947ac50cc11e3e41f2,
+        type: 3}
+      propertyPath: illuminationRange
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2949319144300183498, guid: 6bc396195a0ca5947ac50cc11e3e41f2,
+        type: 3}
+      propertyPath: viewDistance
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 2987011236448704078, guid: 6bc396195a0ca5947ac50cc11e3e41f2,
         type: 3}
       propertyPath: m_Name

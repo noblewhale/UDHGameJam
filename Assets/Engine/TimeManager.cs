@@ -47,40 +47,73 @@
 
                     if (Time >= ob.nextActionTime)
                     {
-                        var behaviour = ob.GetBehaviourToExecute();
-                        if (behaviour != null)
+                        var behaviours = ob.GetBehavioursToExecute();
+
+                        if (behaviours != null && behaviours.Count != 0)
                         {
-                            if (behaviour.IsActionACoroutine())
+                            foreach (var behaviour in behaviours)
                             {
-                                yield return ob.StartActionCoroutine();
-                            }
-                            else
-                            {
-                                ob.StartAction();
+                                if (behaviour == null) continue;
+                                if (behaviour.IsActionACoroutine())
+                                {
+                                    yield return behaviour.StartActionCoroutine();
+                                }
+                                else
+                                {
+                                    behaviour.StartAction();
+                                }
                             }
                         }
                     }
 
-                    ob.StartSubAction();
+                    var currentBehaviours = ob.currentBehaviours;
+                    if (currentBehaviours != null && currentBehaviours.Count != 0)
+                    {
+                        foreach (var behaviour in currentBehaviours)
+                        {
+                            if (behaviour == null) continue;
+                            behaviour.StartSubAction(Time - ob.lastActionTime);
+                        }
+                    }
 
                     bool isOnCamera = mapCamera.Contains(ob.owner.transform.position);
 
                     if (isOnCamera && ob.owner.tile.isInView && ob.owner.tile.isLit)
                     {
-                        while (true)
+                        if (currentBehaviours != null && currentBehaviours.Count != 0)
                         {
-                            bool isDone = ob.ContinueSubAction();
-                            if (isDone) break;
-                            if (Player.instance.identity.tickable != ob && isInterrupted) break;
-                            yield return new WaitForEndOfFrame();
+                            foreach (var behaviour in currentBehaviours)
+                            {
+                                if (behaviour == null) continue;
+                                while (true)
+                                {
+                                    bool isDone = behaviour.ContinueSubAction(Time - ob.lastActionTime);
+                                    if (isDone) break;
+                                    if (Player.instance.identity.tickable != ob && isInterrupted) break;
+                                    yield return new WaitForEndOfFrame();
+                                }
+                            }
+                        }
+                    }
+                    if (currentBehaviours != null && currentBehaviours.Count != 0)
+                    {
+                        foreach (var behaviour in currentBehaviours)
+                        {
+                            if (behaviour == null) continue;
+                            behaviour.FinishSubAction(Time - ob.lastActionTime);
                         }
                     }
 
-                    ob.FinishSubAction();
-
                     if (Time == ob.nextActionTime - 1)
                     {
-                        ob.FinishAction();
+                        if (currentBehaviours != null && currentBehaviours.Count != 0)
+                        {
+                            foreach (var behaviour in currentBehaviours)
+                            {
+                                if (behaviour == null) continue;
+                                behaviour.FinishAction();
+                            }
+                        }
                     }
 
                     if (isInterrupted && ob == interruptingTickable)

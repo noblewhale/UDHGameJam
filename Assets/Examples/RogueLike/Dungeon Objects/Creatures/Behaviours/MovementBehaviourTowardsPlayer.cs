@@ -38,7 +38,7 @@
             Vector2Int myPos = owner.tilePosition;
 
             float radius = radiusIfNotUsingViewDistance;
-            if (useViewDistance) radius = owningCreature.baseObject.viewDistance;
+            if (useViewDistance) radius = owningCreature.effectiveViewDistance;
             float distanceToPlayer = Vector2.Distance(playerPos, myPos);
             Vector2 wrappedMyPos = new Vector2(myPos.x + owner.map.width, myPos.y);
             float wrappedDistanceToPlayer = Vector2.Distance(playerPos, wrappedMyPos);

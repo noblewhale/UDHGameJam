@@ -1,6 +1,7 @@
 ﻿namespace Noble.TileEngine
 {
     using System;
+    using System.Collections.Generic;
     using UnityEngine;
 
     [RequireComponent(typeof(Tickable))]
@@ -17,6 +18,23 @@
         public int charisma;
 
         public int defense = 1;
+        public float viewDistance = 4;
+
+        [SerializeField]
+        public float effectiveViewDistance
+        {
+            get
+            {
+                float d = viewDistance;
+                foreach (ViewDistanceModifier modifier in viewDistanceModifiers)
+                {
+                    modifier.ModifyViewDistance(ref d);
+                }
+                return d;
+            }
+        }
+        public List<ViewDistanceModifier> viewDistanceModifiers = new List<ViewDistanceModifier>();
+        List<Modifier> allModifier = new List<Modifier>();
 
         public ulong ticksPerMove = 1;
         public ulong ticksPerAttack = 1;
@@ -64,6 +82,7 @@
             baseObject = GetComponent<DungeonObject>();
             tickable = GetComponent<Tickable>();
             baseObject.onMove += OnMove;
+            baseObject.onPreMove += OnPreMove;
             baseObject.onPickedUpObject += OnPickedUpObject;
         }
 
@@ -79,6 +98,11 @@
             {
                 WeildLeftHand(ob);
             }
+        }
+
+        void OnPreMove(Vector2Int pos, Vector2Int newPos)
+        {
+            map.GetTile(newPos).PreStepOn(baseObject);
         }
 
         void OnMove(Vector2Int oldPos, Vector2Int newPos)
@@ -161,6 +185,29 @@
             if (tile.y < y) lastDirectionAttackedOrMoved = Direction.DOWN;
             if (tile.x > x) lastDirectionAttackedOrMoved = Direction.RIGHT;
             if (tile.x < x) lastDirectionAttackedOrMoved = Direction.LEFT;
+        }
+
+        public void AddModifier<T>() where T : Modifier
+        {
+            var modifier = gameObject.AddComponent<T>();
+            if (modifier is ViewDistanceModifier)
+            {
+                viewDistanceModifiers.Add((ViewDistanceModifier)modifier);
+            }
+            allModifier.Add(modifier);
+            tickable.behaviours.Add(modifier);
+        }
+
+        public void RemoveModifier(Modifier modifier)
+        {
+            if (modifier is ViewDistanceModifier)
+            {
+                viewDistanceModifiers.Remove((ViewDistanceModifier)modifier);
+            }
+            allModifier.Remove(modifier);
+            tickable.behaviours.Remove(modifier);
+
+            Destroy(modifier);
         }
 
     }

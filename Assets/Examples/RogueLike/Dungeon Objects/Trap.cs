@@ -2,72 +2,82 @@
 {
     using Noble.TileEngine;
     using System.Collections;
+    using System.Linq;
     using UnityEngine;
 
     public class Trap : TickableBehaviour
     {
         public float delay = .1f;
         public bool knockBack = true;
-        bool shouldTrigger = false;
-        DungeonObject creatureThatSteppedOnTrap;
         float actionStartTime;
-        ulong lastTriggerTime;
-
-        public void OnSteppedOn(DungeonObject creature)
-        {
-            //if (TimeManager.instance.time - lastTriggerTime < cooldown) return;
-            if (creature == null) return;
-
-            lastTriggerTime = TimeManager.instance.Time;
-            shouldTrigger = true;
-            creatureThatSteppedOnTrap = creature;
-            TimeManager.instance.ForceNextAction(owner.GetComponent<Tickable>());
-        }
+        public float minDamage = 1;
+        public float maxDamage = 1;
+        public float damageChance = 1;
+        bool doDamage = false;
 
         public override void StartAction()
         {
-            shouldTrigger = false;
             owner.tickable.nextActionTime = TimeManager.instance.Time + 1;
             actionStartTime = Time.time;
+            doDamage = Random.value < damageChance;
+        }
+
+        virtual public void OnSteppedOn()
+        {
+            owner.GetComponent<Tickable>().nextBehaviour = this;
+            TimeManager.instance.ForceNextAction(owner.GetComponent<Tickable>());
         }
 
         public override bool ContinueSubAction(ulong time)
         {
-            if ((Time.time - actionStartTime) < delay)
+            if (doDamage)
             {
-                if (creatureThatSteppedOnTrap)
+                foreach (var dungeonObject in owner.tile.objectList)
                 {
-                    creatureThatSteppedOnTrap.DamageFlash(.3f);
+                    if (dungeonObject.canTakeDamage)
+                    {
+                        if ((Time.time - actionStartTime) < delay)
+                        {
+                            dungeonObject.DamageFlash(.3f);
+                            return false;
+                        }
+                    }
                 }
-                return false;
             }
-            else return true;
+
+            return true;
         }
 
         public override void FinishSubAction(ulong time)
         {
-            if (creatureThatSteppedOnTrap)
+            if (doDamage)
             {
-                creatureThatSteppedOnTrap.DamageFlash(1);
-                creatureThatSteppedOnTrap.TakeDamage(1);
-                if (knockBack && creatureThatSteppedOnTrap.health != 0)
+                foreach (var dungeonObject in owner.tile.objectList.Reverse())
                 {
-                    Map.instance.MoveObject(creatureThatSteppedOnTrap, creatureThatSteppedOnTrap.previousTilePosition);
+                    if (dungeonObject.canTakeDamage)
+                    {
+                        dungeonObject.DamageFlash(1);
+                        dungeonObject.TakeDamage(Mathf.RoundToInt(Random.Range(minDamage, maxDamage)));
+                        if (knockBack && dungeonObject.health != 0)
+                        {
+                            Map.instance.MoveObject(dungeonObject, dungeonObject.previousTilePosition);
+                        }
+                    }
                 }
             }
-            creatureThatSteppedOnTrap = null;
         }
 
         public override float GetActionConfidence()
         {
-            if (shouldTrigger)
+            foreach (var dungeonObject in owner.tile.objectList)
             {
-                return 1;
+                if (dungeonObject.GetComponent<Creature>())
+                {
+                    return 1;
+                }
             }
-            else
-            {
-                return 0;
-            }
+
+            return 0;
         }
     }
 }
