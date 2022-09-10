@@ -194,19 +194,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectName: Wall
-  viewDistance: 4
   illuminationRange: 0
   OnSteppedOn:
     m_PersistentCalls:
       m_Calls: []
+  OnPreSteppedOn:
+    m_PersistentCalls:
+      m_Calls: []
   originalGlyphPosition: {x: 0, y: 0, z: 0}
   map: {fileID: 0}
-  position: {x: 0, y: 0}
-  previousX: 0
-  previousY: 0
+  previousTilePosition: {x: 0, y: 0}
   quantity: 1
   canBePickedUp: 0
-  isAlwaysLit: 1
+  isAlwaysLit: 0
   canTakeDamage: 0
   isVisibleWhenNotInSight: 1
   pathingWeight: 0
@@ -216,9 +216,9 @@ MonoBehaviour:
   blocksLineOfSight: 1
   coversObjectsBeneath: 1
   preventsObjectSpawning: 1
-  hasBeenSeen: 0
   hasDoneDamageFlash: 0
   tile: {fileID: 0}
+  autoAddToTileAtStart: 0
 --- !u!1 &623971217689817633
 GameObject:
   m_ObjectHideFlags: 0

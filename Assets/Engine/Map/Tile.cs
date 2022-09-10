@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using UnityEngine;
     using System.Linq;
+    using System;
 
     public class Tile : MonoBehaviour
     {
@@ -21,14 +22,25 @@
 
         public void Init(Map map, int x, int y)
         {
-            transform.parent = map.transform;
+            //transform.parent = map.transform;
             this.map = map;
             position.x = x;
             position.y = y;
             map.tilesThatAllowSpawn.Add(this);
             transform.localPosition = new Vector3(x * map.tileWidth, y * map.tileHeight, 0);
             if (isAlwaysLit) isLit = true;
+            
             //SetInView(true);
+        }
+
+        public bool ContainsObjectWithComponent<T>() where T : MonoBehaviour
+        {
+            foreach (var hay in objectList)
+            {
+                if (hay.GetComponent<T>() != null) return true;
+            }
+
+            return false;
         }
 
         public bool ContainsObjectOfType(DungeonObject needle)
@@ -152,11 +164,12 @@
             }
         }
 
-        public DungeonObject SpawnAndAddObject(DungeonObject dungeonObject, int quantity = 1, bool addToBottom = false)
+        public DungeonObject SpawnAndAddObject(DungeonObject dungeonObject, int quantity = 1, int layer = 0)
         {
             var ob = Instantiate(dungeonObject).GetComponent<DungeonObject>();
             ob.quantity = quantity;
-            AddObject(ob, false, addToBottom);
+            ob.transform.position = new Vector3(0, 0, -layer);
+            AddObject(ob, false, layer);
 
             return ob;
         }
@@ -175,20 +188,20 @@
             objectList.Clear();
         }
 
-        public void AddObject(DungeonObject ob, bool isMove = false, bool addToBottom = false)
+        public void AddObject(DungeonObject ob, bool isMove = false, int layer = 0)
         {
             bool isFirstPlacement = ob.tile == null;
 
-            ob.transform.parent = transform;
-            ob.transform.localPosition = Vector3.zero;
-            if (addToBottom)
+            ob.transform.parent = map.layers[layer];
+            ob.transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, 0);
+            //if (addToBottom)
             {
                 objectList.AddLast(ob);
             }
-            else
-            {
-                objectList.AddFirst(ob);
-            }
+            //else
+            //{
+            //    objectList.AddFirst(ob);
+            //}
             if (isMove)
             {
                 ob.Move(position);
@@ -204,7 +217,8 @@
 
             //if (ob.illuminationRange != 0)
             {
-                map.UpdateLighting(ob.tilePosition, ob.illuminationRange);
+                //map.UpdateLighting(ob.tilePosition, ob.illuminationRange);
+                //map.UpdateLighting();
             }
 
             SetInView(isInView);
@@ -219,16 +233,52 @@
         }
 
         public void UpdateObjectLayers()
-        { 
-            int l = 0;
-            var el = objectList.Last;
-            while (el != null)
+        {
+            Sort(objectList.First, objectList.Last, o => o.transform.position.z);
+            //int l = 0;
+            //var el = objectList.Last;
+            //while (el != null)
+            //{
+            //    var ob = el.Value;
+            //    ob.transform.localPosition = new Vector3(ob.transform.localPosition.x, ob.transform.localPosition.y, -l * gapBetweenLayers);
+            //    l++;
+            //    el = el.Previous;
+            //}
+        }
+
+        private static void Sort<T, R>(LinkedListNode<T> head, LinkedListNode<T> tail, Func<T, R> valueGetter) where R : IComparable<R>
+        {
+            if (head == tail) return; // there is nothing to sort
+
+            void Swap(LinkedListNode<T> a, LinkedListNode<T> b)
             {
-                var ob = el.Value;
-                ob.transform.localPosition = new Vector3(ob.transform.localPosition.x, ob.transform.localPosition.y, -l * gapBetweenLayers);
-                l++;
-                el = el.Previous;
+                var tmp = a.Value;
+                a.Value = b.Value;
+                b.Value = tmp;
             }
+
+            var pivot = tail;
+            var node = head;
+            while (node.Next != pivot)
+            {
+                if (valueGetter(node.Value).CompareTo(valueGetter(pivot.Value)) > 0)
+                {
+                    Swap(pivot, pivot.Previous);
+                    Swap(node, pivot);
+                    pivot = pivot.Previous; // move pivot backward
+                }
+                else node = node.Next; // move node forward
+            }
+            if (valueGetter(node.Value).CompareTo(valueGetter(pivot.Value)) > 0)
+            {
+                Swap(node, pivot);
+                pivot = node;
+            }
+
+            // pivot location is found, now sort nodes below and above pivot.
+            // if head or tail is equal to pivot we reached boundaries and we should stop recursion.
+            if (head != pivot) Sort(head, pivot.Previous, valueGetter);
+            if (tail != pivot) Sort(pivot.Next, tail, valueGetter);
         }
 
         public void RemoveObject(DungeonObject ob, bool destroyObject = false)
@@ -250,7 +300,8 @@
 
             //if (ob.illuminationRange != 0)
             {
-                map.UpdateLighting(ob.tilePosition, ob.illuminationRange);
+                //map.UpdateLighting(ob.tilePosition, ob.illuminationRange);
+                //map.UpdateLighting();
             }
 
             SetInView(isInView);

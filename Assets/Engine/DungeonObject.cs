@@ -6,6 +6,7 @@
     using UnityEngine;
     using UnityEngine.Events;
     using System.Linq;
+    using UnityEngine.Tilemaps;
 
     public class DungeonObject : MonoBehaviour
     {
@@ -66,6 +67,7 @@
         public event Action onDeath;
         public event Action onSpawn;
         public Tile tile;
+        public bool autoAddToTileAtStart = true;
 
         public Tickable tickable { get; private set; }
 
@@ -79,6 +81,17 @@
                 glyphsOb = glyphs.gameObject;
                 originalGlyphPosition = glyphs.transform.localPosition;
             }
+
+            map.OnPreMapLoaded += OnPreMapLoaded;
+        }
+
+        public void OnPreMapLoaded()
+        {
+            if (tile == null && autoAddToTileAtStart)
+            {
+                tile = map.GetTileFromWorldPosition(transform.position - map.transform.position);
+                tile.AddObject(this, false, (int)-transform.position.z);
+            }
         }
 
         public void Spawn()
@@ -89,6 +102,12 @@
         public void UpdateLighting()
         {
             if (illuminationRange == 0) return;
+
+            if (illuminationRange < .5f)
+            {
+                tile.SetLit(true);
+                return;
+            }
 
             map.ForEachTileInRadius(
                 tilePosition + map.tileDimensions / 2,
@@ -107,7 +126,7 @@
 
         public void SetInView(bool isInView, bool reveal)
         {
-            if (isInView && reveal) hasBeenSeen = true;
+            if (isInView && (reveal || isAlwaysLit)) hasBeenSeen = true;
 
             if (isInView)
             {
@@ -128,13 +147,23 @@
         public void SetLit(bool isLit, bool reveal)
         {
             if (isLit && reveal) hasBeenSeen = true;
-            if (isAlwaysLit) isLit = true;
+            if (isAlwaysLit && tile.isInView) isLit = true;
 
-            if (glyphs) glyphs.SetLit(isLit);
+            glyphs?.SetLit(isLit);
 
-            if ((isVisibleWhenNotInSight || tile.isInView) && hasBeenSeen && glyphs)
+            if (isLit)
             {
-                glyphs.SetRevealed(true);
+                if ((isVisibleWhenNotInSight || tile.isInView) && hasBeenSeen)
+                {
+                    glyphs?.SetRevealed(true);
+                }
+            }
+            else
+            {
+                if (!isVisibleWhenNotInSight)
+                {
+                    glyphs?.SetRevealed(false);
+                }    
             }
         }
 

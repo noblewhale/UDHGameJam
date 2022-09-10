@@ -10,9 +10,10 @@
     {
 
         public Tile tilePrefab;
+        public BiomeObject biomeObjectPrefab;
 
         public Biome[] biomeTypes;
-        public List<Biome> biomes = new List<Biome>();
+        public List<BiomeObject> biomes = new List<BiomeObject>();
 
         public Tile[][] tileObjects;
         public List<Tile> tilesThatAllowSpawn = new List<Tile>();
@@ -25,6 +26,8 @@
         public float tileHeight => tileDimensions.y;
 
         public object isDirtyLock = new object();
+
+        public Transform[] layers;
 
         public float TotalWidth
         {
@@ -45,6 +48,7 @@
         [NonSerialized]
         public List<Tile> tilesInRandomOrder = new List<Tile>();
 
+        public event Action OnPreMapLoaded;
         public event Action OnMapLoaded;
         public event Action OnMapGenerationStarted;
         public event Action OnMapCleared;
@@ -73,6 +77,7 @@
         {
             ClearMap();
             StartCoroutine(GenerateMap());
+            if (layers == null) layers = new Transform[] { transform };
         }
 
         virtual public void ClearMap()
@@ -110,6 +115,7 @@
 
         virtual public IEnumerator GenerateMap()
         {
+            biomes = new List<BiomeObject>(FindObjectsOfType<BiomeObject>());
             isDoneGeneratingMap = false;
 
             OnMapGenerationStarted?.Invoke();
@@ -127,6 +133,7 @@
 
             isDoneGeneratingMap = true;
 
+            OnPreMapLoaded?.Invoke();
             OnMapLoaded?.Invoke();
         }
 
@@ -151,6 +158,8 @@
                 if (biomeType == null) continue;
 
                 // Make a copy of the boime type so we don't modify properties on the actual asset
+                var biomeObjectObject = Instantiate(biomeObjectPrefab.gameObject, transform);
+                var biomeObject = biomeObjectObject.GetComponent<BiomeObject>();
                 var biome = Instantiate(biomeType);
                 if (biome.minWidth == -1) biome.minWidth = width;
                 if (biome.maxWidth == -1) biome.maxWidth = width;
@@ -165,8 +174,11 @@
                 int biomeHeight = Random.Range(biome.minHeight, biome.maxHeight);
                 int biomeX = Random.Range(biome.minX, biome.maxX - biomeWidth + 1);
                 int biomeY = Random.Range(biome.minY, biome.maxY - biomeHeight + 1);
-                biome.area = new RectIntExclusive(biomeX, biomeY, biomeWidth, biomeHeight);
-                biomes.Add(biome);
+                //biomeObject.area = new RectIntExclusive(biomeX, biomeY, biomeWidth, biomeHeight);
+                biomeObject.area = new RectIntExclusive(0, 0, biomeWidth, biomeHeight);
+                biomeObject.biome = biome;
+                biomeObject.transform.position = new Vector2(biomeX, biomeY) + (Vector2)transform.position;
+                biomes.Add(biomeObject);
             }
         }
 
@@ -180,7 +192,7 @@
 
         virtual public void AddTile(int x, int y)
         {
-            tileObjects[y][x] = Instantiate(tilePrefab, new Vector3(-666, -666, -666), Quaternion.identity).GetComponent<Tile>();
+            tileObjects[y][x] = Instantiate(tilePrefab, new Vector3(-666, -666, -666), Quaternion.identity, layers[0]).GetComponent<Tile>();
             tileObjects[y][x].Init(this, x, y);
         }
 
@@ -231,6 +243,7 @@
 
         virtual public Tile GetTileFromWorldPosition(Vector2 position)
         {
+            //position -= (Vector2)transform.position;
             position /= tileDimensions;
             var tilePos = new Vector2Int(Mathf.FloorToInt(position.x), Mathf.FloorToInt(position.y));
             return GetTile(tilePos);
@@ -332,7 +345,7 @@
             {
                 GetTile(ob.tilePosition).RemoveObject(ob);
             }
-            GetTile(newPos).AddObject(ob, true);
+            GetTile(newPos).AddObject(ob, true, -(int)ob.transform.position.z);
         }
 
         virtual public void MoveObject(DungeonObject ob, int newX, int newY)
@@ -604,18 +617,18 @@
             ForEachTile(t => t.UpdateLighting());
         }
 
-        virtual public void UpdateLighting(RectIntExclusive area)
-        {
-            ForEachTileInArea(area, t => t.SetLit(false));
-            ForEachTileInArea(area, t => t.UpdateLighting());
-        }
+        //virtual public void UpdateLighting(RectIntExclusive area)
+        //{
+        //    ForEachTileInArea(area, t => t.SetLit(false));
+        //    ForEachTileInArea(area, t => t.UpdateLighting());
+        //}
 
-        virtual public void UpdateLighting(Vector2Int center, float radius)
-        {
-            var area = new RectIntExclusive();
-            area.SetToSquare(center, radius + 1);
-            UpdateLighting(area);
-        }
+        //virtual public void UpdateLighting(Vector2Int center, float radius)
+        //{
+        //    var area = new RectIntExclusive();
+        //    area.SetToSquare(center, radius + 1);
+        //    UpdateLighting(area);
+        //}
 
         virtual public void UpdateIsVisible(Vector2Int pos, float radius, bool isVisible)
         {
@@ -626,6 +639,7 @@
                 radius,
                 t => t.SetInView(isVisible),
                 t => t.DoesBlockLineOfSight() && t.position != pos,
+                false,
                 false
             );
         }

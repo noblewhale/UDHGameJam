@@ -6,37 +6,11 @@
     // Like a RectInt but xMax and yMax do not include width and height
     // So a Rect at 0, 0 with width 1 and height 1 will have xMax and yMax of 0
     // This is designed to work more like arrays which have a max index one less than the array length
-    public struct RectIntExclusive
+    [Serializable]
+    public struct RectIntExclusive : IEquatable<RectIntExclusive>
     {
         public int xMin, yMin;
-        int _xMax, _yMax;
-        int _width, _height;
-
-        public int xMax
-        {
-            get
-            {
-                return _xMax;
-            }
-            set
-            {
-                _xMax = value;
-                _width = _xMax - xMin + 1;
-            }
-        }
-
-        public int yMax
-        {
-            get
-            {
-                return _yMax;
-            }
-            set
-            {
-                _yMax = value;
-                _height = _yMax - yMin + 1;
-            }
-        }
+        public int xMax, yMax;
 
         internal void SetToSquare(Vector2Int center, float radius)
         {
@@ -48,40 +22,24 @@
             );
         }
 
-        public int width
-        {
-            get
-            {
-                return _width;
-            }
-            set
-            {
-                _width = value;
-                _xMax = xMin + _width - 1;
-            }
-        }
+        public int width => xMax - xMin + 1;
 
-        public int height
+        public int height => yMax - yMin + 1;
+
+        public RectIntExclusive(RectIntExclusive copy)
         {
-            get
-            {
-                return _height;
-            }
-            set
-            {
-                _height = value;
-                _yMax = yMin + _height - 1;
-            }
+            xMin = copy.xMin;
+            yMin = copy.yMin;
+            xMax = copy.xMax;
+            yMax = copy.yMax;
         }
 
         public RectIntExclusive(int x, int y, int w, int h)
         {
             xMin = x;
             yMin = y;
-            _width = w;
-            _height = h;
-            _xMax = xMin + _width - 1;
-            _yMax = yMin + _height - 1;
+            xMax = xMin + w - 1;
+            yMax = yMin + h - 1;
         }
 
         public void SetMinMax(int xMin, int xMax, int yMin, int yMax)
@@ -122,6 +80,11 @@
         public bool IsZero()
         {
             return xMin == 0 && xMax == 0 && yMin == 0 && yMax == 0;
+        }
+
+        public bool Equals(RectIntExclusive other)
+        {
+            return this.xMin == other.xMin && this.xMax == other.xMax && this.yMin == other.yMin && this.yMax == other.yMax;
         }
     }
 }

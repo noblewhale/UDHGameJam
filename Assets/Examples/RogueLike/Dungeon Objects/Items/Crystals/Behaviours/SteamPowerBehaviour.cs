@@ -53,7 +53,8 @@ namespace Noble.DungeonCrawler
 
 			GameObject projectile = Instantiate(projectilePrefab);
 			projectile.transform.parent = Map.instance.transform;
-			projectile.transform.position = identityCreature.leftHand.transform.position - Vector3.forward;
+			projectile.transform.position = identityCreature.leftHand.transform.position;
+			projectile.transform.position = new Vector3(projectile.transform.position.x, projectile.transform.position.y, -5);
 			projectileObject = projectile;
 
 			foreach (Tile tile in shapeBehaviour.threatenedTiles)
@@ -62,6 +63,7 @@ namespace Noble.DungeonCrawler
 
 				GameObject secondaryProjectile = Instantiate(projectilePrefab);
 				secondaryProjectile.transform.parent = Map.instance.transform;
+				secondaryProjectile.transform.position = new Vector3(projectile.transform.position.x, projectile.transform.position.y, -5);
 				secondaryProjectileObjects.Add((secondaryProjectile, tile));
 				secondaryProjectile.SetActive(false);
 			}
@@ -77,7 +79,7 @@ namespace Noble.DungeonCrawler
 			{
 				float t = timeSinceAttackStart / duration;
 
-				projectileObject.transform.localPosition = (Vector3)Vector2.Lerp(startProjectilePosition, endProjectilePosition, t) - Vector3.forward;
+				projectileObject.transform.localPosition = (Vector3)Vector2.Lerp(startProjectilePosition, endProjectilePosition, t) + Vector3.forward * projectileObject.transform.position.z;
 
 				if (t >= 1)
 				{
@@ -120,7 +122,7 @@ namespace Noble.DungeonCrawler
 					if (secondaryProjectile == null) continue;
 
 					Vector2 endSecondaryProjectilePosition = new Vector2(tile.transform.localPosition.x + Map.instance.tileWidth / 2, tile.transform.localPosition.y + Map.instance.tileHeight / 2);
-					secondaryProjectile.transform.localPosition = (Vector3)Vector2.Lerp(endProjectilePosition, endSecondaryProjectilePosition, t) - Vector3.forward;
+					secondaryProjectile.transform.localPosition = (Vector3)Vector2.Lerp(endProjectilePosition, endSecondaryProjectilePosition, t) + Vector3.forward * secondaryProjectile.transform.position.z;
 
 					if (t >= 1)
 					{

@@ -65,7 +65,7 @@ namespace Noble.DungeonCrawler
                         if (tile == null || tileUnderMouse != tile)
                         {
                             tile?.RemoveObject(this);
-                            tileUnderMouse.AddObject(this);
+                            tileUnderMouse.AddObject(this, false, 2);
                         }
                     }
                     oldCameraPosition = PlayerCamera.instance.transform.position;
@@ -90,7 +90,7 @@ namespace Noble.DungeonCrawler
                     if (tile == null || closestTile != tile)
                     {
                         tile?.RemoveObject(this);
-                        closestTile.AddObject(this);
+                        closestTile.AddObject(this, false, 2);
                     }
                 }
             }
@@ -165,7 +165,7 @@ namespace Noble.DungeonCrawler
                 {
                     isKeyboardControlled = true;
                     tile?.RemoveObject(this);
-                    Map.instance.GetTile(newTilePos).AddObject(this);
+                    Map.instance.GetTile(newTilePos).AddObject(this, false, 2);
                     oldCameraPosition = PlayerCamera.instance.transform.position;
                 }
             }

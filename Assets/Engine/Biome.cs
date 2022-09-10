@@ -17,17 +17,17 @@ namespace Noble.TileEngine
         public int minWidth, maxWidth;
         public int minHeight, maxHeight;
 
-        public RectIntExclusive area;
         public List<Biome> subBiomes = new List<Biome>();
 
         Dictionary<DungeonObject, int> stacksSpawned = new Dictionary<DungeonObject, int>();
 
-        virtual public IEnumerator PreProcessMap(Map map)
+        virtual public IEnumerator PreProcessMap(Map map, BiomeObject biomeObject)
         {
-            foreach (var subBiome in subBiomes)
-            {
-                yield return map.StartCoroutine(subBiome.PreProcessMap(map));
-            }
+            //foreach (var subBiome in subBiomes)
+            //{
+            //    yield return map.StartCoroutine(subBiome.PreProcessMap(map, area));
+            //}
+            yield return null;
         }
 
         public static DungeonObject SelectRandomObject(BiomeDropRate[] rates)
@@ -67,7 +67,7 @@ namespace Noble.TileEngine
             }
         }
 
-        public static void GatherBiomes(Vector2Int pos, ref List<Biome> biomes, Biome parentBiome)
+        public static void GatherBiomes(Vector2Int pos, ref List<BiomeObject> biomes, BiomeObject parentBiome)
         {
             var subBiomesContainingXY = parentBiome.subBiomes.Where(b => b.area.Contains(pos));
             foreach (var subBiome in subBiomesContainingXY)
@@ -80,8 +80,8 @@ namespace Noble.TileEngine
         public static void SpawnRandomObject(Tile tile)
         {
             int numStacksAlreadyPlaced = 0;
-            var containingBiomes = tile.map.biomes.Where(b => b.area.Contains(tile.position)).ToList();
-            var subBiomes = new List<Biome>();
+            var containingBiomes = tile.map.biomes.Where(b => b.Contains(tile.transform.position)).ToList();
+            var subBiomes = new List<BiomeObject>();
             foreach (var biome in containingBiomes)
             {
                 GatherBiomes(tile.position, ref subBiomes, biome);
@@ -92,13 +92,15 @@ namespace Noble.TileEngine
             List<BiomeRate> viableDrops = new List<BiomeRate>();
             foreach (var biome in containingBiomes)
             {
-                totalProbability += biome.nothingProbability;
-                if (biome.nothingProbability != 0)
+                if (biome.biome == null) continue;
+
+                totalProbability += biome.biome.nothingProbability;
+                if (biome.biome.nothingProbability != 0)
                 {
-                    var biomeRate = new BiomeRate(biome, null);
+                    var biomeRate = new BiomeRate(biome.biome, null);
                     viableDrops.Add(biomeRate);
                 }
-                foreach (var dropRate in biome.objects)
+                foreach (var dropRate in biome.biome.objects)
                 {
                     if (dropRate.requireSpawnable && !tile.AllowsSpawn()) continue;
                     if (dropRate.onlySpawnOn != null && dropRate.onlySpawnOn.Length != 0)
@@ -116,10 +118,10 @@ namespace Noble.TileEngine
                         }
                     }
                     numStacksAlreadyPlaced = 0;
-                    biome.stacksSpawned.TryGetValue(dropRate.item, out numStacksAlreadyPlaced);
+                    biome.biome.stacksSpawned.TryGetValue(dropRate.item, out numStacksAlreadyPlaced);
                     if (numStacksAlreadyPlaced < dropRate.maxQuantityPerBiome || dropRate.maxQuantityPerBiome == -1)
                     {
-                        var biomeRate = new BiomeRate(biome, dropRate);
+                        var biomeRate = new BiomeRate(biome.biome, dropRate);
                         viableDrops.Add(biomeRate);
                         totalProbability += dropRate.probability;
                     }
@@ -174,13 +176,8 @@ namespace Noble.TileEngine
             if (typeOfObjectToSpawn != null)
             {
                 int quantity = UnityEngine.Random.Range(typeOfObjectToSpawn.minQuantity, typeOfObjectToSpawn.maxQuantity + 1);
-                tile.SpawnAndAddObject(typeOfObjectToSpawn.item, quantity);
+                tile.SpawnAndAddObject(typeOfObjectToSpawn.item, quantity, 2);
             }
-        }
-
-        internal void DrawDebug()
-        {
-            DrawDebug(area);
         }
 
         virtual public void DrawDebug(RectIntExclusive area)

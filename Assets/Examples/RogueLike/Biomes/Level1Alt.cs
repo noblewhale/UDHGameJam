@@ -56,21 +56,23 @@
 
         public TileType[][] tiles;
 
-        override public IEnumerator PreProcessMap(Map map)
+        override public IEnumerator PreProcessMap(Map map, BiomeObject biomeObject)
         {
+            Debug.Log("Preprocess level 1");
+
             tiles = new TileType[map.height][];
             for (int y = 0; y < map.height; y++) tiles[y] = new TileType[map.width];
 
-            var itemsBiome = Instantiate(items);
-            itemsBiome.area = area;
-            subBiomes.Add(itemsBiome);
+            //var itemsBiome = Instantiate(items);
+            //itemsBiome.area = area;
+            //subBiomes.Add(itemsBiome);
 
             yield return new WaitForSeconds(animationDelay * 2);
             root = new Node();
-            root.area = area;
+            root.area = biomeObject.area;
             yield return new WaitForSeconds(animationDelay);
-            yield return Map.instance.StartCoroutine(GenerateAreas(root, 1));
-            yield return Map.instance.StartCoroutine(GenerateRooms(root));
+            yield return Map.instance.StartCoroutine(GenerateAreas(root, 1, biomeObject));
+            yield return Map.instance.StartCoroutine(GenerateRooms(root, biomeObject));
             var mapArea = new RectIntExclusive(0, 0, Map.instance.width, Map.instance.height);
             AddWalls();
 
@@ -84,7 +86,7 @@
 
             //SpawnFinalDoor(map, area);
 
-            base.PreProcessMap(map);
+            base.PreProcessMap(map, biomeObject);
         }
 
         override public void DrawDebug(RectIntExclusive area)
@@ -220,7 +222,7 @@
             return false;
         }
 
-        IEnumerator GenerateRooms(Node parent)
+        IEnumerator GenerateRooms(Node parent, BiomeObject biomeObject)
         {
             if (parent == null) yield break;
 
@@ -253,13 +255,19 @@
                     Debug.Log(e);
                 }
 
+                var roomCreaturesObject = Instantiate(Map.instance.biomeObjectPrefab, biomeObject.transform).GetComponent<BiomeObject>();
                 var roomCreatures = Instantiate(scorpions);
-                roomCreatures.area = rect;
+                roomCreaturesObject.area = rect;
+                roomCreaturesObject.biome = roomCreatures;
                 subBiomes.Add(roomCreatures);
+                biomeObject.subBiomes.Add(roomCreaturesObject);
 
+                var roomTrapsObject = Instantiate(Map.instance.biomeObjectPrefab, biomeObject.transform).GetComponent<BiomeObject>();
                 var roomTraps = Instantiate(electricTraps);
-                roomTraps.area = new RectIntExclusive(rect.xMin + 1, rect.yMin + 1, rect.width - 1, rect.height - 1);
+                roomTrapsObject.area = new RectIntExclusive(rect.xMin + 1, rect.yMin + 1, rect.width - 1, rect.height - 1);
+                roomTrapsObject.biome = roomTraps;
                 subBiomes.Add(roomTraps);
+                biomeObject.subBiomes.Add(roomTrapsObject);
 
                 for (int y = rect.yMin - 1; y <= rect.yMax + 1; y++)
                 {
@@ -278,8 +286,8 @@
             else
             {
                 // Not a leaf node, keep traversing the tree
-                yield return Map.instance.StartCoroutine(GenerateRooms(parent.left));
-                yield return Map.instance.StartCoroutine(GenerateRooms(parent.right));
+                yield return Map.instance.StartCoroutine(GenerateRooms(parent.left, biomeObject));
+                yield return Map.instance.StartCoroutine(GenerateRooms(parent.right, biomeObject));
 
                 // Ensure at least one path between the two subtrees
                 if (parent.left.area.xMax == parent.right.area.xMax)
@@ -637,7 +645,7 @@
             return floorTiles;
         }
 
-        IEnumerator GenerateAreas(Node parent, float splitProbability)
+        IEnumerator GenerateAreas(Node parent, float splitProbability, BiomeObject biomeObject)
         {
             if (Random.value > splitProbability) yield break;
 
@@ -675,7 +683,7 @@
                 child1.parent = parent;
                 parent.left = child1;
                 yield return new WaitForSeconds(animationDelay);
-                yield return Map.instance.StartCoroutine(GenerateAreas(child1, splitProbability * .8f));
+                yield return Map.instance.StartCoroutine(GenerateAreas(child1, splitProbability * .8f, biomeObject));
 
                 newArea = new RectIntExclusive();
                 newArea.xMin = splitX + 1;
@@ -687,7 +695,7 @@
                 child2.parent = parent;
                 parent.right = child2;
                 yield return new WaitForSeconds(animationDelay);
-                yield return Map.instance.StartCoroutine(GenerateAreas(child2, splitProbability * .8f));
+                yield return Map.instance.StartCoroutine(GenerateAreas(child2, splitProbability * .8f, biomeObject));
             }
             else
             {
@@ -702,7 +710,7 @@
                 child1.parent = parent;
                 parent.left = child1;
                 yield return new WaitForSeconds(animationDelay);
-                yield return Map.instance.StartCoroutine(GenerateAreas(child1, splitProbability * .8f));
+                yield return Map.instance.StartCoroutine(GenerateAreas(child1, splitProbability * .8f, biomeObject));
 
                 newArea = new RectIntExclusive();
                 newArea.xMin = parent.area.xMin;
@@ -714,7 +722,7 @@
                 child2.parent = parent;
                 parent.right = child2;
                 yield return new WaitForSeconds(animationDelay);
-                yield return Map.instance.StartCoroutine(GenerateAreas(child2, splitProbability * .8f));
+                yield return Map.instance.StartCoroutine(GenerateAreas(child2, splitProbability * .8f, biomeObject));
             }
         }
 
@@ -767,18 +775,18 @@
             if (tiles[y][x] == TileType.NOTHING)
             {
                 DungeonObject ob = GetRandomBaseTile(TileType.NOTHING);
-                map.tileObjects[y][x].SpawnAndAddObject(ob);
+                map.tileObjects[y][x].SpawnAndAddObject(ob, 1, 1);
             }
             else
             {
                 // Pick a floor tile based on spawn rates
                 DungeonObject ob = GetRandomBaseTile(TileType.FLOOR);
-                map.tileObjects[y][x].SpawnAndAddObject(ob);
+                map.tileObjects[y][x].SpawnAndAddObject(ob, 1, 1);
                 if (tiles[y][x] != TileType.FLOOR)
                 {
                     var type = tiles[y][x];
                     ob = GetRandomBaseTile(type);
-                    var instanceOb = map.tileObjects[y][x].SpawnAndAddObject(ob);
+                    var instanceOb = map.tileObjects[y][x].SpawnAndAddObject(ob, 1, 2);
                     //instanceOb.isAlwaysLit = true;
                     //instanceOb.isVisibleWhenNotInSight = true;
                     //instanceOb.hasBeenSeen = true;

@@ -22,7 +22,6 @@ namespace Noble.DungeonCrawler
 			// We only care about the last tile in the line, whether we hit something collidable, or just reached the target
 			if (threatenedTiles.Count >= 1)
 			{
-				Debug.Log("fuck");
 				threatenedTiles = threatenedTiles.GetRange(threatenedTiles.Count - 1, 1);
 
 				foreach (Vector2Int relativeLocation in shape)

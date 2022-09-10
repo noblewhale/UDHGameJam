@@ -73,7 +73,7 @@
                 Vector2Int nextHorizontalPos = myPos;
                 nextHorizontalPos.x += (int)Mathf.Sign(dif.x);
                 Tile horizontalMoveTarget = owner.map.GetTile(nextHorizontalPos);
-                if (horizontalMoveTarget.IsCollidable() || horizontalMoveTarget.GetComponentInChildren<Trap>() || horizontalMoveTarget.GetPathingWeight() > 5)
+                if (horizontalMoveTarget.IsCollidable() || horizontalMoveTarget.ContainsObjectWithComponent<Trap>() || horizontalMoveTarget.GetPathingWeight() > 5)
                 {
                     horizontalBlocked = true;
                 }
@@ -84,7 +84,7 @@
                 Vector2Int nextVerticalPos = myPos;
                 nextVerticalPos.y += (int)Mathf.Sign(dif.y);
                 Tile verticalMoveTarget = owner.map.GetTile(nextVerticalPos);
-                if (verticalMoveTarget.IsCollidable() || verticalMoveTarget.GetComponentInChildren<Trap>() || verticalMoveTarget.GetPathingWeight() > 5)
+                if (verticalMoveTarget.IsCollidable() || verticalMoveTarget.ContainsObjectWithComponent<Trap>() || verticalMoveTarget.GetPathingWeight() > 5)
                 {
                     verticalBlocked = true;
                 }

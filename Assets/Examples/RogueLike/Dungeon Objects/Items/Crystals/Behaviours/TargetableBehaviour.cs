@@ -90,7 +90,7 @@
 		virtual public void AddOutline(Tile tile)
 		{
 			var outlinePrefab = Resources.Load<DungeonObject>("OutlineTile");
-			outlineObjects.Add(tile.SpawnAndAddObject(outlinePrefab, 1, true));
+			outlineObjects.Add(tile.SpawnAndAddObject(outlinePrefab, 1, 0));
 		}
 
 		virtual public void RemoveOutline()
@@ -111,7 +111,7 @@
 		virtual public void AddThreatened(Tile tile)
 		{
 			var threatenedPrefab = Resources.Load<DungeonObject>("ThreatenedTile");
-			threatenedObjects.Add(tile.SpawnAndAddObject(threatenedPrefab, 1));
+			threatenedObjects.Add(tile.SpawnAndAddObject(threatenedPrefab, 2));
 		}
 
 		virtual public void RemoveThreatened()

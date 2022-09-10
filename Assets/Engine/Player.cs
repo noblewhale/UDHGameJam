@@ -30,7 +30,8 @@
         void OnMapLoaded()
         {
             Tile startTile = Map.instance.GetRandomTileThatAllowsSpawn();
-            startTile.AddObject(identity);
+            startTile.AddObject(identity, false, 2);
+            Debug.Log("Spawn player update lighting and view");
             Map.instance.UpdateLighting();
             Map.instance.UpdateIsVisible(identity.tilePosition, identity.GetComponent<Creature>().effectiveViewDistance, true);
         }
