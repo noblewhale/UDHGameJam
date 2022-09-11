@@ -16,7 +16,6 @@
 
         public bool isInView = false;
         public bool isLit = false;
-        public bool isAlwaysLit = false;
 
         public LinkedList<DungeonObject> objectList = new LinkedList<DungeonObject>();
 
@@ -28,7 +27,6 @@
             position.y = y;
             map.tilesThatAllowSpawn.Add(this);
             transform.localPosition = new Vector3(x * map.tileWidth, y * map.tileHeight, 0);
-            if (isAlwaysLit) isLit = true;
             
             //SetInView(true);
         }
@@ -116,7 +114,6 @@
 
         public void SetLit(bool isLit)
         {
-            if (isAlwaysLit) isLit = true;
             //if (isAlwaysLit && isLit == false) return;
 
             this.isLit = isLit;

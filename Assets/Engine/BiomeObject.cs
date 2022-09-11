@@ -19,12 +19,10 @@ namespace Noble.TileEngine
             if (biome == null) return;
 
             biome.DrawDebug(new RectIntExclusive(Mathf.FloorToInt(transform.localPosition.x + area.xMin), Mathf.FloorToInt(transform.localPosition.y + area.yMin), area.width, area.height));
-            //EditorUtil.DrawRect(Map.instance, new RectIntExclusive(Mathf.FloorToInt(transform.localPosition.x + area.xMin), Mathf.FloorToInt(transform.localPosition.y + area.yMin), area.width, area.height), Color.green);
         }
 
         virtual public IEnumerator PreProcessMap(Map map)
         {
-            Debug.Log("Preprocess biome object");
             if (biome == null) yield break;
 
             yield return biome.PreProcessMap(map, this);

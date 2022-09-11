@@ -20,7 +20,7 @@
         public BiomeDropRate[] floors;
         public BiomeDropRate[] walls;
         public BiomeDropRate[] doors;
-        public BiomeDropRate[] torches;
+        public DungeonObject torchPrefab;
         public Biome scorpions;
         public Biome rats;
         public Biome items;
@@ -51,17 +51,23 @@
 
         public enum TileType
         {
-            NOTHING, FLOOR, WALL, DOOR, TORCH, ELECTRIC
+            NOTHING, FLOOR, WALL, DOOR, ELECTRIC
         }
 
-        public TileType[][] tiles;
+        public struct TileTemplate
+        {
+            public TileType type;
+            public bool isRoomTile;
+        }
+
+        public TileTemplate[][] tileTemplates;
 
         override public IEnumerator PreProcessMap(Map map, BiomeObject biomeObject)
         {
             Debug.Log("Preprocess level 1");
 
-            tiles = new TileType[map.height][];
-            for (int y = 0; y < map.height; y++) tiles[y] = new TileType[map.width];
+            tileTemplates = new TileTemplate[map.height][];
+            for (int y = 0; y < map.height; y++) tileTemplates[y] = new TileTemplate[map.width];
 
             //var itemsBiome = Instantiate(items);
             //itemsBiome.area = area;
@@ -116,9 +122,9 @@
             {
                 for (int x = 0; x < map.width; x++)
                 {
-                    if (tiles[y][x] == TileType.DOOR)
+                    if (tileTemplates[y][x].type == TileType.DOOR)
                     {
-                        if (HasFloorOnThreeSides(x, y)) tiles[y][x] = TileType.FLOOR;
+                        if (HasFloorOnThreeSides(x, y)) tileTemplates[y][x].type = TileType.FLOOR;
                     }
                 }
             }
@@ -131,10 +137,10 @@
             int floorCount = 0;
             int wrappedXLeft = map.GetXTilePositionOnMap(x - 1);
             int wrappedXRight = map.GetXTilePositionOnMap(x + 1);
-            if (tiles[y][wrappedXLeft] == TileType.FLOOR) floorCount++;
-            if (tiles[y][wrappedXRight] == TileType.FLOOR) floorCount++;
-            if (tiles[y - 1][x] == TileType.FLOOR) floorCount++;
-            if (tiles[y + 1][x] == TileType.FLOOR) floorCount++;
+            if (tileTemplates[y][wrappedXLeft].type == TileType.FLOOR) floorCount++;
+            if (tileTemplates[y][wrappedXRight].type == TileType.FLOOR) floorCount++;
+            if (tileTemplates[y - 1][x].type == TileType.FLOOR) floorCount++;
+            if (tileTemplates[y + 1][x].type == TileType.FLOOR) floorCount++;
 
             if (floorCount >= 3) return true;
             return false;
@@ -156,23 +162,23 @@
             int wrappedX = map.GetXTilePositionOnMap(x);
             int wrappedXLeft = map.GetXTilePositionOnMap(x - 1);
             int wrappedXRight = map.GetXTilePositionOnMap(x + 1);
-            if (tiles[y][wrappedXLeft] == TileType.FLOOR && tiles[y][wrappedXRight] == TileType.FLOOR)
+            if (tileTemplates[y][wrappedXLeft].type == TileType.FLOOR && tileTemplates[y][wrappedXRight].type == TileType.FLOOR)
             {
-                if (tiles[y - 1][wrappedX] == TileType.NOTHING && tiles[y + 1][wrappedX] == TileType.NOTHING)
+                if (tileTemplates[y - 1][wrappedX].type == TileType.NOTHING && tileTemplates[y + 1][wrappedX].type == TileType.NOTHING)
                 {
-                    if (tiles[y - 1][wrappedXLeft] == TileType.FLOOR || tiles[y + 1][wrappedXLeft] == TileType.FLOOR || 
-                        tiles[y - 1][wrappedXRight] == TileType.FLOOR || tiles[y + 1][wrappedXRight] == TileType.FLOOR)
+                    if (tileTemplates[y - 1][wrappedXLeft].type == TileType.FLOOR || tileTemplates[y + 1][wrappedXLeft].type == TileType.FLOOR || 
+                        tileTemplates[y - 1][wrappedXRight].type == TileType.FLOOR || tileTemplates[y + 1][wrappedXRight].type == TileType.FLOOR)
                     {
                         return true;
                     }
                 }
             }
-            if (tiles[y - 1][wrappedX] == TileType.FLOOR && tiles[y + 1][wrappedX] == TileType.FLOOR)
+            if (tileTemplates[y - 1][wrappedX].type == TileType.FLOOR && tileTemplates[y + 1][wrappedX].type == TileType.FLOOR)
             {
-                if (tiles[y][wrappedXLeft] == TileType.NOTHING && tiles[y][wrappedXRight] == TileType.NOTHING)
+                if (tileTemplates[y][wrappedXLeft].type == TileType.NOTHING && tileTemplates[y][wrappedXRight].type == TileType.NOTHING)
                 {
-                    if (tiles[y - 1][wrappedXLeft] == TileType.FLOOR || tiles[y + 1][wrappedXLeft] == TileType.FLOOR ||
-                        tiles[y - 1][wrappedXRight] == TileType.FLOOR || tiles[y + 1][wrappedXRight] == TileType.FLOOR)
+                    if (tileTemplates[y - 1][wrappedXLeft].type == TileType.FLOOR || tileTemplates[y + 1][wrappedXLeft].type == TileType.FLOOR ||
+                        tileTemplates[y - 1][wrappedXRight].type == TileType.FLOOR || tileTemplates[y + 1][wrappedXRight].type == TileType.FLOOR)
                     {
                         return true;
                     }
@@ -188,9 +194,9 @@
             {
                 for (int x = 0; x < map.width; x++)
                 {
-                    if (tiles[y][x] == TileType.NOTHING)
+                    if (tileTemplates[y][x].type == TileType.NOTHING)
                     {
-                        if (HasAdjacentFloor(x, y)) tiles[y][x] = TileType.WALL;
+                        if (HasAdjacentFloor(x, y)) tileTemplates[y][x].type = TileType.WALL;
                     }
                 }
             }
@@ -199,24 +205,24 @@
         {
             var map = Map.instance;
             int wrappedX = map.GetXTilePositionOnMap(x - 1);
-            if (tiles[y][wrappedX] == TileType.FLOOR) return true;
+            if (tileTemplates[y][wrappedX].type == TileType.FLOOR) return true;
             wrappedX = map.GetXTilePositionOnMap(x + 1);
-            if (tiles[y][wrappedX] == TileType.FLOOR) return true;
+            if (tileTemplates[y][wrappedX].type == TileType.FLOOR) return true;
             if (y > 0)
             {
                 wrappedX = map.GetXTilePositionOnMap(x - 1);
-                if (tiles[y - 1][wrappedX] == TileType.FLOOR) return true;
+                if (tileTemplates[y - 1][wrappedX].type == TileType.FLOOR) return true;
                 wrappedX = map.GetXTilePositionOnMap(x + 1);
-                if (tiles[y - 1][wrappedX] == TileType.FLOOR) return true;
-                if (tiles[y - 1][x] == TileType.FLOOR) return true;
+                if (tileTemplates[y - 1][wrappedX].type == TileType.FLOOR) return true;
+                if (tileTemplates[y - 1][x].type == TileType.FLOOR) return true;
             }
             if (y < map.height - 1)
             {
                 wrappedX = map.GetXTilePositionOnMap(x - 1);
-                if (tiles[y + 1][wrappedX] == TileType.FLOOR) return true;
+                if (tileTemplates[y + 1][wrappedX].type == TileType.FLOOR) return true;
                 wrappedX = map.GetXTilePositionOnMap(x + 1);
-                if (tiles[y + 1][wrappedX] == TileType.FLOOR) return true;
-                if (tiles[y + 1][x] == TileType.FLOOR) return true;
+                if (tileTemplates[y + 1][wrappedX].type == TileType.FLOOR) return true;
+                if (tileTemplates[y + 1][x].type == TileType.FLOOR) return true;
             }
 
             return false;
@@ -242,12 +248,29 @@
 
                 try
                 {
+                    var topLeftCorner = Map.instance.GetTilePositionOnMap(new Vector2Int(rect.xMin - 1, rect.yMin - 1));
+                    var topRightCorner = Map.instance.GetTilePositionOnMap(new Vector2Int(rect.xMax + 1, rect.yMin - 1));
+                    for (int x = topLeftCorner.x; x <= topRightCorner.x; x++)
+                    {
+                        tileTemplates[topLeftCorner.y][x].isRoomTile = true;
+                    }
                     for (int y = rect.yMin; y <= rect.yMax; y++)
                     {
+                        var p = Map.instance.GetTilePositionOnMap(new Vector2Int(rect.xMin - 1, y));
+                        tileTemplates[p.y][p.x].isRoomTile = true;
                         for (int x = rect.xMin; x <= rect.xMax; x++)
                         {
-                            tiles[y][x] = TileType.FLOOR;
+                            tileTemplates[y][x].type = TileType.FLOOR;
+                            tileTemplates[y][x].isRoomTile = true;
                         }
+                        p = Map.instance.GetTilePositionOnMap(new Vector2Int(rect.xMax + 1, y));
+                        tileTemplates[p.y][p.x].isRoomTile = true;
+                    }
+                    var bottomLeftCorner = Map.instance.GetTilePositionOnMap(new Vector2Int(rect.xMin - 1, rect.yMax + 1));
+                    var bottomRightCorner = Map.instance.GetTilePositionOnMap(new Vector2Int(rect.xMax + 1, rect.yMax + 1));
+                    for (int x = bottomLeftCorner.x; x <= bottomRightCorner.x; x++)
+                    {
+                        tileTemplates[bottomLeftCorner.y][x].isRoomTile = true;
                     }
                 }
                 catch (Exception e)
@@ -269,14 +292,6 @@
                 subBiomes.Add(roomTraps);
                 biomeObject.subBiomes.Add(roomTrapsObject);
 
-                for (int y = rect.yMin - 1; y <= rect.yMax + 1; y++)
-                {
-                    for (int x = rect.xMin - 1; x <= rect.xMax + 1; x++)
-                    {
-                        Map.instance.tileObjects[y][Map.instance.GetXTilePositionOnMap(x)].isAlwaysLit = true;
-                        Map.instance.tileObjects[y][Map.instance.GetXTilePositionOnMap(x)].SetLit(true);
-                    }
-                }
                 if (animationDelay != 0)
                 {
                     UpdateTiles(parent.room);
@@ -420,8 +435,8 @@
         private void AddAngledPath(Vector2Int start, Vector2Int end, bool isVertical)
         {
             var map = Map.instance;
-            tiles[start.y][start.x] = TileType.FLOOR;
-            tiles[end.y][end.x] = TileType.FLOOR;
+            tileTemplates[start.y][start.x].type = TileType.FLOOR;
+            tileTemplates[end.y][end.x].type = TileType.FLOOR;
             Vector2Int dif = (end - start);
             int count = 0;
             while (start != end && count < 40)
@@ -440,7 +455,7 @@
 
                 if (start.x >= 0 && start.x < map.width && start.y >= 0 && start.y < map.height)
                 {
-                    tiles[start.y][start.x] = TileType.FLOOR;
+                    tileTemplates[start.y][start.x].type = TileType.FLOOR;
                 }
                 dif = (end - start);
                 if (Mathf.Abs(dif.x) > Mathf.Abs(dif.y))
@@ -456,7 +471,7 @@
 
                 if (end.x >= 0 && end.x < map.width && end.y >= 0 && end.y < map.height)
                 {
-                    tiles[end.y][end.x] = TileType.FLOOR;
+                    tileTemplates[end.y][end.x].type = TileType.FLOOR;
                 }
                 dif = (end - start);
             }
@@ -468,11 +483,11 @@
         // or if either neighbor perpendicular to the path is a floor tile
         bool AddStraightPathTile(int i, int j, RectIntExclusive area, bool invert)
         {
-            bool isFloor = GetTile(i, j, invert) == TileType.FLOOR;
-            bool isLesserNeighborFloor = i - 1 >= area.Min(!invert) && GetTile(i - 1, j, invert) == TileType.FLOOR;
-            bool isGreaterNeighborFloor = i + 1 <= area.Max(!invert) && GetTile(i + 1, j, invert) == TileType.FLOOR;
-            bool isLesserLesserNeighborFloor = i - 1 - 1 >= area.Min(!invert) && GetTile(i - 1 - 1, j, invert) == TileType.FLOOR;
-            bool isGreaterGreaterNeighborFloor = i + 1 + 1 <= area.Max(!invert) && GetTile(i + 1 + 1, j, invert) == TileType.FLOOR;
+            bool isFloor = GetTile(i, j, invert).type == TileType.FLOOR;
+            bool isLesserNeighborFloor = i - 1 >= area.Min(!invert) && GetTile(i - 1, j, invert).type == TileType.FLOOR;
+            bool isGreaterNeighborFloor = i + 1 <= area.Max(!invert) && GetTile(i + 1, j, invert).type == TileType.FLOOR;
+            bool isLesserLesserNeighborFloor = i - 1 - 1 >= area.Min(!invert) && GetTile(i - 1 - 1, j, invert).type == TileType.FLOOR;
+            bool isGreaterGreaterNeighborFloor = i + 1 + 1 <= area.Max(!invert) && GetTile(i + 1 + 1, j, invert).type == TileType.FLOOR;
 
             SetTile(i, j, TileType.FLOOR, invert);
 
@@ -519,14 +534,14 @@
 
         void SetTile(int x, int y, TileType value, bool inverted = false)
         {
-            if (inverted) tiles[x][Map.instance.GetXTilePositionOnMap(y)] = value;
-            else tiles[y][Map.instance.GetXTilePositionOnMap(x)] = value;
+            if (inverted) tileTemplates[x][Map.instance.GetXTilePositionOnMap(y)].type = value;
+            else tileTemplates[y][Map.instance.GetXTilePositionOnMap(x)].type = value;
         }
 
-        TileType GetTile(int x, int y, bool inverted = false)
+        TileTemplate GetTile(int x, int y, bool inverted = false)
         {
-            if (inverted) return tiles[x][Map.instance.GetXTilePositionOnMap(y)];
-            else return tiles[y][Map.instance.GetXTilePositionOnMap(x)];
+            if (inverted) return tileTemplates[x][Map.instance.GetXTilePositionOnMap(y)];
+            else return tileTemplates[y][Map.instance.GetXTilePositionOnMap(x)];
         }
 
         private List<TilePair> GetOverlap(List<Vector2Int> tilesA, List<Vector2Int> tilesB, bool isVertical, out bool isConnected)
@@ -568,12 +583,12 @@
             {
                 for (int y = area.yMax; y >= area.yMin; y--)
                 {
-                    if (tiles[y][x] == TileType.FLOOR)
+                    if (tileTemplates[y][x].type == TileType.FLOOR)
                     {
                         floorTiles.Add(new Vector2Int(x, y));
                         break;
                     }
-                    else if (tiles[y][x] == TileType.DOOR)
+                    else if (tileTemplates[y][x].type == TileType.DOOR)
                     {
                         break;
                     }
@@ -589,12 +604,12 @@
             {
                 for (int y = area.yMin; y <= area.yMax; y++)
                 {
-                    if (tiles[y][x] == TileType.FLOOR)
+                    if (tileTemplates[y][x].type == TileType.FLOOR)
                     {
                         floorTiles.Add(new Vector2Int(x, y));
                         break;
                     }
-                    else if (tiles[y][x] == TileType.DOOR)
+                    else if (tileTemplates[y][x].type == TileType.DOOR)
                     {
                         break;
                     }
@@ -610,12 +625,12 @@
             {
                 for (int x = area.xMax; x >= area.xMin; x--)
                 {
-                    if (tiles[y][x] == TileType.FLOOR)
+                    if (tileTemplates[y][x].type == TileType.FLOOR)
                     {
                         floorTiles.Add(new Vector2Int(x, y));
                         break;
                     }
-                    else if (tiles[y][x] == TileType.DOOR)
+                    else if (tileTemplates[y][x].type == TileType.DOOR)
                     {
                         break;
                     }
@@ -631,12 +646,12 @@
             {
                 for (int x = area.xMin; x <= area.xMax; x++)
                 {
-                    if (tiles[y][x] == TileType.FLOOR)
+                    if (tileTemplates[y][x].type == TileType.FLOOR)
                     {
                         floorTiles.Add(new Vector2Int(x, y));
                         break;
                     }
-                    else if (tiles[y][x] == TileType.DOOR)
+                    else if (tileTemplates[y][x].type == TileType.DOOR)
                     {
                         break;
                     }
@@ -772,7 +787,7 @@
             //map.tileObjects[y][x].isAlwaysLit = true;
 
             map.tileObjects[y][x].RemoveAllObjects();
-            if (tiles[y][x] == TileType.NOTHING)
+            if (tileTemplates[y][x].type == TileType.NOTHING)
             {
                 DungeonObject ob = GetRandomBaseTile(TileType.NOTHING);
                 map.tileObjects[y][x].SpawnAndAddObject(ob, 1, 1);
@@ -782,18 +797,25 @@
                 // Pick a floor tile based on spawn rates
                 DungeonObject ob = GetRandomBaseTile(TileType.FLOOR);
                 map.tileObjects[y][x].SpawnAndAddObject(ob, 1, 1);
-                if (tiles[y][x] != TileType.FLOOR)
+
+                if (tileTemplates[y][x].isRoomTile)
                 {
-                    var type = tiles[y][x];
-                    ob = GetRandomBaseTile(type);
+                    // Add a torch so rooms are always lit
+                    map.tileObjects[y][x].SpawnAndAddObject(torchPrefab);
+                }
+
+                if (tileTemplates[y][x].type != TileType.FLOOR)
+                {
+                    var tileTemplate = tileTemplates[y][x];
+                    ob = GetRandomBaseTile(tileTemplate.type);
                     var instanceOb = map.tileObjects[y][x].SpawnAndAddObject(ob, 1, 2);
                     //instanceOb.isAlwaysLit = true;
                     //instanceOb.isVisibleWhenNotInSight = true;
                     //instanceOb.hasBeenSeen = true;
-                    if (type == TileType.DOOR)
+                    if (tileTemplate.type == TileType.DOOR)
                     {
                         Direction orientation = Direction.UP;
-                        if (y > 0 && tiles[y - 1][x] == TileType.WALL && y < tiles.Length - 1 && tiles[y + 1][x] == TileType.WALL)
+                        if (y > 0 && tileTemplates[y - 1][x].type == TileType.WALL && y < tileTemplates.Length - 1 && tileTemplates[y + 1][x].type == TileType.WALL)
                         {
                             orientation = Direction.RIGHT;
                         }
@@ -816,7 +838,6 @@
                 case TileType.FLOOR: return floors;
                 case TileType.DOOR: return doors;
                 case TileType.WALL: return walls;
-                case TileType.TORCH: return torches;
                 default:
                     Debug.LogError("Invalid base tile type: " + baseType.ToString());
                     return null;
