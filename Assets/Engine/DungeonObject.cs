@@ -29,7 +29,6 @@
         public Vector2Int previousTilePosition;
         public int quantity = 1;
         public bool canBePickedUp;
-        public bool isAlwaysLit;
         public bool canTakeDamage = false;
         public bool isVisibleWhenNotInSight = true;
         public int pathingWeight = 0;
@@ -126,7 +125,7 @@
 
         public void SetInView(bool isInView, bool reveal)
         {
-            if (isInView && (reveal || isAlwaysLit)) hasBeenSeen = true;
+            if (isInView && reveal) hasBeenSeen = true;
 
             if (isInView)
             {
@@ -147,7 +146,7 @@
         public void SetLit(bool isLit, bool reveal)
         {
             if (isLit && reveal) hasBeenSeen = true;
-            if (isAlwaysLit && tile.isInView) isLit = true;
+            if (tile && tile.isInView) isLit = true;
 
             glyphs?.SetLit(isLit);
 

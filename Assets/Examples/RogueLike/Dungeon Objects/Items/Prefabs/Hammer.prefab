@@ -232,9 +232,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectName: Hammer
-  viewDistance: 4
   illuminationRange: 0
   OnSteppedOn:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPreSteppedOn:
     m_PersistentCalls:
       m_Calls: []
   originalGlyphPosition: {x: 0, y: 0, z: 0}
@@ -242,7 +244,6 @@ MonoBehaviour:
   previousTilePosition: {x: 0, y: 0}
   quantity: 1
   canBePickedUp: 1
-  isAlwaysLit: 0
   canTakeDamage: 0
   isVisibleWhenNotInSight: 1
   pathingWeight: 0
@@ -254,6 +255,7 @@ MonoBehaviour:
   preventsObjectSpawning: 0
   hasDoneDamageFlash: 0
   tile: {fileID: 0}
+  autoAddToTileAtStart: 0
 --- !u!114 &3300319173108635374
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -266,6 +268,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50a1b5f5c9c41e74fa30aab2d58e2841, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  owner: {fileID: 0}
+  executeEveryTick: 0
   minBaseDamage: 2
   maxBaseDamage: 4
   enchantmentLevel: 1

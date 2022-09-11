@@ -49,9 +49,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectName: Crystal
-  viewDistance: 4
   illuminationRange: 0
   OnSteppedOn:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPreSteppedOn:
     m_PersistentCalls:
       m_Calls: []
   originalGlyphPosition: {x: 0, y: 0, z: 0}
@@ -59,7 +61,6 @@ MonoBehaviour:
   previousTilePosition: {x: 0, y: 0}
   quantity: 1
   canBePickedUp: 1
-  isAlwaysLit: 0
   canTakeDamage: 0
   isVisibleWhenNotInSight: 1
   pathingWeight: 0
@@ -71,6 +72,7 @@ MonoBehaviour:
   preventsObjectSpawning: 0
   hasDoneDamageFlash: 0
   tile: {fileID: 0}
+  autoAddToTileAtStart: 0
 --- !u!114 &491273678994927848
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -84,6 +86,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: {fileID: 0}
+  executeEveryTick: 0
   powerParts: 0100000002000000
   shapeParts: 03000000
   level: 2

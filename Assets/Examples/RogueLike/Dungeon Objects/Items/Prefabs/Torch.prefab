@@ -58,7 +58,6 @@ MonoBehaviour:
   previousTilePosition: {x: 0, y: 0}
   quantity: 1
   canBePickedUp: 0
-  isAlwaysLit: 1
   canTakeDamage: 0
   isVisibleWhenNotInSight: 1
   pathingWeight: 0
@@ -70,7 +69,7 @@ MonoBehaviour:
   preventsObjectSpawning: 0
   hasDoneDamageFlash: 0
   tile: {fileID: 0}
-  autoAddToTileAtStart: 1
+  autoAddToTileAtStart: 0
 --- !u!1 &7033514944568501348
 GameObject:
   m_ObjectHideFlags: 0
