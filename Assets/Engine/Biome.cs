@@ -80,11 +80,11 @@ namespace Noble.TileEngine
         public static void SpawnRandomObject(Tile tile)
         {
             int numStacksAlreadyPlaced = 0;
-            var containingBiomes = tile.map.biomes.Where(b => b.Contains(tile.transform.position)).ToList();
+            var containingBiomes = tile.map.biomes.Where(b => b.Contains(tile.position)).ToList();
             var subBiomes = new List<BiomeObject>();
             foreach (var biome in containingBiomes)
             {
-                GatherBiomes(tile.position, ref subBiomes, biome);
+                GatherBiomes(tile.tilePosition, ref subBiomes, biome);
             }
             containingBiomes.AddRange(subBiomes);
             float totalProbability = 0;
@@ -182,7 +182,7 @@ namespace Noble.TileEngine
 
         virtual public void DrawDebug(RectIntExclusive area)
         {
-            EditorUtil.DrawRect(Map.instance, area, Color.green);
+            EditorUtil.DrawRect(FindObjectOfType<Map>(), area, Color.green);
         }
     }
 }

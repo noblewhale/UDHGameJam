@@ -29,7 +29,7 @@
 		{
 			// Get all tiles in a line between the center of the owner tile and the center of the target tile stopping at the first IsCollidable tile in the line.
 			Vector2 rayStart = owner.tilePosition + Map.instance.tileDimensions / 2;
-			Vector2 rayEnd = targetTile.position + Map.instance.tileDimensions / 2;
+			Vector2 rayEnd = targetTile.tilePosition + Map.instance.tileDimensions / 2;
 			threatenedTiles = Map.instance.GetTilesInRay(rayStart, rayEnd, t => t.IsCollidable(), false);
 
 			// We only care about the last tile in the line, whether we hit something collidable, or just reached the target
@@ -57,7 +57,7 @@
 			attackStartTime = Time.time;
 
 			projectileStartPosition = identityCreature.leftHand.transform.position;
-			projectileEndPosition = new Vector2(threatenedTiles[0].transform.position.x + Map.instance.tileWidth / 2, threatenedTiles[0].transform.position.y + Map.instance.tileHeight / 2);
+			projectileEndPosition = new Vector2(threatenedTiles[0].position.x + Map.instance.tileWidth / 2, threatenedTiles[0].position.y + Map.instance.tileHeight / 2);
 			projectileTravelDuration = (projectileStartPosition - projectileEndPosition).magnitude / projectileTravelSpeed;
 			if ((projectileEndPosition - projectileStartPosition).magnitude > Map.instance.TotalWidth / 2)
 			{
@@ -88,7 +88,7 @@
 		}
 		override public void FinishSubAction(ulong time)
 		{
-			if (threatenedTiles[0] && threatenedTiles[0].objectList != null)
+			if (threatenedTiles[0] != null && threatenedTiles[0].objectList != null)
 			{
 				DungeonObject targetObject = threatenedTiles[0].objectList.FirstOrDefault(ob => ob.isCollidable);
 				if (targetObject)

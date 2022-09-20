@@ -21,7 +21,7 @@
         public Vector3 originalGlyphPosition;
         public Map map;
 
-        public Vector2Int tilePosition => tile.position;
+        public Vector2Int tilePosition => tile.tilePosition;
 
         public int x => tilePosition.x;
         public int y => tilePosition.y;
@@ -146,7 +146,6 @@
         public void SetLit(bool isLit, bool reveal)
         {
             if (isLit && reveal) hasBeenSeen = true;
-            if (tile && tile.isInView) isLit = true;
 
             glyphs?.SetLit(isLit);
 

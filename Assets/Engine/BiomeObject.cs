@@ -21,6 +21,11 @@ namespace Noble.TileEngine
             biome.DrawDebug(new RectIntExclusive(Mathf.FloorToInt(transform.localPosition.x + area.xMin), Mathf.FloorToInt(transform.localPosition.y + area.yMin), area.width, area.height));
         }
 
+        virtual public void Update()
+        {
+            DrawDebug();
+        }
+
         virtual public IEnumerator PreProcessMap(Map map)
         {
             if (biome == null) yield break;

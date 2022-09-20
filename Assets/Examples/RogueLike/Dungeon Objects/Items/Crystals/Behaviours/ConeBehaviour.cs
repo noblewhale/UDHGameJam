@@ -33,7 +33,7 @@
 		override protected List<Tile> GetThreatenedTiles()
 		{
 			Vector2 centerOfOwnerTile = owner.tilePosition + Map.instance.tileDimensions / 2;
-			lastConeDirection = Map.instance.GetDifference(centerOfOwnerTile, targetTile.position + Map.instance.tileDimensions / 2);
+			lastConeDirection = Map.instance.GetDifference(centerOfOwnerTile, targetTile.tilePosition + Map.instance.tileDimensions / 2);
 			lastConeDirection = lastConeDirection.normalized;
 
 			float extraSpace = .02f;
@@ -62,7 +62,7 @@
 			foreach (var tile in threatenedTiles)
 			{
 				Vector2 startVisualRayPosition = Map.instance.transform.InverseTransformPoint(identityCreature.leftHand.transform.position);
-				Vector2 endVisualRayPosition = new Vector2(tile.transform.localPosition.x + Map.instance.tileWidth / 2, tile.transform.localPosition.y + Map.instance.tileHeight / 2);
+				Vector2 endVisualRayPosition = new Vector2(tile.localPosition.x + Map.instance.tileWidth / 2, tile.localPosition.y + Map.instance.tileHeight / 2);
 				if ((endVisualRayPosition - startVisualRayPosition).magnitude > Map.instance.TotalWidth / 2)
 				{
 					if (startVisualRayPosition.x > Map.instance.TotalWidth / 2)
@@ -114,7 +114,7 @@
 						tileThatWasHit.AddObject(fire.GetComponent<DungeonObject>());
 
 						// Do the damage
-						if (tileThatWasHit && tileThatWasHit.objectList != null)
+						if (tileThatWasHit != null && tileThatWasHit.objectList != null)
 						{
 							DungeonObject targetObject = tileThatWasHit.objectList.FirstOrDefault(ob => ob.isCollidable);
 							if (targetObject)

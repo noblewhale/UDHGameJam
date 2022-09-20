@@ -764,7 +764,7 @@
             for (int i = wallTiles.Count - 1; i >= 0; i--)
             {
                 var tile = wallTiles[i];
-                var adjacentTile = Map.instance.GetTile(tile.position + Vector2Int.up);
+                var adjacentTile = Map.instance.GetTile(tile.tilePosition + Vector2Int.up);
 
                 if (!adjacentTile.ContainsObjectOfType("Floor") || adjacentTile.ContainsObjectOfType("Wall"))
                 {
@@ -784,34 +784,30 @@
 
         void AddTileObjects(Map map, int x, int y)
         {
-            //map.tileObjects[y][x].isAlwaysLit = true;
-
-            map.tileObjects[y][x].RemoveAllObjects();
+            map.tiles[y][x].RemoveAllObjects();
             if (tileTemplates[y][x].type == TileType.NOTHING)
             {
                 DungeonObject ob = GetRandomBaseTile(TileType.NOTHING);
-                map.tileObjects[y][x].SpawnAndAddObject(ob, 1, 1);
+                map.tiles[y][x].SpawnAndAddObject(ob, 1, 1);
             }
             else
             {
                 // Pick a floor tile based on spawn rates
                 DungeonObject ob = GetRandomBaseTile(TileType.FLOOR);
-                map.tileObjects[y][x].SpawnAndAddObject(ob, 1, 1);
+                map.tiles[y][x].SpawnAndAddObject(ob, 1, 1);
 
                 if (tileTemplates[y][x].isRoomTile)
                 {
                     // Add a torch so rooms are always lit
-                    map.tileObjects[y][x].SpawnAndAddObject(torchPrefab);
+                    map.tiles[y][x].SpawnAndAddObject(torchPrefab);
                 }
 
                 if (tileTemplates[y][x].type != TileType.FLOOR)
                 {
                     var tileTemplate = tileTemplates[y][x];
                     ob = GetRandomBaseTile(tileTemplate.type);
-                    var instanceOb = map.tileObjects[y][x].SpawnAndAddObject(ob, 1, 2);
-                    //instanceOb.isAlwaysLit = true;
-                    //instanceOb.isVisibleWhenNotInSight = true;
-                    //instanceOb.hasBeenSeen = true;
+                    var instanceOb = map.tiles[y][x].SpawnAndAddObject(ob, 1, 2);
+
                     if (tileTemplate.type == TileType.DOOR)
                     {
                         Direction orientation = Direction.UP;
@@ -826,8 +822,6 @@
                     }
                 }
             }
-
-            //map.tileObjects[y][x].SetLit(true);
         }
 
         public BiomeDropRate[] GetSpawnRatesForBaseType(TileType baseType)

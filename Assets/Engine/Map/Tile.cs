@@ -5,11 +5,11 @@
     using System.Linq;
     using System;
 
-    public class Tile : MonoBehaviour
+    public class Tile
     {
-        public Vector2Int position = Vector2Int.zero;
-        public int x => position.x;
-        public int y => position.y;
+        public Vector2Int tilePosition = Vector2Int.zero;
+        public int x => tilePosition.x;
+        public int y => tilePosition.y;
         public Map map;
         public bool isDirty;
         public float gapBetweenLayers = .1f;
@@ -19,16 +19,15 @@
 
         public LinkedList<DungeonObject> objectList = new LinkedList<DungeonObject>();
 
+        public Vector3 localPosition => tilePosition * map.tileDimensions;
+        public Vector3 position => Map.instance.transform.position + localPosition;
+
         public void Init(Map map, int x, int y)
         {
-            //transform.parent = map.transform;
             this.map = map;
-            position.x = x;
-            position.y = y;
+            tilePosition.x = x;
+            tilePosition.y = y;
             map.tilesThatAllowSpawn.Add(this);
-            transform.localPosition = new Vector3(x * map.tileWidth, y * map.tileHeight, 0);
-            
-            //SetInView(true);
         }
 
         public bool ContainsObjectWithComponent<T>() where T : MonoBehaviour
@@ -103,19 +102,14 @@
                 }
             }
 
-            //if (!isVisible)
+            foreach (var ob in objectList)
             {
-                foreach (var ob in objectList)
-                {
-                    ob.SetLit(isVisible && isLit, isVisible);
-                }
+                ob.SetLit(isVisible && isLit, isVisible);
             }
         }
 
         public void SetLit(bool isLit)
         {
-            //if (isAlwaysLit && isLit == false) return;
-
             this.isLit = isLit;
             if (isLit)
             {
@@ -163,7 +157,7 @@
 
         public DungeonObject SpawnAndAddObject(DungeonObject dungeonObject, int quantity = 1, int layer = 0)
         {
-            var ob = Instantiate(dungeonObject).GetComponent<DungeonObject>();
+            var ob = GameObject.Instantiate(dungeonObject).GetComponent<DungeonObject>();
             ob.quantity = quantity;
             ob.transform.position = new Vector3(0, 0, -layer);
             AddObject(ob, false, layer);
@@ -176,7 +170,7 @@
             foreach (var ob in objectList)
             {
                 ob.inventory.DestroyAll();
-                Destroy(ob);
+                GameObject.Destroy(ob);
             }
             if (!map.tilesThatAllowSpawn.Contains(this))
             {
@@ -190,32 +184,21 @@
             bool isFirstPlacement = ob.tile == null;
 
             ob.transform.parent = map.layers[layer];
-            ob.transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, 0);
-            //if (addToBottom)
-            {
-                objectList.AddLast(ob);
-            }
-            //else
-            //{
-            //    objectList.AddFirst(ob);
-            //}
+            ob.transform.localPosition = new Vector3(localPosition.x, localPosition.y, 0);
+            
+            objectList.AddLast(ob);
+            
             if (isMove)
             {
-                ob.Move(position);
+                ob.Move(tilePosition);
             }
             else
             {
-                ob.SetPosition(position);
+                ob.SetPosition(tilePosition);
             }
             if (ob.preventsObjectSpawning)
             {
                 map.tilesThatAllowSpawn.Remove(this);
-            }
-
-            //if (ob.illuminationRange != 0)
-            {
-                //map.UpdateLighting(ob.tilePosition, ob.illuminationRange);
-                //map.UpdateLighting();
             }
 
             SetInView(isInView);
@@ -232,15 +215,6 @@
         public void UpdateObjectLayers()
         {
             Sort(objectList.First, objectList.Last, o => o.transform.position.z);
-            //int l = 0;
-            //var el = objectList.Last;
-            //while (el != null)
-            //{
-            //    var ob = el.Value;
-            //    ob.transform.localPosition = new Vector3(ob.transform.localPosition.x, ob.transform.localPosition.y, -l * gapBetweenLayers);
-            //    l++;
-            //    el = el.Previous;
-            //}
         }
 
         private static void Sort<T, R>(LinkedListNode<T> head, LinkedListNode<T> tail, Func<T, R> valueGetter) where R : IComparable<R>
@@ -284,7 +258,7 @@
             objectList.Remove(ob);
             if (destroyObject)
             {
-                Destroy(ob.gameObject);
+                GameObject.Destroy(ob.gameObject);
             }
 
             if (AllowsSpawn())
@@ -293,12 +267,6 @@
                 {
                     map.tilesThatAllowSpawn.Add(this);
                 }
-            }
-
-            //if (ob.illuminationRange != 0)
-            {
-                //map.UpdateLighting(ob.tilePosition, ob.illuminationRange);
-                //map.UpdateLighting();
             }
 
             SetInView(isInView);
@@ -313,7 +281,7 @@
 
             foreach (var dOb in objectList)
             {
-                Destroy(dOb.gameObject);
+                GameObject.Destroy(dOb.gameObject);
             }
 
             objectList.Clear();
@@ -363,7 +331,7 @@
 
             foreach (var tile in tiles)
             {
-                Vector2 difference = Map.instance.GetDifference((Vector2)tile.transform.position + Map.instance.tileDimensions / 2, pos);
+                Vector2 difference = Map.instance.GetDifference((Vector2)tile.position + Map.instance.tileDimensions / 2, pos);
                 float distance = difference.magnitude;
                 if (distance < minDistance)
                 {

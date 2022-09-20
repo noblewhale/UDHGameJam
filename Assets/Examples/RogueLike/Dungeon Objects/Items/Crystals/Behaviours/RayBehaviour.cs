@@ -31,7 +31,7 @@
 		override protected List<Tile> GetThreatenedTiles()
 		{
 			Vector2 centerOfOwnerTile = owner.tilePosition + Map.instance.tileDimensions / 2;
-			Vector2 directionToTarget = Map.instance.GetDifference(centerOfOwnerTile, targetTile.position + Map.instance.tileDimensions / 2);
+			Vector2 directionToTarget = Map.instance.GetDifference(centerOfOwnerTile, targetTile.tilePosition + Map.instance.tileDimensions / 2);
 			directionToTarget.Normalize();
 
 			threatenedTiles = Map.instance.GetTilesInRay(centerOfOwnerTile, directionToTarget, rayLength);
@@ -55,7 +55,7 @@
 			attackStartTime = Time.time;
 
 			startRayPosition = Map.instance.transform.InverseTransformPoint(identityCreature.leftHand.transform.position);
-			endRayPosition = (Vector2)threatenedTiles.Last().transform.localPosition + Map.instance.tileDimensions / 2;
+			endRayPosition = (Vector2)threatenedTiles.Last().localPosition + Map.instance.tileDimensions / 2;
 			if ((endRayPosition - startRayPosition).magnitude > Map.instance.TotalWidth / 2)
 			{
 				if (startRayPosition.x > Map.instance.TotalWidth / 2)
@@ -67,7 +67,7 @@
 					endRayPosition.x -= Map.instance.TotalWidth;
 				}
 			}
-			endRayPosition += ((Vector2)identityCreature.leftHand.transform.position - ((Vector2)identityCreature.baseObject.tile.transform.position + owner.map.tileDimensions / 2));
+			endRayPosition += ((Vector2)identityCreature.leftHand.transform.position - ((Vector2)identityCreature.baseObject.tile.position + owner.map.tileDimensions / 2));
 			duration = (startRayPosition - endRayPosition).magnitude / unitsPerSecond;
 		}
 

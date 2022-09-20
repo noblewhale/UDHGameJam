@@ -45,7 +45,7 @@
                 if (success)
                 {
                     Tile tile = Map.instance.GetTileFromWorldPosition(unwarpedPos);
-                    Vector2Int dif = Map.instance.GetDifference(Player.instance.identity.tilePosition, tile.position);
+                    Vector2Int dif = Map.instance.GetDifference(Player.instance.identity.tilePosition, tile.tilePosition);
                     if (Math.Abs(dif.x) == Math.Abs(dif.y))
                     {
                         if (dif.x > 0 && dif.y > 0) key = Key.Numpad9;

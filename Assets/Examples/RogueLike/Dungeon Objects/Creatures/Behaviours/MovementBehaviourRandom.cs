@@ -29,7 +29,7 @@
 
         public override void FinishSubAction(ulong time)
         {
-            owner.map.MoveObject(owner, nextMoveTarget.position);
+            owner.map.MoveObject(owner, nextMoveTarget.tilePosition);
         }
 
         public override float GetActionConfidence()
@@ -40,19 +40,19 @@
             if (owner.y < owner.map.height - 1)
             {
                 adjacent = owner.map.GetTile(owner.tilePosition + Vector2Int.up);
-                if (!adjacent.IsCollidable() && !adjacent.GetComponentInChildren<Trap>()) adjacentAndOpen.Add(adjacent);
+                if (!adjacent.IsCollidable() && !adjacent.ContainsObjectWithComponent<Trap>()) adjacentAndOpen.Add(adjacent);
             }
             if (owner.y > 0)
             {
                 adjacent = owner.map.GetTile(owner.tilePosition + Vector2Int.down);
-                if (!adjacent.IsCollidable() && !adjacent.GetComponentInChildren<Trap>()) adjacentAndOpen.Add(adjacent);
+                if (!adjacent.IsCollidable() && !adjacent.ContainsObjectWithComponent<Trap>()) adjacentAndOpen.Add(adjacent);
             }
 
             adjacent = owner.map.GetTile(owner.tilePosition + Vector2Int.right);
-            if (!adjacent.IsCollidable() && !adjacent.GetComponentInChildren<Trap>()) adjacentAndOpen.Add(adjacent);
+            if (!adjacent.IsCollidable() && !adjacent.ContainsObjectWithComponent<Trap>()) adjacentAndOpen.Add(adjacent);
 
             adjacent = owner.map.GetTile(owner.tilePosition + Vector2Int.left);
-            if (!adjacent.IsCollidable() && !adjacent.GetComponentInChildren<Trap>()) adjacentAndOpen.Add(adjacent);
+            if (!adjacent.IsCollidable() && !adjacent.ContainsObjectWithComponent<Trap>()) adjacentAndOpen.Add(adjacent);
 
             if (adjacentAndOpen.Count > 0)
             {

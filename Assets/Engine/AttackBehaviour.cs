@@ -119,7 +119,7 @@ namespace Noble.TileEngine
 		}
 		override public void FinishSubAction(ulong time) 
 		{
-			Map.instance.TryMoveObject(owner, targetTile.position);
+			Map.instance.TryMoveObject(owner, targetTile.tilePosition);
 			Creature targetCreature = targetObject.GetComponent<Creature>();
 
 			Weapon weapon = null;

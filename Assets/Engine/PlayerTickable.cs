@@ -38,7 +38,7 @@
                 return null;
             }
 
-            var tileActingOn = owner.map.tileObjects[newTilePosition.y][newTilePosition.x];
+            var tileActingOn = owner.map.tiles[newTilePosition.y][newTilePosition.x];
 
             if (!tileActingOn.IsCollidable())
             {

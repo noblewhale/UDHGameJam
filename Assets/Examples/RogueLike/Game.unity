@@ -682,7 +682,6 @@ MonoBehaviour:
   previousTilePosition: {x: 0, y: 0}
   quantity: 1
   canBePickedUp: 0
-  isAlwaysLit: 0
   canTakeDamage: 0
   isVisibleWhenNotInSight: 1
   pathingWeight: 0
@@ -693,7 +692,6 @@ MonoBehaviour:
   coversObjectsBeneath: 0
   preventsObjectSpawning: 0
   hasDoneDamageFlash: 0
-  tile: {fileID: 0}
   autoAddToTileAtStart: 0
   owner: {fileID: 114099249943370364}
   thresholdX: 0
@@ -3054,15 +3052,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ffaf42e0c2e95447a0608df271b44b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tilePrefab: {fileID: 114224584609318880, guid: 615271a170519e841b68e102a244428d,
-    type: 3}
   biomeObjectPrefab: {fileID: 8521664297476041958, guid: 0993bfa96b144294c8606862c3a4bb31,
     type: 3}
   biomeTypes:
   - {fileID: 11400000, guid: 708a604b36905574e819da5ba1f76891, type: 2}
   - {fileID: 11400000, guid: c5f22687274f57c48a389e16806785b4, type: 2}
   biomes: []
-  tilesThatAllowSpawn: []
   width: 26
   height: 44
   tileDimensions: {x: 1, y: 1}
@@ -9375,7 +9370,7 @@ GameObject:
   - component: {fileID: 1562765044}
   - component: {fileID: 1562765045}
   m_Layer: 0
-  m_Name: Tiles
+  m_Name: Layer 0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

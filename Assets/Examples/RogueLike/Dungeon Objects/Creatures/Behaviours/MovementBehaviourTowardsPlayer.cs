@@ -29,7 +29,7 @@
 
         public override void FinishSubAction(ulong time)
         {
-            owner.map.MoveObject(owner, nextMoveTarget.position);
+            owner.map.MoveObject(owner, nextMoveTarget.tilePosition);
         }
 
         public override float GetActionConfidence()

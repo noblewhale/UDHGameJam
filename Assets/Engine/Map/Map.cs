@@ -9,13 +9,12 @@
     public class Map : MonoBehaviour
     {
 
-        public Tile tilePrefab;
         public BiomeObject biomeObjectPrefab;
 
         public Biome[] biomeTypes;
         public List<BiomeObject> biomes = new List<BiomeObject>();
 
-        public Tile[][] tileObjects;
+        public Tile[][] tiles;
         public List<Tile> tilesThatAllowSpawn = new List<Tile>();
 
         public int width = 10;
@@ -35,7 +34,7 @@
             {
                 return width * tileWidth;
             }
-        }
+        } 
 
         public float TotalHeight
         {
@@ -83,13 +82,14 @@
         virtual public void ClearMap()
         {
             isDoneGeneratingMap = false;
+            
             ForEachTile(t =>
             {
                 t.DestroyAllObjects();
-                Destroy(t.gameObject);
             });
-            tileObjects = new Tile[height][];
-            for (int y = 0; y < height; y++) tileObjects[y] = new Tile[width];
+
+            tiles = new Tile[height][];
+            for (int y = 0; y < height; y++) tiles[y] = new Tile[width];
             for (int y = 0; y < height; y++)
             {
                 for (int x = 0; x < width; x++)
@@ -139,16 +139,6 @@
 
         virtual public void Update()
         {
-            foreach (var biome in biomes)
-            {
-                biome.DrawDebug();
-            }
-
-            //if (Input.GetKeyDown(KeyCode.R))
-            //{
-            //    ClearMap();
-            //    StartCoroutine(GenerateMap());
-            //}
         }
 
         virtual public void PlaceBiomes()
@@ -192,8 +182,8 @@
 
         virtual public void AddTile(int x, int y)
         {
-            tileObjects[y][x] = Instantiate(tilePrefab, new Vector3(-666, -666, -666), Quaternion.identity, layers[0]).GetComponent<Tile>();
-            tileObjects[y][x].Init(this, x, y);
+            tiles[y][x] = new Tile();// Instantiate(tilePrefab, new Vector3(-666, -666, -666), Quaternion.identity, layers[0]).GetComponent<Tile>();
+            tiles[y][x].Init(this, x, y);
         }
 
         virtual public Vector2 GetWorldPositionOnMap(Vector2 pos)
@@ -238,12 +228,11 @@
         virtual public Tile GetTile(Vector2Int tilePosition)
         {
             tilePosition = GetTilePositionOnMap(tilePosition);
-            return tileObjects[tilePosition.y][tilePosition.x];
+            return tiles[tilePosition.y][tilePosition.x];
         }
 
         virtual public Tile GetTileFromWorldPosition(Vector2 position)
         {
-            //position -= (Vector2)transform.position;
             position /= tileDimensions;
             var tilePos = new Vector2Int(Mathf.FloorToInt(position.x), Mathf.FloorToInt(position.y));
             return GetTile(tilePos);
@@ -251,14 +240,14 @@
 
         virtual public void ForEachTile(Action<Tile> action)
         {
-            if (tileObjects == null) return;
-            if (tileObjects.Length != height) return;
+            if (tiles == null) return;
+            if (tiles.Length != height) return;
             for (int y = 0; y < height; y++)
             {
-                if (tileObjects[y].Length != width) return;
+                if (tiles[y].Length != width) return;
                 for (int x = 0; x < width; x++)
                 {
-                    action(tileObjects[y][x]);
+                    action(tiles[y][x]);
                 }
             }
         }
@@ -320,13 +309,13 @@
 
         virtual public void TryMoveObject(DungeonObject ob, int newX, int newY)
         {
-            if (!tileObjects[newY][newX].IsCollidable())
+            if (!tiles[newY][newX].IsCollidable())
             {
                 MoveObject(ob, newX, newY);
             }
             else
             {
-                Tile collidedTile = tileObjects[newY][newX];
+                Tile collidedTile = tiles[newY][newX];
                 foreach (var tileObject in collidedTile.objectList)
                 {
                     if (tileObject.isCollidable)
@@ -341,7 +330,7 @@
 
         virtual public void MoveObject(DungeonObject ob, Vector2Int newPos)
         {
-            if (ob.tile)
+            if (ob.tile != null)
             {
                 GetTile(ob.tilePosition).RemoveObject(ob);
             }
@@ -549,7 +538,7 @@
 
                 currentTile = GetTileFromWorldPosition(currentPosition.x, y);
 
-                if (includeSourceTile || currentTile.position != start.ToFloor())
+                if (includeSourceTile || currentTile.tilePosition != start.ToFloor())
                 {
                     if (!currentTile.isDirty)
                     {
@@ -583,7 +572,7 @@
                 {
                     currentTile = GetTileFromWorldPosition(relative.x, y);
 
-                    if (!currentTile.isDirty && (includeSourceTile || currentTile.position != start.ToFloor()))
+                    if (!currentTile.isDirty && (includeSourceTile || currentTile.tilePosition != start.ToFloor()))
                     {
                         currentTile.isDirty = true;
                         var hit = new TileAndPosition
@@ -617,28 +606,15 @@
             ForEachTile(t => t.UpdateLighting());
         }
 
-        //virtual public void UpdateLighting(RectIntExclusive area)
-        //{
-        //    ForEachTileInArea(area, t => t.SetLit(false));
-        //    ForEachTileInArea(area, t => t.UpdateLighting());
-        //}
-
-        //virtual public void UpdateLighting(Vector2Int center, float radius)
-        //{
-        //    var area = new RectIntExclusive();
-        //    area.SetToSquare(center, radius + 1);
-        //    UpdateLighting(area);
-        //}
-
         virtual public void UpdateIsVisible(Vector2Int pos, float radius, bool isVisible)
         {
-            tileObjects[pos.y][pos.x].SetInView(isVisible);
+            tiles[pos.y][pos.x].SetInView(isVisible);
 
             ForEachTileInRadius(
                 pos + tileDimensions / 2,
                 radius,
                 t => t.SetInView(isVisible),
-                t => t.DoesBlockLineOfSight() && t.position != pos,
+                t => t.DoesBlockLineOfSight() && t.tilePosition != pos,
                 false,
                 false
             );
@@ -656,7 +632,7 @@
             {
                 for (int x = area.xMax; x >= area.xMin; x--)
                 {
-                    var tile = tileObjects[y][x];
+                    var tile = tiles[y][x];
                     if (tile.AllowsSpawn())
                     {
                         doThis(tile);

@@ -79,7 +79,7 @@ namespace Noble.DungeonCrawler
                     Tile closestTile = null;
                     foreach (Tile allowedTile in allowedTiles)
                     {
-                        Vector2Int difference = Map.instance.GetDifference(tilePosition, allowedTile.position);
+                        Vector2Int difference = Map.instance.GetDifference(tilePosition, allowedTile.tilePosition);
                         float distance = difference.magnitude;
                         if (distance < minDistance)
                         {
@@ -100,7 +100,7 @@ namespace Noble.DungeonCrawler
         {
             Key key = command.key;
 
-            Vector2Int newTilePos = tile.position;
+            Vector2Int newTilePos = tile.tilePosition;
 
             bool doSomething = true;
             switch (key)

@@ -12,21 +12,31 @@
         private bool firstTime = true;
         Vector3 previousPos;
         RectIntExclusive previousArea;
+        Map map;
+
+        private void Awake()
+        {
+            map = FindObjectOfType<Map>();
+            firstTime = true;
+        }
+
+        private void OnEnable()
+        {
+            firstTime = true;
+        }
 
         void OnSceneGUI()
         {
             BiomeObject myObject = (BiomeObject)target;
 
-            if (firstTime || previousPos != myObject.transform.position)// || !myObject.area.Equals(previousArea))
+            if (firstTime || previousPos != myObject.transform.position || !myObject.area.Equals(previousArea))
             {
                 // copy the target object's data to the handle
                 Vector2 areaCenter = new Vector2(myObject.area.xMin + myObject.area.xMax, myObject.area.yMin + myObject.area.yMax);
                 areaCenter /= 2.0f;
                 tempBounds.center = myObject.transform.position;
                 tempBounds.center += (Vector3)areaCenter;
-                tempBounds.center += (Vector3)Map.instance.tileDimensions / 2;
-                //tempBounds.center = new Vector2(myObject.transform.position.x + (myObject.area.xMin + myObject.area.xMax) / 2.0f + Map.instance.tileWidth / 2, myObject.transform.position.y + (myObject.area.yMin + myObject.area.yMax) / 2.0f + Map.instance.tileHeight / 2);
-                //tempBounds.center += Map.instance.transform.position;
+                tempBounds.center += (Vector3)map.tileDimensions / 2;
                 tempBounds.size = new Vector2(myObject.area.width, myObject.area.height);
                 firstTime = false;
             }

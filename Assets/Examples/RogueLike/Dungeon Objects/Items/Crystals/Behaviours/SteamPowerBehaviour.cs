@@ -34,7 +34,7 @@ namespace Noble.DungeonCrawler
 			attackStartTime = Time.time;
 
 			Vector2 startVisualRayPosition = Map.instance.transform.InverseTransformPoint(identityCreature.leftHand.transform.position);
-			Vector2 endVisualRayPosition = new Vector2(shapeBehaviour.threatenedTiles[0].transform.localPosition.x + Map.instance.tileWidth / 2, shapeBehaviour.threatenedTiles[0].transform.localPosition.y + Map.instance.tileHeight / 2);
+			Vector2 endVisualRayPosition = new Vector2(shapeBehaviour.threatenedTiles[0].localPosition.x + Map.instance.tileWidth / 2, shapeBehaviour.threatenedTiles[0].localPosition.y + Map.instance.tileHeight / 2);
 			if ((endVisualRayPosition - startVisualRayPosition).magnitude > Map.instance.TotalWidth / 2)
 			{
 				if (startVisualRayPosition.x > Map.instance.TotalWidth / 2)
@@ -95,7 +95,7 @@ namespace Noble.DungeonCrawler
 					tileThatWasHit.AddObject(fire.GetComponent<DungeonObject>());
 
 					// Do the damage
-					if (tileThatWasHit && tileThatWasHit.objectList != null)
+					if (tileThatWasHit != null && tileThatWasHit.objectList != null)
 					{
 						DungeonObject targetObject = tileThatWasHit.objectList.FirstOrDefault(ob => ob.isCollidable);
 						if (targetObject)
@@ -121,7 +121,7 @@ namespace Noble.DungeonCrawler
                 {
 					if (secondaryProjectile == null) continue;
 
-					Vector2 endSecondaryProjectilePosition = new Vector2(tile.transform.localPosition.x + Map.instance.tileWidth / 2, tile.transform.localPosition.y + Map.instance.tileHeight / 2);
+					Vector2 endSecondaryProjectilePosition = new Vector2(tile.localPosition.x + Map.instance.tileWidth / 2, tile.localPosition.y + Map.instance.tileHeight / 2);
 					secondaryProjectile.transform.localPosition = (Vector3)Vector2.Lerp(endProjectilePosition, endSecondaryProjectilePosition, t) + Vector3.forward * secondaryProjectile.transform.position.z;
 
 					if (t >= 1)
@@ -136,7 +136,7 @@ namespace Noble.DungeonCrawler
 						tileThatWasHit.AddObject(trap.GetComponent<DungeonObject>());
 
 						// Do the damage
-						if (tileThatWasHit && tileThatWasHit.objectList != null)
+						if (tileThatWasHit != null && tileThatWasHit.objectList != null)
 						{
 							DungeonObject targetObject = tileThatWasHit.objectList.FirstOrDefault(ob => ob.isCollidable);
 							if (targetObject)
