@@ -951,9 +951,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7e57669440b3974080ba5222e677e30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  warpMaterial: {fileID: 0}
   vertical: 0.3
   horizontal: -0.3
-  warpMaterial: {fileID: 0}
 --- !u!23 &190724726
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1824,12 +1824,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11b8df19616702a47b5b7b3838bac5f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  camera: {fileID: 0}
+  cameraOffset: 0
   owner: {fileID: 119057286}
   rotationMaxSpeed: 0.015
   movementMaxSpeed: 0.07
-  cameraOffset: 0
   rotation: 0
-  camera: {fileID: 0}
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0

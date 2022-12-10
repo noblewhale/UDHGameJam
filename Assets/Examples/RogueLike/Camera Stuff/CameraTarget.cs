@@ -22,13 +22,12 @@ namespace Noble.DungeonCrawler
         void Update()
         {
             if (owner == null || tile == null) return;
+            if (!PlayerCamera.instance) return;
 
             Vector2Int newPos = tilePosition;
 
             Vector2Int cameraTile = PlayerCamera.instance.GetTilePosition();
-
             Vector2Int circleDifference = Map.instance.GetDifference(tilePosition, owner.tilePosition);
-
             if (Math.Abs(circleDifference.y) > thresholdY)
             {
                 if (owner.y > y)
