@@ -65,7 +65,8 @@
 			float2 _CameraDim;
 
 			// Angles are calculated from this vector
-			static const float3 DOWN = float3(0, -1, 0);
+			// At large scales there are rendering errors near this vector so we don't use RIGHT where the player is rendered.
+			static const float3 RIGHT = float3(1, 0, 0);
 			// It's a PI
 			static const float PI = 3.1415926535897932384626433832795028841971693993751058209749445923078164062;
 			
@@ -78,14 +79,14 @@
 				return o;
 			}
 
-			// Get the angle between the down vector and the input
+			// Get the angle between the right vector and the input
 			float CalculateVectorAngle(float2 input, float distance)
 			{
 				// Normalize so we can get the angle
 				input /= distance;
 				
-				float dotProduct = dot(DOWN.xy, input);
-				// The dot product can sometimes become larger than 1 when the input vector is very close to the down vector.
+				float dotProduct = dot(RIGHT.xy, input);
+				// The dot product can sometimes become larger than 1 when the input vector is very close to the right vector.
 				// This would cause the angle to be NAN, leading to some rendering artifacts, so let's not let that happen.
 				// Also apparently there's some problem at -1 that creates a seam but adding this small arbitrary amount fixes it...
 				dotProduct = clamp(dotProduct, -1 + .0000001, 1);
@@ -94,7 +95,7 @@
 				float angle = acos(dotProduct);
 
 				// Depending on the z component of the cross product we may need to invert the angle
-				float3 check = cross(DOWN, float3(input.x, input.y, 0));
+				float3 check = cross(RIGHT, float3(input.x, input.y, 0));
 				// Invert if necessary. Otherwise angle would cycle twice between 0 and PI and only half the texture would get sampled and mirrored
 				angle = angle * (check.z >= 0) + (2 * PI - angle) * (check.z < 0);
 
@@ -108,15 +109,15 @@
 			float UnWarpY(float distance)
 			{
 				// Renormalize d taking into account the inner radius. Now d goes from 0 at the edge of the inner radius to 1 at edge of the texture coordinates
-				//float y = (distance - _InnerRadius) / (1 - _InnerRadius);
+				float y = (distance - _InnerRadius) / (1 - _InnerRadius);
 
 				// This is literally just a random equation that gave a visual effect that I liked. I guess it's some sort of log with an adjustable base.
 				// Without this the warp near the center is too extreme and nauseating
-				//y = log(1 + y * _SeaLevel) / log(1 + _SeaLevel);
+				y = log(1 + y * _SeaLevel) / log(1 + _SeaLevel);
 
 				// Y is inverted because low distance from center should correspond to high y values
 				// The play area is in the bottom half of the circle and up should be up.
-				return 1 - distance;
+				return 1 - y;
 			}
 
 			// Convert angle to unwarped x value
@@ -146,21 +147,25 @@
 				// Discard corner pixels, we are rendering a circle, circles don't have corners!
 				if (distance > 1) discard;
 
-				// Get the angle between the down vector and the texture coordinate
+				// Get the angle between the right vector and the texture coordinate
 				float angle = CalculateVectorAngle(i.uv, distance);
 
-				angle += 2 * PI * (_CameraPos.x + _CameraDim.x / 2);
-
-				distance -= _CameraPos.y;
+				angle += 2 * PI * (_CameraPos.x + _CameraDim.x / 2) + PI/2;
 
 				// Use angle and distance to get unwarped position
 				float2 unwarpedUV = UnWarp(distance, angle);
+
+				unwarpedUV.y += _CameraPos.y;
+
+				float oldY = unwarpedUV.y;
 
 				// Ok finally sample the texture
 				fixed4 totalColor;
 
 				if (unwarpedUV.x < _CameraPos.x || unwarpedUV.x > _CameraPos.x + _CameraDim.x || unwarpedUV.y < _CameraPos.y || unwarpedUV.y > _CameraPos.y + _CameraDim.y)
 				{
+					unwarpedUV.x = (unwarpedUV.x - _CameraPos.x) / _CameraDim.x;
+					unwarpedUV.y = (unwarpedUV.y - _CameraPos.y) / _CameraDim.y;
 					totalColor = float4(1, 0, 0, 1);
 				}
 				else
@@ -172,12 +177,12 @@
 				}
 
 				// Apply a fade around the _InnerRadius
-				//totalColor = lerp(_InnerColor, totalColor, min(1, pow((distance - _InnerRadius)/_InnerFadeSize, _InnerFadeExp)));
+				totalColor = lerp(_InnerColor, totalColor, min(1, pow((distance - _InnerRadius)/_InnerFadeSize, _InnerFadeExp)));
 				
 				// Check if distance is within inner circle, if so use solid color instead of texture samples
-				//bool isInsideInnerRadius = distance < _InnerRadius;
+				bool isInsideInnerRadius = distance < _InnerRadius;
 
-				//return isInsideInnerRadius * _InnerColor + !isInsideInnerRadius * totalColor;
+				return isInsideInnerRadius * _InnerColor + !isInsideInnerRadius * totalColor;
 
 				return totalColor;
 			}

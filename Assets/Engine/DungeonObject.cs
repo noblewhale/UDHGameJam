@@ -89,7 +89,10 @@
             if (tile == null && autoAddToTileAtStart)
             {
                 tile = map.GetTileFromWorldPosition(transform.position - map.transform.position);
-                tile.AddObject(this, false, (int)-transform.position.z);
+                if (tile != null)
+                {
+                    tile.AddObject(this, false, (int)-transform.position.z);
+                }
             }
         }
 

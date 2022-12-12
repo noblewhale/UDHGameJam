@@ -952,6 +952,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   warpMaterial: {fileID: 0}
+  renderedWidth: 0
+  renderedHeight: 0
   vertical: 0.3
   horizontal: -0.3
 --- !u!23 &190724726
@@ -1796,7 +1798,6 @@ GameObject:
   - component: {fileID: 519420031}
   - component: {fileID: 519420029}
   - component: {fileID: 519420030}
-  - component: {fileID: 519420037}
   m_Layer: 0
   m_Name: Warped Level Camera
   m_TagString: Untagged
@@ -1888,20 +1889,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &519420037
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 519420028}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 575fa0ddeb4625b409fd446c73b603e9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  map: {fileID: 896254853}
-  render: {fileID: 190724725}
 --- !u!1 &526986532 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1088208281347038, guid: 20e36c6b7abc41244852cdf24829cf3b,

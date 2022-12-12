@@ -27,6 +27,7 @@ namespace Noble.DungeonCrawler
             Vector2Int newPos = tilePosition;
 
             Vector2Int cameraTile = PlayerCamera.instance.GetTilePosition();
+            cameraTile.y -= (int)PlayerCamera.instance.cameraOffset;
             Vector2Int circleDifference = Map.instance.GetDifference(tilePosition, owner.tilePosition);
             if (Math.Abs(circleDifference.y) > thresholdY)
             {

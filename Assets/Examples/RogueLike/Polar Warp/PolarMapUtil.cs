@@ -20,11 +20,11 @@
         {
             float _SeaLevel = MapRenderer.instance.warpMaterial.GetFloat("_SeaLevel");
             float _InnerRadius = MapRenderer.instance.warpMaterial.GetFloat("_InnerRadius");
-            Vector2 relativeToPlayerCamera = unwarpedPos - (Vector2)PlayerCameraCircleWarpSmall.instance.camera.transform.position;
+            Vector2 relativeToPlayerCamera = unwarpedPos - (Vector2)PlayerCamera.instance.camera.transform.position;
             float normalizedX = 1 - relativeToPlayerCamera.x / Map.instance.TotalWidth + .5f;
             float angle = normalizedX * Mathf.PI * 2;
             angle -= MapRenderer.instance.warpMaterial.GetFloat("_Rotation") + Mathf.PI;
-            float normalizedY = .5f + relativeToPlayerCamera.y / (PlayerCameraCircleWarpSmall.instance.camera.orthographicSize * 2);
+            float normalizedY = .5f + relativeToPlayerCamera.y / (PlayerCamera.instance.camera.orthographicSize * 2);
             float d = 1 - normalizedY;
             d = Mathf.Pow(d, 2 - 1 / _SeaLevel);
             d = d * (1 - _InnerRadius) + _InnerRadius;
@@ -40,7 +40,7 @@
         {
             unwarpedPos = new Vector2();
 
-            if (!PlayerCameraCircleWarpSmall.instance) return false;
+            if (!PlayerCamera.instance) return false;
 
             float d = warpedPos.magnitude / .5f;
             float _SeaLevel = MapRenderer.instance.warpMaterial.GetFloat("_SeaLevel");
@@ -52,8 +52,8 @@
             else
             {
                 Vector2 cameraSize;
-                cameraSize.x = PlayerCameraCircleWarpSmall.instance.camera.orthographicSize * 2 * PlayerCameraCircleWarpSmall.instance.camera.aspect;
-                cameraSize.y = PlayerCameraCircleWarpSmall.instance.camera.orthographicSize * 2;
+                cameraSize.x = PlayerCamera.instance.camera.orthographicSize * 2 * PlayerCamera.instance.camera.aspect;
+                cameraSize.y = PlayerCamera.instance.camera.orthographicSize * 2;
                 // Account for camera being double width for wrapping magic
                 cameraSize.x /= 2;
 
@@ -69,7 +69,7 @@
                 unwarpedPos.x *= -1;
 
                 unwarpedPos = unwarpedPos * cameraSize;
-                unwarpedPos += (Vector2)PlayerCameraCircleWarpSmall.instance.camera.transform.position;
+                unwarpedPos += (Vector2)PlayerCamera.instance.camera.transform.position;
 
                 unwarpedPos.x += Map.instance.TotalWidth / 2;
                 unwarpedPos.y += Map.instance.TotalHeight / 2;

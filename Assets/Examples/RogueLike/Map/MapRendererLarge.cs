@@ -11,34 +11,59 @@
         override public void PlaceQuad()
         {
             Camera mainCamera = Camera.main;
-            // This mess solves a quadratic equation to determine how large the quad needs to be so that the rendered area fills the main camera view area
-            // From pythagoras:
-            //  (p*R + h)^2 + (w/2)^2 = R^2
-            // where:
-            //  p = ratio of rendered map height to warped map height
-            //  R = total radius
-            //  h = height of view
-            //  w = width of view
+
+            float _SeaLevel = warpMaterial.GetFloat("_SeaLevel");
+            float _InnerRadius = warpMaterial.GetFloat("_InnerRadius");
+
+            float warpedMapSectionHeight = ((PlayerCameraCircleWarpLarge)PlayerCamera.instance).GetThatWierdThing();
             float mapCameraHeight = PlayerCamera.instance.camera.orthographicSize * 2;
-            float warpedMapSectionHeight = Map.instance.TotalWidth / (2 * Mathf.PI);
             float p = 1 - mapCameraHeight / warpedMapSectionHeight;
 
-            float w = mainCamera.orthographicSize * 2 * mainCamera.aspect;
-            float h = mainCamera.orthographicSize * 2;
+            float pos1 = p + (mapCameraHeight / warpedMapSectionHeight) / 2 - .5f / warpedMapSectionHeight;
+            float pos2 = p + (mapCameraHeight / warpedMapSectionHeight) / 2 + .5f / warpedMapSectionHeight;
 
-            // Use quadratic formula to solve for R
-            // (p^2-1)*R^2 + 2*p*h*R + (h^2 + (w/2)^2) = 0
-            float A = p * p - 1;
-            float B = 2 * p * h;
-            float C = h * h + Mathf.Pow(w / 2, 2);
-            // Thank you high school algebra
-            float R = (-B - Mathf.Sqrt(B * B - 4 * A * C)) / (2 * A);
+            float d1 = pos1;
+            d1 = (Mathf.Pow(1 + _SeaLevel, d1) - 1) / _SeaLevel;
+            d1 = d1 * (1 - _InnerRadius) + _InnerRadius;
+            d1 /= 2;
 
-            // Actual scale of quad is twice the radius
-            transform.localScale = new Vector3(R * 2, R * 2, 1);
+            float d2 = pos2;
+            d2 = (Mathf.Pow(1 + _SeaLevel, d2) - 1) / _SeaLevel;
+            d2 = d2 * (1 - _InnerRadius) + _InnerRadius;
+            d2 /= 2;
 
-            // Positioning is thankfully a bit simpler, the inner radius plus half the view height
-            transform.localPosition = new Vector3(0, R * p + h / 2, transform.localPosition.z);
+            float scale = (mainCamera.orthographicSize * 2 / (renderedHeight - 4)) / (d2 - d1);
+
+            transform.localScale = new Vector3(scale, scale, 1);
+        }
+
+        public override void CreateRenderTexture()
+        {
+            var camera = PlayerCamera.instance.camera;
+            camera.depthTextureMode = DepthTextureMode.Depth;
+
+            renderedWidth = Mathf.Min(66, Map.instance.TotalWidth);
+            renderedHeight = 22;
+
+            // If the width is not exactly this value then we will not get pixel perfect rendering to the render texture
+            int renderTextureWidth = (int)(renderedWidth * 128);
+            int renderTextureHeight = (int)(renderedHeight * 128);
+
+            // Create the render texture. May want to switch to HDR format here if we ever need it for effects. It does double an already very large texture size though.
+            var renderTexture = new RenderTexture(renderTextureWidth, renderTextureHeight, 0, RenderTextureFormat.ARGB32);
+
+            // The depth texture is needed for the outline effect in the warp shader. It does not need to be very accurate though.
+            var depthTexture = new RenderTexture(renderTextureWidth, renderTextureHeight, 16, RenderTextureFormat.Depth);
+
+            // Tell the camera to render to the render and depth texture
+            camera.SetTargetBuffers(renderTexture.colorBuffer, depthTexture.depthBuffer);
+
+            // Tell the render quad material to use the render and depth texture
+            warpMaterial.mainTexture = renderTexture;
+            warpMaterial.SetTexture("_Depth", depthTexture);
+
+            // Set the camera size so that the width is the map width.
+            camera.orthographicSize = (renderedWidth / camera.aspect) / 2.0f;
         }
     }
 }

@@ -228,6 +228,7 @@
         virtual public Tile GetTile(Vector2Int tilePosition)
         {
             tilePosition = GetTilePositionOnMap(tilePosition);
+            if (tilePosition.y < 0 || tilePosition.y >= height || tilePosition.x < 0 || tilePosition.x >= width) return null;
             return tiles[tilePosition.y][tilePosition.x];
         }
 
@@ -399,7 +400,7 @@
             var tilesInArea = new List<TileAndPosition>();
             lock (isDirtyLock)
             {
-                ForEachTileInArea(area, (t) => t.isDirty = false);
+                ForEachTileInArea(area, (t) => { if (t != null) t.isDirty = false; });
                 float dif = arcAngleEnd - arcAngleStart;
                 float reverseDir = arcAngleStart - arcAngleEnd;
                 if (Math.Abs(dif) > Math.Abs(reverseDir))
@@ -537,7 +538,7 @@
                 if (y < 0 || y >= height) break;
 
                 currentTile = GetTileFromWorldPosition(currentPosition.x, y);
-
+                if (currentTile == null) continue;
                 if (includeSourceTile || currentTile.tilePosition != start.ToFloor())
                 {
                     if (!currentTile.isDirty)
@@ -571,8 +572,7 @@
                 if (y >= 0 && y < height)
                 {
                     currentTile = GetTileFromWorldPosition(relative.x, y);
-
-                    if (!currentTile.isDirty && (includeSourceTile || currentTile.tilePosition != start.ToFloor()))
+                    if (currentTile != null && !currentTile.isDirty && (includeSourceTile || currentTile.tilePosition != start.ToFloor()))
                     {
                         currentTile.isDirty = true;
                         var hit = new TileAndPosition
