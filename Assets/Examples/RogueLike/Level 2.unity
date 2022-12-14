@@ -713,6 +713,11 @@ MonoBehaviour:
     type: 3}
   biomeTypes:
   - {fileID: 11400000, guid: 708a604b36905574e819da5ba1f76891, type: 2}
+  - {fileID: 11400000, guid: c5f22687274f57c48a389e16806785b4, type: 2}
+  - {fileID: 11400000, guid: 324dadb705b179445bf57ca680ad9b9d, type: 2}
+  - {fileID: 11400000, guid: c27d8ca5895176a499ebe3bc7a7786e5, type: 2}
+  - {fileID: 11400000, guid: 4e780acfb2aeacf4486a2be69f3ef46d, type: 2}
+  - {fileID: 11400000, guid: ebc2905602683cb4d97992160af694d2, type: 2}
   biomes: []
   width: 26
   height: 44
@@ -6943,7 +6948,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3c82569596ceec499eadbcabbbbb697, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mapCamera: {fileID: 1747767134}
+  mapCamera: {fileID: 0}
 --- !u!4 &1907249089
 Transform:
   m_ObjectHideFlags: 0

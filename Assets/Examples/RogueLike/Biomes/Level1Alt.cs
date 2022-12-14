@@ -90,7 +90,7 @@
             PruneDoors();
             UpdateTiles(mapArea);
 
-            //SpawnFinalDoor(map, area);
+            SpawnFinalDoor(map, mapArea);
 
             base.PreProcessMap(map, biomeObject);
         }
@@ -755,22 +755,26 @@
 
         public void SpawnFinalDoor(Map map, RectIntExclusive area)
         {
-            var spawnArea = new RectIntExclusive();
-            spawnArea.xMin = 0;
-            spawnArea.xMax = area.xMax;
-            spawnArea.yMin = area.yMax - 1;
-            spawnArea.yMax = area.yMax;
-            var wallTiles = map.GetTilesOfType("Wall", spawnArea);
-            for (int i = wallTiles.Count - 1; i >= 0; i--)
+            List<Tile> wallTiles = new();
+            for (int y = map.height - 1; y >= 0; y--)
             {
-                var tile = wallTiles[i];
-                var adjacentTile = Map.instance.GetTile(tile.tilePosition + Vector2Int.up);
-
-                if (!adjacentTile.ContainsObjectOfType("Floor") || adjacentTile.ContainsObjectOfType("Wall"))
+                bool foundWalls = false;
+                for (int x = 0; x < map.width; x++) 
                 {
-                    wallTiles.RemoveAt(i);
+                    var t = map.tiles[y][x];
+                    if (t.ContainsObjectOfType("Wall"))
+                    {
+                        var adjacentTile = Map.instance.GetTile(t.tilePosition + Vector2Int.down);
+                        if (adjacentTile.ContainsObjectOfType("Floor") && !adjacentTile.ContainsObjectOfType("Wall"))
+                        {
+                            wallTiles.Add(t);
+                            foundWalls = true;
+                        }
+                    }
                 }
+                if (foundWalls) break;
             }
+
             int r = Random.Range(0, wallTiles.Count);
             var tileToSpawnDoorOn = wallTiles[r];
             for (var node = tileToSpawnDoorOn.objectList.First; node != null;)
@@ -779,7 +783,7 @@
                 if (node.Value.objectName == "Wall") tileToSpawnDoorOn.RemoveObject(node.Value, true);
                 node = next;
             }
-            tileToSpawnDoorOn.SpawnAndAddObject(finalDoorPrefab);
+            tileToSpawnDoorOn.SpawnAndAddObject(finalDoorPrefab, 1, 2);
         }
 
         void AddTileObjects(Map map, int x, int y)
