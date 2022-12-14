@@ -46,9 +46,11 @@
 
 			// The texture to warp
 			sampler2D _MainTex;
+			sampler2D _WrapTexture;
 			float4 _MainTex_TexelSize;
 			// The depth texture to use for outlines
 			sampler2D _Depth;
+			sampler2D _WrapDepth;
 			// The rotation to apply to the circular warp
 			float _Rotation;
 			// A magic number for adjusting the appearance of the warp
@@ -161,19 +163,42 @@
 
 				// Ok finally sample the texture
 				fixed4 totalColor;
-
-				if (unwarpedUV.x < _CameraPos.x || unwarpedUV.x > _CameraPos.x + _CameraDim.x || unwarpedUV.y < _CameraPos.y || unwarpedUV.y > _CameraPos.y + _CameraDim.y)
+				if (unwarpedUV.y < _CameraPos.y || unwarpedUV.y > _CameraPos.y + _CameraDim.y)
 				{
-					unwarpedUV.x = (unwarpedUV.x - _CameraPos.x) / _CameraDim.x;
-					unwarpedUV.y = (unwarpedUV.y - _CameraPos.y) / _CameraDim.y;
 					totalColor = float4(1, 0, 0, 1);
+				}
+				else if (unwarpedUV.x >= _CameraPos.x && unwarpedUV.x <= _CameraPos.x + _CameraDim.x)
+				{
+					unwarpedUV.x = (unwarpedUV.x - _CameraPos.x) / (_CameraDim.x);
+					unwarpedUV.y = (unwarpedUV.y - _CameraPos.y) / _CameraDim.y;
+					/*if (_CameraPos.x + _CameraDim.x / 2 > .5)
+					{
+						unwarpedUV.x = floor(unwarpedUV.x / _MainTex_TexelSize.x) * _MainTex_TexelSize.x;
+					}
+					else*/
+					//{
+						//unwarpedUV.x = ceil(unwarpedUV.x / _MainTex_TexelSize.x) * _MainTex_TexelSize.x;
+					//}
+					totalColor = tex2D(_MainTex, unwarpedUV);
+				}
+				else if (unwarpedUV.x >= _CameraPos.x - 1 && unwarpedUV.x <= _CameraPos.x - 1 + _CameraDim.x)
+				{
+					unwarpedUV.x = (unwarpedUV.x - (_CameraPos.x - 1)) / (_CameraDim.x);
+					unwarpedUV.y = (unwarpedUV.y - _CameraPos.y) / _CameraDim.y;
+					// You're just going to have to trust me on this one -------V
+					//unwarpedUV.x = (ceil(unwarpedUV.x / _MainTex_TexelSize.x) + 1) * _MainTex_TexelSize.x;
+					totalColor = tex2D(_WrapTexture, unwarpedUV);
+				}
+				else if (unwarpedUV.x >= _CameraPos.x + 1 && unwarpedUV.x <= _CameraPos.x + 1 + _CameraDim.x)
+				{
+					unwarpedUV.x = (unwarpedUV.x - (_CameraPos.x + 1)) / (_CameraDim.x);
+					unwarpedUV.y = (unwarpedUV.y - _CameraPos.y) / _CameraDim.y;
+					//unwarpedUV.x = floor(unwarpedUV.x / _MainTex_TexelSize.x) * _MainTex_TexelSize.x;
+					totalColor = tex2D(_WrapTexture, unwarpedUV);
 				}
 				else
 				{
-					unwarpedUV.x = (unwarpedUV.x - _CameraPos.x) / _CameraDim.x;
-					unwarpedUV.y = (unwarpedUV.y - _CameraPos.y) / _CameraDim.y;
-
-					totalColor = tex2D(_MainTex, unwarpedUV);
+					totalColor = float4(0, 1, 0, 1);
 				}
 
 				// Apply a fade around the _InnerRadius

@@ -32,8 +32,8 @@ namespace Noble.DungeonCrawler
         {
             if (!owner || owner.tile == null) return;
 
-            camera.transform.position = new Vector3(owner.transform.position.x + .5f, owner.transform.position.y + cameraOffset + .5f, camera.transform.position.z);
-            Vector2 cameraCenterPositionRelativeToMap = camera.transform.position - Map.instance.transform.position;
+            transform.position = new Vector3(owner.transform.position.x + .5f, owner.transform.position.y + cameraOffset + .5f, transform.position.z);
+            Vector2 cameraCenterPositionRelativeToMap = transform.position - Map.instance.transform.position;
             Vector2 cornerOfCameraRelativeToMap = cameraCenterPositionRelativeToMap;
             cornerOfCameraRelativeToMap.x -= camera.orthographicSize * camera.aspect;
             cornerOfCameraRelativeToMap.y -= camera.orthographicSize;
