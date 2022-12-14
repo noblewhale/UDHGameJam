@@ -74,7 +74,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: ac53a757cc6e54a41b6dd19046253569, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 790f871f14b7eb7428586aa701a4aa6a, type: 3}
   m_Color: {r: 0.754717, g: 0.754717, b: 0.754717, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -193,19 +193,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectName: Floor
-  viewDistance: 4
   illuminationRange: 0
   OnSteppedOn:
     m_PersistentCalls:
       m_Calls: []
+  OnPreSteppedOn:
+    m_PersistentCalls:
+      m_Calls: []
   originalGlyphPosition: {x: 0, y: 0, z: 0}
   map: {fileID: 0}
-  position: {x: 0, y: 0}
-  previousX: 0
-  previousY: 0
+  previousTilePosition: {x: 0, y: 0}
   quantity: 1
   canBePickedUp: 0
-  isAlwaysLit: 0
   canTakeDamage: 0
   isVisibleWhenNotInSight: 1
   pathingWeight: 0
@@ -215,6 +214,5 @@ MonoBehaviour:
   blocksLineOfSight: 0
   coversObjectsBeneath: 1
   preventsObjectSpawning: 0
-  hasBeenSeen: 0
   hasDoneDamageFlash: 0
-  tile: {fileID: 0}
+  autoAddToTileAtStart: 1
