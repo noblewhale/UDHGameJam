@@ -79,7 +79,7 @@ Material:
     - _OtherThing: 0.25
     - _Parallax: 0.02
     - _Rotation: 0
-    - _SeaLevel: 3
+    - _SeaLevel: 1.67
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1

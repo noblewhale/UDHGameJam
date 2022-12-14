@@ -17,7 +17,7 @@ MonoBehaviour:
   - item: {fileID: 114211803322470130, guid: 4cd579c8f99249446973b5e7cad1d2d5, type: 3}
     minQuantity: 1
     maxQuantity: 1
-    probability: 0.1
+    probability: 0.01
     onlySpawnOn: []
     dontSpawnOn: []
     requireSpawnable: 1

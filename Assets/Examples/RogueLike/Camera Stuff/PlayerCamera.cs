@@ -14,7 +14,6 @@
         virtual public void Awake()
         {
             instance = this;
-            camera = GetComponent<Camera>();
         }
 
         virtual public Vector2Int GetTilePosition()

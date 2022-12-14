@@ -20,7 +20,7 @@
         {
             float _SeaLevel = MapRenderer.instance.warpMaterial.GetFloat("_SeaLevel");
             float _InnerRadius = MapRenderer.instance.warpMaterial.GetFloat("_InnerRadius");
-            Vector2 relativeToPlayerCamera = unwarpedPos - (Vector2)PlayerCamera.instance.camera.transform.position;
+            Vector2 relativeToPlayerCamera = unwarpedPos - (Vector2)PlayerCamera.instance.transform.position;
             float normalizedX = 1 - relativeToPlayerCamera.x / Map.instance.TotalWidth + .5f;
             float angle = normalizedX * Mathf.PI * 2;
             angle -= MapRenderer.instance.warpMaterial.GetFloat("_Rotation") + Mathf.PI;
@@ -69,7 +69,7 @@
                 unwarpedPos.x *= -1;
 
                 unwarpedPos = unwarpedPos * cameraSize;
-                unwarpedPos += (Vector2)PlayerCamera.instance.camera.transform.position;
+                unwarpedPos += (Vector2)PlayerCamera.instance.transform.position;
 
                 unwarpedPos.x += Map.instance.TotalWidth / 2;
                 unwarpedPos.y += Map.instance.TotalHeight / 2;

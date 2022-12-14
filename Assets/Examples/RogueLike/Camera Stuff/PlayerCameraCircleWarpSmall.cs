@@ -22,7 +22,7 @@
         public void Start()
         {
             Player.instance.identity.onSpawn += OnPlayerSpawned;
-            targetPos = camera.transform.position;
+            targetPos = transform.position;
         }
 
         private void OnDestroy()
@@ -48,7 +48,7 @@
         public void SetY(float worldY, float maxSpeed)
         {
             cameraOffset = camera.orthographicSize - Map.instance.tileHeight * 5f;
-            Vector2 nextTargetPos = new Vector2(camera.transform.position.x, worldY + cameraOffset);
+            Vector2 nextTargetPos = new Vector2(transform.position.x, worldY + cameraOffset);
             nextTargetPos = Vector2.MoveTowards(targetPos, nextTargetPos, maxSpeed * Time.deltaTime * 100);
             Vector2 relativePos = nextTargetPos - targetPos;
 
@@ -66,7 +66,7 @@
                 pixelY = texelUnitSize * Mathf.Round(nextTargetPos.y / texelUnitSize) + texelUnitSize / 2.0f;
             }
             targetPos = nextTargetPos;
-            camera.transform.position = new Vector3(nextTargetPos.x, pixelY, camera.transform.position.z);
+            transform.position = new Vector3(nextTargetPos.x, pixelY, transform.position.z);
         }
 
         public void SetRotation(int x, float maxSpeed)
@@ -111,8 +111,8 @@
             float mapRotation = MapRenderer.instance.warpMaterial.GetFloat("_Rotation");
             float percentOfWidth = 1 - mapRotation / (2 * Mathf.PI);
             pos.x = (int)(percentOfWidth * Map.instance.width);
-            pos.y = (int)((camera.transform.position.y - .25f - Map.instance.transform.position.y) / Map.instance.tileHeight);
-            //pos.y = (int)((camera.transform.position.y - Map.instance.transform.position.y) / Map.instance.tileHeight);
+            pos.y = (int)((transform.position.y - .25f - Map.instance.transform.position.y) / Map.instance.tileHeight);
+            //pos.y = (int)((transform.position.y - Map.instance.transform.position.y) / Map.instance.tileHeight);
 
             return pos;
         }

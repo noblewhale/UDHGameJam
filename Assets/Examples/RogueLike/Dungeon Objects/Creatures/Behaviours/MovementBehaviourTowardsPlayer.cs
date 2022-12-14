@@ -72,6 +72,7 @@
                 bool horizontalBlocked = false;
                 Vector2Int nextHorizontalPos = myPos;
                 nextHorizontalPos.x += (int)Mathf.Sign(dif.x);
+
                 Tile horizontalMoveTarget = owner.map.GetTile(nextHorizontalPos);
                 if (horizontalMoveTarget.IsCollidable() || horizontalMoveTarget.ContainsObjectWithComponent<Trap>() || horizontalMoveTarget.GetPathingWeight() > 5)
                 {

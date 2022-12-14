@@ -34,7 +34,15 @@
 
             float scale = (mainCamera.orthographicSize * 2 / (renderedHeight - 4)) / (d2 - d1);
 
+            float pos3 = p + (mapCameraHeight / warpedMapSectionHeight) / 2;
+
+            float d3 = pos3;
+            d3 = (Mathf.Pow(1 + _SeaLevel, d3) - 1) / _SeaLevel;
+            d3 = d3 * (1 - _InnerRadius) + _InnerRadius;
+            d3 /= 2;
+
             transform.localScale = new Vector3(scale, scale, 1);
+            transform.localPosition = new Vector3(0, d3 * scale, transform.localPosition.z);
         }
 
         public override void CreateRenderTexture()
@@ -43,7 +51,7 @@
             camera.depthTextureMode = DepthTextureMode.Depth;
 
             renderedWidth = Mathf.Min(66, Map.instance.TotalWidth);
-            renderedHeight = 22;
+            renderedHeight = 17;
 
             // If the width is not exactly this value then we will not get pixel perfect rendering to the render texture
             int renderTextureWidth = (int)(renderedWidth * 128);
@@ -51,6 +59,9 @@
 
             // Create the render texture. May want to switch to HDR format here if we ever need it for effects. It does double an already very large texture size though.
             var renderTexture = new RenderTexture(renderTextureWidth, renderTextureHeight, 0, RenderTextureFormat.ARGB32);
+            renderTexture.filterMode = FilterMode.Point;
+            renderTexture.antiAliasing = 0;
+            renderTexture.useMipMap = false;
 
             // The depth texture is needed for the outline effect in the warp shader. It does not need to be very accurate though.
             var depthTexture = new RenderTexture(renderTextureWidth, renderTextureHeight, 16, RenderTextureFormat.Depth);
@@ -64,6 +75,33 @@
 
             // Set the camera size so that the width is the map width.
             camera.orthographicSize = (renderedWidth / camera.aspect) / 2.0f;
+
+            ////
+
+            // Create second camera and render texture for wrapping
+            GameObject wrapCameraOb = Instantiate(PlayerCamera.instance.camera.gameObject);
+            Destroy(wrapCameraOb.GetComponent<PlayerCamera>());
+            camera = wrapCameraOb.GetComponent<Camera>();
+
+            // Create the render texture. May want to switch to HDR format here if we ever need it for effects. It does double an already very large texture size though.
+            renderTexture = new RenderTexture(renderTextureWidth, renderTextureHeight, 0, RenderTextureFormat.ARGB32);
+            renderTexture.filterMode = FilterMode.Point;
+            renderTexture.antiAliasing = 0;
+            renderTexture.useMipMap = false;
+
+            // The depth texture is needed for the outline effect in the warp shader. It does not need to be very accurate though.
+            depthTexture = new RenderTexture(renderTextureWidth, renderTextureHeight, 16, RenderTextureFormat.Depth);
+
+            // Tell the camera to render to the render and depth texture
+            camera.SetTargetBuffers(renderTexture.colorBuffer, depthTexture.depthBuffer);
+
+            // Tell the render quad material to use the render and depth texture
+            warpMaterial.SetTexture("_WrapTexture", renderTexture);
+            warpMaterial.SetTexture("_WrapDepth", depthTexture);
+
+            wrapCameraOb.transform.parent = PlayerCamera.instance.transform;
+
+            wrapCameraOb.AddComponent<WrapCamera>();
         }
     }
 }

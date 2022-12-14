@@ -1,5 +1,7 @@
 ﻿namespace Noble.TileEngine
 {
+    using Noble.DungeonCrawler;
+    using System.Collections.Generic;
     using UnityEngine;
 
     public class Player : MonoBehaviour
@@ -31,9 +33,16 @@
         {
             Tile startTile = Map.instance.GetRandomTileThatAllowsSpawn();
             startTile.AddObject(identity, false, 2);
-            Debug.Log("Spawn player update lighting and view");
             Map.instance.UpdateLighting();
             Map.instance.UpdateIsVisible(identity.tilePosition, identity.GetComponent<Creature>().effectiveViewDistance, true);
+
+            Tile endTile = Map.instance.GetTile(startTile.x + Random.Range(-10, 10), startTile.y + Random.Range(-10, 10));
+            List<Tile> pathToSomewhere = PathUtil.FindPath(startTile, endTile);
+            Debug.Log("Path from " + startTile.tilePosition + " to " + endTile.tilePosition);
+            foreach (Tile tile in pathToSomewhere)
+            {
+                Debug.Log(tile.tilePosition);
+            }
         }
     }
 }
