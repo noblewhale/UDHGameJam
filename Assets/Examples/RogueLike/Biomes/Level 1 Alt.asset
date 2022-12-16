@@ -75,9 +75,9 @@ MonoBehaviour:
     maxQuantityPerBiome: -1
   torchPrefab: {fileID: 3096362382002108082, guid: 617344c531ad38345966374b0825c374,
     type: 3}
-  scorpions: {fileID: 11400000, guid: e153ed94aabb1ba409688229eb45c0bc, type: 2}
-  rats: {fileID: 11400000, guid: c5f22687274f57c48a389e16806785b4, type: 2}
+  scorpions: {fileID: 0}
+  rats: {fileID: 0}
   items: {fileID: 11400000, guid: ffc53738e5eacc84a89fa4c8d9683115, type: 2}
-  electricTraps: {fileID: 11400000, guid: 433d166f26262984aa6d32a753a33961, type: 2}
-  finalDoorPrefab: {fileID: 114959046356625430, guid: da93865118f707546915fc59ef79a133,
+  electricTraps: {fileID: 0}
+  finalDoorPrefab: {fileID: 114396989050233776, guid: 9f526afec26ee494783a13a9864cc3d4,
     type: 3}
