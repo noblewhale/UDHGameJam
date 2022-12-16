@@ -17,6 +17,7 @@ namespace System.Collections.Generic
     /// Implements an array-backed quaternary min-heap. Each element is enqueued with an associated priority
     /// that determines the dequeue order: elements with the lowest priority get dequeued first.
     /// </remarks>
+#nullable enable
     public class PriorityQueue<TElement, TPriority>
     {
         /// <summary>

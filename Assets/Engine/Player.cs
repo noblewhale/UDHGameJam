@@ -35,14 +35,6 @@
             startTile.AddObject(identity, false, 2);
             Map.instance.UpdateLighting();
             Map.instance.UpdateIsVisible(identity.tilePosition, identity.GetComponent<Creature>().effectiveViewDistance, true);
-
-            Tile endTile = Map.instance.GetTile(startTile.x + Random.Range(-10, 10), startTile.y + Random.Range(-10, 10));
-            List<Tile> pathToSomewhere = PathUtil.FindPath(startTile, endTile);
-            Debug.Log("Path from " + startTile.tilePosition + " to " + endTile.tilePosition);
-            foreach (Tile tile in pathToSomewhere)
-            {
-                Debug.Log(tile.tilePosition);
-            }
         }
     }
 }

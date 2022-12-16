@@ -278,19 +278,25 @@
                     Debug.Log(e);
                 }
 
-                var roomCreaturesObject = Instantiate(Map.instance.biomeObjectPrefab, biomeObject.transform).GetComponent<BiomeObject>();
-                var roomCreatures = Instantiate(scorpions);
-                roomCreaturesObject.area = rect;
-                roomCreaturesObject.biome = roomCreatures;
-                subBiomes.Add(roomCreatures);
-                biomeObject.subBiomes.Add(roomCreaturesObject);
+                if (scorpions != null)
+                {
+                    var roomCreaturesObject = Instantiate(Map.instance.biomeObjectPrefab, biomeObject.transform).GetComponent<BiomeObject>();
+                    var roomCreatures = Instantiate(scorpions);
+                    roomCreaturesObject.area = rect;
+                    roomCreaturesObject.biome = roomCreatures;
+                    subBiomes.Add(roomCreatures);
+                    biomeObject.subBiomes.Add(roomCreaturesObject);
+                }
 
-                var roomTrapsObject = Instantiate(Map.instance.biomeObjectPrefab, biomeObject.transform).GetComponent<BiomeObject>();
-                var roomTraps = Instantiate(electricTraps);
-                roomTrapsObject.area = new RectIntExclusive(rect.xMin + 1, rect.yMin + 1, rect.width - 1, rect.height - 1);
-                roomTrapsObject.biome = roomTraps;
-                subBiomes.Add(roomTraps);
-                biomeObject.subBiomes.Add(roomTrapsObject);
+                if (electricTraps != null)
+                {
+                    var roomTrapsObject = Instantiate(Map.instance.biomeObjectPrefab, biomeObject.transform).GetComponent<BiomeObject>();
+                    var roomTraps = Instantiate(electricTraps);
+                    roomTrapsObject.area = new RectIntExclusive(rect.xMin + 1, rect.yMin + 1, rect.width - 1, rect.height - 1);
+                    roomTrapsObject.biome = roomTraps;
+                    subBiomes.Add(roomTraps);
+                    biomeObject.subBiomes.Add(roomTrapsObject);
+                }
 
                 if (animationDelay != 0)
                 {

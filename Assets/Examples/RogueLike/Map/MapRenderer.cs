@@ -19,7 +19,7 @@
             warpMaterial = GetComponent<MeshRenderer>().material;
         }
 
-        virtual public void Start()
+        virtual public void Update()
         { 
             CreateRenderTexture();
             PlaceQuad();

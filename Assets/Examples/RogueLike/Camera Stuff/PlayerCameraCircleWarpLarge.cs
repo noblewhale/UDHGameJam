@@ -32,12 +32,12 @@ namespace Noble.DungeonCrawler
         {
             if (!owner || owner.tile == null) return;
 
-            transform.position = new Vector3(owner.transform.position.x + .5f, owner.transform.position.y + cameraOffset + .5f, transform.position.z);
+            transform.position = Vector3.MoveTowards(transform.position, new Vector3(owner.transform.position.x + .5f, owner.transform.position.y + cameraOffset + .5f, transform.position.z), Time.deltaTime* movementMaxSpeed);
             Vector2 cameraCenterPositionRelativeToMap = transform.position - Map.instance.transform.position;
             Vector2 cornerOfCameraRelativeToMap = cameraCenterPositionRelativeToMap;
             cornerOfCameraRelativeToMap.x -= camera.orthographicSize * camera.aspect;
             cornerOfCameraRelativeToMap.y -= camera.orthographicSize;
-            Vector2 cameraCornerInNormalizedMapCoords = cornerOfCameraRelativeToMap / new Vector2(Map.instance.TotalWidth, Map.instance.TotalHeight);
+            Vector2 cameraCornerInNormalizedMapCoords = cornerOfCameraRelativeToMap / new Vector2(Map.instance.TotalWidth, GetThatWierdThing());
             MapRenderer.instance.warpMaterial.SetVector("_CameraPos", cameraCornerInNormalizedMapCoords);
             float cameraWidthInNormalizedMapCoords = camera.orthographicSize * camera.aspect * 2 / Map.instance.TotalWidth;
             float cameraHeightInNormalizedMapCoords = camera.orthographicSize * 2 / GetThatWierdThing();
@@ -47,7 +47,7 @@ namespace Noble.DungeonCrawler
 
         public float GetThatWierdThing()
         {
-            return Map.instance.TotalWidth / weirdThing + MapRenderer.instance.renderedHeight/2 - cameraOffset;
+            return weirdThing;
         }
     }
 }

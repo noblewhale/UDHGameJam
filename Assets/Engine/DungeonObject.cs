@@ -19,7 +19,7 @@
         public CreatureEvent OnSteppedOn;
         public CreatureEvent OnPreSteppedOn;
         public Vector3 originalGlyphPosition;
-        public Map map;
+        public Map map => Map.instance;
 
         public Vector2Int tilePosition => tile.tilePosition;
 
@@ -70,10 +70,9 @@
 
         public Tickable tickable { get; private set; }
 
-        virtual protected void Awake()
+        virtual protected void Start()
         {
             tickable = GetComponent<Tickable>();
-            map = FindObjectOfType<Map>();
             glyphs = GetComponentInChildren<Glyphs>();
             if (glyphs)
             {

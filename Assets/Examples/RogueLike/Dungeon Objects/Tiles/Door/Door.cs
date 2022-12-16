@@ -12,8 +12,9 @@
         public float lockPickDifficulty = 1;
 
         // Use this for initialization
-        void Start()
+        override protected void Start()
         {
+            base.Start();
             SetOpen(isOpen);
             if (!isOpen)
             {
