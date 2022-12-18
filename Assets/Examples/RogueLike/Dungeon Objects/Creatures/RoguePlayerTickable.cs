@@ -38,7 +38,7 @@
 
             if (mouseButton == Mouse.current.leftButton || mouseButton == Mouse.current.rightButton)
             {
-                Vector2 relativeWorldPos = PolarMapUtil.GetPositionRelativeToMap(command.target);
+                Vector2 relativeWorldPos = PolarMapUtil.GetPositionRelativeCenterOfMapRenderer(command.target);
                 Vector2 unwarpedPos;
                 bool success = PolarMapUtil.UnwarpPosition(relativeWorldPos, out unwarpedPos);
 

@@ -89,7 +89,6 @@ ScriptedImporter:
     tessellationDetail: 0
     parentGroupIndex: -1
     uvTransform: {x: 0, y: 0}
-    spritePosition: {x: 0, y: 0}
   mosaicSpriteImportData: []
   rigSpriteImportData:
   - name: Layer 4 copy 2
@@ -112,8 +111,7 @@ ScriptedImporter:
     edges: []
     tessellationDetail: 0
     parentGroupIndex: -1
-    uvTransform: {x: 76, y: 4}
-    spritePosition: {x: 18, y: 0}
+    uvTransform: {x: 58, y: 4}
   - name: Fishing Blink
     originalName: 
     pivot: {x: 0.5, y: 0.5}
@@ -134,8 +132,7 @@ ScriptedImporter:
     edges: []
     tessellationDetail: 0
     parentGroupIndex: -1
-    uvTransform: {x: 76, y: 74}
-    spritePosition: {x: 18, y: 0}
+    uvTransform: {x: 58, y: 74}
   - name: Fishing Stance
     originalName: 
     pivot: {x: 0.5, y: 0.5}
@@ -156,8 +153,7 @@ ScriptedImporter:
     edges: []
     tessellationDetail: 0
     parentGroupIndex: -1
-    uvTransform: {x: 76, y: 144}
-    spritePosition: {x: 18, y: 0}
+    uvTransform: {x: 58, y: 144}
   - name: One Hand Blink
     originalName: 
     pivot: {x: 0.5, y: 0.5}
@@ -178,8 +174,7 @@ ScriptedImporter:
     edges: []
     tessellationDetail: 0
     parentGroupIndex: -1
-    uvTransform: {x: 4, y: 76}
-    spritePosition: {x: 16, y: 0}
+    uvTransform: {x: -12, y: 76}
   - name: One Hand Stance copy
     originalName: 
     pivot: {x: 0.5, y: 0.5}
@@ -200,8 +195,7 @@ ScriptedImporter:
     edges: []
     tessellationDetail: 0
     parentGroupIndex: -1
-    uvTransform: {x: 4, y: 146}
-    spritePosition: {x: 16, y: 0}
+    uvTransform: {x: -12, y: 146}
   - name: Head
     originalName: 
     pivot: {x: 0.5, y: 0.5}
@@ -222,8 +216,7 @@ ScriptedImporter:
     edges: []
     tessellationDetail: 0
     parentGroupIndex: -1
-    uvTransform: {x: 4, y: 216}
-    spritePosition: {x: 18, y: 37}
+    uvTransform: {x: -14, y: 179}
   - name: Legs
     originalName: 
     pivot: {x: 0.5, y: 0.5}
@@ -244,8 +237,7 @@ ScriptedImporter:
     edges: []
     tessellationDetail: 0
     parentGroupIndex: -1
-    uvTransform: {x: 44, y: 76}
-    spritePosition: {x: 20, y: 0}
+    uvTransform: {x: 24, y: 76}
   - name: Fishing Left Arm
     originalName: 
     pivot: {x: 0.5, y: 0.5}
@@ -266,8 +258,7 @@ ScriptedImporter:
     edges: []
     tessellationDetail: 0
     parentGroupIndex: -1
-    uvTransform: {x: 99, y: 214}
-    spritePosition: {x: 21, y: 19}
+    uvTransform: {x: 78, y: 195}
   - name: Fishing Right Arm
     originalName: 
     pivot: {x: 0.5, y: 0.5}
@@ -288,8 +279,7 @@ ScriptedImporter:
     edges: []
     tessellationDetail: 0
     parentGroupIndex: -1
-    uvTransform: {x: 99, y: 238}
-    spritePosition: {x: 36, y: 23}
+    uvTransform: {x: 63, y: 215}
   - name: Right Arm
     originalName: 
     pivot: {x: 0.5, y: 0.5}
@@ -310,8 +300,7 @@ ScriptedImporter:
     edges: []
     tessellationDetail: 0
     parentGroupIndex: -1
-    uvTransform: {x: 44, y: 99}
-    spritePosition: {x: 16, y: 14}
+    uvTransform: {x: 28, y: 85}
   - name: Left Arm,
     originalName: 
     pivot: {x: 0.5, y: 0.5}
@@ -332,8 +321,7 @@ ScriptedImporter:
     edges: []
     tessellationDetail: 0
     parentGroupIndex: -1
-    uvTransform: {x: 44, y: 128}
-    spritePosition: {x: 36, y: 25}
+    uvTransform: {x: 8, y: 103}
   - name: Body
     originalName: 
     pivot: {x: 0.5, y: 0.5}
@@ -354,8 +342,7 @@ ScriptedImporter:
     edges: []
     tessellationDetail: 0
     parentGroupIndex: -1
-    uvTransform: {x: 76, y: 214}
-    spritePosition: {x: 21, y: 10}
+    uvTransform: {x: 55, y: 204}
   - name: Layer 5
     originalName: 
     pivot: {x: 0.5, y: 0.5}
@@ -377,7 +364,6 @@ ScriptedImporter:
     tessellationDetail: 0
     parentGroupIndex: -1
     uvTransform: {x: 4, y: 4}
-    spritePosition: {x: 0, y: 0}
   characterData:
     bones: []
     parts: []

@@ -2,7 +2,8 @@
 {
 	Properties
 	{
-		_MainTex ("Texture", 2D) = "white" {}
+		_MainTex ("Main Tex", 2D) = "white"
+		_WrapTexture("Wrap Texture", 2D) = "white"
 		_Depth("Depth", 2D) = "white" {}
 		_InnerColor("Inner Color", Color) = (0, 0, 0, 0)
 		_SeaLevel("Sea Level", Float) = 5
@@ -15,7 +16,7 @@
 	}
 	SubShader
 	{
-		Tags { "RenderType"="Opaque" }
+		Tags { "RenderType"="Opaque" "RenderPipeline" = "UniversalRenderPipeline"}
 		LOD 100
 
 		Pass
@@ -25,11 +26,14 @@
 			Blend SrcAlpha OneMinusSrcAlpha
 			Cull back
 
-			CGPROGRAM
+			HLSLPROGRAM
 			#pragma vertex vert
 			#pragma fragment frag
-			
-			#include "UnityCG.cginc"
+
+			// It's a PI
+			#define PI 3.141592653589793238462643;
+
+			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
 
 			struct appdata
 			{
@@ -40,13 +44,35 @@
 			struct v2f
 			{
 				float2 uv : TEXCOORD0;
-				UNITY_FOG_COORDS(1)
 				float4 vertex : SV_POSITION;
 			};
 
 			// The texture to warp
-			sampler2D _MainTex;
-			sampler2D _WrapTexture;
+			
+			// This macro declares _BaseMap as a Texture2D object.
+			TEXTURE2D(_MainTex);
+			// This macro declares the sampler for the _BaseMap texture.
+			SAMPLER(sampler_MainTex);
+			
+			CBUFFER_START(UnityPerMaterial)
+				// The following line declares the _BaseMap_ST variable, so that you
+				// can use the _BaseMap variable in the fragment shader. The _ST
+				// suffix is necessary for the tiling and offset function to work.
+				float4 _MainTex_ST;
+			CBUFFER_END
+			
+				// This macro declares _BaseMap as a Texture2D object.
+			TEXTURE2D(_WrapTexture);
+			// This macro declares the sampler for the _BaseMap texture.
+			SAMPLER(sampler_WrapTexture);
+
+			CBUFFER_START(UnityPerMaterial)
+				// The following line declares the _BaseMap_ST variable, so that you
+				// can use the _BaseMap variable in the fragment shader. The _ST
+				// suffix is necessary for the tiling and offset function to work.
+				float4 _WrapTexture_ST;
+			CBUFFER_END
+
 			float4 _MainTex_TexelSize;
 			// The depth texture to use for outlines
 			sampler2D _Depth;
@@ -69,15 +95,13 @@
 			// Angles are calculated from this vector
 			// At large scales there are rendering errors near this vector so we don't use RIGHT where the player is rendered.
 			static const float3 RIGHT = float3(1, 0, 0);
-			// It's a PI
-			static const float PI = 3.1415926535897932384626433832795028841971693993751058209749445923078164062;
 			
 			// Just your standard vertex shader
 			v2f vert(appdata v)
 			{
 				v2f o;
-				o.vertex = UnityObjectToClipPos(v.vertex);
-				o.uv = v.uv;
+				o.vertex = TransformObjectToHClip(v.vertex.xyz);
+				o.uv = TRANSFORM_TEX(v.uv, _MainTex);
 				return o;
 			}
 
@@ -138,11 +162,11 @@
 				return float2(UnWarpX(angle), UnWarpY(distance));
 			}
 
-			fixed4 frag(v2f i) : SV_Target
-			{
+			half4 frag(v2f i) : SV_Target
+			{ 				
 				// Transform texture coordinates to be relative to the center. The values go from -1 to 1
 				i.uv = i.uv * 2 - 1;
-
+				
 				// The distance from center to the texture coord
 				float distance = sqrt(i.uv.x * i.uv.x + i.uv.y * i.uv.y);
 
@@ -157,12 +181,10 @@
 				// Use angle and distance to get unwarped position
 				float2 unwarpedUV = UnWarp(distance, angle);
 
-				unwarpedUV.y += _CameraPos.y;
-
-				float oldY = unwarpedUV.y;
+				unwarpedUV.y += _CameraPos.y; 
 
 				// Ok finally sample the texture
-				fixed4 totalColor;
+				half4 totalColor;
 				if (unwarpedUV.y < _CameraPos.y || unwarpedUV.y > _CameraPos.y + _CameraDim.y)
 				{
 					totalColor = float4(1, 0, 0, 1);
@@ -179,7 +201,8 @@
 					//{
 						//unwarpedUV.x = ceil(unwarpedUV.x / _MainTex_TexelSize.x) * _MainTex_TexelSize.x;
 					//}
-					totalColor = tex2D(_MainTex, unwarpedUV);
+					totalColor = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, unwarpedUV);
+					//totalColor = tex2D(_MainTex, unwarpedUV);
 				}
 				else if (unwarpedUV.x >= _CameraPos.x - 1 && unwarpedUV.x <= _CameraPos.x - 1 + _CameraDim.x)
 				{
@@ -187,14 +210,16 @@
 					unwarpedUV.y = (unwarpedUV.y - _CameraPos.y) / _CameraDim.y;
 					// You're just going to have to trust me on this one -------V
 					//unwarpedUV.x = (ceil(unwarpedUV.x / _MainTex_TexelSize.x) + 1) * _MainTex_TexelSize.x;
-					totalColor = tex2D(_WrapTexture, unwarpedUV);
+					totalColor = SAMPLE_TEXTURE2D(_WrapTexture, sampler_WrapTexture, unwarpedUV);
+					//totalColor = tex2D(_WrapTexture, unwarpedUV);
 				}
 				else if (unwarpedUV.x >= _CameraPos.x + 1 && unwarpedUV.x <= _CameraPos.x + 1 + _CameraDim.x)
 				{
 					unwarpedUV.x = (unwarpedUV.x - (_CameraPos.x + 1)) / (_CameraDim.x);
 					unwarpedUV.y = (unwarpedUV.y - _CameraPos.y) / _CameraDim.y;
 					//unwarpedUV.x = floor(unwarpedUV.x / _MainTex_TexelSize.x) * _MainTex_TexelSize.x;
-					totalColor = tex2D(_WrapTexture, unwarpedUV);
+					totalColor = SAMPLE_TEXTURE2D(_WrapTexture, sampler_WrapTexture, unwarpedUV);
+					//totalColor = tex2D(_WrapTexture, unwarpedUV);
 				}
 				else
 				{
@@ -209,9 +234,9 @@
 
 				return isInsideInnerRadius * _InnerColor + !isInsideInnerRadius * totalColor;
 
-				return totalColor;
+				//return totalColor;
 			}
-			ENDCG
+			ENDHLSL
 		}
 	}
 }

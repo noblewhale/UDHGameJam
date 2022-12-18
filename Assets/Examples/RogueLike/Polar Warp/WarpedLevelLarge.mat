@@ -60,6 +60,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _WrapTexture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
     - _BumpScale: 1
@@ -70,16 +74,16 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _InnerFadeExp: 3.63
-    - _InnerFadeSize: 0.06
-    - _InnerRadius: 0.1
+    - _InnerFadeExp: 2.09
+    - _InnerFadeSize: 0.1
+    - _InnerRadius: 0.001
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
     - _OtherThing: 0.25
     - _Parallax: 0.02
     - _Rotation: 0
-    - _SeaLevel: 1.67
+    - _SeaLevel: 10
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
@@ -87,8 +91,8 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _BackgroundColor: {r: 0.05490196, g: 0.05490196, b: 0.05490196, a: 0.05490196}
-    - _CameraDim: {r: 0.5, g: 0.5, b: 0, a: 0}
-    - _CameraPos: {r: 0.25, g: 0.25, b: 0, a: 0}
+    - _CameraDim: {r: 1.0002021, g: 1.7901235, b: 0, a: 0}
+    - _CameraPos: {r: -0.21163951, g: 0, b: 0, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _InnerColor: {r: 0.05490196, g: 0.05490196, b: 0.05490196, a: 1}

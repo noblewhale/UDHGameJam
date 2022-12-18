@@ -16,10 +16,9 @@ namespace Noble.DungeonCrawler
         public bool isKeyboardControlled;
         public List<Tile> allowedTiles = null;
 
-        override protected void Awake()
+        protected void Awake()
         {
             instance = this;
-            base.Awake();
         }
 
         void Update()
@@ -55,7 +54,7 @@ namespace Noble.DungeonCrawler
                 ignoreInput |= mousePosRelativeToMapRenderer.y > 0 && mousePosRelativeToMapRenderer.magnitude < .075f;
                 if (!ignoreInput)
                 {
-                    Vector2 relativeWorldPos = PolarMapUtil.GetPositionRelativeToMap(mousePos);
+                    Vector2 relativeWorldPos = PolarMapUtil.GetPositionRelativeCenterOfMapRenderer(mousePos);
                     Vector2 unwarpedPos;
                     bool success = PolarMapUtil.UnwarpPosition(relativeWorldPos, out unwarpedPos);
                     if (success)

@@ -13,9 +13,8 @@ namespace Noble.DungeonCrawler
 
         public static CameraTarget instance;
 
-        override protected void Awake()
+        protected void Awake()
         {
-            base.Awake();
             instance = this;
         }
 
@@ -40,7 +39,7 @@ namespace Noble.DungeonCrawler
                     newPos.y = owner.y + thresholdY;
                 }
             }
-            newPos.y = Math.Clamp(newPos.y, cameraTile.y - 1, cameraTile.y + 1);
+            //newPos.y = Math.Clamp(newPos.y, cameraTile.y - 1, cameraTile.y + 1);
 
             if (Math.Abs(circleDifference.y) <= thresholdY || thresholdX == 0)
             {

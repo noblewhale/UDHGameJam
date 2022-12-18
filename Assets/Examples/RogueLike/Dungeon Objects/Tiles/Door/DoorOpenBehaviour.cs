@@ -17,7 +17,6 @@
 
         public override void StartSubAction(ulong time)
         {
-            Debug.Log("Start please");
             animator.speed = 1;
             //if (time == 1)
             {
@@ -29,7 +28,6 @@
         {
             if (!animator.GetCurrentAnimatorStateInfo(0).IsName("DoorOpen")) return false;
 
-            Debug.Log("continue please");
             float animationTime = animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
             //if (time == 0)
             //{
@@ -43,8 +41,6 @@
 
         public override void FinishSubAction(ulong time)
         {
-
-            Debug.Log("Finished");
             //if (time == 0)
             //{
             //    animator.Play(0, 0, .2f);
