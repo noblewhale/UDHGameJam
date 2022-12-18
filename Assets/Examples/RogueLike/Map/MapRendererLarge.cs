@@ -16,6 +16,10 @@
         public float fadeSize = .02f;
         public float fadeExponent = 2f;
 
+        public float heightToWarp = 26;
+        public float widthToWarp => Map.instance.TotalWidth;
+        public Vector2 areaToWarp => new Vector2(widthToWarp, heightToWarp);
+
         override public void PlaceQuad()
         {
             Camera mainCamera = Camera.main;
@@ -28,13 +32,12 @@
 
             float _SeaLevel = warpMaterial.GetFloat("_SeaLevel");
             float _InnerRadius = warpMaterial.GetFloat("_InnerRadius");
-            float warpedMapSectionHeight = ((PlayerCameraCircleWarpLarge)PlayerCamera.instance).GetThatWierdThing();
             float mapCameraHeight = PlayerCamera.instance.camera.orthographicSize * 2;
 
-            float p = 1 - mapCameraHeight / warpedMapSectionHeight;
+            float p = 1 - mapCameraHeight / heightToWarp;
 
-            float pos1 = p + (mapCameraHeight / warpedMapSectionHeight) / 2 - .5f / warpedMapSectionHeight + PlayerCamera.instance.cameraOffset / warpedMapSectionHeight;
-            float pos2 = p + (mapCameraHeight / warpedMapSectionHeight) / 2 + .5f / warpedMapSectionHeight + PlayerCamera.instance.cameraOffset / warpedMapSectionHeight;
+            float pos1 = p + (mapCameraHeight / heightToWarp) / 2 - .5f / heightToWarp + PlayerCamera.instance.cameraOffset / heightToWarp;
+            float pos2 = p + (mapCameraHeight / heightToWarp) / 2 + .5f / heightToWarp + PlayerCamera.instance.cameraOffset / heightToWarp;
 
             float d1 = pos1;
             d1 = (Mathf.Pow(1 + _SeaLevel, d1) - 1) / _SeaLevel;
@@ -49,7 +52,7 @@
             float scale = 1 / (d2 - d1);
             scale *= this.scale;
 
-            float pos3 = p + (mapCameraHeight / warpedMapSectionHeight) / 2 + PlayerCamera.instance.cameraOffset / warpedMapSectionHeight;
+            float pos3 = p + (mapCameraHeight / heightToWarp) / 2 + PlayerCamera.instance.cameraOffset / heightToWarp;
 
             float d3 = pos3;
             d3 = (Mathf.Pow(1 + _SeaLevel, d3) - 1) / _SeaLevel;
@@ -71,9 +74,8 @@
             var camera = PlayerCamera.instance.camera;
             camera.depthTextureMode = DepthTextureMode.Depth;
 
-            renderedWidth = Mathf.Min(66, Map.instance.TotalWidth);
-
-            //renderedHeight = 17;
+            renderedWidth = Mathf.Min(renderedWidth, Map.instance.TotalWidth);
+            renderedHeight = Mathf.Min(renderedHeight, Map.instance.TotalHeight);
 
             // If the width is not exactly this value then we will not get pixel perfect rendering to the render texture
             int renderTextureWidth = (int)(renderedWidth * 64);
@@ -134,6 +136,32 @@
                 warpMaterial.SetTexture("_WrapTexture", renderTexture);
                 warpMaterial.SetTexture("_WrapDepth", depthTexture);
             }
+        }
+
+        override public void Update()
+        {
+            base.Update();
+            UpdateCameraShaderProperties();
+        }
+
+        // Update _CameraPos and _CameraDim for the CircleWarp shader
+        // The positions and dimensions are relative to the map and normalized to the warpedArea
+        public void UpdateCameraShaderProperties()
+        {
+            // _CameraPos needs to be the bottom left corner of area viewed by the camera
+            // First get the center relative to the map 
+            Vector2 cameraCenterRelativeToMap = PlayerCamera.instance.transform.position - Map.instance.transform.position;
+            // Find the corner, still relative to the map
+            Vector2 cameraCornerRelativeToMap = cameraCenterRelativeToMap - PlayerCamera.instance.camera.GetSize() / 2;
+            // Now normalized to the warped area
+            Vector2 cameraCornerInNormalizedMapCoords = cameraCornerRelativeToMap / areaToWarp;
+            // And send it off to the shader
+            warpMaterial.SetVector("_CameraPos", cameraCornerInNormalizedMapCoords);
+
+            // _CameraDim is the camera dimensions normalized to the warped area
+            Vector2 cameraDimensionsInNormalizedMapCoords = PlayerCamera.instance.camera.GetSize() / areaToWarp;
+            // And send it off to the shader
+            warpMaterial.SetVector("_CameraDim", cameraDimensionsInNormalizedMapCoords);
         }
     }
 }

@@ -1002,7 +1002,6 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   originalGlyphPosition: {x: 0, y: 0, z: 0}
-  map: {fileID: 0}
   previousTilePosition: {x: 0, y: 0}
   quantity: 1
   canBePickedUp: 0
@@ -1309,7 +1308,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   warpMaterial: {fileID: 0}
-  renderedWidth: 0
+  renderedWidth: 66
   renderedHeight: 19
   vertical: 0
   horizontal: 0
@@ -1319,6 +1318,7 @@ MonoBehaviour:
   innerRadius: 0.001
   fadeSize: 0.1
   fadeExponent: 2
+  heightToWarp: 26
 --- !u!23 &936805732
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -6788,10 +6788,7 @@ MonoBehaviour:
   camera: {fileID: 1747767134}
   cameraOffset: 1
   owner: {fileID: 850737001}
-  rotationMaxSpeed: 0.01
   movementMaxSpeed: 8
-  rotation: 0
-  weirdThing: 170.5
 --- !u!4 &1944333569
 Transform:
   m_ObjectHideFlags: 0

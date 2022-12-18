@@ -181,7 +181,7 @@
 				// Use angle and distance to get unwarped position
 				float2 unwarpedUV = UnWarp(distance, angle);
 
-				unwarpedUV.y += _CameraPos.y;
+				unwarpedUV.y += _CameraPos.y; 
 
 				// Ok finally sample the texture
 				half4 totalColor;

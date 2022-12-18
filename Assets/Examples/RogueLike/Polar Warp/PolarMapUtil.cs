@@ -5,7 +5,7 @@
 
     public static class PolarMapUtil
     {
-        public static Vector2 GetPositionRelativeToMap(Vector3 screenPos)
+        public static Vector2 GetPositionRelativeCenterOfMapRenderer(Vector3 screenPos)
         {
             Vector2 mousePosRelativeToMapRenderer = ((Vector2)Camera.main.ScreenToWorldPoint(screenPos) - (Vector2)Camera.main.transform.position) - (Vector2)MapRenderer.instance.transform.localPosition;
             mousePosRelativeToMapRenderer /= MapRenderer.instance.transform.localScale;
@@ -45,6 +45,8 @@
             float d = warpedPos.magnitude / .5f;
             float _SeaLevel = MapRenderer.instance.warpMaterial.GetFloat("_SeaLevel");
             float _InnerRadius = MapRenderer.instance.warpMaterial.GetFloat("_InnerRadius");
+            Vector3 _CameraPos = MapRenderer.instance.warpMaterial.GetVector("_CameraPos");
+            Vector3 _CameraDim = MapRenderer.instance.warpMaterial.GetVector("_CameraDim");
             if (d < .01f)
             {
                 return false;
@@ -55,19 +57,28 @@
                 cameraSize.x = PlayerCamera.instance.camera.orthographicSize * 2 * PlayerCamera.instance.camera.aspect;
                 cameraSize.y = PlayerCamera.instance.camera.orthographicSize * 2;
                 // Account for camera being double width for wrapping magic
-                cameraSize.x /= 2;
+                //cameraSize.x /= 2;
 
                 d = (d - _InnerRadius) / (1 - _InnerRadius);
                 d = Mathf.Log(1 + d * _SeaLevel) / Mathf.Log(1 + _SeaLevel);
                 unwarpedPos.y = 1 - d;
-                Vector2 normalized = warpedPos.normalized;
-                float angle = Mathf.Acos(Vector2.Dot(normalized, Vector2.down));
-                Vector3 check = Vector3.Cross(normalized, Vector3.down);
-                if (check.z < 0) angle = 2 * Mathf.PI - angle;
-                unwarpedPos.x = angle / (2 * Mathf.PI);
-                unwarpedPos = unwarpedPos - Vector2.one * .5f;
-                unwarpedPos.x *= -1;
 
+                Vector2 normalized = warpedPos.normalized;
+                float angle = Mathf.Acos(Vector2.Dot(normalized, Vector2.right));
+                Vector3 check = Vector3.Cross(normalized, Vector3.right);
+                if (check.z < 0) angle = 2 * Mathf.PI - angle;
+                angle += 2 * Mathf.PI * (_CameraPos.x + _CameraDim.x / 2) - Mathf.PI / 2;
+                unwarpedPos.x = angle / (2 * Mathf.PI);
+
+
+                unwarpedPos.y += _CameraPos.y;
+
+                unwarpedPos.x = (unwarpedPos.x - _CameraPos.x) / _CameraDim.x;
+                unwarpedPos.y = (unwarpedPos.y - _CameraPos.y) / _CameraDim.y;
+
+                unwarpedPos = unwarpedPos - Vector2.one * .5f;
+
+                unwarpedPos.x *= -1;
                 unwarpedPos = unwarpedPos * cameraSize;
                 unwarpedPos += (Vector2)PlayerCamera.instance.transform.position;
 
