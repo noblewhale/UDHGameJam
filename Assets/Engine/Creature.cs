@@ -64,7 +64,7 @@
         public Inventory inventory => baseObject.inventory;
 
         public int maxHealth { get { return baseObject.maxHealth; } }
-        public int health { get { return baseObject.health; } }
+        //public int health { get { return baseObject.health; } }
         public int gold { get { return baseObject.gold; } }
 
         public float attackAnimationTime = 0;

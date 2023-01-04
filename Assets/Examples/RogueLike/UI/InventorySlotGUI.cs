@@ -1,14 +1,13 @@
 ﻿namespace Noble.DungeonCrawler
 {
     using Noble.TileEngine;
+    using System.Collections.Generic;
     using System.Linq;
     using TMPro;
+    using Unity.VisualScripting;
     using UnityEngine;
     using UnityEngine.EventSystems;
     using UnityEngine.UI;
-    using UnityEngine.UIElements;
-    using Button = UnityEngine.UI.Button;
-    using Image = UnityEngine.UI.Image;
 
     [RequireComponent(typeof(DraggableItem))]
     public class InventorySlotGUI : MonoBehaviour
@@ -17,6 +16,8 @@
         public Transform glyphParent;
         public int index;
         public DungeonObject item;
+
+        public List<Color> originalGlyphColors = new();
 
         public void Init(DungeonObject item)
         {
@@ -33,19 +34,37 @@
                     imageRect.SetParent(glyphParent, false);
                     imageOb.layer = gameObject.layer;
                 }
+                var icons = glyphParent.GetComponentsInChildren<Image>();
+                foreach (var icon in icons)
+                {
+                    originalGlyphColors.Add(icon.color);
+                }
             }
         }
 
         public void Update()
         {
-            Weapon weapon = item.GetComponent<Weapon>();
-            if (weapon != null && weapon.Weildable.IsEquipped)
+            if (GetComponent<Button>().interactable)
             {
-                label.text = "[" + item.objectName + "]";
+                label.color = Color.white;
+                var icons = glyphParent.GetComponentsInChildren<Image>();
+                int i = 0;
+                foreach (var icon in icons)
+                {
+                    icon.color = originalGlyphColors[i];
+                    i++;
+                }
             }
             else
             {
-                label.text = item.objectName;
+                label.color = Color.white / 2;
+                var icons = glyphParent.GetComponentsInChildren<Image>();
+                int i = 0;
+                foreach (var icon in icons)
+                {
+                    icon.color = originalGlyphColors[i] / 2;
+                    i++;
+                }
             }
         }
 
@@ -77,21 +96,6 @@
                 InventoryMenu.instance.currentSlotForAssignment.EquipItem(item.gameObject);
                 InventoryMenu.instance.ReturnToDefaultMode();
             }
-        }
-
-        public void OnDeSelected(BaseEventData data)
-        {
-            //InventoryGUI.instance.mode = InventoryGUI.Mode.DEFAULT;
-            //var equipSlots = FindObjectsOfType<EquipSlotGUI>();
-            //var equipment = item.GetComponent<Equipable>();
-            //foreach (var equipSlot in equipSlots)
-            //{
-            //    if (equipment.allowedSlots.Contains(equipSlot.slot))
-            //    {
-            //        equipSlot.GetComponent<Image>().color = Color.white;
-            //        equipSlot.GetComponent<Button>().interactable = false;
-            //    }
-            //}
         }
 
         public void OnMouseEnter(BaseEventData data)

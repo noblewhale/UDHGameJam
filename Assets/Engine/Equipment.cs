@@ -1,5 +1,6 @@
 ﻿namespace Noble.TileEngine
 {
+    using System;
     using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
@@ -26,6 +27,8 @@
         public Transform legsSlot;
         public Transform feetSlot;
         public Transform twoHandedSlot;
+
+        public event Action onChange;
 
         public enum Slot
         {
@@ -120,6 +123,8 @@
                 case Slot.FEET: feetObject = item; break;
                 case Slot.TWO_HANDED: twoHandedObject = item; break;
             }
+
+            onChange?.Invoke();
         }
     }
 }

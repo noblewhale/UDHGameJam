@@ -32,17 +32,19 @@
         {
             if (!player.identity) return;
 
-            if (player.identity.health != oldHealth)
+            var healthProperty = player.identity.GetProperty<int>("Health");
+            int currentHealth = healthProperty.GetValue();
+            if (currentHealth != oldHealth)
             {
                 health.text = "";
-                if (player.identity.health < 10)
+                if (currentHealth < 10)
                 {
                     health.text = "0";
                 }
-                health.text += player.identity.health.ToString();
+                health.text += currentHealth.ToString();
                 if (highlightHealthProcess != null) StopCoroutine(highlightHealthProcess);
                 highlightHealthProcess = StartCoroutine(HighlightText(health, Color.red));
-                oldHealth = player.identity.health;
+                oldHealth = currentHealth;
             }
 
             if (player.identity.gold != oldGold)

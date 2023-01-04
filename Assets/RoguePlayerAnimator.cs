@@ -19,8 +19,9 @@ public class RoguePlayerAnimator : MonoBehaviour
     void Update()
     {
         // TODO: These should really only be set when they change
-
-        playerAnimator.SetFloat("Health", (float)creature.health / creature.maxHealth);
+        var healthProperty = creature.baseObject.GetProperty<int>("Health");
+        int health = healthProperty.GetValue();
+        playerAnimator.SetFloat("Health", (float)health / creature.maxHealth);
         Equipable twoHandWeapon = creature.GetEquipment(Equipment.Slot.TWO_HANDED);
         if (twoHandWeapon)
         {

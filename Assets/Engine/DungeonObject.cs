@@ -60,8 +60,9 @@
             }
         }
 
+        Dictionary<string, IProperty> properties = new();
         public int maxHealth = 1;
-        public int health = 1;
+        //public int health = 1;
         public bool isCollidable = true;
         public bool blocksLineOfSight = false;
         public bool coversObjectsBeneath = false;
@@ -78,6 +79,7 @@
         public event Action<DungeonObject, bool> onCollision;
         public event Action onDeath;
         public event Action onSpawn;
+        public event Action<int> onTakeDamage;
         public Tile tile;
         public bool autoAddToTileAtStart = true;
 
@@ -94,6 +96,12 @@
             }
 
             map.OnPreMapLoaded += OnPreMapLoaded;
+
+            var propertyComponents = GetComponents<IProperty>();
+            foreach (var property in propertyComponents)
+            {
+                properties.Add(property.propertyName, property);
+            }
         }
 
         public void OnPreMapLoaded()
@@ -111,6 +119,11 @@
         public void Spawn()
         {
             onSpawn?.Invoke();
+        }
+
+        public Property<T> GetProperty<T>(string propertyName)
+        {
+            return (Property<T>)properties[propertyName];
         }
 
         public void UpdateLighting()
@@ -206,13 +219,8 @@
             if (!canTakeDamage) return;
 
             hasDoneDamageFlash = false;
-            health -= v;
 
-            if (health < 0) health = 0;
-            if (health == 0)
-            {
-                Die();
-            }
+            onTakeDamage?.Invoke(v);
         }
 
         virtual public void Die()
