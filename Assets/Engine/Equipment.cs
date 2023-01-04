@@ -2,6 +2,7 @@
 {
     using System.Collections;
     using System.Collections.Generic;
+    using System.Linq;
     using UnityEngine;
 
     public class Equipment : MonoBehaviour
@@ -15,6 +16,7 @@
         public Equipable headObject;
         public Equipable legsObject;
         public Equipable feetObject;
+        public Equipable twoHandedObject;
         public Transform rightHandWeaponSlot;
         public Transform leftHandWeaponSlot;
         public Transform leftGloveSlot;
@@ -23,6 +25,7 @@
         public Transform headSlot;
         public Transform legsSlot;
         public Transform feetSlot;
+        public Transform twoHandedSlot;
 
         public enum Slot
         {
@@ -33,10 +36,11 @@
             CHEST,
             HEAD,
             LEGS,
-            FEET
+            FEET,
+            TWO_HANDED
         }
 
-        IEnumerable<Equipable> GetEquipment()
+        public IEnumerable<Equipable> GetEquipment()
         {
             yield return leftHandWeaponObject;
             yield return rightHandWeaponObject;
@@ -46,6 +50,7 @@
             yield return headObject;
             yield return legsObject;
             yield return feetObject;
+            yield return twoHandedObject;
         }
 
         public Transform GetSlotTransform(Slot slot)
@@ -60,6 +65,7 @@
                 case Slot.HEAD: return headSlot;
                 case Slot.LEGS: return legsSlot;
                 case Slot.FEET: return feetSlot;
+                case Slot.TWO_HANDED: return twoHandedSlot;
                 default: return null;
             }
         }
@@ -76,22 +82,26 @@
                 case Slot.HEAD: return headObject;
                 case Slot.LEGS: return legsObject;
                 case Slot.FEET: return feetObject;
+                case Slot.TWO_HANDED: return twoHandedObject;
                 default: return null;
             }
         }
 
         public void SetEquipment(Slot slot, Equipable item)
         {
-            var objects = GetEquipment();
-            int i = 0;
-            foreach (var ob in objects)
+            if (item != null)
             {
-                if (ob == item)
+                var objects = GetEquipment();
+                int i = 0;
+                foreach (var ob in objects)
                 {
-                    _SetEquipment((Slot)i, null);
-                    break;
+                    if (ob == item)
+                    {
+                        _SetEquipment((Slot)i, null);
+                        break;
+                    }
+                    i++;
                 }
-                i++;
             }
             _SetEquipment(slot, item);
         }
@@ -108,6 +118,7 @@
                 case Slot.HEAD: headObject = item; break;
                 case Slot.LEGS: legsObject = item; break;
                 case Slot.FEET: feetObject = item; break;
+                case Slot.TWO_HANDED: twoHandedObject = item; break;
             }
         }
     }

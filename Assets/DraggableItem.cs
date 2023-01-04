@@ -19,6 +19,7 @@ namespace Noble.DungeonCrawler
                 GetComponent<Selectable>().Select();
             }
             draggableCopy = Instantiate(itemToDrag);
+            draggableCopy.transform.localScale = Vector3.one;
             var glyphsComponent = draggableCopy.GetComponentInChildren<Glyphs>(true);
             glyphsComponent.GetComponentInChildren<Glyphs>(true).enabled = false;
             glyphsComponent.gameObject.SetActive(true);

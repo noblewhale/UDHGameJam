@@ -9,7 +9,7 @@ namespace Noble.DungeonCrawler
     [RequireComponent(typeof(DraggableItem))]
     public class EquipSlotGUI : MonoBehaviour, IDropHandler
     {
-        public Equipment.Slot slot;
+        public Equipment.Slot[] slots = new Equipment.Slot[0];
         public GameObject content;
 
         void OnEnable()
@@ -22,26 +22,31 @@ namespace Noble.DungeonCrawler
             if (!Player.instance || !Player.instance.identity) return;
             if (content) Destroy(content);
             var playerCreature = Player.instance.identity.GetComponent<Creature>();
-            var equippedItem = playerCreature.GetComponent<Equipment>().GetEquipment(slot);
-            if (equippedItem != null)
+            foreach (var slot in slots)
             {
-                GetComponent<DraggableItem>().itemToDrag = equippedItem.gameObject;
-                content = GameObject.Instantiate(equippedItem.gameObject);
-                var glyphsComponent = content.GetComponentInChildren<Glyphs>(true);
-                glyphsComponent.GetComponentInChildren<Glyphs>(true).enabled = false;
-                glyphsComponent.gameObject.SetActive(true);
-                glyphsComponent.SetLit(true);
-                foreach (var glyph in glyphsComponent.glyphs)
+                var equippedItem = playerCreature.GetComponent<Equipment>().GetEquipment(slot);
+                if (equippedItem != null)
                 {
-                    glyph.GetComponent<SpriteRenderer>().color = glyph.originalColor;
+                    GetComponent<DraggableItem>().itemToDrag = equippedItem.gameObject;
+                    content = GameObject.Instantiate(equippedItem.gameObject);
+                    content.transform.localScale = Vector3.one;
+                    var glyphsComponent = content.GetComponentInChildren<Glyphs>(true);
+                    glyphsComponent.GetComponentInChildren<Glyphs>(true).enabled = false;
+                    glyphsComponent.gameObject.SetActive(true);
+                    glyphsComponent.SetLit(true);
+                    foreach (var glyph in glyphsComponent.glyphs)
+                    {
+                        glyph.GetComponent<SpriteRenderer>().color = glyph.originalColor;
+                    }
+                    foreach (Transform trans in content.GetComponentsInChildren<Transform>(true))
+                    {
+                        trans.gameObject.layer = this.gameObject.layer;
+                    }
+                    content.transform.parent = transform;
+                    content.transform.localPosition = Vector3.zero;
+                    content.transform.localPosition -= Vector3.forward * .1f;
+                    break;
                 }
-                foreach (Transform trans in content.GetComponentsInChildren<Transform>(true))
-                {
-                    trans.gameObject.layer = this.gameObject.layer;
-                }
-                content.transform.parent = transform;
-                content.transform.localPosition = Vector3.zero;
-                content.transform.localPosition -= Vector3.forward * .1f;
             }
         }
 
@@ -49,9 +54,9 @@ namespace Noble.DungeonCrawler
         {
             if (item == null) return;
             if (!item.GetComponent<Equipable>()) return;
-            if (!item.GetComponent<Equipable>().allowedSlots.Contains(slot)) return;
+            if (!item.GetComponent<Equipable>().allowedSlots.Any(s => slots.Contains(s))) return;
 
-            item.GetComponent<Equipable>().Equip(Player.instance.identity.Creature, slot);
+            item.GetComponent<Equipable>().Equip(Player.instance.identity.Creature, slots[0]);
             var allEquipSlots = FindObjectsOfType<EquipSlotGUI>();
             foreach (var equipSlot in allEquipSlots)
             {
@@ -72,7 +77,7 @@ namespace Noble.DungeonCrawler
             if (InventoryMenu.instance.currentSlotForAssignment != this && InventoryMenu.instance.currentItemForAssignment != null)
             { 
                 // Swap items
-                var temp = Player.instance.identity.Creature.GetEquipment(slot);
+                var temp = Player.instance.identity.Creature.GetEquipment(slots[0]);
                 EquipItem(InventoryMenu.instance.currentItemForAssignment.gameObject);
                 if (temp)
                 {
@@ -99,7 +104,7 @@ namespace Noble.DungeonCrawler
         {
             if (InventoryMenu.instance.mode == InventoryMenu.Mode.DEFAULT)
             {
-                InventoryMenu.instance.EnterAssignSlotToItemMode(this, Player.instance.identity.Creature.GetEquipment(slot));
+                InventoryMenu.instance.EnterAssignSlotToItemMode(this, Player.instance.identity.Creature.GetEquipment(slots[0]));
             }
         }
 
@@ -111,7 +116,7 @@ namespace Noble.DungeonCrawler
             }
             else if (InventoryMenu.instance.mode == InventoryMenu.Mode.DEFAULT)
             {
-                InventoryMenu.instance.EnterAssignSlotToItemMode(this, Player.instance.identity.Creature.GetEquipment(slot));
+                InventoryMenu.instance.EnterAssignSlotToItemMode(this, Player.instance.identity.Creature.GetEquipment(slots[0]));
             }
             else if (InventoryMenu.instance.mode == InventoryMenu.Mode.ASSIGN_SLOT_TO_ITEM)
             {

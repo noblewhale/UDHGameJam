@@ -104,7 +104,7 @@
                     var equipSlots = FindObjectsOfType<EquipSlotGUI>();
                     foreach (var equipSlot in equipSlots)
                     {
-                        if (equipment.allowedSlots.Contains(equipSlot.slot))
+                        if (equipment.allowedSlots.Any(s => equipSlot.slots.Contains(s)))
                         {
                             equipSlot.GetComponent<Button>().interactable = true;
                         }

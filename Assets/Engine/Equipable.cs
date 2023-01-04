@@ -1,8 +1,11 @@
 namespace Noble.TileEngine
 {
+    using System.Collections.Specialized;
     using System.Xml;
     using UnityEngine;
+    using System.Collections.Generic;
     using UnityEngine.Rendering;
+    using System.Linq;
 
     [RequireComponent(typeof(DungeonObject))]
     public class Equipable : MonoBehaviour
@@ -14,8 +17,16 @@ namespace Noble.TileEngine
 
         public Equipment.Slot[] allowedSlots = new Equipment.Slot[0];
 
+        // Used for two-handed weapons
+        public bool useOverrideSlot = false;
+        public Equipment.Slot overrideSlot = Equipment.Slot.TWO_HANDED;
+
+        public Equipment.Slot[] occupyExtraSlots = new Equipment.Slot[0];
+
         public bool autoEquip = false;
         public Equipment.Slot autoEquipSlot;
+
+        Equipment.Slot actualSlot;
 
         DungeonObject _object;
         public DungeonObject DungeonObject
@@ -52,23 +63,58 @@ namespace Noble.TileEngine
             var equipment = equipper.GetComponent<Equipment>();
             if (!equipment) return;
 
+            // Remove items in extra slots that this item occupies
+            // Used when assigning two handed weapons that are in the two-handed slot but additionally occupy the left and right hand slots
+            foreach (var otherSlot in occupyExtraSlots)
+            {
+                equipment.GetEquipment(otherSlot)?.UnEquip();
+            }
+
+            // Remove any equipment that is occupying the slot being assigned to
+            // Used when removing two handed weapons that are in the two-handed slot but additionally occupy the left and right hand slots
+            var allEquipment = equipment.GetEquipment();
+            foreach (var item in allEquipment)
+            {
+                if (item && item.occupyExtraSlots.Contains(slot))
+                {
+                    item.UnEquip();
+                }
+            }
+
+            actualSlot = slot;
+
+            if (useOverrideSlot)
+            {
+                actualSlot = overrideSlot;
+            }
+
+            equipment.GetEquipment(actualSlot)?.UnEquip();
+
             IsEquipped = true;
             EquippedBy = equipper;
 
-            var slotTransform = equipment.GetSlotTransform(slot);
+            var slotTransform = equipment.GetSlotTransform(actualSlot);
             transform.parent = slotTransform;
-            Vector3 handlePos = transform.position;
+            transform.localScale = Vector3.one;
+            transform.localPosition = Vector3.zero;
+            Vector3 handlePos = Vector3.zero;
             if (handle)
             {
-                handlePos = handle.position;
+                handlePos = handle.localPosition;
             }
-            transform.position = slotTransform.position - (handlePos - transform.position);
+            foreach (Transform trans in gameObject.GetComponentsInChildren<Transform>(true))
+            {
+                trans.gameObject.layer = equipper.gameObject.layer;
+            }
+            transform.localPosition = -handlePos;
 
-            equipment.SetEquipment(slot, this);
+            equipment.SetEquipment(actualSlot, this);
         }
 
         public void UnEquip()
         {
+            var equipment = EquippedBy.GetComponent<Equipment>();
+            equipment.SetEquipment(actualSlot, null);
             IsEquipped = false;
             EquippedBy = null;
             transform.parent = null;

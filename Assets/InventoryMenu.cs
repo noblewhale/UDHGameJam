@@ -4,11 +4,14 @@ namespace Noble.DungeonCrawler
     using System.Linq;
     using UnityEngine;
     using UnityEngine.EventSystems;
+    using UnityEngine.Rendering.Universal;
     using UnityEngine.UI;
 
     public class InventoryMenu : MonoBehaviour, IDropHandler
     {
         public static InventoryMenu instance;
+
+        public Transform characterPosition;
 
         public enum Mode
         {
@@ -28,6 +31,19 @@ namespace Noble.DungeonCrawler
             gameObject.SetActive(false);
         }
 
+        public void OnEnable()
+        {
+            Player.instance.identity.transform.parent = characterPosition;
+            Player.instance.identity.transform.localPosition = new Vector3(-.5f, -.5f, 0);
+            Player.instance.identity.transform.localScale = Vector3.one;
+            var lights = Player.instance.identity.GetComponentsInChildren<Light2D>();
+            foreach (var light in lights) light.enabled = false;
+            foreach (Transform trans in Player.instance.identity.GetComponentsInChildren<Transform>(true))
+            {
+                trans.gameObject.layer = this.gameObject.layer;
+            }
+        }
+
         public void OnSelect(BaseEventData data)
         {
             ReturnToDefaultMode();
@@ -39,7 +55,7 @@ namespace Noble.DungeonCrawler
             var equipSlots = FindObjectsOfType<EquipSlotGUI>();
             foreach (var equipSlot in equipSlots)
             {
-                if (item.allowedSlots.Contains(equipSlot.slot))
+                if (item.allowedSlots.Any(s => equipSlot.slots.Contains(s)))
                 {
                     equipSlot.GetComponent<Image>().color = Color.green;
                     equipSlot.GetComponent<Button>().interactable = true;
@@ -47,12 +63,12 @@ namespace Noble.DungeonCrawler
             }
         }
 
-        void DisableItemsThatDontFitSlot(Equipment.Slot slot)
+        void DisableItemsThatDontFitSlots(Equipment.Slot[] slots)
         {
             var inventoryGUIItems = FindObjectsOfType<InventorySlotGUI>();
             foreach (var inventoryGUIItem in inventoryGUIItems)
             {
-                if (!inventoryGUIItem.item.GetComponent<Equipable>() || !inventoryGUIItem.item.GetComponent<Equipable>().allowedSlots.Contains(slot))
+                if (!inventoryGUIItem.item.GetComponent<Equipable>() || !inventoryGUIItem.item.GetComponent<Equipable>().allowedSlots.Any(s => slots.Contains(s)))
                 {
                     inventoryGUIItem.GetComponent<Button>().interactable = false;
                 }
@@ -71,9 +87,15 @@ namespace Noble.DungeonCrawler
             mode = Mode.ASSIGN_SLOT_TO_ITEM;
             currentSlotForAssignment = equipSlotGUI;
             currentItemForAssignment = equipable;
-            DisableItemsThatDontFitSlot(equipSlotGUI.slot);
-            var equippedItem = Player.instance.identity.Creature.GetEquipment(equipSlotGUI.slot);
-            EnableSlotsThatAllowItem(equippedItem);
+            DisableItemsThatDontFitSlots(equipSlotGUI.slots);
+            foreach (var slot in equipSlotGUI.slots)
+            {
+                var equippedItem = Player.instance.identity.Creature.GetEquipment(slot);
+                if (equippedItem)
+                {
+                    EnableSlotsThatAllowItem(equippedItem);
+                }
+            }
         }
 
         public void ReturnToDefaultMode()
