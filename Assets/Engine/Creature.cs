@@ -161,17 +161,17 @@
 
         public Equipable GetEquipment(Equipment.Slot slot)
         {
-            return equipment.GetEquipment(slot);
+            return equipment?.GetEquipment(slot);
         }
 
         public void SetEquipment(Equipment.Slot slot, Equipable item)
         {
-            equipment.SetEquipment(slot, item);
+            equipment?.SetEquipment(slot, item);
         }
 
-        public Transform GetEquipmentSlot(Equipment.Slot slot)
+        public Transform GetEquipmentSlot(Equipment.Slot slot) 
         {
-            return equipment.GetSlotTransform(slot);
+            return equipment?.GetSlotTransform(slot);
         }
     }
 }

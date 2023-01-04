@@ -12,6 +12,8 @@ namespace Noble.DungeonCrawler
         public static InventoryMenu instance;
 
         public Transform characterPosition;
+        public Light2D globalLightOff;
+        public Light2D globalLightOn;
 
         public enum Mode
         {
@@ -33,14 +35,35 @@ namespace Noble.DungeonCrawler
 
         public void OnEnable()
         {
-            Player.instance.identity.transform.parent = characterPosition;
-            Player.instance.identity.transform.localPosition = new Vector3(-.5f, -.5f, 0);
-            Player.instance.identity.transform.localScale = Vector3.one;
-            var lights = Player.instance.identity.GetComponentsInChildren<Light2D>();
+            globalLightOff.enabled = false;
+            globalLightOn.enabled = true;
+            var player = Player.instance.identity;
+            player.transform.parent = characterPosition;
+            player.transform.localPosition = new Vector3(-.5f, -.5f, 0);
+            player.transform.localScale = Vector3.one;
+            var lights = player.GetComponentsInChildren<Light2D>();
             foreach (var light in lights) light.enabled = false;
-            foreach (Transform trans in Player.instance.identity.GetComponentsInChildren<Transform>(true))
+            foreach (Transform trans in player.GetComponentsInChildren<Transform>(true))
             {
                 trans.gameObject.layer = this.gameObject.layer;
+            }
+        }
+
+        public void OnDisable()
+        {
+            if (Player.instance && Player.instance.identity)
+            {
+                globalLightOff.enabled = true;
+                globalLightOn.enabled = false;
+                var player = Player.instance.identity;
+                Tile tile = Map.instance.GetTile(player.x, player.y);
+                tile.AddObject(player, false, 2);
+                var lights = player.GetComponentsInChildren<Light2D>();
+                foreach (var light in lights) light.enabled = true;
+                foreach (Transform trans in player.GetComponentsInChildren<Transform>(true))
+                {
+                    trans.gameObject.layer = Map.instance.gameObject.layer;
+                }
             }
         }
 

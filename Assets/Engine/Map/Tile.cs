@@ -201,6 +201,7 @@
 
             ob.transform.parent = map.layers[layer];
             ob.transform.localPosition = new Vector3(localPosition.x, localPosition.y, 0);
+            ob.transform.localScale = Vector3.one;
             
             objectList.AddLast(ob);
             
