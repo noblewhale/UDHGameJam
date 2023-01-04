@@ -45,7 +45,7 @@
 		override public IEnumerator StartActionCoroutine()
 		{
 			projectile = Instantiate(projectilePrefab);
-			projectile.transform.position = identityCreature.leftHand.transform.position - Vector3.forward;
+			projectile.transform.position = identityCreature.GetEquipmentSlot(Equipment.Slot.LEFT_HAND_WEAPON).position - Vector3.forward;
 			
 			yield return base.StartActionCoroutine();
 		}
@@ -56,7 +56,7 @@
 			
 			attackStartTime = Time.time;
 
-			projectileStartPosition = identityCreature.leftHand.transform.position;
+			projectileStartPosition = identityCreature.GetEquipmentSlot(Equipment.Slot.LEFT_HAND_WEAPON).position;
 			projectileEndPosition = new Vector2(threatenedTiles[0].position.x + Map.instance.tileWidth / 2, threatenedTiles[0].position.y + Map.instance.tileHeight / 2);
 			projectileTravelDuration = (projectileStartPosition - projectileEndPosition).magnitude / projectileTravelSpeed;
 			if ((projectileEndPosition - projectileStartPosition).magnitude > Map.instance.TotalWidth / 2)

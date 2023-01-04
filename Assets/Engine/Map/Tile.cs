@@ -15,7 +15,9 @@
         public float gapBetweenLayers = .1f;
 
         public bool isInView = false;
-        public bool isLit = false;
+
+        uint illuminationSources = 0;
+        public bool IsLit => illuminationSources > 0;
 
         public LinkedList<DungeonObject> objectList = new LinkedList<DungeonObject>();
 
@@ -29,6 +31,19 @@
             tilePosition.y = y;
             map.tilesThatAllowSpawn.Add(this);
         }
+
+        public void AddIlluminationSource()
+        {
+            illuminationSources++;
+            UpdateLitStatus();
+        }
+
+        public void RemoveIlluminationSource()
+        {
+            illuminationSources--;
+            UpdateLitStatus();
+        }
+
 
         public bool ContainsObjectWithComponent<T>() where T : MonoBehaviour
         {
@@ -89,7 +104,7 @@
                 {
                     if (ob.glyphsOb)
                     {
-                        ob.SetInView(true, isLit);
+                        ob.SetInView(true, IsLit);
                     }
                     if (ob.coversObjectsBeneath) break;
                 }
@@ -98,20 +113,19 @@
             {
                 foreach (var ob in objectList)
                 {
-                    ob.SetInView(false, isLit);
+                    ob.SetInView(false, IsLit);
                 }
             }
 
             foreach (var ob in objectList)
             {
-                ob.SetLit(isVisible && isLit, isVisible);
+                ob.SetLit(isVisible && IsLit, isVisible);
             }
         }
 
-        public void SetLit(bool isLit)
+        public void UpdateLitStatus()
         {
-            this.isLit = isLit;
-            if (isLit)
+            if (IsLit)
             {
                 foreach (var ob in objectList)
                 {
@@ -157,6 +171,8 @@
 
         public DungeonObject SpawnAndAddObject(DungeonObject dungeonObject, int quantity = 1, int layer = 0)
         {
+            if (dungeonObject == null) return null;
+            
             var ob = GameObject.Instantiate(dungeonObject).GetComponent<DungeonObject>();
             ob.quantity = quantity;
             ob.transform.position = new Vector3(0, 0, -layer);
@@ -201,8 +217,8 @@
                 map.tilesThatAllowSpawn.Remove(this);
             }
 
-            SetInView(isInView);
-            SetLit(isLit);
+            //SetInView(isInView);
+            //SetLit(isLit);
 
             if (isFirstPlacement)
             {
@@ -269,8 +285,8 @@
                 }
             }
 
-            SetInView(isInView);
-            SetLit(isLit);
+            //SetInView(isInView);
+            //SetLit(isLit);
 
             UpdateObjectLayers();
         }

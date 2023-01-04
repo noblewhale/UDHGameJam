@@ -2,6 +2,7 @@
 {
     using Noble.TileEngine;
     using UnityEngine;
+    using UnityEngine.Experimental.Rendering;
     using UnityEngine.Rendering.Universal;
 
     public class MapRendererLarge : MapRenderer
@@ -87,22 +88,22 @@
                 oldRenderTextureHeight = renderTextureHeight;
 
                 // Create the render texture. May want to switch to HDR format here if we ever need it for effects. It does double an already very large texture size though.
-                var renderTexture = new RenderTexture(renderTextureWidth, renderTextureHeight, 0, RenderTextureFormat.ARGB32);
+                var renderTexture = new RenderTexture(renderTextureWidth, renderTextureHeight, SystemInfo.GetGraphicsFormat(DefaultFormat.HDR), SystemInfo.GetGraphicsFormat(DefaultFormat.Shadow));
                 renderTexture.filterMode = FilterMode.Point;
                 renderTexture.useMipMap = false;
 
                 // The depth texture is needed for the outline effect in the warp shader. It does not need to be very accurate though.
-                var depthTexture = new RenderTexture(renderTextureWidth, renderTextureHeight, 16, RenderTextureFormat.Depth);
+                //var depthTexture = new RenderTexture(renderTextureWidth, renderTextureHeight, 16, RenderTextureFormat.Depth);
 
                 // Tell the camera to render to the render and depth texture
-                camera.SetTargetBuffers(renderTexture.colorBuffer, depthTexture.depthBuffer);
-                camera.GetComponent<UniversalAdditionalCameraData>().scriptableRenderer.ConfigureCameraTarget(renderTexture.colorBuffer, depthTexture.depthBuffer);
+                camera.SetTargetBuffers(renderTexture.colorBuffer, renderTexture.depthBuffer);
+                camera.GetComponent<UniversalAdditionalCameraData>().scriptableRenderer.ConfigureCameraTarget(renderTexture.colorBuffer, renderTexture.depthBuffer);
                 camera.targetTexture = renderTexture;
 
                 // Tell the render quad material to use the render and depth texture
                 //warpMaterial.mainTexture = renderTexture;
                 warpMaterial.SetTexture("_MainTex", renderTexture);
-                warpMaterial.SetTexture("_Depth", depthTexture);
+                warpMaterial.SetTexture("_Depth", renderTexture);
 
                 // Set the camera size so that the width is the map width.
                 camera.orthographicSize = renderedHeight / 2.0f;
@@ -120,21 +121,21 @@
                 }
 
                 // Create the render texture. May want to switch to HDR format here if we ever need it for effects. It does double an already very large texture size though.
-                renderTexture = new RenderTexture(renderTextureWidth, renderTextureHeight, 0, RenderTextureFormat.ARGB32);
+                renderTexture = new RenderTexture(renderTextureWidth, renderTextureHeight, SystemInfo.GetGraphicsFormat(DefaultFormat.HDR), SystemInfo.GetGraphicsFormat(DefaultFormat.Shadow));
                 renderTexture.filterMode = FilterMode.Point;
                 renderTexture.useMipMap = false;
 
                 // The depth texture is needed for the outline effect in the warp shader. It does not need to be very accurate though.
-                depthTexture = new RenderTexture(renderTextureWidth, renderTextureHeight, 16, RenderTextureFormat.Depth);
+                //depthTexture = new RenderTexture(renderTextureWidth, renderTextureHeight, 16, RenderTextureFormat.Depth);
 
                 // Tell the camera to render to the render and depth texture
-                wrapCamera.SetTargetBuffers(renderTexture.colorBuffer, depthTexture.depthBuffer);
-                wrapCamera.GetComponent<UniversalAdditionalCameraData>().scriptableRenderer.ConfigureCameraTarget(renderTexture.colorBuffer, depthTexture.depthBuffer);
+                wrapCamera.SetTargetBuffers(renderTexture.colorBuffer, renderTexture.depthBuffer);
+                wrapCamera.GetComponent<UniversalAdditionalCameraData>().scriptableRenderer.ConfigureCameraTarget(renderTexture.colorBuffer, renderTexture.depthBuffer);
                 wrapCamera.targetTexture = renderTexture;
 
                 // Tell the render quad material to use the render and depth texture
                 warpMaterial.SetTexture("_WrapTexture", renderTexture);
-                warpMaterial.SetTexture("_WrapDepth", depthTexture);
+                warpMaterial.SetTexture("_WrapDepth", renderTexture);
             }
         }
 

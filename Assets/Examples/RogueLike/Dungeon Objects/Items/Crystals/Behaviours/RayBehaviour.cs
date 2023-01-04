@@ -45,7 +45,7 @@
 
 			rayObject = Instantiate(rayPrefab);
 			rayObject.transform.parent = Map.instance.transform;
-			rayObject.transform.position = identityCreature.leftHand.transform.position - Vector3.forward;
+			rayObject.transform.position = identityCreature.GetEquipmentSlot(Equipment.Slot.LEFT_HAND_WEAPON).position - Vector3.forward;
 		}
 
 		override public void StartSubAction(ulong time) 
@@ -54,7 +54,7 @@
 
 			attackStartTime = Time.time;
 
-			startRayPosition = Map.instance.transform.InverseTransformPoint(identityCreature.leftHand.transform.position);
+			startRayPosition = Map.instance.transform.InverseTransformPoint(identityCreature.GetEquipmentSlot(Equipment.Slot.LEFT_HAND_WEAPON).position);
 			endRayPosition = (Vector2)threatenedTiles.Last().localPosition + Map.instance.tileDimensions / 2;
 			if ((endRayPosition - startRayPosition).magnitude > Map.instance.TotalWidth / 2)
 			{
@@ -67,7 +67,7 @@
 					endRayPosition.x -= Map.instance.TotalWidth;
 				}
 			}
-			endRayPosition += ((Vector2)identityCreature.leftHand.transform.position - ((Vector2)identityCreature.baseObject.tile.position + owner.map.tileDimensions / 2));
+			endRayPosition += ((Vector2)identityCreature.GetEquipmentSlot(Equipment.Slot.LEFT_HAND_WEAPON).position - ((Vector2)identityCreature.baseObject.tile.position + owner.map.tileDimensions / 2));
 			duration = (startRayPosition - endRayPosition).magnitude / unitsPerSecond;
 		}
 

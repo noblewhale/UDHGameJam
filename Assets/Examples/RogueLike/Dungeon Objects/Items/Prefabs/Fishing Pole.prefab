@@ -138,7 +138,6 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   originalGlyphPosition: {x: 0, y: 0, z: 0}
-  map: {fileID: 0}
   previousTilePosition: {x: 0, y: 0}
   quantity: 1
   canBePickedUp: 1
@@ -146,6 +145,7 @@ MonoBehaviour:
   isVisibleWhenNotInSight: 1
   pathingWeight: 0
   guiIcon: {fileID: 1204894190351212166}
+  maxHealth: 1
   health: 1
   isCollidable: 0
   blocksLineOfSight: 0
@@ -185,8 +185,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   handle: {fileID: 5054745993009845054}
-  autoWeildRightHand: 1
-  autoWeildLeftHand: 0
+  allowedSlots: 0000000001000000
+  autoEquip: 0
+  autoEquipSlot: 0
 --- !u!1 &3196934914895267844
 GameObject:
   m_ObjectHideFlags: 0
@@ -286,7 +287,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tint: {r: 1, g: 1, b: 1, a: 1}
   extraTint: {r: 1, g: 1, b: 1, a: 1}
-  isLit: 0
+  originalColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &3447617122202321985
 GameObject:
   m_ObjectHideFlags: 0

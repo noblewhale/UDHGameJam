@@ -52,13 +52,7 @@
 
         public Coroutine attackAnimationProcess;
 
-        public DungeonObject leftHandObject;
-        public DungeonObject rightHandObject;
-        public Transform rightHand;
-        public Transform leftHand;
-        public Transform chest;
-        public Transform helmet;
-        public Transform pants;
+        public Equipment equipment;
 
         public DungeonObject baseObject;
         public Tickable tickable;
@@ -69,6 +63,7 @@
         public Map map => baseObject.map;
         public Inventory inventory => baseObject.inventory;
 
+        public int maxHealth { get { return baseObject.maxHealth; } }
         public int health { get { return baseObject.health; } }
         public int gold { get { return baseObject.gold; } }
 
@@ -77,27 +72,20 @@
         public float attackAnimationScale = 1;
         //bool attackWillHit = false;
 
+        MentalMap mentalMap;
+
         void Awake()
         {
             baseObject = GetComponent<DungeonObject>();
             tickable = GetComponent<Tickable>();
+            equipment = GetComponent<Equipment>();
             baseObject.onMove += OnMove;
             baseObject.onPreMove += OnPreMove;
-            baseObject.onPickedUpObject += OnPickedUpObject;
         }
 
-        void OnPickedUpObject(DungeonObject ob)
+        private void Start()
         {
-            var weildable = ob.GetComponent<Weildable>();
-            if (weildable && weildable.autoWeildRightHand)
-            {
-                WeildRightHand(ob);
-            }
-
-            if (weildable && weildable.autoWeildLeftHand)
-            {
-                WeildLeftHand(ob);
-            }
+            mentalMap = new MentalMap();
         }
 
         void OnPreMove(Vector2Int pos, Vector2Int newPos)
@@ -139,46 +127,6 @@
             }
         }
 
-        public void WeildRightHand(DungeonObject ob)
-        {
-            Weildable oldWieldable = rightHandObject?.GetComponent<Weildable>();
-            Weildable newWeildable = ob?.GetComponent<Weildable>();
-
-            oldWieldable?.GetComponent<Weildable>().UnWeild();
-            //if (rightHandObject)
-            //{
-            //    baseObject.glyphs.glyphs.RemoveAll(g => rightHandObject.glyphs.glyphs.Contains(g));
-            //}
-
-            rightHandObject = ob;
-            rightHandObject.SetLit(true, true);
-            newWeildable?.Weild(this, rightHand);
-            //if (rightHandObject)
-            //{
-            //    baseObject.glyphs.glyphs.AddRange(ob.glyphs.glyphs);
-            //}
-        }
-
-        public void WeildLeftHand(DungeonObject ob)
-        {
-            Weildable oldWieldable = leftHandObject?.GetComponent<Weildable>();
-            Weildable newWeildable = ob?.GetComponent<Weildable>();
-
-            oldWieldable?.GetComponent<Weildable>().UnWeild();
-            //if (rightHandObject)
-            //{
-            //    baseObject.glyphs.glyphs.RemoveAll(g => rightHandObject.glyphs.glyphs.Contains(g));
-            //}
-
-            leftHandObject = ob;
-            leftHandObject.SetLit(true, true);
-            newWeildable?.Weild(this, leftHand);
-            //if (rightHandObject)
-            //{
-            //    baseObject.glyphs.glyphs.AddRange(ob.glyphs.glyphs);
-            //}
-        }
-
         public void FaceDirection(Tile tile)
         {
             if (tile.y > y) lastDirectionAttackedOrMoved = Direction.UP;
@@ -210,5 +158,20 @@
             Destroy(modifier);
         }
 
+
+        public Equipable GetEquipment(Equipment.Slot slot)
+        {
+            return equipment.GetEquipment(slot);
+        }
+
+        public void SetEquipment(Equipment.Slot slot, Equipable item)
+        {
+            equipment.SetEquipment(slot, item);
+        }
+
+        public Transform GetEquipmentSlot(Equipment.Slot slot)
+        {
+            return equipment.GetSlotTransform(slot);
+        }
     }
 }

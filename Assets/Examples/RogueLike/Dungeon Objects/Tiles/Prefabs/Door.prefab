@@ -100,7 +100,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -195,19 +195,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectName: Door
-  viewDistance: 4
   illuminationRange: 0
   OnSteppedOn:
     m_PersistentCalls:
       m_Calls: []
+  OnPreSteppedOn:
+    m_PersistentCalls:
+      m_Calls: []
   originalGlyphPosition: {x: 0, y: 0, z: 0}
-  map: {fileID: 0}
-  position: {x: 0, y: 0}
-  previousX: 0
-  previousY: 0
+  previousTilePosition: {x: 0, y: 0}
   quantity: 1
   canBePickedUp: 0
-  isAlwaysLit: 0
   canTakeDamage: 0
   isVisibleWhenNotInSight: 1
   pathingWeight: 0
@@ -218,7 +216,7 @@ MonoBehaviour:
   coversObjectsBeneath: 0
   preventsObjectSpawning: 1
   hasDoneDamageFlash: 0
-  tile: {fileID: 0}
+  autoAddToTileAtStart: 1
   isOpen: 0
   openDifficulty: 0
   isLocked: 0
@@ -239,6 +237,7 @@ MonoBehaviour:
   lastActionTime: 0
   behaviours: []
   owner: {fileID: 0}
+  currentBehaviours: []
   markedForRemoval: 0
   nextBehaviour: {fileID: 0}
 --- !u!114 &61012962859328907
@@ -253,6 +252,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42078c34f9df46f45b4f91f9f8dabd9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  owner: {fileID: 0}
+  executeEveryTick: 0
   animator: {fileID: 6390725423495261256}
 --- !u!1 &1487086000563002595
 GameObject:

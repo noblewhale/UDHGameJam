@@ -12,6 +12,17 @@
     {
         public string objectName;
 
+        Creature _creature;
+        public Creature Creature
+        {
+            get {
+                if (_creature == null) _creature = GetComponent<Creature>();
+                return _creature; 
+            }
+        }
+
+        public Equipment Equipment => Creature?.equipment;
+
         [Serializable]
         public class CreatureEvent : UnityEvent<DungeonObject> { }
 
@@ -49,6 +60,7 @@
             }
         }
 
+        public int maxHealth = 1;
         public int health = 1;
         public bool isCollidable = true;
         public bool blocksLineOfSight = false;
@@ -62,6 +74,7 @@
         public event Action<Vector2Int, Vector2Int> onPreMove;
         public event Action<Vector2Int, Vector2Int> onPreSetPosition;
         public event Action<DungeonObject> onPickedUpObject;
+        public event Action<DungeonObject> onPickedUp;
         public event Action<DungeonObject, bool> onCollision;
         public event Action onDeath;
         public event Action onSpawn;
@@ -73,7 +86,7 @@
         virtual protected void Start()
         {
             tickable = GetComponent<Tickable>();
-            glyphs = GetComponentInChildren<Glyphs>();
+            glyphs = GetComponentInChildren<Glyphs>(true);
             if (glyphs)
             {
                 glyphsOb = glyphs.gameObject;
@@ -106,7 +119,7 @@
 
             if (illuminationRange < .5f)
             {
-                tile.SetLit(true);
+                tile.AddIlluminationSource();
                 return;
             }
 
@@ -115,7 +128,7 @@
                 illuminationRange, 
                 (Tile t) => 
                 {
-                    t.SetLit(true);
+                    t.AddIlluminationSource();
                 },
                 (Tile t) =>
                 {
@@ -244,6 +257,7 @@
             }
             objectToPickUp.transform.position = new Vector3(-666, -666, -666);
             if (onPickedUpObject != null) onPickedUpObject(objectToPickUp);
+            if (objectToPickUp.onPickedUp != null) objectToPickUp.onPickedUp(this);
         }
 
         public void Move(Vector2Int pos)
@@ -260,6 +274,19 @@
 
             if (isMove && onMove != null) onMove(previousTilePosition, tilePosition);
             if (onSetPosition != null) onSetPosition(previousTilePosition, tilePosition);
+
+
+            if (isMove)
+            {
+                map.ForEachTileInRadius(
+                    previousTilePosition,
+                    illuminationRange,
+                    t => t.RemoveIlluminationSource(),
+                    null,
+                    true
+                );
+                UpdateLighting();
+            }
 
             previousTilePosition = position;
         }
