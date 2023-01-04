@@ -3,11 +3,20 @@
     using Noble.TileEngine;
     using System.Collections.Generic;
     using UnityEngine;
+    using UnityEngine.EventSystems;
+    using UnityEngine.UI;
 
     public class InventoryGUI : MonoBehaviour
     {
         public InventorySlotGUI slotPrefab;
         public Dictionary<string, InventorySlotGUI> slots = new Dictionary<string, InventorySlotGUI>();
+
+        public static InventoryGUI instance;
+
+        private void Awake()
+        {
+            instance = this;
+        }
 
         public void Update()
         {
@@ -62,10 +71,15 @@
 
         void AddSlot(DungeonObject item)
         {
-            var slot = Instantiate(slotPrefab.gameObject, transform).GetComponent<InventorySlotGUI>();
-            slot.Init(item);
+            var scrollView = GetComponent<ScrollRect>();
+            var contentView = scrollView.content;
+            var transform = contentView.transform;
+            var slot = Instantiate(slotPrefab.gameObject, transform);
+            slot.SetActive(true);
+            var slotScript = slot.GetComponent<InventorySlotGUI>();
+            slotScript.Init(item);
 
-            slots.Add(item.objectName, slot);
+            slots.Add(item.objectName, slotScript);
 
             UpdateIndexes();
         }

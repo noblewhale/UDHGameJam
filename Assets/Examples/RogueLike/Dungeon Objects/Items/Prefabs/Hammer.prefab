@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 312753589675583701}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.906, y: 0.25, z: 0.05}
+  m_LocalPosition: {x: 0.57, y: 0.281, z: 0.05}
   m_LocalScale: {x: -1, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -74,8 +74,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -6414564484349086176, guid: 7cf45a0d68de6684d9e957e6d0441e6c,
-    type: 3}
+  m_Sprite: {fileID: -6414564484349086176, guid: 7cf45a0d68de6684d9e957e6d0441e6c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -100,7 +99,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tint: {r: 1, g: 1, b: 1, a: 1}
   extraTint: {r: 1, g: 1, b: 1, a: 1}
-  isLit: 0
+  originalColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &2314854135748874255
 GameObject:
   m_ObjectHideFlags: 0
@@ -240,7 +239,6 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   originalGlyphPosition: {x: 0, y: 0, z: 0}
-  map: {fileID: 0}
   previousTilePosition: {x: 0, y: 0}
   quantity: 1
   canBePickedUp: 1
@@ -248,13 +246,13 @@ MonoBehaviour:
   isVisibleWhenNotInSight: 1
   pathingWeight: 0
   guiIcon: {fileID: 1204894190351212166}
+  maxHealth: 1
   health: 1
   isCollidable: 0
   blocksLineOfSight: 0
   coversObjectsBeneath: 0
   preventsObjectSpawning: 0
   hasDoneDamageFlash: 0
-  tile: {fileID: 0}
   autoAddToTileAtStart: 0
 --- !u!114 &3300319173108635374
 MonoBehaviour:
@@ -288,8 +286,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   handle: {fileID: 1048204769378142790}
-  autoWeildRightHand: 1
-  autoWeildLeftHand: 0
+  allowedSlots: 0000000001000000
+  autoEquip: 1
+  autoEquipSlot: 1
 --- !u!1 &3196934914895267844
 GameObject:
   m_ObjectHideFlags: 0
@@ -316,7 +315,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3196934914895267844}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.5, y: 0.5, z: 0}
+  m_LocalPosition: {x: 0.16399997, y: 0.531, z: 0}
   m_LocalScale: {x: -1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -389,7 +388,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tint: {r: 1, g: 1, b: 1, a: 1}
   extraTint: {r: 1, g: 1, b: 1, a: 1}
-  isLit: 0
+  originalColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &3447617122202321985
 GameObject:
   m_ObjectHideFlags: 0
@@ -456,8 +455,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -6414564484349086176, guid: 7cf45a0d68de6684d9e957e6d0441e6c,
-    type: 3}
+  m_Sprite: {fileID: -6414564484349086176, guid: 7cf45a0d68de6684d9e957e6d0441e6c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -491,7 +489,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4349762766635880430}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.249, y: 0.166, z: 0}
+  m_LocalPosition: {x: 0.542, y: 0.166, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

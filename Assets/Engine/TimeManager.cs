@@ -78,7 +78,7 @@
 
                     bool isOnCamera = mapCamera && mapCamera.Contains(ob.owner.transform.position);
 
-                    if (isOnCamera && ob.owner.tile.isInView && ob.owner.tile.isLit)
+                    if (isOnCamera && ob.owner && ob.owner.tile != null && ob.owner.tile.isInView && ob.owner.tile.IsLit)
                     {
                         if (currentBehaviours != null && currentBehaviours.Count != 0)
                         {
@@ -136,7 +136,7 @@
                 }
 
                 Time++;
-                Map.instance.UpdateLighting();
+                //Map.instance.UpdateLighting();
 
                 yield return new WaitForEndOfFrame();
             }

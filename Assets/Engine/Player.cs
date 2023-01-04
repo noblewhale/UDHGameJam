@@ -1,7 +1,5 @@
 ﻿namespace Noble.TileEngine
 {
-    using Noble.DungeonCrawler;
-    using System.Collections.Generic;
     using UnityEngine;
 
     public class Player : MonoBehaviour

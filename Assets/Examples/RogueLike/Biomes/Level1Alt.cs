@@ -12,6 +12,7 @@
     {
         // Stop partitioning at this size
         public int minBSPArea = 4;
+        public int maxBSPArea = 16;
 
         // Delay to use when animating the level gernation process
         float animationDelay = 0;//.15f;
@@ -26,6 +27,8 @@
         public Biome items;
         public Biome electricTraps;
         public DungeonObject finalDoorPrefab;
+
+        public GameObject roomLightPrefab;
 
         class Node
         {
@@ -228,6 +231,166 @@
             return false;
         }
 
+        IEnumerator GenerateRoom(Node parent, BiomeObject biomeObject)
+        {
+            int maxWidth = parent.area.width - 2;
+            int maxHeight = parent.area.height - 2;
+            int minWidth = Mathf.Max(2, maxWidth / 3);
+            int minHeight = Mathf.Max(2, maxHeight / 3);
+            int w = Random.Range(minWidth, maxWidth);
+            int h = Random.Range(minHeight, maxHeight);
+            int xMin = Random.Range(parent.area.xMin + 1, parent.area.xMax - w - 1);
+            int yMin = Random.Range(parent.area.yMin + 1, parent.area.yMax - h - 1);
+            var rect = new RectIntExclusive(xMin, yMin, w, h);
+            parent.room = rect;
+
+            try
+            {
+                var topLeftCorner = Map.instance.GetTilePositionOnMap(new Vector2Int(rect.xMin - 1, rect.yMin - 1));
+                var topRightCorner = Map.instance.GetTilePositionOnMap(new Vector2Int(rect.xMax + 1, rect.yMin - 1));
+                for (int x = topLeftCorner.x; x <= topRightCorner.x; x++)
+                {
+                    tileTemplates[topLeftCorner.y][x].isRoomTile = true;
+                }
+                for (int y = rect.yMin; y <= rect.yMax; y++)
+                {
+                    var p = Map.instance.GetTilePositionOnMap(new Vector2Int(rect.xMin - 1, y));
+                    tileTemplates[p.y][p.x].isRoomTile = true;
+                    for (int x = rect.xMin; x <= rect.xMax; x++)
+                    {
+                        tileTemplates[y][x].type = TileType.FLOOR;
+                        tileTemplates[y][x].isRoomTile = true;
+                    }
+                    p = Map.instance.GetTilePositionOnMap(new Vector2Int(rect.xMax + 1, y));
+                    tileTemplates[p.y][p.x].isRoomTile = true;
+                }
+                var bottomLeftCorner = Map.instance.GetTilePositionOnMap(new Vector2Int(rect.xMin - 1, rect.yMax + 1));
+                var bottomRightCorner = Map.instance.GetTilePositionOnMap(new Vector2Int(rect.xMax + 1, rect.yMax + 1));
+
+                GameObject roomLight = Instantiate(roomLightPrefab, Map.instance.transform);
+                roomLight.transform.localScale = new Vector3(topRightCorner.x - topLeftCorner.x + 1, bottomRightCorner.y - topRightCorner.y + 1, 1);
+                roomLight.transform.localPosition = new Vector3(topLeftCorner.x + (topRightCorner.x - topLeftCorner.x + 1) / 2.0f, topRightCorner.y + (bottomRightCorner.y - topRightCorner.y + 1) / 2.0f, 0);
+
+                for (int x = bottomLeftCorner.x; x <= bottomRightCorner.x; x++)
+                {
+                    tileTemplates[bottomLeftCorner.y][x].isRoomTile = true;
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.Log(e);
+            }
+
+            if (scorpions != null)
+            {
+                var roomCreaturesObject = Instantiate(Map.instance.biomeObjectPrefab, biomeObject.transform).GetComponent<BiomeObject>();
+                var roomCreatures = Instantiate(scorpions);
+                roomCreaturesObject.area = rect;
+                roomCreaturesObject.biome = roomCreatures;
+                subBiomes.Add(roomCreatures);
+                biomeObject.subBiomes.Add(roomCreaturesObject);
+            }
+
+            if (electricTraps != null)
+            {
+                var roomTrapsObject = Instantiate(Map.instance.biomeObjectPrefab, biomeObject.transform).GetComponent<BiomeObject>();
+                var roomTraps = Instantiate(electricTraps);
+                roomTrapsObject.area = new RectIntExclusive(rect.xMin + 1, rect.yMin + 1, rect.width - 1, rect.height - 1);
+                roomTrapsObject.biome = roomTraps;
+                subBiomes.Add(roomTraps);
+                biomeObject.subBiomes.Add(roomTrapsObject);
+            }
+
+            if (animationDelay != 0)
+            {
+                UpdateTiles(parent.room);
+                yield return new WaitForSeconds(animationDelay);
+            }
+        }
+
+        IEnumerator CreatePathBetweenHorizontalSplit(Node parent)
+        {
+            // Get a list of floor tiles at maximum x for each y in left split, and the min and max y values that have floor tiles
+            List<Vector2Int> rightTilesInLeftSplit = GetRightFloorTiles(parent.left.area);
+
+            // Get a list of floor tiles at minimum x for each y in top split, and the min and max y values that have floor tiles
+            List<Vector2Int> leftTilesInRightSplit = GetLeftFloorTiles(parent.right.area);
+
+            // Get the overlap between the two above lists
+            bool isConnected = false;
+            var overlappingTiles = GetOverlap(rightTilesInLeftSplit, leftTilesInRightSplit, false, out isConnected);
+            RectIntExclusive pathArea;
+
+            if (!isConnected)
+            {
+                if (overlappingTiles.Count != 0)
+                {
+                    // Pick a random y position within the overlapping area to add a connecting path
+                    int randomIndex = UnityEngine.Random.Range(0, overlappingTiles.Count);
+                    int randomY = overlappingTiles[randomIndex].tileA.y;
+                    pathArea = AddStraightConnectingPath(randomY, parent.left.area, parent.right.area, true);
+                    if (animationDelay != 0)
+                    {
+                        UpdateTiles(pathArea);
+                    }
+                }
+                else
+                {
+                    var leftTileIndex = Random.Range(0, rightTilesInLeftSplit.Count);
+                    var rightTileIndex = Random.Range(0, leftTilesInRightSplit.Count);
+                    var leftTile = rightTilesInLeftSplit[leftTileIndex];
+                    var rightTile = leftTilesInRightSplit[rightTileIndex];
+                    AddAngledPath(leftTile, rightTile, false);
+                    if (animationDelay != 0)
+                    {
+                        UpdateTiles(parent.area);
+                    }
+                }
+                yield return new WaitForSeconds(animationDelay);
+            }
+        }
+
+        IEnumerator CreatePathBetweenVerticalSplit(Node parent)
+        {
+            // Get a list of floor tiles at maximum y for each x in bottom split, and the min and max x values that have floor tiles
+            List<Vector2Int> topTilesInBottomSplit = GetTopFloorTiles(parent.left.area);
+
+            // Get a list of floor tiles at minimum y for each x in top split, and the min and max x values that have floor tiles
+            List<Vector2Int> bottomTilesInTopSplit = GetBottomFloorTiles(parent.right.area);
+
+            // Get the overlap between the two above lists
+            var overlappingTiles = GetOverlap(topTilesInBottomSplit, bottomTilesInTopSplit, true, out bool isConnected);
+            RectIntExclusive pathArea;
+
+            if (!isConnected)
+            {
+                if (overlappingTiles.Count != 0)
+                {
+                    // Pick a random x position within the overlapping area to add a connecting path
+                    int randomIndex = Random.Range(0, overlappingTiles.Count);
+                    int randomX = overlappingTiles[randomIndex].tileA.x;
+                    pathArea = AddStraightConnectingPath(randomX, parent.left.area, parent.right.area, false);
+                    if (animationDelay != 0)
+                    {
+                        UpdateTiles(pathArea);
+                    }
+                }
+                else
+                {
+                    var bottomTileIndex = Random.Range(0, topTilesInBottomSplit.Count);
+                    var topTileIndex = Random.Range(0, bottomTilesInTopSplit.Count);
+                    var bottomTile = topTilesInBottomSplit[bottomTileIndex];
+                    var topTile = bottomTilesInTopSplit[topTileIndex];
+                    AddAngledPath(bottomTile, topTile, true);
+                    if (animationDelay != 0)
+                    {
+                        UpdateTiles(parent.area);
+                    }
+                }
+                yield return new WaitForSeconds(animationDelay);
+            }
+        }
+
         IEnumerator GenerateRooms(Node parent, BiomeObject biomeObject)
         {
             if (parent == null) yield break;
@@ -235,74 +398,7 @@
             if (parent.left == null && parent.right == null)
             {
                 // Leaf node, actually generate a room
-                int maxWidth = parent.area.width - 2;
-                int maxHeight = parent.area.height - 2;
-                int minWidth = Mathf.Max(2, maxWidth / 3);
-                int minHeight = Mathf.Max(2, maxHeight / 3);
-                int w = Random.Range(minWidth, maxWidth);
-                int h = Random.Range(minHeight, maxHeight);
-                int xMin = Random.Range(parent.area.xMin + 1, parent.area.xMax - w - 1);
-                int yMin = Random.Range(parent.area.yMin + 1, parent.area.yMax - h - 1);
-                var rect = new RectIntExclusive(xMin, yMin, w, h);
-                parent.room = rect;
-
-                try
-                {
-                    var topLeftCorner = Map.instance.GetTilePositionOnMap(new Vector2Int(rect.xMin - 1, rect.yMin - 1));
-                    var topRightCorner = Map.instance.GetTilePositionOnMap(new Vector2Int(rect.xMax + 1, rect.yMin - 1));
-                    for (int x = topLeftCorner.x; x <= topRightCorner.x; x++)
-                    {
-                        tileTemplates[topLeftCorner.y][x].isRoomTile = true;
-                    }
-                    for (int y = rect.yMin; y <= rect.yMax; y++)
-                    {
-                        var p = Map.instance.GetTilePositionOnMap(new Vector2Int(rect.xMin - 1, y));
-                        tileTemplates[p.y][p.x].isRoomTile = true;
-                        for (int x = rect.xMin; x <= rect.xMax; x++)
-                        {
-                            tileTemplates[y][x].type = TileType.FLOOR;
-                            tileTemplates[y][x].isRoomTile = true;
-                        }
-                        p = Map.instance.GetTilePositionOnMap(new Vector2Int(rect.xMax + 1, y));
-                        tileTemplates[p.y][p.x].isRoomTile = true;
-                    }
-                    var bottomLeftCorner = Map.instance.GetTilePositionOnMap(new Vector2Int(rect.xMin - 1, rect.yMax + 1));
-                    var bottomRightCorner = Map.instance.GetTilePositionOnMap(new Vector2Int(rect.xMax + 1, rect.yMax + 1));
-                    for (int x = bottomLeftCorner.x; x <= bottomRightCorner.x; x++)
-                    {
-                        tileTemplates[bottomLeftCorner.y][x].isRoomTile = true;
-                    }
-                }
-                catch (Exception e)
-                {
-                    Debug.Log(e);
-                }
-
-                if (scorpions != null)
-                {
-                    var roomCreaturesObject = Instantiate(Map.instance.biomeObjectPrefab, biomeObject.transform).GetComponent<BiomeObject>();
-                    var roomCreatures = Instantiate(scorpions);
-                    roomCreaturesObject.area = rect;
-                    roomCreaturesObject.biome = roomCreatures;
-                    subBiomes.Add(roomCreatures);
-                    biomeObject.subBiomes.Add(roomCreaturesObject);
-                }
-
-                if (electricTraps != null)
-                {
-                    var roomTrapsObject = Instantiate(Map.instance.biomeObjectPrefab, biomeObject.transform).GetComponent<BiomeObject>();
-                    var roomTraps = Instantiate(electricTraps);
-                    roomTrapsObject.area = new RectIntExclusive(rect.xMin + 1, rect.yMin + 1, rect.width - 1, rect.height - 1);
-                    roomTrapsObject.biome = roomTraps;
-                    subBiomes.Add(roomTraps);
-                    biomeObject.subBiomes.Add(roomTrapsObject);
-                }
-
-                if (animationDelay != 0)
-                {
-                    UpdateTiles(parent.room);
-                    yield return new WaitForSeconds(animationDelay);
-                }
+                yield return Map.instance.StartCoroutine(GenerateRoom(parent, biomeObject));
             }
             else
             {
@@ -313,87 +409,11 @@
                 // Ensure at least one path between the two subtrees
                 if (parent.left.area.xMax == parent.right.area.xMax)
                 {
-                    // Vertical split
-                    // Get a list of floor tiles at maximum y for each x in bottom split, and the min and max x values that have floor tiles
-                    List<Vector2Int> topTilesInBottomSplit = GetTopFloorTiles(parent.left.area);
-
-                    // Get a list of floor tiles at minimum y for each x in top split, and the min and max x values that have floor tiles
-                    List<Vector2Int> bottomTilesInTopSplit = GetBottomFloorTiles(parent.right.area);
-
-                    // Get the overlap between the two above lists
-                    bool isConnected = false;
-                    var overlappingTiles = GetOverlap(topTilesInBottomSplit, bottomTilesInTopSplit, true, out isConnected);
-                    RectIntExclusive pathArea;
-
-                    if (!isConnected)
-                    {
-                        if (overlappingTiles.Count != 0)
-                        {
-                            // Pick a random x position within the overlapping area to add a connecting path
-                            int randomIndex = Random.Range(0, overlappingTiles.Count);
-                            int randomX = overlappingTiles[randomIndex].tileA.x;
-                            pathArea = AddStraightConnectingPath(randomX, parent.left.area, parent.right.area, false);
-                            if (animationDelay != 0)
-                            {
-                                UpdateTiles(pathArea);
-                            }
-                        }
-                        else
-                        {
-                            var bottomTileIndex = Random.Range(0, topTilesInBottomSplit.Count);
-                            var topTileIndex = Random.Range(0, bottomTilesInTopSplit.Count);
-                            var bottomTile = topTilesInBottomSplit[bottomTileIndex];
-                            var topTile = bottomTilesInTopSplit[topTileIndex];
-                            AddAngledPath(bottomTile, topTile, true);
-                            if (animationDelay != 0)
-                            {
-                                UpdateTiles(parent.area);
-                            }
-                        }
-                        yield return new WaitForSeconds(animationDelay);
-                    }
+                    yield return Map.instance.StartCoroutine(CreatePathBetweenVerticalSplit(parent));
                 }
                 else
                 {
-                    // Horizontal split
-                    // Get a list of floor tiles at maximum x for each y in left split, and the min and max y values that have floor tiles
-                    List<Vector2Int> rightTilesInLeftSplit = GetRightFloorTiles(parent.left.area);
-
-                    // Get a list of floor tiles at minimum x for each y in top split, and the min and max y values that have floor tiles
-                    List<Vector2Int> leftTilesInRightSplit = GetLeftFloorTiles(parent.right.area);
-
-                    // Get the overlap between the two above lists
-                    bool isConnected = false;
-                    var overlappingTiles = GetOverlap(rightTilesInLeftSplit, leftTilesInRightSplit, false, out isConnected);
-                    RectIntExclusive pathArea;
-
-                    if (!isConnected)
-                    {
-                        if (overlappingTiles.Count != 0)
-                        {
-                            // Pick a random y position within the overlapping area to add a connecting path
-                            int randomIndex = UnityEngine.Random.Range(0, overlappingTiles.Count);
-                            int randomY = overlappingTiles[randomIndex].tileA.y;
-                            pathArea = AddStraightConnectingPath(randomY, parent.left.area, parent.right.area, true);
-                            if (animationDelay != 0)
-                            {
-                                UpdateTiles(pathArea);
-                            }
-                        }
-                        else
-                        {
-                            var leftTileIndex = Random.Range(0, rightTilesInLeftSplit.Count);
-                            var rightTileIndex = Random.Range(0, leftTilesInRightSplit.Count);
-                            var leftTile = rightTilesInLeftSplit[leftTileIndex];
-                            var rightTile = leftTilesInRightSplit[rightTileIndex];
-                            AddAngledPath(leftTile, rightTile, false);
-                            if (animationDelay != 0)
-                            {
-                                UpdateTiles(parent.area);
-                            }
-                        }
-                        yield return new WaitForSeconds(animationDelay);
-                    }
+                    yield return Map.instance.StartCoroutine(CreatePathBetweenHorizontalSplit(parent));
                 }
             }
 
@@ -668,7 +688,7 @@
 
         IEnumerator GenerateAreas(Node parent, float splitProbability, BiomeObject biomeObject)
         {
-            if (Random.value > splitProbability) yield break;
+            if (parent.area.width < maxBSPArea && parent.area.height < maxBSPArea && Random.value > splitProbability) yield break;
 
             bool horizontalHasRoom = parent.area.width > (minBSPArea * 2);
             bool verticalHasRoom = parent.area.height > (minBSPArea * 2);

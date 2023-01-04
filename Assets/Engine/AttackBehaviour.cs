@@ -37,9 +37,10 @@ namespace Noble.TileEngine
 			attackWillHit = false;
 
 			Weapon weapon = null;
-			if (identityCreature.rightHandObject)
+			Equipable equippedRightHandItem = identityCreature.GetEquipment(Equipment.Slot.RIGHT_HAND_WEAPON);
+            if (equippedRightHandItem)
 			{
-				weapon = identityCreature.rightHandObject.GetComponent<Weapon>();
+				weapon = equippedRightHandItem.GetComponent<Weapon>();
 			}
 
 			if (weapon)
@@ -106,9 +107,14 @@ namespace Noble.TileEngine
 
 			Weapon weapon = null;
 			bool isWeaponDone = true;
-			if (identityCreature.rightHandObject)
+            Equipable equippedRightHandItem = identityCreature.GetEquipment(Equipment.Slot.RIGHT_HAND_WEAPON);
+            if (equippedRightHandItem)
+            {
+                weapon = equippedRightHandItem.GetComponent<Weapon>();
+            }
+            if (equippedRightHandItem)
 			{
-				weapon = identityCreature.rightHandObject.GetComponent<Weapon>();
+				weapon = equippedRightHandItem.GetComponent<Weapon>();
 			}
 			if (weapon)
 			{
@@ -123,9 +129,14 @@ namespace Noble.TileEngine
 			Creature targetCreature = targetObject.GetComponent<Creature>();
 
 			Weapon weapon = null;
-			if (identityCreature.rightHandObject != null)
+            Equipable equippedRightHandItem = identityCreature.GetEquipment(Equipment.Slot.RIGHT_HAND_WEAPON);
+            if (equippedRightHandItem)
+            {
+                weapon = equippedRightHandItem.GetComponent<Weapon>();
+            }
+            if (equippedRightHandItem != null)
 			{
-				weapon = identityCreature.rightHandObject.GetComponent<Weapon>();
+				weapon = equippedRightHandItem.GetComponent<Weapon>();
 			}
 
 			if (attackWillHit && targetCreature)

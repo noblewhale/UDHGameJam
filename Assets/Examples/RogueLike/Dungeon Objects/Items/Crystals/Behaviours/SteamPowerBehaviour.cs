@@ -33,7 +33,7 @@ namespace Noble.DungeonCrawler
 			
 			attackStartTime = Time.time;
 
-			Vector2 startVisualRayPosition = Map.instance.transform.InverseTransformPoint(identityCreature.leftHand.transform.position);
+			Vector2 startVisualRayPosition = Map.instance.transform.InverseTransformPoint(identityCreature.GetEquipmentSlot(Equipment.Slot.LEFT_HAND_WEAPON).position);
 			Vector2 endVisualRayPosition = new Vector2(shapeBehaviour.threatenedTiles[0].localPosition.x + Map.instance.tileWidth / 2, shapeBehaviour.threatenedTiles[0].localPosition.y + Map.instance.tileHeight / 2);
 			if ((endVisualRayPosition - startVisualRayPosition).magnitude > Map.instance.TotalWidth / 2)
 			{
@@ -53,7 +53,7 @@ namespace Noble.DungeonCrawler
 
 			GameObject projectile = Instantiate(projectilePrefab);
 			projectile.transform.parent = Map.instance.transform;
-			projectile.transform.position = identityCreature.leftHand.transform.position;
+			projectile.transform.position = identityCreature.GetEquipmentSlot(Equipment.Slot.LEFT_HAND_WEAPON).position;
 			projectile.transform.position = new Vector3(projectile.transform.position.x, projectile.transform.position.y, -5);
 			projectileObject = projectile;
 

@@ -182,7 +182,7 @@ namespace Noble.TileEngine
 
         virtual public void DrawDebug(RectIntExclusive area)
         {
-            EditorUtil.DrawRect(FindObjectOfType<Map>(), area, Color.green);
+            //EditorUtil.DrawRect(Map.instance, area, Color.green);
         }
     }
 }

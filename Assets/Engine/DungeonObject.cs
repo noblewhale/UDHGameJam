@@ -12,6 +12,17 @@
     {
         public string objectName;
 
+        Creature _creature;
+        public Creature Creature
+        {
+            get {
+                if (_creature == null) _creature = GetComponent<Creature>();
+                return _creature; 
+            }
+        }
+
+        public Equipment Equipment => Creature?.equipment;
+
         [Serializable]
         public class CreatureEvent : UnityEvent<DungeonObject> { }
 
@@ -49,7 +60,9 @@
             }
         }
 
-        public int health = 1;
+        Dictionary<string, IProperty> properties = new();
+        public int maxHealth = 1;
+        //public int health = 1;
         public bool isCollidable = true;
         public bool blocksLineOfSight = false;
         public bool coversObjectsBeneath = false;
@@ -62,9 +75,11 @@
         public event Action<Vector2Int, Vector2Int> onPreMove;
         public event Action<Vector2Int, Vector2Int> onPreSetPosition;
         public event Action<DungeonObject> onPickedUpObject;
+        public event Action<DungeonObject> onPickedUp;
         public event Action<DungeonObject, bool> onCollision;
         public event Action onDeath;
         public event Action onSpawn;
+        public event Action<int> onTakeDamage;
         public Tile tile;
         public bool autoAddToTileAtStart = true;
 
@@ -73,7 +88,7 @@
         virtual protected void Start()
         {
             tickable = GetComponent<Tickable>();
-            glyphs = GetComponentInChildren<Glyphs>();
+            glyphs = GetComponentInChildren<Glyphs>(true);
             if (glyphs)
             {
                 glyphsOb = glyphs.gameObject;
@@ -81,6 +96,12 @@
             }
 
             map.OnPreMapLoaded += OnPreMapLoaded;
+
+            var propertyComponents = GetComponents<IProperty>();
+            foreach (var property in propertyComponents)
+            {
+                properties.Add(property.propertyName, property);
+            }
         }
 
         public void OnPreMapLoaded()
@@ -100,13 +121,18 @@
             onSpawn?.Invoke();
         }
 
+        public Property<T> GetProperty<T>(string propertyName)
+        {
+            return (Property<T>)properties[propertyName];
+        }
+
         public void UpdateLighting()
         {
             if (illuminationRange == 0) return;
 
             if (illuminationRange < .5f)
             {
-                tile.SetLit(true);
+                tile.AddIlluminationSource();
                 return;
             }
 
@@ -115,7 +141,7 @@
                 illuminationRange, 
                 (Tile t) => 
                 {
-                    t.SetLit(true);
+                    t.AddIlluminationSource();
                 },
                 (Tile t) =>
                 {
@@ -193,13 +219,8 @@
             if (!canTakeDamage) return;
 
             hasDoneDamageFlash = false;
-            health -= v;
 
-            if (health < 0) health = 0;
-            if (health == 0)
-            {
-                Die();
-            }
+            onTakeDamage?.Invoke(v);
         }
 
         virtual public void Die()
@@ -244,6 +265,7 @@
             }
             objectToPickUp.transform.position = new Vector3(-666, -666, -666);
             if (onPickedUpObject != null) onPickedUpObject(objectToPickUp);
+            if (objectToPickUp.onPickedUp != null) objectToPickUp.onPickedUp(this);
         }
 
         public void Move(Vector2Int pos)
@@ -260,6 +282,19 @@
 
             if (isMove && onMove != null) onMove(previousTilePosition, tilePosition);
             if (onSetPosition != null) onSetPosition(previousTilePosition, tilePosition);
+
+
+            if (isMove)
+            {
+                map.ForEachTileInRadius(
+                    previousTilePosition,
+                    illuminationRange,
+                    t => t.RemoveIlluminationSource(),
+                    null,
+                    true
+                );
+                UpdateLighting();
+            }
 
             previousTilePosition = position;
         }

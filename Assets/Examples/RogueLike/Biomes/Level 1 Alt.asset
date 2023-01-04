@@ -24,6 +24,7 @@ MonoBehaviour:
   maxHeight: -1
   subBiomes: []
   minBSPArea: 5
+  maxBSPArea: 25
   nothings:
   - item: {fileID: 114396989050233776, guid: 6ff31623a9d415f4a8e85daae402c56b, type: 3}
     minQuantity: 1
@@ -73,11 +74,10 @@ MonoBehaviour:
     requireSpawnable: 1
     minQuantityPerBiome: -1
     maxQuantityPerBiome: -1
-  torchPrefab: {fileID: 3096362382002108082, guid: 617344c531ad38345966374b0825c374,
-    type: 3}
+  torchPrefab: {fileID: 3096362382002108082, guid: 617344c531ad38345966374b0825c374, type: 3}
   scorpions: {fileID: 0}
   rats: {fileID: 0}
   items: {fileID: 11400000, guid: ffc53738e5eacc84a89fa4c8d9683115, type: 2}
   electricTraps: {fileID: 0}
-  finalDoorPrefab: {fileID: 114396989050233776, guid: 9f526afec26ee494783a13a9864cc3d4,
-    type: 3}
+  finalDoorPrefab: {fileID: 114396989050233776, guid: 9f526afec26ee494783a13a9864cc3d4, type: 3}
+  roomLightPrefab: {fileID: 7712858586755306792, guid: e87a55a98bfda764c94f06ab48be0642, type: 3}

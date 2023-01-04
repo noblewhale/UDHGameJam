@@ -58,7 +58,9 @@
                     {
                         dungeonObject.DamageFlash(1);
                         dungeonObject.TakeDamage(Mathf.RoundToInt(Random.Range(minDamage, maxDamage)));
-                        if (knockBack && dungeonObject.health != 0)
+                        var healthProperty = dungeonObject.GetProperty<int>("Health");
+                        int currentHealth = healthProperty.GetValue();
+                        if (knockBack && currentHealth != 0)
                         {
                             Map.instance.MoveObject(dungeonObject, dungeonObject.previousTilePosition);
                         }

@@ -61,7 +61,7 @@
 			attackStartTime = Time.time;
 			foreach (var tile in threatenedTiles)
 			{
-				Vector2 startVisualRayPosition = Map.instance.transform.InverseTransformPoint(identityCreature.leftHand.transform.position);
+				Vector2 startVisualRayPosition = Map.instance.transform.InverseTransformPoint(identityCreature.GetEquipmentSlot(Equipment.Slot.LEFT_HAND_WEAPON).position);
 				Vector2 endVisualRayPosition = new Vector2(tile.localPosition.x + Map.instance.tileWidth / 2, tile.localPosition.y + Map.instance.tileHeight / 2);
 				if ((endVisualRayPosition - startVisualRayPosition).magnitude > Map.instance.TotalWidth / 2)
 				{
@@ -82,7 +82,7 @@
 
 				GameObject fireballObject = Instantiate(fireballObjectPrefab);
 				fireballObject.transform.parent = Map.instance.transform;
-				fireballObject.transform.position = identityCreature.leftHand.transform.position - Vector3.forward;
+				fireballObject.transform.position = identityCreature.GetEquipmentSlot(Equipment.Slot.LEFT_HAND_WEAPON).position - Vector3.forward;
 				fireballObjects.Add(fireballObject);
 			}
 		}

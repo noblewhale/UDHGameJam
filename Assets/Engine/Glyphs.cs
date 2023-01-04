@@ -7,10 +7,13 @@
     {
         public Color damageFlashColor = Color.red;
         public List<Glyph> glyphs = new List<Glyph>();
+        bool isLit;
 
         void Awake()
         {
             glyphs = new List<Glyph>(GetComponentsInChildren<Glyph>(true));
+
+            //gameObject.SetActive(false);
         }
 
         public void SetRevealed(bool isRevealed)
@@ -20,10 +23,7 @@
 
         public void SetLit(bool isLit)
         {
-            for (int i = 0; i < glyphs.Count; i++)
-            {
-                glyphs[i].isLit = isLit;
-            }
+            this.isLit = isLit;
         }
 
         public void DamageFlash(float animationTime)
@@ -47,6 +47,19 @@
                 for (int i = 0; i < glyphs.Count; i++)
                 {
                     glyphs[i].extraTint = Color.white;
+                }
+            }
+        }
+
+        private void Update()
+        {
+            foreach (Glyph glyph in glyphs)
+            {
+                if (glyph == null || glyph.sprite == null) continue;
+                glyph.sprite.color = glyph.originalColor - (Color.white - glyph.tint) - (Color.white - glyph.extraTint);
+                if (!isLit)
+                {
+                    glyph.sprite.color = new Color(glyph.sprite.color.r / 2, glyph.sprite.color.g / 2, glyph.sprite.color.b / 2, glyph.sprite.color.a);
                 }
             }
         }

@@ -345,6 +345,8 @@
 
         virtual public void ForEachTileInRadius(Vector2 start, float radius, Action<Tile> action, Func<Tile, bool> stopCondition = null, bool includeSourceTile = false, bool showDebug = false)
         {
+            if (radius == 0) return;
+
             var tilesInRadius = GetTilesInRadius(start, radius, stopCondition, includeSourceTile, showDebug);
 
             foreach(var tile in tilesInRadius)
@@ -408,7 +410,7 @@
                     dif = reverseDir;
                 }
                 float dir = Math.Sign(dif);
-                float step = dir * 2 * Mathf.PI / 360;
+                float step = dir * 2 * Mathf.PI / (Mathf.FloorToInt(16 * radius / 4) * 4);
                 float maxSteps = Math.Abs(dif) / step;
                 for (float r = arcAngleStart, numSteps = 0; r != arcAngleEnd && numSteps < maxSteps; r += step, numSteps++)
                 {
@@ -416,7 +418,7 @@
                     if (r < 0) r += Mathf.PI * 2;
                     Vector2 direction = new Vector2(Mathf.Sin(r), Mathf.Cos(r));
 
-                    tilesInArea.AddRange(GetTileHitsInRay_Dirty(start, direction, radius, stopCondition, includeSourceTile, .4f, showDebug));
+                    GetTileHitsInRay_Dirty(tilesInArea, start, direction, radius, stopCondition, includeSourceTile, .4f, showDebug);
                 }
             }
 
@@ -459,7 +461,7 @@
 
                     float truncatedDistance = shortDistance / Mathf.Cos(Mathf.Abs((r - arcAngleStart) - dif / 2));
 
-                    tilesInArea.AddRange(GetTileHitsInRay_Dirty(start, direction, truncatedDistance, stopCondition, includeSourceTile, .4f, true));
+                    GetTileHitsInRay_Dirty(tilesInArea, start, direction, truncatedDistance, stopCondition, includeSourceTile, .4f, true);
                 }
             }
 
@@ -506,19 +508,17 @@
                 Mathf.Min(Mathf.FloorToInt(start.y), Mathf.FloorToInt(start.y + dir.y * distance)),
                 Mathf.Max(Mathf.CeilToInt(start.y), Mathf.CeilToInt(start.y + dir.y * distance))
             );
-            List<TileAndPosition> tilesInRay;
+            List<TileAndPosition> tilesInRay = new();
             lock (isDirtyLock)
             {
                 ForEachTileInArea(area, (t) => t.isDirty = false);
-                tilesInRay = GetTileHitsInRay_Dirty(start, dir, distance, stopCondition, includeSourceTile, stepSize, showDebug);
+                GetTileHitsInRay_Dirty(tilesInRay, start, dir, distance, stopCondition, includeSourceTile, stepSize, showDebug);
             }
             return tilesInRay;
         }
 
-        virtual public List<TileAndPosition> GetTileHitsInRay_Dirty(Vector2 start, Vector2 dir, float distance, Func<Tile, bool> stopCondition = null, bool includeSourceTile = false, float stepSize = .4f, bool showDebug = false)
+        virtual public void GetTileHitsInRay_Dirty(List<TileAndPosition> results, Vector2 start, Vector2 dir, float distance, Func<Tile, bool> stopCondition = null, bool includeSourceTile = false, float stepSize = .4f, bool showDebug = false)
         {
-            List<TileAndPosition> tiles = new List<TileAndPosition>();
-
             Vector2 prev = start;
             Vector2 currentPosition;
             Tile currentTile;
@@ -550,7 +550,57 @@
                             tile = currentTile,
                             hitPosition = currentPosition
                         };
-                        tiles.Add(hit);
+                        results.Add(hit);
+
+                        // Also add any tiles that are super close by so that we don't need a ton of rays
+                        var extraPosition = currentPosition + new Vector2(.2f, .2f);
+                        var extraTile = GetTileFromWorldPosition(extraPosition.x, extraPosition.y);
+                        if (!extraTile.isDirty)
+                        {
+                            extraTile.isDirty = true;
+                            hit = new TileAndPosition
+                            {
+                                tile = extraTile,
+                                hitPosition = extraPosition
+                            };
+                            results.Add(hit);
+                        }
+                        extraPosition = currentPosition + new Vector2(-.2f, -.2f);
+                        extraTile = GetTileFromWorldPosition(extraPosition.x, extraPosition.y);
+                        if (!extraTile.isDirty)
+                        {
+                            extraTile.isDirty = true;
+                            hit = new TileAndPosition
+                            {
+                                tile = extraTile,
+                                hitPosition = extraPosition
+                            };
+                            results.Add(hit);
+                        }
+                        extraPosition = currentPosition + new Vector2(-.2f, .2f);
+                        extraTile = GetTileFromWorldPosition(extraPosition.x, extraPosition.y);
+                        if (!extraTile.isDirty)
+                        {
+                            extraTile.isDirty = true;
+                            hit = new TileAndPosition
+                            {
+                                tile = extraTile,
+                                hitPosition = extraPosition
+                            };
+                            results.Add(hit);
+                        }
+                        extraPosition = currentPosition + new Vector2(.2f, +.2f);
+                        extraTile = GetTileFromWorldPosition(extraPosition.x, extraPosition.y);
+                        if (!extraTile.isDirty)
+                        {
+                            extraTile.isDirty = true;
+                            hit = new TileAndPosition
+                            {
+                                tile = extraTile,
+                                hitPosition = extraPosition
+                            };
+                            results.Add(hit);
+                        }
                     }
 
                     if (stopCondition != null && stopCondition(currentTile))
@@ -580,12 +630,10 @@
                             tile = currentTile,
                             hitPosition = start + dir * distance
                         };
-                        tiles.Add(hit);
+                        results.Add(hit);
                     }
                 }
             }
-
-            return tiles;
         }
 
         virtual public Vector2 GetDifference(Vector2 start, Vector2 end) => new Vector2(GetXDifference(start.x, end.x), GetYDifference(start.y, end.y));
@@ -602,7 +650,8 @@
 
         virtual public void UpdateLighting()
         {
-            ForEachTile(t => t.SetLit(false));
+            //ForEachTile(t => t.SetLit(true));
+            //ForEachTile(t => t.SetLit(false));
             ForEachTile(t => t.UpdateLighting());
         }
 
@@ -616,7 +665,7 @@
                 t => t.SetInView(isVisible),
                 t => t.DoesBlockLineOfSight() && t.tilePosition != pos,
                 false,
-                false
+                true
             );
         }
 

@@ -15,13 +15,29 @@
         {
             Command command = PlayerInputHandler.instance.commandQueue.Dequeue();
 
-            if (command.key == Key.F)
+            if (InventoryMenu.instance.gameObject.activeSelf)
             {
-                return owner.GetComponent<Creature>().leftHandObject.GetComponent<TickableBehaviour>();
+                if (command.key == Key.I)
+                {
+                    InventoryMenu.instance.gameObject.SetActive(false);
+                }
+                return null;
             }
             else
             {
-                return DefaultAction(command);
+                if (command.key == Key.I)
+                {
+                    InventoryMenu.instance.gameObject.SetActive(true);
+                    return null;
+                }
+                else if (command.key == Key.F)
+                {
+                    return owner.Equipment.GetEquipment(Equipment.Slot.LEFT_HAND_WEAPON).GetComponent<TickableBehaviour>();
+                }
+                else
+                {
+                    return DefaultAction(command);
+                }
             }
         }
 
