@@ -1,6 +1,7 @@
 namespace Noble.DungeonCrawler
 {
     using Noble.TileEngine;
+    using System.Collections;
     using System.Linq;
     using UnityEngine;
     using UnityEngine.EventSystems;
@@ -64,14 +65,14 @@ namespace Noble.DungeonCrawler
             {
                 equipSlot.UpdateSlot();
             }
-
-            EventSystem.current.SetSelectedGameObject(null);
         }
 
         void AssignItemAndReturnToDefault()
         {
             EquipItem(InventoryMenu.instance.currentItemForAssignment.gameObject);
             InventoryMenu.instance.ReturnToDefaultMode();
+            var inventorySlots = FindObjectsOfType<InventorySlotGUI>();
+            inventorySlots.First(s => s.item == InventoryMenu.instance.currentItemForAssignment.DungeonObject).GetComponent<Button>().Select();
         }
 
         void AssignSlotAndReturnToDefault()
@@ -87,6 +88,41 @@ namespace Noble.DungeonCrawler
                 }
                 InventoryMenu.instance.ReturnToDefaultMode();
             }
+        }
+
+        public void OnSelect(BaseEventData data)
+        {
+            if (InventoryMenu.instance.mode == InventoryMenu.Mode.DEFAULT)
+            {
+                GetComponent<Button>().interactable = true;
+            }
+            else
+            {
+                if (!GetComponent<Button>().interactable && data is AxisEventData axisEvent)
+                {
+                    var nextSelectable = GetComponent<Button>().FindSelectable(axisEvent.moveVector);
+                    if (nextSelectable == null)
+                    {
+                        nextSelectable = GetComponent<Button>().FindSelectable(axisEvent.moveVector * -1);
+                    }
+                    StartCoroutine(DelaySelect(nextSelectable));
+                    return;
+                }
+            }
+        }
+
+        public void OnDeselect(BaseEventData data)
+        {
+            if (InventoryMenu.instance.mode == InventoryMenu.Mode.DEFAULT)
+            {
+                GetComponent<Button>().interactable = false;
+            }
+        }
+
+        IEnumerator DelaySelect(Selectable nextSelectable)
+        {
+            yield return new WaitForEndOfFrame();
+            nextSelectable.Select();
         }
 
         public void OnDrop(PointerEventData eventData)
@@ -132,7 +168,6 @@ namespace Noble.DungeonCrawler
             {
                 GetComponent<Button>().interactable = true;
             }
-
         }
 
         public void OnMouseExit(BaseEventData data)

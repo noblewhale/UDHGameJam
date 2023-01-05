@@ -250,13 +250,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bcd10d15a30478449e00ad96e33416d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mana: 0
-  strength: 1
-  dexterity: 1
-  constitution: 1
-  intelligence: 1
-  charisma: 1
-  defense: 1
   viewDistance: 32
   ticksPerMove: 1
   ticksPerAttack: 1
@@ -907,6 +900,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2988263539083935508}
     m_Modifications:
+    - target: {fileID: -9210633653064856472, guid: 0dec2101246de604194bc892acf67064, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: -9164944756483874929, guid: 0dec2101246de604194bc892acf67064, type: 3}
       propertyPath: m_Name
       value: Head smile 2
@@ -987,6 +984,14 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -5752167813534500760, guid: 0dec2101246de604194bc892acf67064, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -4853256801770139306, guid: 0dec2101246de604194bc892acf67064, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: -3744485557375374822, guid: 0dec2101246de604194bc892acf67064, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -998,6 +1003,10 @@ PrefabInstance:
     - target: {fileID: -3716969715995494336, guid: 0dec2101246de604194bc892acf67064, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -3611149063881114418, guid: 0dec2101246de604194bc892acf67064, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -3490127619965925271, guid: 0dec2101246de604194bc892acf67064, type: 3}
       propertyPath: m_IsActive
@@ -1017,7 +1026,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -907728362350755201, guid: 0dec2101246de604194bc892acf67064, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -856138430712955627, guid: 0dec2101246de604194bc892acf67064, type: 3}
       propertyPath: m_IsActive
@@ -1044,6 +1053,14 @@ PrefabInstance:
       value: Body havey breath
       objectReference: {fileID: 0}
     - target: {fileID: -520186937802854055, guid: 0dec2101246de604194bc892acf67064, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 343670871676645731, guid: 0dec2101246de604194bc892acf67064, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 434250830872689497, guid: 0dec2101246de604194bc892acf67064, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
@@ -1079,11 +1096,19 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3371687218250008604, guid: 0dec2101246de604194bc892acf67064, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3438123632619554913, guid: 0dec2101246de604194bc892acf67064, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5242439767917160522, guid: 0dec2101246de604194bc892acf67064, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5969832608534969018, guid: 0dec2101246de604194bc892acf67064, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
@@ -1096,6 +1121,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6511567352297836835, guid: 0dec2101246de604194bc892acf67064, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6612293647713391570, guid: 0dec2101246de604194bc892acf67064, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}

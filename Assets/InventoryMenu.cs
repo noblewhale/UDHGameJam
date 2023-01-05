@@ -35,8 +35,14 @@ namespace Noble.DungeonCrawler
 
         public void OnEnable()
         {
-            globalLightOff.enabled = false;
-            globalLightOn.enabled = true;
+            if (globalLightOff)
+            {
+                globalLightOff.enabled = false;
+            }
+            if (globalLightOn)
+            {
+                globalLightOn.enabled = true;
+            }
             var player = Player.instance.identity;
             player.transform.parent = characterPosition;
             player.transform.localPosition = new Vector3(-.5f, -.5f, 0);
@@ -53,8 +59,14 @@ namespace Noble.DungeonCrawler
         {
             if (Player.instance && Player.instance.identity)
             {
-                globalLightOff.enabled = true;
-                globalLightOn.enabled = false;
+                if (globalLightOff)
+                {
+                    globalLightOff.enabled = true;
+                }
+                if (globalLightOn)
+                {
+                    globalLightOn.enabled = false;
+                }
                 var player = Player.instance.identity;
                 Tile tile = Map.instance.GetTile(player.x, player.y);
                 tile.AddObject(player, false, 2);
@@ -69,10 +81,10 @@ namespace Noble.DungeonCrawler
 
         public void OnSelect(BaseEventData data)
         {
-            ReturnToDefaultMode();
+            //ReturnToDefaultMode();
         }
 
-        void EnableSlotsThatAllowItem(Equipable item)
+        public void EnableSlotsThatAllowItem(Equipable item)
         {
             if (item == null) return;
             var equipSlots = FindObjectsOfType<EquipSlotGUI>();
@@ -80,13 +92,13 @@ namespace Noble.DungeonCrawler
             {
                 if (item.allowedSlots.Any(s => equipSlot.slots.Contains(s)))
                 {
-                    equipSlot.GetComponent<Image>().color = Color.green;
+                    //equipSlot.GetComponent<Image>().color = Color.green;
                     equipSlot.GetComponent<Button>().interactable = true;
                 }
             }
         }
 
-        void DisableItemsThatDontFitSlots(Equipment.Slot[] slots)
+        public void DisableItemsThatDontFitSlots(Equipment.Slot[] slots)
         {
             var inventoryGUIItems = FindObjectsOfType<InventorySlotGUI>();
             foreach (var inventoryGUIItem in inventoryGUIItems)
@@ -98,11 +110,30 @@ namespace Noble.DungeonCrawler
             }
         }
 
-        public void EnterAssignItemToSlotMode(Equipable equipment)
+        public void DisableOtherItems(Equipable item)
+        {
+            var inventoryGUIItems = FindObjectsOfType<InventorySlotGUI>();
+            foreach (var inventoryGUIItem in inventoryGUIItems)
+            {
+                if (inventoryGUIItem.item.GetComponent<Equipable>() != item)
+                {
+                    inventoryGUIItem.GetComponent<Button>().interactable = false;
+                }
+            }
+        }
+
+        public void EnterAssignItemToSlotMode(Equipable equipment, bool autoSelectLikelySlot)
         {
             mode = Mode.ASSIGN_ITEM_TO_SLOT;
             currentItemForAssignment = equipment;
             EnableSlotsThatAllowItem(equipment);
+            DisableOtherItems(equipment);
+            if (autoSelectLikelySlot)
+            {
+                var equipSlotGUIS = FindObjectsOfType<EquipSlotGUI>();
+                var mostLikelySlot = equipSlotGUIS.First(guiSlot => guiSlot.slots.Contains(equipment.allowedSlots[0]));
+                mostLikelySlot.GetComponent<Button>().Select();
+            }
         }
 
         public void EnterAssignSlotToItemMode(EquipSlotGUI equipSlotGUI, Equipable equipable)
