@@ -29,7 +29,7 @@ namespace Noble.DungeonCrawler
                 {
                     GetComponent<DraggableItem>().itemToDrag = equippedItem.gameObject;
                     content = GameObject.Instantiate(equippedItem.gameObject);
-                    content.transform.localScale = Vector3.one;
+                    
                     var glyphsComponent = content.GetComponentInChildren<Glyphs>(true);
                     glyphsComponent.GetComponentInChildren<Glyphs>(true).enabled = false;
                     glyphsComponent.gameObject.SetActive(true);
@@ -43,6 +43,8 @@ namespace Noble.DungeonCrawler
                         trans.gameObject.layer = this.gameObject.layer;
                     }
                     content.transform.parent = transform;
+                    var rect = transform.GetComponent<RectTransform>().rect;
+                    content.transform.localScale = new Vector3(rect.width, rect.height, 1);
                     content.transform.localPosition = Vector3.zero;
                     content.transform.localPosition -= Vector3.forward * .1f;
                     break;

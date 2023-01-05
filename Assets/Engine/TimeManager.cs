@@ -32,7 +32,7 @@
         {
             while (true)
             {
-                for (currentTickableNode = tickableObjects.Last; currentTickableNode != null; currentTickableNode = currentTickableNode.Previous)
+                for (currentTickableNode = tickableObjects.Last; currentTickableNode != null; )
                 {
                     if (currentTickableNode.Value.markedForRemoval) continue;
 
@@ -104,7 +104,8 @@
                         }
                     }
 
-                    if (Time == ob.nextActionTime - 1)
+                    bool dontTick = false;
+                    if (Time >= ob.nextActionTime - 1)
                     {
                         if (currentBehaviours != null && currentBehaviours.Count != 0)
                         {
@@ -114,12 +115,21 @@
                                 behaviour.FinishAction();
                             }
                         }
+                        if (ob.nextActionTime == Time)
+                        {
+                            dontTick = true;
+                        }
                     }
 
                     if (isInterrupted && ob == interruptingTickable)
                     {
                         isInterrupted = false;
                         interruptingTickable = null;
+                    }
+
+                    if (!dontTick)
+                    {
+                        currentTickableNode = currentTickableNode.Previous;
                     }
                 }
 

@@ -21,7 +21,7 @@
             }
         }
 
-        public Equipment Equipment => Creature?.equipment;
+        public Equipment Equipment => Creature?.Equipment;
 
         [Serializable]
         public class CreatureEvent : UnityEvent<DungeonObject> { }
@@ -60,7 +60,23 @@
             }
         }
 
-        Dictionary<string, IProperty> properties = new();
+        Dictionary<string, IProperty> _properties;
+        public Dictionary<string, IProperty> Properties
+        {
+            get
+            {
+                if (_properties == null)
+                {
+                    _properties = new Dictionary<string, IProperty>();
+                    var propertyComponents = GetComponents<IProperty>();
+                    foreach (var property in propertyComponents)
+                    {
+                        _properties.Add(property.propertyName, property);
+                    }
+                }
+                return _properties;
+            }
+        }
         public int maxHealth = 1;
         //public int health = 1;
         public bool isCollidable = true;
@@ -96,12 +112,6 @@
             }
 
             map.OnPreMapLoaded += OnPreMapLoaded;
-
-            var propertyComponents = GetComponents<IProperty>();
-            foreach (var property in propertyComponents)
-            {
-                properties.Add(property.propertyName, property);
-            }
         }
 
         public void OnPreMapLoaded()
@@ -123,7 +133,8 @@
 
         public Property<T> GetProperty<T>(string propertyName)
         {
-            return (Property<T>)properties[propertyName];
+            Properties.TryGetValue(propertyName, out IProperty prop);
+            return (Property<T>)prop;
         }
 
         public void UpdateLighting()
