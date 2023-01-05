@@ -12,7 +12,6 @@ namespace Noble.TileEngine
 
         void UpdateValue()
         {
-            Debug.Log("Update armor");
             var equipment = GetComponent<DungeonObject>().Equipment.GetEquipment();
             int newValue = 0;
             foreach (var item in equipment)
@@ -20,7 +19,6 @@ namespace Noble.TileEngine
                 if (item == null) continue;
                 var armorProperty = item.DungeonObject.GetProperty<int>("Armor");
                 if (!armorProperty) continue;
-                Debug.Log("Adding armor" + armorProperty.GetValue());
                 newValue += armorProperty.GetValue();
             }
 

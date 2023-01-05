@@ -173,6 +173,13 @@ GameObject:
   - component: {fileID: 1426220522}
   - component: {fileID: 1426220523}
   - component: {fileID: 3414793120905880650}
+  - component: {fileID: 1426220525}
+  - component: {fileID: 1426220526}
+  - component: {fileID: 1426220527}
+  - component: {fileID: 1426220528}
+  - component: {fileID: 1426220529}
+  - component: {fileID: 1426220530}
+  - component: {fileID: 1426220531}
   m_Layer: 0
   m_Name: Player Identity
   m_TagString: Untagged
@@ -243,13 +250,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bcd10d15a30478449e00ad96e33416d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mana: 0
-  strength: 1
-  dexterity: 1
-  constitution: 1
-  intelligence: 1
-  charisma: 1
-  defense: 1
   viewDistance: 32
   ticksPerMove: 1
   ticksPerAttack: 1
@@ -313,6 +313,34 @@ MonoBehaviour:
     dontSpawnOn: []
     requireSpawnable: 0
   - item: {fileID: 3300392959844046706, guid: a806fb43e13aaeb46a0103d0ee1ec731, type: 3}
+    minQuantity: 1
+    maxQuantity: 1
+    probability: 1
+    onlySpawnOn: []
+    dontSpawnOn: []
+    requireSpawnable: 0
+  - item: {fileID: 114396989050233776, guid: 4f360649838a63a47999700c077dc8e3, type: 3}
+    minQuantity: 1
+    maxQuantity: 10
+    probability: 1
+    onlySpawnOn: []
+    dontSpawnOn: []
+    requireSpawnable: 0
+  - item: {fileID: 3300392959844046706, guid: 314351ab8e3fbc0469995292c8149b03, type: 3}
+    minQuantity: 1
+    maxQuantity: 1
+    probability: 1
+    onlySpawnOn: []
+    dontSpawnOn: []
+    requireSpawnable: 0
+  - item: {fileID: 603905973082682336, guid: aaa37e66c0571b5499f290337d54f132, type: 3}
+    minQuantity: 1
+    maxQuantity: 1
+    probability: 1
+    onlySpawnOn: []
+    dontSpawnOn: []
+    requireSpawnable: 0
+  - item: {fileID: 874142512172922050, guid: 465ab4f07f50427429618d0b30d5b86a, type: 3}
     minQuantity: 1
     maxQuantity: 1
     probability: 1
@@ -431,6 +459,104 @@ MonoBehaviour:
   legsSlot: {fileID: 4906252808252583348}
   feetSlot: {fileID: 6973135601825784848}
   twoHandedSlot: {fileID: 3056300342633979703}
+--- !u!114 &1426220525
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2987011236448704078}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32a1aeab73ec2a544b64ed1450be1142, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _value: 10
+  _propertyName: Health
+--- !u!114 &1426220526
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2987011236448704078}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fda23d36354801347be69d199704ff1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _value: 10
+  _propertyName: Max Health
+--- !u!114 &1426220527
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2987011236448704078}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fda23d36354801347be69d199704ff1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _value: 10
+  _propertyName: Mana
+--- !u!114 &1426220528
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2987011236448704078}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fda23d36354801347be69d199704ff1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _value: 10
+  _propertyName: Intelligence
+--- !u!114 &1426220529
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2987011236448704078}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fda23d36354801347be69d199704ff1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _value: 10
+  _propertyName: Dexterity
+--- !u!114 &1426220530
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2987011236448704078}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fda23d36354801347be69d199704ff1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _value: 10
+  _propertyName: Strength
+--- !u!114 &1426220531
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2987011236448704078}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a77ff7edebb66842aa4c2f9cd74ecb0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _value: 0
+  _propertyName: Armor
 --- !u!1 &3125963952385824790
 GameObject:
   m_ObjectHideFlags: 0
@@ -774,6 +900,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2988263539083935508}
     m_Modifications:
+    - target: {fileID: -9210633653064856472, guid: 0dec2101246de604194bc892acf67064, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: -9164944756483874929, guid: 0dec2101246de604194bc892acf67064, type: 3}
       propertyPath: m_Name
       value: Head smile 2
@@ -854,6 +984,14 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -5752167813534500760, guid: 0dec2101246de604194bc892acf67064, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -4853256801770139306, guid: 0dec2101246de604194bc892acf67064, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: -3744485557375374822, guid: 0dec2101246de604194bc892acf67064, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -865,6 +1003,10 @@ PrefabInstance:
     - target: {fileID: -3716969715995494336, guid: 0dec2101246de604194bc892acf67064, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -3611149063881114418, guid: 0dec2101246de604194bc892acf67064, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -3490127619965925271, guid: 0dec2101246de604194bc892acf67064, type: 3}
       propertyPath: m_IsActive
@@ -884,7 +1026,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -907728362350755201, guid: 0dec2101246de604194bc892acf67064, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -856138430712955627, guid: 0dec2101246de604194bc892acf67064, type: 3}
       propertyPath: m_IsActive
@@ -911,6 +1053,14 @@ PrefabInstance:
       value: Body havey breath
       objectReference: {fileID: 0}
     - target: {fileID: -520186937802854055, guid: 0dec2101246de604194bc892acf67064, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 343670871676645731, guid: 0dec2101246de604194bc892acf67064, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 434250830872689497, guid: 0dec2101246de604194bc892acf67064, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
@@ -946,11 +1096,19 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3371687218250008604, guid: 0dec2101246de604194bc892acf67064, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3438123632619554913, guid: 0dec2101246de604194bc892acf67064, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5242439767917160522, guid: 0dec2101246de604194bc892acf67064, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5969832608534969018, guid: 0dec2101246de604194bc892acf67064, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
@@ -966,6 +1124,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6612293647713391570, guid: 0dec2101246de604194bc892acf67064, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7320117688533825074, guid: 0dec2101246de604194bc892acf67064, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -976,7 +1138,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8282065643979291308, guid: 0dec2101246de604194bc892acf67064, type: 3}
       propertyPath: m_SortingOrder
-      value: 5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8575666848442030023, guid: 0dec2101246de604194bc892acf67064, type: 3}
       propertyPath: m_IsActive

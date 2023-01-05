@@ -2,6 +2,8 @@
 {
     using Noble.TileEngine;
     using System.Collections.Generic;
+    using System.Linq;
+    using Unity.VisualScripting;
     using UnityEngine;
     using UnityEngine.EventSystems;
     using UnityEngine.UI;
@@ -10,6 +12,7 @@
     {
         public InventorySlotGUI slotPrefab;
         public Dictionary<string, InventorySlotGUI> slots = new Dictionary<string, InventorySlotGUI>();
+        public Button thingToConnectNavigationTo;
 
         public static InventoryGUI instance;
 
@@ -18,10 +21,18 @@
             instance = this;
         }
 
-        public void Update()
+        public void OnEnable()
         {
-            if (!Player.instance.identity) return;
+            if (!Player.instance || !Player.instance.identity) return;
+            UpdateSlots();
+            if (slots.Count > 0)
+            {
+                slots.First().Value.GetComponent<Button>().Select();
+            }
+        }
 
+        void UpdateSlots()
+        {
             DungeonObject playerOb = Player.instance.identity;
             foreach (var item in playerOb.inventory.items)
             {
@@ -52,6 +63,13 @@
             }
         }
 
+        public void Update()
+        {
+            if (!Player.instance.identity) return;
+
+            UpdateSlots();
+        }
+
         void RemoveSlot(string key)
         {
             Destroy(slots[key].gameObject);
@@ -61,11 +79,38 @@
 
         void UpdateIndexes()
         {
-            int i = 0;
-            foreach (var slot in slots)
+            var slotsValues = slots.Values.AsReadOnlyList();
+            for (int i = 0; i < slots.Count; i++)
             {
-                slot.Value.index = i;
-                i++;
+                InventorySlotGUI slot = slotsValues[i];
+                InventorySlotGUI nextSlot = null;
+                if (i + 1 < slots.Count)
+                {
+                    nextSlot = slotsValues[i + 1];
+                }
+                var thingNav = thingToConnectNavigationTo.navigation;
+                var slotButton = slot.GetComponent<Button>();
+                var slotNav = slotButton.navigation;
+                if (i == 0)
+                {
+                    thingNav.selectOnRight = slotButton;
+                    thingToConnectNavigationTo.navigation = thingNav;
+                }
+
+                slotNav.selectOnLeft = thingToConnectNavigationTo;
+
+                if (nextSlot)
+                {
+                    var nextSlotButton = nextSlot.GetComponent<Button>();
+                    var nextSlotNav = nextSlotButton.navigation;
+                    slotNav.selectOnDown = nextSlotButton;
+                    nextSlotNav.selectOnUp = slotButton;
+                    nextSlotButton.navigation = nextSlotNav;
+                }
+
+                slotButton.navigation = slotNav;
+
+                slot.index = i;
             }
         }
 

@@ -1,6 +1,7 @@
 ﻿namespace Noble.DungeonCrawler
 {
     using Noble.TileEngine;
+    using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
     using TMPro;
@@ -68,30 +69,57 @@
             }
         }
 
-        public void OnMouseDown(BaseEventData data)
+        public void OnSelect(BaseEventData data)
         {
-            if (InventoryMenu.instance.mode == InventoryMenu.Mode.DEFAULT || InventoryMenu.instance.mode == InventoryMenu.Mode.ASSIGN_ITEM_TO_SLOT)
+            //if (InventoryMenu.instance.mode == InventoryMenu.Mode.DEFAULT)
+            //{
+            //    InventoryMenu.instance.ReturnToDefaultMode();
+            //    InventoryMenu.instance.EnableSlotsThatAllowItem(item.GetComponent<Equipable>());
+            //}
+        }
+
+        public void OnSubmit(BaseEventData data)
+        {
+            if (InventoryMenu.instance.mode == InventoryMenu.Mode.DEFAULT)
             {
-                GetComponent<Button>().Select();
                 var equipment = item.GetComponent<Equipable>();
                 if (equipment)
                 {
-                    InventoryMenu.instance.EnterAssignItemToSlotMode(equipment);
+                    InventoryMenu.instance.EnterAssignItemToSlotMode(equipment, true);
+                }
+            }
+            else if (InventoryMenu.instance.mode == InventoryMenu.Mode.ASSIGN_SLOT_TO_ITEM)
+            {
+                InventoryMenu.instance.currentSlotForAssignment.EquipItem(item.gameObject);
+                InventoryMenu.instance.ReturnToDefaultMode();
+            }
+        }
+
+        public void OnMouseDown(BaseEventData data)
+        {
+            if (InventoryMenu.instance.mode == InventoryMenu.Mode.DEFAULT)
+            {
+                //GetComponent<Button>().Select();
+                var equipment = item.GetComponent<Equipable>();
+                if (equipment)
+                {
+                    InventoryMenu.instance.EnterAssignItemToSlotMode(equipment, false);
                 }
             }
         }
 
         public void OnMousePressed(BaseEventData data)
         {
-            if (InventoryMenu.instance.mode == InventoryMenu.Mode.DEFAULT || InventoryMenu.instance.mode == InventoryMenu.Mode.ASSIGN_ITEM_TO_SLOT)
-            {
-                var equipment = item.GetComponent<Equipable>();
-                if (equipment)
-                {
-                    InventoryMenu.instance.EnterAssignItemToSlotMode(equipment);
-                }
-            }
-            else if (InventoryMenu.instance.mode == InventoryMenu.Mode.ASSIGN_SLOT_TO_ITEM)
+            //if (InventoryMenu.instance.mode == InventoryMenu.Mode.DEFAULT)
+            //{
+            //    var equipment = item.GetComponent<Equipable>();
+            //    if (equipment)
+            //    {
+            //        InventoryMenu.instance.EnterAssignItemToSlotMode(equipment, false);
+            //    }
+            //}
+            //else
+            if (InventoryMenu.instance.mode == InventoryMenu.Mode.ASSIGN_SLOT_TO_ITEM)
             {
                 InventoryMenu.instance.currentSlotForAssignment.EquipItem(item.gameObject);
                 InventoryMenu.instance.ReturnToDefaultMode();
@@ -102,34 +130,38 @@
         {
             if (InventoryMenu.instance.mode == InventoryMenu.Mode.DEFAULT)
             {
-                var equipment = item.GetComponent<Equipable>();
-                if (equipment)
-                {
-                    var equipSlots = FindObjectsOfType<EquipSlotGUI>();
-                    foreach (var equipSlot in equipSlots)
-                    {
-                        if (equipment.allowedSlots.Any(s => equipSlot.slots.Contains(s)))
-                        {
-                            equipSlot.GetComponent<Button>().interactable = true;
-                        }
-                    }
-                }
+                GetComponent<Button>().Select();
             }
+            //if (InventoryMenu.instance.mode == InventoryMenu.Mode.DEFAULT)
+            //{
+            //    var equipment = item.GetComponent<Equipable>();
+            //    if (equipment)
+            //    {
+            //        var equipSlots = FindObjectsOfType<EquipSlotGUI>();
+            //        foreach (var equipSlot in equipSlots)
+            //        {
+            //            if (equipment.allowedSlots.Any(s => equipSlot.slots.Contains(s)))
+            //            {
+            //                equipSlot.GetComponent<Button>().interactable = true;
+            //            }
+            //        }
+            //    }
+            //}
         }
 
         public void OnMouseExit(BaseEventData data)
         {
-            if (InventoryMenu.instance.mode == InventoryMenu.Mode.DEFAULT)
-            {
-                var equipSlots = FindObjectsOfType<EquipSlotGUI>();
-                foreach (var equipSlot in equipSlots)
-                {
-                    if (equipSlot.GetComponent<Image>().color != Color.green)
-                    {
-                        equipSlot.GetComponent<Button>().interactable = false;
-                    }
-                }
-            }
+            //if (InventoryMenu.instance.mode == InventoryMenu.Mode.DEFAULT)
+            //{
+            //    var equipSlots = FindObjectsOfType<EquipSlotGUI>();
+            //    foreach (var equipSlot in equipSlots)
+            //    {
+            //        if (equipSlot.GetComponent<Image>().color != Color.green)
+            //        {
+            //            equipSlot.GetComponent<Button>().interactable = false;
+            //        }
+            //    }
+            //}
         }
     }
 }
