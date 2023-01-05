@@ -173,6 +173,13 @@ GameObject:
   - component: {fileID: 1426220522}
   - component: {fileID: 1426220523}
   - component: {fileID: 3414793120905880650}
+  - component: {fileID: 1426220525}
+  - component: {fileID: 1426220526}
+  - component: {fileID: 1426220527}
+  - component: {fileID: 1426220528}
+  - component: {fileID: 1426220529}
+  - component: {fileID: 1426220530}
+  - component: {fileID: 1426220531}
   m_Layer: 0
   m_Name: Player Identity
   m_TagString: Untagged
@@ -319,6 +326,34 @@ MonoBehaviour:
     onlySpawnOn: []
     dontSpawnOn: []
     requireSpawnable: 0
+  - item: {fileID: 114396989050233776, guid: 4f360649838a63a47999700c077dc8e3, type: 3}
+    minQuantity: 1
+    maxQuantity: 10
+    probability: 1
+    onlySpawnOn: []
+    dontSpawnOn: []
+    requireSpawnable: 0
+  - item: {fileID: 3300392959844046706, guid: 314351ab8e3fbc0469995292c8149b03, type: 3}
+    minQuantity: 1
+    maxQuantity: 1
+    probability: 1
+    onlySpawnOn: []
+    dontSpawnOn: []
+    requireSpawnable: 0
+  - item: {fileID: 603905973082682336, guid: aaa37e66c0571b5499f290337d54f132, type: 3}
+    minQuantity: 1
+    maxQuantity: 1
+    probability: 1
+    onlySpawnOn: []
+    dontSpawnOn: []
+    requireSpawnable: 0
+  - item: {fileID: 874142512172922050, guid: 465ab4f07f50427429618d0b30d5b86a, type: 3}
+    minQuantity: 1
+    maxQuantity: 1
+    probability: 1
+    onlySpawnOn: []
+    dontSpawnOn: []
+    requireSpawnable: 0
 --- !u!114 &2987740550008959593
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -431,6 +466,104 @@ MonoBehaviour:
   legsSlot: {fileID: 4906252808252583348}
   feetSlot: {fileID: 6973135601825784848}
   twoHandedSlot: {fileID: 3056300342633979703}
+--- !u!114 &1426220525
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2987011236448704078}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32a1aeab73ec2a544b64ed1450be1142, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _value: 10
+  _propertyName: Health
+--- !u!114 &1426220526
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2987011236448704078}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fda23d36354801347be69d199704ff1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _value: 10
+  _propertyName: Max Health
+--- !u!114 &1426220527
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2987011236448704078}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fda23d36354801347be69d199704ff1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _value: 10
+  _propertyName: Mana
+--- !u!114 &1426220528
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2987011236448704078}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fda23d36354801347be69d199704ff1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _value: 10
+  _propertyName: Intelligence
+--- !u!114 &1426220529
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2987011236448704078}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fda23d36354801347be69d199704ff1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _value: 10
+  _propertyName: Dexterity
+--- !u!114 &1426220530
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2987011236448704078}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fda23d36354801347be69d199704ff1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _value: 10
+  _propertyName: Strength
+--- !u!114 &1426220531
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2987011236448704078}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a77ff7edebb66842aa4c2f9cd74ecb0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _value: 0
+  _propertyName: Armor
 --- !u!1 &3125963952385824790
 GameObject:
   m_ObjectHideFlags: 0
@@ -976,7 +1109,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8282065643979291308, guid: 0dec2101246de604194bc892acf67064, type: 3}
       propertyPath: m_SortingOrder
-      value: 5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8575666848442030023, guid: 0dec2101246de604194bc892acf67064, type: 3}
       propertyPath: m_IsActive

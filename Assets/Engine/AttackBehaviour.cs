@@ -51,12 +51,15 @@ namespace Noble.TileEngine
 
 			if (targetCreature != null)
 			{
-				float roll = UnityEngine.Random.Range(0, 20);
-				roll += identityCreature.dexterity;
-				if (roll > targetCreature.dexterity)
+				float roll = Random.Range(0, 20);
+				int attackerDex = identityCreature.baseObject.GetProperty<int>("Dexterity").GetValue();
+				int defenderDex = targetCreature.baseObject.GetProperty<int>("Dexterity").GetValue();
+				int defenderArmor = targetCreature.baseObject.GetProperty<int>("Armor").GetValue();
+                roll += attackerDex;
+				if (roll > defenderDex)
 				{
 					// Hit, but do we do damange?
-					if (roll > targetCreature.dexterity + targetCreature.defense)
+					if (roll > defenderDex + defenderArmor)
 					{
 						// Got past armor / defense
 						attackWillHit = true;

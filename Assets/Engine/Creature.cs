@@ -8,16 +8,6 @@
     [RequireComponent(typeof(DungeonObject))]
     public class Creature : MonoBehaviour
     {
-        //public Race race;
-
-        public int mana;
-        public int strength;
-        public int dexterity;
-        public int constitution;
-        public int intelligence;
-        public int charisma;
-
-        public int defense = 1;
         public float viewDistance = 4;
 
         [SerializeField]

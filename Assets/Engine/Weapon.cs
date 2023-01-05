@@ -26,11 +26,14 @@
             if (!targetCreature) return;
 
             float roll = Random.Range(0, 20);
-            roll += GetComponent<Equipable>().EquippedBy.dexterity;
-            if (roll > targetCreature.dexterity)
+            int attackerDex = GetComponent<Equipable>().EquippedBy.baseObject.GetProperty<int>("Dexterity").GetValue();
+            int defenderDex = targetCreature.baseObject.GetProperty<int>("Dexterity").GetValue();
+            int defenderArmor = targetCreature.baseObject.GetProperty<int>("Armor").GetValue();
+            roll += attackerDex;
+            if (roll > defenderDex)
             {
                 // Hit, but do we do damange?
-                if (roll > targetCreature.dexterity + targetCreature.defense)
+                if (roll > defenderDex + defenderArmor)
                 {
                     // Got past armor / defense
                     targetCreature.baseObject.DamageFlash(1);
