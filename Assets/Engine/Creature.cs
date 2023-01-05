@@ -52,7 +52,13 @@
 
         public Coroutine attackAnimationProcess;
 
-        public Equipment equipment;
+        Equipment _equipment;
+        public Equipment Equipment { 
+            get { 
+                if (_equipment == null) _equipment = GetComponent<Equipment>(); 
+                return _equipment; 
+            } 
+        }
 
         public DungeonObject baseObject;
         public Tickable tickable;
@@ -78,7 +84,6 @@
         {
             baseObject = GetComponent<DungeonObject>();
             tickable = GetComponent<Tickable>();
-            equipment = GetComponent<Equipment>();
             baseObject.onMove += OnMove;
             baseObject.onPreMove += OnPreMove;
         }
@@ -161,17 +166,17 @@
 
         public Equipable GetEquipment(Equipment.Slot slot)
         {
-            return equipment?.GetEquipment(slot);
+            return Equipment?.GetEquipment(slot);
         }
 
         public void SetEquipment(Equipment.Slot slot, Equipable item)
         {
-            equipment?.SetEquipment(slot, item);
+            Equipment?.SetEquipment(slot, item);
         }
 
         public Transform GetEquipmentSlot(Equipment.Slot slot) 
         {
-            return equipment?.GetSlotTransform(slot);
+            return Equipment?.GetSlotTransform(slot);
         }
     }
 }

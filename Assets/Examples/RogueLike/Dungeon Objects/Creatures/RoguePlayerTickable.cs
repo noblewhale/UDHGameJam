@@ -21,6 +21,7 @@
                 {
                     InventoryMenu.instance.gameObject.SetActive(false);
                 }
+                owner.tickable.nextActionTime = TimeManager.instance.Time;
                 return null;
             }
             else
@@ -28,6 +29,7 @@
                 if (command.key == Key.I)
                 {
                     InventoryMenu.instance.gameObject.SetActive(true);
+                    owner.tickable.nextActionTime = TimeManager.instance.Time;
                     return null;
                 }
                 else if (command.key == Key.F)
