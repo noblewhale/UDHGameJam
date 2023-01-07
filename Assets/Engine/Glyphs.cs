@@ -7,7 +7,7 @@
     {
         public Color damageFlashColor = Color.red;
         public List<Glyph> glyphs = new List<Glyph>();
-        bool isLit;
+        bool isLit = true;
 
         void Awake()
         {

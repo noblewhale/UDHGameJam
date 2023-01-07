@@ -11,8 +11,9 @@
 
         public Equipable leftHandWeaponObject;
         public Equipable rightHandWeaponObject;
-        public Equipable leftGloveObject;
-        public Equipable rightGloveObject;
+        public Equipable glovesObject;
+        public Equipable leftHandObject;
+        public Equipable rightHandObject;
         public Equipable chestObject;
         public Equipable headObject;
         public Equipable legsObject;
@@ -20,8 +21,9 @@
         public Equipable twoHandedObject;
         public Transform rightHandWeaponSlot;
         public Transform leftHandWeaponSlot;
-        public Transform leftGloveSlot;
-        public Transform rightGloveSlot;
+        public Transform glovesSlot;
+        public Transform leftHandSlot;
+        public Transform rightHandSlot;
         public Transform chestSlot;
         public Transform headSlot;
         public Transform legsSlot;
@@ -34,26 +36,28 @@
         {
             LEFT_HAND_WEAPON,
             RIGHT_HAND_WEAPON,
-            LEFT_GLOVE,
-            RIGHT_GLOVE,
+            GLOVES,
             CHEST,
             HEAD,
             LEGS,
             FEET,
-            TWO_HANDED
+            TWO_HANDED,
+            LEFT_HAND,
+            RIGHT_HAND
         }
 
         public IEnumerable<Equipable> GetEquipment()
         {
             yield return leftHandWeaponObject;
             yield return rightHandWeaponObject;
-            yield return leftGloveObject;
-            yield return rightGloveObject;
+            yield return glovesObject;
             yield return chestObject;
             yield return headObject;
             yield return legsObject;
             yield return feetObject;
             yield return twoHandedObject;
+            yield return leftHandObject;
+            yield return rightHandObject;
         }
 
         public Transform GetSlotTransform(Slot slot)
@@ -62,13 +66,14 @@
             {
                 case Slot.LEFT_HAND_WEAPON: return leftHandWeaponSlot;
                 case Slot.RIGHT_HAND_WEAPON: return rightHandWeaponSlot;
-                case Slot.LEFT_GLOVE: return leftGloveSlot;
-                case Slot.RIGHT_GLOVE: return rightGloveSlot;
+                case Slot.GLOVES: return glovesSlot;
                 case Slot.CHEST: return chestSlot;
                 case Slot.HEAD: return headSlot;
                 case Slot.LEGS: return legsSlot;
                 case Slot.FEET: return feetSlot;
                 case Slot.TWO_HANDED: return twoHandedSlot;
+                case Slot.LEFT_HAND: return leftHandSlot;
+                case Slot.RIGHT_HAND: return rightHandSlot;
                 default: return null;
             }
         }
@@ -79,13 +84,14 @@
             {
                 case Slot.LEFT_HAND_WEAPON: return leftHandWeaponObject;
                 case Slot.RIGHT_HAND_WEAPON: return rightHandWeaponObject;
-                case Slot.LEFT_GLOVE: return leftGloveObject;
-                case Slot.RIGHT_GLOVE: return rightGloveObject;
+                case Slot.GLOVES: return glovesObject;
                 case Slot.CHEST: return chestObject;
                 case Slot.HEAD: return headObject;
                 case Slot.LEGS: return legsObject;
                 case Slot.FEET: return feetObject;
                 case Slot.TWO_HANDED: return twoHandedObject;
+                case Slot.LEFT_HAND: return leftHandObject;
+                case Slot.RIGHT_HAND: return rightHandObject;
                 default: return null;
             }
         }
@@ -115,13 +121,14 @@
             {
                 case Slot.LEFT_HAND_WEAPON: leftHandWeaponObject = item; break;
                 case Slot.RIGHT_HAND_WEAPON: rightHandWeaponObject = item; break;
-                case Slot.LEFT_GLOVE: leftGloveObject = item; break;
-                case Slot.RIGHT_GLOVE: rightGloveObject = item; break;
+                case Slot.GLOVES: glovesObject = item; break;
                 case Slot.CHEST: chestObject = item; break;
                 case Slot.HEAD: headObject = item; break;
                 case Slot.LEGS: legsObject = item; break;
                 case Slot.FEET: feetObject = item; break;
                 case Slot.TWO_HANDED: twoHandedObject = item; break;
+                case Slot.LEFT_HAND: leftHandObject = item; break;
+                case Slot.RIGHT_HAND: rightHandObject = item; break;
             }
 
             onChange?.Invoke();

@@ -91,7 +91,7 @@ ScriptedImporter:
     uvTransform: {x: 0, y: 0}
   mosaicSpriteImportData: []
   rigSpriteImportData:
-  - name: Layer 10
+  - name: Rat Helm
     originalName: 
     pivot: {x: 0, y: 0}
     alignment: 6
@@ -112,15 +112,36 @@ ScriptedImporter:
     tessellationDetail: 0
     parentGroupIndex: -1
     uvTransform: {x: -11, y: 39}
-  - name: Layer 12
+  - name: Rat Gloves 2H
     originalName: 
     pivot: {x: 0, y: 0}
     alignment: 6
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
-      x: 76
-      y: 33
+      x: 44
+      y: 167
+      width: 14
+      height: 11
+    spriteID: bd1b960f4bee1ce469f390ac26aaf998
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 10, y: 149}
+  - name: Rat Gloves
+    originalName: 
+    pivot: {x: 0, y: 0}
+    alignment: 6
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 140
       width: 32
       height: 19
     spriteID: 014b714012ddf3645872d7b6c22e8ac3
@@ -132,16 +153,16 @@ ScriptedImporter:
     edges: []
     tessellationDetail: 0
     parentGroupIndex: -1
-    uvTransform: {x: 60, y: 19}
-  - name: Layer 8
+    uvTransform: {x: -12, y: 126}
+  - name: Rat Chest
     originalName: 
     pivot: {x: 0, y: 0}
     alignment: 6
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
-      x: 76
-      y: 86
+      x: 4
+      y: 193
       width: 17
       height: 26
     spriteID: e3389c8d672088742852f4107dcb1a95
@@ -153,16 +174,16 @@ ScriptedImporter:
     edges: []
     tessellationDetail: 0
     parentGroupIndex: -1
-    uvTransform: {x: 55, y: 75}
-  - name: Layer 22
+    uvTransform: {x: -17, y: 182}
+  - name: Rat Pants
     originalName: 
     pivot: {x: 0, y: 0}
     alignment: 6
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
-      x: 76
-      y: 4
+      x: 4
+      y: 111
       width: 29
       height: 21
     spriteID: a6e5a2dc19b9b16498cece8eae20b3f6
@@ -174,8 +195,8 @@ ScriptedImporter:
     edges: []
     tessellationDetail: 0
     parentGroupIndex: -1
-    uvTransform: {x: 69, y: 3}
-  - name: Layer 13
+    uvTransform: {x: -3, y: 110}
+  - name: Rat Boots
     originalName: 
     pivot: {x: 0, y: 0}
     alignment: 6
@@ -183,7 +204,7 @@ ScriptedImporter:
     rect:
       serializedVersion: 2
       x: 4
-      y: 111
+      y: 243
       width: 21
       height: 7
     spriteID: 6d5a928ef3280d3479fbb211ee3b87cb
@@ -195,8 +216,8 @@ ScriptedImporter:
     edges: []
     tessellationDetail: 0
     parentGroupIndex: -1
-    uvTransform: {x: -16, y: 111}
-  - name: Layer 9
+    uvTransform: {x: -16, y: 243}
+  - name: Leather Helm
     originalName: 
     pivot: {x: 0, y: 0}
     alignment: 6
@@ -217,15 +238,36 @@ ScriptedImporter:
     tessellationDetail: 0
     parentGroupIndex: -1
     uvTransform: {x: 25, y: 40}
-  - name: Layer 15
+  - name: Leather Gloves 2H
     originalName: 
     pivot: {x: 0, y: 0}
     alignment: 6
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
-      x: 76
-      y: 60
+      x: 44
+      y: 186
+      width: 12
+      height: 10
+    spriteID: 78d6e5cc398289f4b997965194fad2fb
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 8, y: 167}
+  - name: Leather Gloves
+    originalName: 
+    pivot: {x: 0, y: 0}
+    alignment: 6
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 167
       width: 32
       height: 18
     spriteID: e49771b1a70f1874e9f37c1980d03e88
@@ -237,16 +279,16 @@ ScriptedImporter:
     edges: []
     tessellationDetail: 0
     parentGroupIndex: -1
-    uvTransform: {x: 60, y: 46}
-  - name: Layer 20
+    uvTransform: {x: -12, y: 153}
+  - name: Leather Chest
     originalName: 
     pivot: {x: 0, y: 0}
     alignment: 6
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
-      x: 101
-      y: 86
+      x: 44
+      y: 140
       width: 12
       height: 18
     spriteID: 0255e081e15727244a1137a447d5278e
@@ -258,16 +300,16 @@ ScriptedImporter:
     edges: []
     tessellationDetail: 0
     parentGroupIndex: -1
-    uvTransform: {x: 77, y: 67}
-  - name: Layer 19
+    uvTransform: {x: 20, y: 121}
+  - name: Leather Loin Cloth
     originalName: 
     pivot: {x: 0, y: 0}
     alignment: 6
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
-      x: 101
-      y: 112
+      x: 41
+      y: 111
       width: 15
       height: 12
     spriteID: b7b874a2495256f4fb545e489ad4b20d
@@ -279,16 +321,16 @@ ScriptedImporter:
     edges: []
     tessellationDetail: 0
     parentGroupIndex: -1
-    uvTransform: {x: 80, y: 102}
-  - name: Layer 16
+    uvTransform: {x: 20, y: 101}
+  - name: Leather Sandals
     originalName: 
     pivot: {x: 0, y: 0}
     alignment: 6
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
-      x: 44
-      y: 110
+      x: 4
+      y: 227
       width: 21
       height: 8
     spriteID: faee5ce5b7635214191a19e0ea5c6c49
@@ -300,7 +342,7 @@ ScriptedImporter:
     edges: []
     tessellationDetail: 0
     parentGroupIndex: -1
-    uvTransform: {x: 24, y: 110}
+    uvTransform: {x: -16, y: 227}
   - name: Layer 5
     originalName: 
     pivot: {x: 0.5, y: 0.5}
@@ -322,6 +364,174 @@ ScriptedImporter:
     tessellationDetail: 0
     parentGroupIndex: -1
     uvTransform: {x: 4, y: 4}
+  - name: NobleManArmor_0
+    originalName: 
+    pivot: {x: 0, y: 0}
+    alignment: 6
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 30
+      y: 178
+      width: 6
+      height: 7
+    spriteID: b198f9d9ad4680c49ae6bf9f389f57d3
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 30, y: 178}
+  - name: NobleManArmor_1
+    originalName: 
+    pivot: {x: 0, y: 0}
+    alignment: 6
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 167
+      width: 6
+      height: 6
+    spriteID: 706f417b098139848b3b347807365180
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 4, y: 167}
+  - name: NobleManArmor_2
+    originalName: 
+    pivot: {x: 0, y: 0}
+    alignment: 6
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 29
+      y: 151
+      width: 7
+      height: 8
+    spriteID: 5cb6602d771cab74e9b6ddadb8fa387c
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 29, y: 151}
+  - name: NobleManArmor_3
+    originalName: 
+    pivot: {x: 0, y: 0}
+    alignment: 6
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 140
+      width: 6
+      height: 7
+    spriteID: 9df039d2d994e4342a3d8c1ede79f7ec
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 4, y: 140}
+  - name: NobleManArmor_4
+    originalName: 
+    pivot: {x: 0, y: 0}
+    alignment: 6
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 44
+      y: 186
+      width: 7
+      height: 5
+    spriteID: c23c49fea2c202f499e1d1dafb9406c8
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 44, y: 186}
+  - name: NobleManArmor_5
+    originalName: 
+    pivot: {x: 0, y: 0}
+    alignment: 6
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 50
+      y: 190
+      width: 6
+      height: 6
+    spriteID: 00ea3c426858f3f48889e2dfee8cbc57
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 50, y: 190}
+  - name: NobleManArmor_6
+    originalName: 
+    pivot: {x: 0, y: 0}
+    alignment: 6
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 49
+      y: 172
+      width: 9
+      height: 6
+    spriteID: 793b478cc5add87459fd3d2fca3aa92e
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 49, y: 172}
+  - name: NobleManArmor_7
+    originalName: 
+    pivot: {x: 0, y: 0}
+    alignment: 6
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 44
+      y: 167
+      width: 9
+      height: 7
+    spriteID: bc9117084e25f0f4ba739fd8215a8c39
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 44, y: 167}
   characterData:
     bones: []
     parts: []
@@ -385,126 +595,126 @@ ScriptedImporter:
   resliceFromLayer: 0
   mosaicPSDLayers: []
   rigPSDLayers:
-  - name: Rat
-    spriteName: 
-    isGroup: 1
-    parentIndex: -1
-    spriteID: d9e8de1e5a660ba4bad52ddd1ebf6e7f
-    layerID: 93
-    mosaicPosition: {x: 0, y: 0}
-    flatten: 0
-    isImported: 0
-    isVisible: 1
-  - name: Layer 10
-    spriteName: Layer 10
+  - name: Rat Helm
+    spriteName: Rat Helm
     isGroup: 0
-    parentIndex: 0
+    parentIndex: -1
     spriteID: c4384a87c1cc1bb429a5d5356e5ab56b
     layerID: 71
     mosaicPosition: {x: 4, y: 76}
     flatten: 0
     isImported: 1
     isVisible: 0
-  - name: Layer 12
-    spriteName: Layer 12
+  - name: Rat Gloves 2H
+    spriteName: Rat Gloves 2H
     isGroup: 0
-    parentIndex: 0
+    parentIndex: -1
+    spriteID: bd1b960f4bee1ce469f390ac26aaf998
+    layerID: 159
+    mosaicPosition: {x: 44, y: 167}
+    flatten: 0
+    isImported: 1
+    isVisible: 0
+  - name: Rat Gloves
+    spriteName: Rat Gloves
+    isGroup: 0
+    parentIndex: -1
     spriteID: 014b714012ddf3645872d7b6c22e8ac3
     layerID: 74
-    mosaicPosition: {x: 76, y: 33}
+    mosaicPosition: {x: 4, y: 140}
     flatten: 0
     isImported: 1
     isVisible: 0
-  - name: Layer 8
-    spriteName: Layer 8
+  - name: Rat Chest
+    spriteName: Rat Chest
     isGroup: 0
-    parentIndex: 0
+    parentIndex: -1
     spriteID: e3389c8d672088742852f4107dcb1a95
     layerID: 69
-    mosaicPosition: {x: 76, y: 86}
+    mosaicPosition: {x: 4, y: 193}
     flatten: 0
     isImported: 1
     isVisible: 0
-  - name: Layer 22
-    spriteName: Layer 22
+  - name: Rat Pants
+    spriteName: Rat Pants
     isGroup: 0
-    parentIndex: 0
+    parentIndex: -1
     spriteID: a6e5a2dc19b9b16498cece8eae20b3f6
     layerID: 90
-    mosaicPosition: {x: 76, y: 4}
-    flatten: 0
-    isImported: 1
-    isVisible: 0
-  - name: Layer 13
-    spriteName: Layer 13
-    isGroup: 0
-    parentIndex: 0
-    spriteID: 6d5a928ef3280d3479fbb211ee3b87cb
-    layerID: 75
     mosaicPosition: {x: 4, y: 111}
     flatten: 0
     isImported: 1
     isVisible: 0
-  - name: Leather
-    spriteName: 
-    isGroup: 1
-    parentIndex: -1
-    spriteID: fe8ebcaeb8c81444aa43b4de360029a6
-    layerID: 91
-    mosaicPosition: {x: 0, y: 0}
-    flatten: 0
-    isImported: 0
-    isVisible: 1
-  - name: Layer 9
-    spriteName: Layer 9
+  - name: Rat Boots
+    spriteName: Rat Boots
     isGroup: 0
-    parentIndex: 6
+    parentIndex: -1
+    spriteID: 6d5a928ef3280d3479fbb211ee3b87cb
+    layerID: 75
+    mosaicPosition: {x: 4, y: 243}
+    flatten: 0
+    isImported: 1
+    isVisible: 0
+  - name: Leather Helm
+    spriteName: Leather Helm
+    isGroup: 0
+    parentIndex: -1
     spriteID: 74b55576d5c660b4aa83f0c890b2fc24
     layerID: 70
     mosaicPosition: {x: 44, y: 76}
     flatten: 0
     isImported: 1
-    isVisible: 1
-  - name: Layer 15
-    spriteName: Layer 15
+    isVisible: 0
+  - name: Leather Gloves 2H
+    spriteName: Leather Gloves 2H
     isGroup: 0
-    parentIndex: 6
+    parentIndex: -1
+    spriteID: 78d6e5cc398289f4b997965194fad2fb
+    layerID: 158
+    mosaicPosition: {x: 44, y: 186}
+    flatten: 0
+    isImported: 1
+    isVisible: 0
+  - name: Leather Gloves
+    spriteName: Leather Gloves
+    isGroup: 0
+    parentIndex: -1
     spriteID: e49771b1a70f1874e9f37c1980d03e88
     layerID: 80
-    mosaicPosition: {x: 76, y: 60}
+    mosaicPosition: {x: 4, y: 167}
     flatten: 0
     isImported: 1
-    isVisible: 1
-  - name: Layer 20
-    spriteName: Layer 20
+    isVisible: 0
+  - name: Leather Chest
+    spriteName: Leather Chest
     isGroup: 0
-    parentIndex: 6
+    parentIndex: -1
     spriteID: 0255e081e15727244a1137a447d5278e
     layerID: 87
-    mosaicPosition: {x: 101, y: 86}
+    mosaicPosition: {x: 44, y: 140}
     flatten: 0
     isImported: 1
-    isVisible: 1
-  - name: Layer 19
-    spriteName: Layer 19
+    isVisible: 0
+  - name: Leather Loin Cloth
+    spriteName: Leather Loin Cloth
     isGroup: 0
-    parentIndex: 6
+    parentIndex: -1
     spriteID: b7b874a2495256f4fb545e489ad4b20d
     layerID: 86
-    mosaicPosition: {x: 101, y: 112}
+    mosaicPosition: {x: 41, y: 111}
     flatten: 0
     isImported: 1
-    isVisible: 1
-  - name: Layer 16
-    spriteName: Layer 16
+    isVisible: 0
+  - name: Leather Sandals
+    spriteName: Leather Sandals
     isGroup: 0
-    parentIndex: 6
+    parentIndex: -1
     spriteID: faee5ce5b7635214191a19e0ea5c6c49
     layerID: 81
-    mosaicPosition: {x: 44, y: 110}
+    mosaicPosition: {x: 4, y: 227}
     flatten: 0
     isImported: 1
-    isVisible: 1
+    isVisible: 0
   - name: Layer 5
     spriteName: Layer 5
     isGroup: 0

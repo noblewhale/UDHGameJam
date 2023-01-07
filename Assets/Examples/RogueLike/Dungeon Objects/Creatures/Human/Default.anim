@@ -16,46 +16,50 @@ AnimationClip:
   m_EulerCurves: []
   m_PositionCurves: []
   m_ScaleCurves: []
-  m_FloatCurves:
+  m_FloatCurves: []
+  m_PPtrCurves:
   - curve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 1
-        inSlope: Infinity
-        outSlope: Infinity
-        tangentMode: 103
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    attribute: m_IsActive
-    path: Glyphs/NobleManNew/Head
-    classID: 1
+    - time: 0
+      value: {fileID: 4954015960270820083, guid: 0dec2101246de604194bc892acf67064, type: 3}
+    attribute: m_Sprite
+    path: Glyphs/Noble Man/Legs
+    classID: 212
     script: {fileID: 0}
   - curve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 1
-        inSlope: Infinity
-        outSlope: Infinity
-        tangentMode: 103
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    attribute: m_IsActive
-    path: Glyphs/NobleManNew/Body
-    classID: 1
+    - time: 0
+      value: {fileID: 3048644865477663812, guid: 0dec2101246de604194bc892acf67064, type: 3}
+    attribute: m_Sprite
+    path: Glyphs/Noble Man/Chest
+    classID: 212
     script: {fileID: 0}
-  m_PPtrCurves: []
+  - curve:
+    - time: 0
+      value: {fileID: -2642570955879261959, guid: 0dec2101246de604194bc892acf67064, type: 3}
+    attribute: m_Sprite
+    path: Glyphs/Noble Man/Head/Hair
+    classID: 212
+    script: {fileID: 0}
+  - curve:
+    - time: 0
+      value: {fileID: -4698165486338660252, guid: 0dec2101246de604194bc892acf67064, type: 3}
+    attribute: m_Sprite
+    path: Glyphs/Noble Man/Head/Face
+    classID: 212
+    script: {fileID: 0}
+  - curve:
+    - time: 0
+      value: {fileID: -5573784944928064405, guid: 0dec2101246de604194bc892acf67064, type: 3}
+    attribute: m_Sprite
+    path: Glyphs/Noble Man/Head/Mouth
+    classID: 212
+    script: {fileID: 0}
+  - curve:
+    - time: 0
+      value: {fileID: 1455048648538382475, guid: 0dec2101246de604194bc892acf67064, type: 3}
+    attribute: m_Sprite
+    path: Glyphs/Noble Man/Head/Eyes
+    classID: 212
+    script: {fileID: 0}
   m_SampleRate: 60
   m_WrapMode: 0
   m_Bounds:
@@ -64,26 +68,60 @@ AnimationClip:
   m_ClipBindingConstant:
     genericBindings:
     - serializedVersion: 2
-      path: 580297086
-      attribute: 2086281974
+      path: 3936545488
+      attribute: 0
       script: {fileID: 0}
-      typeID: 1
-      customType: 0
-      isPPtrCurve: 0
+      typeID: 212
+      customType: 23
+      isPPtrCurve: 1
     - serializedVersion: 2
-      path: 1590516816
-      attribute: 2086281974
+      path: 1894625780
+      attribute: 0
       script: {fileID: 0}
-      typeID: 1
-      customType: 0
-      isPPtrCurve: 0
-    pptrCurveMapping: []
+      typeID: 212
+      customType: 23
+      isPPtrCurve: 1
+    - serializedVersion: 2
+      path: 4136060043
+      attribute: 0
+      script: {fileID: 0}
+      typeID: 212
+      customType: 23
+      isPPtrCurve: 1
+    - serializedVersion: 2
+      path: 1868848885
+      attribute: 0
+      script: {fileID: 0}
+      typeID: 212
+      customType: 23
+      isPPtrCurve: 1
+    - serializedVersion: 2
+      path: 2158943962
+      attribute: 0
+      script: {fileID: 0}
+      typeID: 212
+      customType: 23
+      isPPtrCurve: 1
+    - serializedVersion: 2
+      path: 3446280452
+      attribute: 0
+      script: {fileID: 0}
+      typeID: 212
+      customType: 23
+      isPPtrCurve: 1
+    pptrCurveMapping:
+    - {fileID: 4954015960270820083, guid: 0dec2101246de604194bc892acf67064, type: 3}
+    - {fileID: 3048644865477663812, guid: 0dec2101246de604194bc892acf67064, type: 3}
+    - {fileID: -2642570955879261959, guid: 0dec2101246de604194bc892acf67064, type: 3}
+    - {fileID: -4698165486338660252, guid: 0dec2101246de604194bc892acf67064, type: 3}
+    - {fileID: -5573784944928064405, guid: 0dec2101246de604194bc892acf67064, type: 3}
+    - {fileID: 1455048648538382475, guid: 0dec2101246de604194bc892acf67064, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0
+    m_StopTime: 0.016666668
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -98,45 +136,7 @@ AnimationClip:
     m_KeepOriginalPositionXZ: 0
     m_HeightFromFeet: 0
     m_Mirror: 0
-  m_EditorCurves:
-  - curve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 1
-        inSlope: Infinity
-        outSlope: Infinity
-        tangentMode: 103
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    attribute: m_IsActive
-    path: Glyphs/NobleManNew/Head
-    classID: 1
-    script: {fileID: 0}
-  - curve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 1
-        inSlope: Infinity
-        outSlope: Infinity
-        tangentMode: 103
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    attribute: m_IsActive
-    path: Glyphs/NobleManNew/Body
-    classID: 1
-    script: {fileID: 0}
+  m_EditorCurves: []
   m_EulerEditorCurves: []
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0

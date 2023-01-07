@@ -12,7 +12,6 @@
 
         public Creature targetCreature;
 
-        public Transform handle;
         public Equipable Weildable { get; private set; }
 
         override public void Awake()

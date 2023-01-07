@@ -66,7 +66,6 @@ MonoBehaviour:
   pathingWeight: 0
   guiIcon: {fileID: 3258308408430852396}
   maxHealth: 1
-  health: 1
   isCollidable: 1
   blocksLineOfSight: 0
   coversObjectsBeneath: 0
@@ -104,8 +103,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   handle: {fileID: 7453603277932852676}
   allowedSlots: 0000000001000000
+  useOverrideSlot: 0
+  overrideSlot: 7
+  occupyExtraSlots: 
   autoEquip: 1
   autoEquipSlot: 0
+  objectsToEnableForSlot: []
 --- !u!1 &3202213289884000246
 GameObject:
   m_ObjectHideFlags: 0
@@ -205,7 +208,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tint: {r: 1, g: 1, b: 1, a: 1}
   extraTint: {r: 1, g: 1, b: 1, a: 1}
-  originalColor: {r: 0, g: 0, b: 0, a: 0}
+  originalColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &3828820408090622929
 GameObject:
   m_ObjectHideFlags: 0

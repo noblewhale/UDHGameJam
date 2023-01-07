@@ -2,6 +2,7 @@ namespace Noble.DungeonCrawler
 {
     using Noble.TileEngine;
     using System.Collections;
+    using System.Collections.Specialized;
     using System.Linq;
     using UnityEngine;
     using UnityEngine.EventSystems;
@@ -30,7 +31,7 @@ namespace Noble.DungeonCrawler
                 {
                     GetComponent<DraggableItem>().itemToDrag = equippedItem.gameObject;
                     content = GameObject.Instantiate(equippedItem.gameObject);
-                    
+                    content.transform.position = Vector3.zero;
                     var glyphsComponent = content.GetComponentInChildren<Glyphs>(true);
                     glyphsComponent.GetComponentInChildren<Glyphs>(true).enabled = false;
                     glyphsComponent.gameObject.SetActive(true);
@@ -43,11 +44,39 @@ namespace Noble.DungeonCrawler
                     {
                         trans.gameObject.layer = this.gameObject.layer;
                     }
-                    content.transform.parent = transform;
                     var rect = transform.GetComponent<RectTransform>().rect;
-                    content.transform.localScale = new Vector3(rect.width, rect.height, 1);
-                    content.transform.localPosition = Vector3.zero;
-                    content.transform.localPosition -= Vector3.forward * .1f;
+
+                    var renderers = content.GetComponentsInChildren<SpriteRenderer>();
+                    Bounds combinedBounds = renderers[0].bounds;
+                    foreach (var renderer in renderers)
+                    {
+                        //renderer.gameObject.SetActive(true);
+                        if (renderer != GetComponent<SpriteRenderer>())
+                        {
+                            Debug.Log("b: " + renderer.bounds);
+                            combinedBounds.Encapsulate(renderer.bounds);
+                        }
+                    }
+
+                    Vector2 dim = combinedBounds.size;
+                    float scale;
+                    if (dim.x > dim.y)
+                    {
+                        scale = rect.width / dim.x;
+                    }
+                    else
+                    {
+                        scale = rect.height / dim.y;
+                    }
+
+                    scale *= .8f;
+
+                    Debug.Log(combinedBounds);
+                    content.transform.parent = transform;
+                    content.transform.localPosition = -combinedBounds.center*scale;
+                    content.transform.localScale = new Vector3(scale, scale, 1);
+                    content.transform.localPosition = new Vector3(content.transform.localPosition.x, content.transform.localPosition.y, -.1f);
+                    content.transform.localPosition += (Vector3)rect.size / 2;
                     break;
                 }
             }
@@ -71,8 +100,6 @@ namespace Noble.DungeonCrawler
         {
             EquipItem(InventoryMenu.instance.currentItemForAssignment.gameObject);
             InventoryMenu.instance.ReturnToDefaultMode();
-            var inventorySlots = FindObjectsOfType<InventorySlotGUI>();
-            inventorySlots.First(s => s.item == InventoryMenu.instance.currentItemForAssignment.DungeonObject).GetComponent<Button>().Select();
         }
 
         void AssignSlotAndReturnToDefault()
@@ -96,9 +123,13 @@ namespace Noble.DungeonCrawler
             {
                 GetComponent<Button>().interactable = true;
             }
-            else
+            else if (InventoryMenu.instance.mode == InventoryMenu.Mode.ASSIGN_ITEM_TO_SLOT)
             {
-                if (!GetComponent<Button>().interactable && data is AxisEventData axisEvent)
+                if (GetComponent<Button>().interactable)
+                {
+                    GetComponent<Image>().color = Color.green;
+                }
+                else if (data is AxisEventData axisEvent)
                 {
                     var nextSelectable = GetComponent<Button>().FindSelectable(axisEvent.moveVector);
                     if (nextSelectable == null)
@@ -115,8 +146,21 @@ namespace Noble.DungeonCrawler
         {
             if (InventoryMenu.instance.mode == InventoryMenu.Mode.DEFAULT)
             {
-                GetComponent<Button>().interactable = false;
+                StartCoroutine(DeactivateAtEndOfFrame());
             }
+            else if (InventoryMenu.instance.mode == InventoryMenu.Mode.ASSIGN_ITEM_TO_SLOT)
+            {
+                if (GetComponent<Button>().interactable)
+                {
+                    GetComponent<Image>().color = Color.white;
+                }
+            }
+        }
+
+        public IEnumerator DeactivateAtEndOfFrame()
+        {
+            yield return new WaitForEndOfFrame();
+            GetComponent<Button>().interactable = false;
         }
 
         IEnumerator DelaySelect(Selectable nextSelectable)

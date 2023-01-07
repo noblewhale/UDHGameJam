@@ -6,6 +6,7 @@ namespace Noble.TileEngine
     using System.Collections.Generic;
     using UnityEngine.Rendering;
     using System.Linq;
+    using System;
 
     [RequireComponent(typeof(DungeonObject))]
     public class Equipable : MonoBehaviour
@@ -26,7 +27,17 @@ namespace Noble.TileEngine
         public bool autoEquip = false;
         public Equipment.Slot autoEquipSlot;
 
-        Equipment.Slot actualSlot;
+        [Serializable]
+        public class SlotObject
+        {
+            public GameObject ob;
+            public Equipment.Slot slot;
+        }
+
+        public SlotObject[] objectsToEnableForSlot;
+        Dictionary<Equipment.Slot, GameObject> _objectsToEnableForSlot;
+
+        public Equipment.Slot actualSlot;
 
         DungeonObject _object;
         public DungeonObject DungeonObject
@@ -40,6 +51,11 @@ namespace Noble.TileEngine
 
         public void Awake()
         {
+            _objectsToEnableForSlot = new Dictionary<Equipment.Slot, GameObject>();
+            foreach (var slotObject in objectsToEnableForSlot)
+            {
+                _objectsToEnableForSlot.Add(slotObject.slot, slotObject.ob);
+            }
             DungeonObject.onPickedUp += OnPickedUp;
         }
 
@@ -62,6 +78,23 @@ namespace Noble.TileEngine
         {
             var equipment = equipper.GetComponent<Equipment>();
             if (!equipment) return;
+
+            foreach (var objectSlot in _objectsToEnableForSlot)
+            {
+                objectSlot.Value.SetActive(false);
+            }
+            if (_objectsToEnableForSlot.ContainsKey(slot))
+            {
+                _objectsToEnableForSlot[slot].SetActive(true);
+            }
+
+            // Add sub-items to their respective slots
+            var subEquipment = GetComponentsInChildren<Equipable>();
+            foreach (var subItem in subEquipment)
+            {
+                if (subItem.transform == transform) continue;
+                subItem.Equip(equipper, subItem.allowedSlots[0]);
+            }
 
             // Remove items in extra slots that this item occupies
             // Used when assigning two handed weapons that are in the two-handed slot but additionally occupy the left and right hand slots
@@ -108,7 +141,31 @@ namespace Noble.TileEngine
             }
             transform.localPosition = -handlePos;
 
+            if (DungeonObject && DungeonObject.glyphs)
+            {
+                DungeonObject.glyphs.SetLit(true);
+            }
+
             equipment.SetEquipment(actualSlot, this);
+        }
+
+        public void UpdatePosition()
+        {
+            var equipment = EquippedBy.GetComponent<Equipment>();
+            var slotTransform = equipment.GetSlotTransform(actualSlot);
+            transform.parent = slotTransform;
+            transform.localScale = Vector3.one;
+            transform.localPosition = Vector3.zero;
+            Vector3 handlePos = Vector3.zero;
+            if (handle)
+            {
+                handlePos = transform.InverseTransformPoint(handle.position);
+            }
+            foreach (Transform trans in gameObject.GetComponentsInChildren<Transform>(true))
+            {
+                trans.gameObject.layer = EquippedBy.gameObject.layer;
+            }
+            transform.localPosition = -handlePos;
         }
 
         public void UnEquip()

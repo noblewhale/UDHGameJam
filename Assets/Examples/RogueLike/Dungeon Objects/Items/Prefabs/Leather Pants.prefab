@@ -97,7 +97,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 3560718691425336718, guid: 017d7b454eccbae49b9a34acdb0f230a, type: 3}
+  m_Sprite: {fileID: -3066700976480519597, guid: 017d7b454eccbae49b9a34acdb0f230a, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -133,7 +133,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6145488427514519921}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.359375, y: 0.296875, z: 0}
+  m_LocalPosition: {x: 0.390625, y: 0.390625, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -181,7 +181,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 50
-  m_Sprite: {fileID: 3560718691425336718, guid: 017d7b454eccbae49b9a34acdb0f230a, type: 3}
+  m_Sprite: {fileID: -3066700976480519597, guid: 017d7b454eccbae49b9a34acdb0f230a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -220,7 +220,7 @@ GameObject:
   - component: {fileID: 2198777374956728066}
   - component: {fileID: 4575435901265032361}
   m_Layer: 0
-  m_Name: Leather Helm
+  m_Name: Leather Pants
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -256,7 +256,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ddd0c896d8f310e46a0e98eca91558d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectName: Leather Helm
+  objectName: Leather Pants
   illuminationRange: 0
   OnSteppedOn:
     m_PersistentCalls:
@@ -306,12 +306,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   handle: {fileID: 2557841980388237137}
-  allowedSlots: 04000000
+  allowedSlots: 05000000
   useOverrideSlot: 0
   overrideSlot: 0
   occupyExtraSlots: 
   autoEquip: 0
-  autoEquipSlot: 4
+  autoEquipSlot: 5
+  objectsToEnableForSlot: []
 --- !u!1 &7483110043457238279
 GameObject:
   m_ObjectHideFlags: 0

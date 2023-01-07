@@ -139,17 +139,28 @@ namespace Noble.DungeonCrawler
         public void EnterAssignSlotToItemMode(EquipSlotGUI equipSlotGUI, Equipable equipable)
         {
             mode = Mode.ASSIGN_SLOT_TO_ITEM;
+            //var equipSlotGUIs = FindObjectsOfType<EquipSlotGUI>();
+            //foreach (var equipSlot in equipSlotGUIs)
+            //{
+            //    var colorBlock = equipSlot.GetComponent<Button>().colors;
+            //    colorBlock.selectedColor = Color.green;
+            //    equipSlot.GetComponent<Button>().colors = colorBlock;
+            //}
             currentSlotForAssignment = equipSlotGUI;
             currentItemForAssignment = equipable;
             DisableItemsThatDontFitSlots(equipSlotGUI.slots);
-            foreach (var slot in equipSlotGUI.slots)
-            {
-                var equippedItem = Player.instance.identity.Creature.GetEquipment(slot);
-                if (equippedItem)
-                {
-                    EnableSlotsThatAllowItem(equippedItem);
-                }
-            }
+            //foreach (var slot in equipSlotGUI.slots)
+            //{
+            //    var equippedItem = Player.instance.identity.Creature.GetEquipment(slot);
+            //    if (equippedItem)
+            //    {
+            //        EnableSlotsThatAllowItem(equippedItem);
+            //    }
+            //}
+            var inventorySlots = FindObjectsOfType<InventorySlotGUI>();
+            inventorySlots.Last(s => s.GetComponent<Button>().interactable).GetComponent<Button>().Select();
+
+            equipSlotGUI.GetComponent<Image>().color = Color.green;
         }
 
         public void ReturnToDefaultMode()
@@ -166,6 +177,15 @@ namespace Noble.DungeonCrawler
             {
                 inventoryGUISlot.GetComponent<Button>().interactable = true;
             }
+
+            if (currentItemForAssignment)
+            {
+                var inventorySlots = FindObjectsOfType<InventorySlotGUI>();
+                inventorySlots.First(s => s.item == currentItemForAssignment.DungeonObject).GetComponent<Button>().Select();
+            }
+
+            currentItemForAssignment = null;
+            currentSlotForAssignment = null;
         }
 
         public void OnDrop(PointerEventData eventData)
