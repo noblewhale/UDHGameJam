@@ -633,7 +633,7 @@ RectTransform:
   m_GameObject: {fileID: 58739713}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.9999202, y: 0.9999202, z: 0.9999202}
+  m_LocalScale: {x: 0.9999203, y: 0.9999203, z: 0.9999203}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2084790663}
@@ -641,7 +641,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0.00002670288, y: -0.00036239624}
+  m_AnchoredPosition: {x: 0.000091552734, y: -0.00020599365}
   m_SizeDelta: {x: 101, y: 100}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &58739715
@@ -694,7 +694,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84a4d5d399c910449bcbaa57660ff7be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slots: 0000000008000000
+  slots: 0000000007000000
   content: {fileID: 0}
 --- !u!114 &58739718
 MonoBehaviour:
@@ -735,7 +735,7 @@ MonoBehaviour:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 0.62352943}
     m_HighlightedColor: {r: 1, g: 1, b: 1, a: 0.62352943}
     m_PressedColor: {r: 1, g: 1, b: 1, a: 0.62352943}
-    m_SelectedColor: {r: 0.036089227, g: 0.5849056, b: 0, a: 1}
+    m_SelectedColor: {r: 1, g: 1, b: 1, a: 0.62352943}
     m_DisabledColor: {r: 1, g: 1, b: 1, a: 0.13333334}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -864,6 +864,22 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+  - eventID: 10
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 58739717}
+          m_TargetAssemblyTypeName: Noble.DungeonCrawler.EquipSlotGUI, Assembly-CSharp
+          m_MethodName: OnDeselect
+          m_Mode: 0
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &69814887
 GameObject:
   m_ObjectHideFlags: 0
@@ -895,7 +911,7 @@ RectTransform:
   m_GameObject: {fileID: 69814887}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.9999202, y: 0.9999202, z: 0.9999202}
+  m_LocalScale: {x: 0.9999203, y: 0.9999203, z: 0.9999203}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1103964852}
@@ -903,7 +919,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -0.0000038146973, y: 0.00016021729}
+  m_AnchoredPosition: {x: -0.0000038146973, y: 0.00016784668}
   m_SizeDelta: {x: 101, y: 150}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &69814889
@@ -956,7 +972,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84a4d5d399c910449bcbaa57660ff7be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slots: 06000000
+  slots: 05000000
   content: {fileID: 0}
 --- !u!114 &69814892
 MonoBehaviour:
@@ -997,7 +1013,7 @@ MonoBehaviour:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 0.62352943}
     m_HighlightedColor: {r: 1, g: 1, b: 1, a: 0.62352943}
     m_PressedColor: {r: 1, g: 1, b: 1, a: 0.62352943}
-    m_SelectedColor: {r: 0.036089227, g: 0.5849056, b: 0, a: 1}
+    m_SelectedColor: {r: 1, g: 1, b: 1, a: 0.62352943}
     m_DisabledColor: {r: 1, g: 1, b: 1, a: 0.13333334}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -1117,6 +1133,22 @@ MonoBehaviour:
         - m_Target: {fileID: 69814891}
           m_TargetAssemblyTypeName: Noble.DungeonCrawler.EquipSlotGUI, Assembly-CSharp
           m_MethodName: OnMousePress
+          m_Mode: 0
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 10
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 69814891}
+          m_TargetAssemblyTypeName: Noble.DungeonCrawler.EquipSlotGUI, Assembly-CSharp
+          m_MethodName: OnDeselect
           m_Mode: 0
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -1538,8 +1570,8 @@ MonoBehaviour:
   - {x: 0.5, y: 0.5, z: 0}
   - {x: 0.5, y: -0.5, z: 0}
   m_ShapePathHash: 0
-  m_Mesh: {fileID: 1694089087}
-  m_InstanceId: 28412
+  m_Mesh: {fileID: 1456329233}
+  m_InstanceId: 147184
 --- !u!1 &171146702
 GameObject:
   m_ObjectHideFlags: 0
@@ -2597,7 +2629,7 @@ RectTransform:
   m_GameObject: {fileID: 462334866}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.9999202, y: 0.9999202, z: 0.9999202}
+  m_LocalScale: {x: 0.9999203, y: 0.9999203, z: 0.9999203}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 16676412}
@@ -2605,7 +2637,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -0.0000038146973, y: 0.00004196167}
+  m_AnchoredPosition: {x: -0.000022888184, y: 0.00019073486}
   m_SizeDelta: {x: 101, y: 100}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &462334868
@@ -2658,7 +2690,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84a4d5d399c910449bcbaa57660ff7be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slots: 03000000
+  slots: 09000000
   content: {fileID: 0}
 --- !u!114 &462334871
 MonoBehaviour:
@@ -2699,7 +2731,7 @@ MonoBehaviour:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 0.62352943}
     m_HighlightedColor: {r: 1, g: 1, b: 1, a: 0.62352943}
     m_PressedColor: {r: 1, g: 1, b: 1, a: 0.62352943}
-    m_SelectedColor: {r: 0.036089227, g: 0.5849056, b: 0, a: 1}
+    m_SelectedColor: {r: 1, g: 1, b: 1, a: 0.62352943}
     m_DisabledColor: {r: 1, g: 1, b: 1, a: 0.13333334}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -2819,6 +2851,22 @@ MonoBehaviour:
         - m_Target: {fileID: 462334870}
           m_TargetAssemblyTypeName: Noble.DungeonCrawler.EquipSlotGUI, Assembly-CSharp
           m_MethodName: OnMousePress
+          m_Mode: 0
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 10
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 462334870}
+          m_TargetAssemblyTypeName: Noble.DungeonCrawler.EquipSlotGUI, Assembly-CSharp
+          m_MethodName: OnDeselect
           m_Mode: 0
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -4352,7 +4400,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84a4d5d399c910449bcbaa57660ff7be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slots: 04000000
+  slots: 03000000
   content: {fileID: 0}
 --- !u!114 &830969848
 MonoBehaviour:
@@ -4378,7 +4426,7 @@ MonoBehaviour:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 0.62352943}
     m_HighlightedColor: {r: 1, g: 1, b: 1, a: 0.62352943}
     m_PressedColor: {r: 1, g: 1, b: 1, a: 0.62352943}
-    m_SelectedColor: {r: 0.036089227, g: 0.5849056, b: 0, a: 1}
+    m_SelectedColor: {r: 1, g: 1, b: 1, a: 0.62352943}
     m_DisabledColor: {r: 1, g: 1, b: 1, a: 0.13333334}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -4545,6 +4593,22 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+  - eventID: 10
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 830969847}
+          m_TargetAssemblyTypeName: Noble.DungeonCrawler.EquipSlotGUI, Assembly-CSharp
+          m_MethodName: OnDeselect
+          m_Mode: 0
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &834469396
 GameObject:
   m_ObjectHideFlags: 0
@@ -4576,7 +4640,7 @@ RectTransform:
   m_GameObject: {fileID: 834469396}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.9999202, y: 0.9999202, z: 0.9999202}
+  m_LocalScale: {x: 0.9999203, y: 0.9999203, z: 0.9999203}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1023053212}
@@ -4584,7 +4648,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0.000011444092, y: -0.00036239624}
+  m_AnchoredPosition: {x: 0.000030517578, y: -0.00020599365}
   m_SizeDelta: {x: 101, y: 100}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &834469398
@@ -4637,7 +4701,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84a4d5d399c910449bcbaa57660ff7be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slots: 0100000008000000
+  slots: 0100000007000000
   content: {fileID: 0}
 --- !u!114 &834469401
 MonoBehaviour:
@@ -4678,7 +4742,7 @@ MonoBehaviour:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 0.62352943}
     m_HighlightedColor: {r: 1, g: 1, b: 1, a: 0.62352943}
     m_PressedColor: {r: 1, g: 1, b: 1, a: 0.62352943}
-    m_SelectedColor: {r: 0.036089227, g: 0.5849056, b: 0, a: 1}
+    m_SelectedColor: {r: 1, g: 1, b: 1, a: 0.62352943}
     m_DisabledColor: {r: 1, g: 1, b: 1, a: 0.13333334}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -4798,6 +4862,22 @@ MonoBehaviour:
         - m_Target: {fileID: 834469400}
           m_TargetAssemblyTypeName: Noble.DungeonCrawler.EquipSlotGUI, Assembly-CSharp
           m_MethodName: OnMousePress
+          m_Mode: 0
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 10
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 834469400}
+          m_TargetAssemblyTypeName: Noble.DungeonCrawler.EquipSlotGUI, Assembly-CSharp
+          m_MethodName: OnDeselect
           m_Mode: 0
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -6372,7 +6452,6 @@ GameObject:
   - component: {fileID: 1268782439}
   - component: {fileID: 1268782440}
   - component: {fileID: 1268782441}
-  - component: {fileID: 1268782442}
   - component: {fileID: 1268782444}
   - component: {fileID: 1268782443}
   m_Layer: 5
@@ -6540,51 +6619,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2042ea794f8f05d4fb330206d3bceeed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1268782442
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1268782433}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Delegates:
-  - eventID: 9
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1268782437}
-          m_TargetAssemblyTypeName: Noble.DungeonCrawler.InventoryMenu, Assembly-CSharp
-          m_MethodName: OnSelect
-          m_Mode: 0
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  - eventID: 4
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1268782437}
-          m_TargetAssemblyTypeName: Noble.DungeonCrawler.InventoryMenu, Assembly-CSharp
-          m_MethodName: OnSelect
-          m_Mode: 0
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
 --- !u!114 &1268782443
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6654,7 +6688,7 @@ RectTransform:
   m_GameObject: {fileID: 1291126606}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.9999202, y: 0.9999202, z: 0.9999202}
+  m_LocalScale: {x: 0.9999203, y: 0.9999203, z: 0.9999203}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 254322238}
@@ -6662,7 +6696,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -0.0000038146973, y: -0.00034713745}
+  m_AnchoredPosition: {x: -0.0000038146973, y: -0.0004272461}
   m_SizeDelta: {x: 101, y: 100}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &1291126608
@@ -6715,7 +6749,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84a4d5d399c910449bcbaa57660ff7be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slots: 07000000
+  slots: 06000000
   content: {fileID: 0}
 --- !u!114 &1291126611
 MonoBehaviour:
@@ -6756,7 +6790,7 @@ MonoBehaviour:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 0.62352943}
     m_HighlightedColor: {r: 1, g: 1, b: 1, a: 0.62352943}
     m_PressedColor: {r: 1, g: 1, b: 1, a: 0.62352943}
-    m_SelectedColor: {r: 0.036089227, g: 0.5849056, b: 0, a: 1}
+    m_SelectedColor: {r: 1, g: 1, b: 1, a: 0.62352943}
     m_DisabledColor: {r: 1, g: 1, b: 1, a: 0.13333334}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -6885,6 +6919,22 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+  - eventID: 10
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1291126610}
+          m_TargetAssemblyTypeName: Noble.DungeonCrawler.EquipSlotGUI, Assembly-CSharp
+          m_MethodName: OnDeselect
+          m_Mode: 0
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &1293200041
 GameObject:
   m_ObjectHideFlags: 0
@@ -6916,7 +6966,7 @@ RectTransform:
   m_GameObject: {fileID: 1293200041}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.9999202, y: 0.9999202, z: 0.9999202}
+  m_LocalScale: {x: 0.9999203, y: 0.9999203, z: 0.9999203}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1744877035}
@@ -6924,7 +6974,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -0.0000038146973, y: -0.00036239624}
+  m_AnchoredPosition: {x: -0.0000038146973, y: -0.00038146973}
   m_SizeDelta: {x: 101, y: 100}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &1293200043
@@ -6977,7 +7027,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84a4d5d399c910449bcbaa57660ff7be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slots: 05000000
+  slots: 04000000
   content: {fileID: 0}
 --- !u!114 &1293200046
 MonoBehaviour:
@@ -7018,7 +7068,7 @@ MonoBehaviour:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 0.62352943}
     m_HighlightedColor: {r: 1, g: 1, b: 1, a: 0.62352943}
     m_PressedColor: {r: 1, g: 1, b: 1, a: 0.62352943}
-    m_SelectedColor: {r: 0.036089227, g: 0.5849056, b: 0, a: 1}
+    m_SelectedColor: {r: 1, g: 1, b: 1, a: 0.62352943}
     m_DisabledColor: {r: 1, g: 1, b: 1, a: 0.13333334}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -7138,6 +7188,22 @@ MonoBehaviour:
         - m_Target: {fileID: 1293200045}
           m_TargetAssemblyTypeName: Noble.DungeonCrawler.EquipSlotGUI, Assembly-CSharp
           m_MethodName: OnMousePress
+          m_Mode: 0
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 10
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1293200045}
+          m_TargetAssemblyTypeName: Noble.DungeonCrawler.EquipSlotGUI, Assembly-CSharp
+          m_MethodName: OnDeselect
           m_Mode: 0
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -7334,7 +7400,7 @@ RectTransform:
   m_GameObject: {fileID: 1397975271}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.9999202, y: 0.9999202, z: 0.9999202}
+  m_LocalScale: {x: 0.9999203, y: 0.9999203, z: 0.9999203}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 81350222}
@@ -7342,7 +7408,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0.00004196167, y: 0.00004196167}
+  m_AnchoredPosition: {x: 0.000045776367, y: 0.00019073486}
   m_SizeDelta: {x: 101, y: 100}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &1397975273
@@ -7395,7 +7461,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84a4d5d399c910449bcbaa57660ff7be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slots: 02000000
+  slots: 08000000
   content: {fileID: 0}
 --- !u!114 &1397975276
 MonoBehaviour:
@@ -7436,7 +7502,7 @@ MonoBehaviour:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 0.62352943}
     m_HighlightedColor: {r: 1, g: 1, b: 1, a: 0.62352943}
     m_PressedColor: {r: 1, g: 1, b: 1, a: 0.62352943}
-    m_SelectedColor: {r: 0.036089227, g: 0.5849056, b: 0, a: 1}
+    m_SelectedColor: {r: 1, g: 1, b: 1, a: 0.62352943}
     m_DisabledColor: {r: 1, g: 1, b: 1, a: 0.13333334}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -7556,6 +7622,22 @@ MonoBehaviour:
         - m_Target: {fileID: 1397975275}
           m_TargetAssemblyTypeName: Noble.DungeonCrawler.EquipSlotGUI, Assembly-CSharp
           m_MethodName: OnMousePress
+          m_Mode: 0
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 10
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1397975275}
+          m_TargetAssemblyTypeName: Noble.DungeonCrawler.EquipSlotGUI, Assembly-CSharp
+          m_MethodName: OnDeselect
           m_Mode: 0
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -12465,6 +12547,170 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
+--- !u!43 &1456329233
+Mesh:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  serializedVersion: 10
+  m_SubMeshes:
+  - serializedVersion: 2
+    firstByte: 0
+    indexCount: 42
+    topology: 0
+    baseVertex: 0
+    firstVertex: 0
+    vertexCount: 16
+    localAABB:
+      m_Center: {x: 0, y: 0, z: 0}
+      m_Extent: {x: 0.5, y: 0.5, z: 0}
+  m_Shapes:
+    vertices: []
+    shapes: []
+    channels: []
+    fullWeights: []
+  m_BindPose: []
+  m_BoneNameHashes: 
+  m_RootBoneNameHash: 0
+  m_BonesAABB: []
+  m_VariableBoneCountWeights:
+    m_Data: 
+  m_MeshCompression: 0
+  m_IsReadable: 1
+  m_KeepVertices: 1
+  m_KeepIndices: 1
+  m_IndexFormat: 0
+  m_IndexBuffer: 00000100020003000100000003000400010005000400030006000400050004000600070002000800000000000900030001000a00020004000b00010003000c00050007000d00040005000e00060006000f000700
+  m_VertexData:
+    serializedVersion: 3
+    m_VertexCount: 16
+    m_Channels:
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 3
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 12
+      format: 0
+      dimension: 4
+    - stream: 0
+      offset: 28
+      format: 0
+      dimension: 4
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    m_DataSize: 704
+    _typelessdata: 0000003f000000bf000000000000803f0000008000000080000000800000003f000000bf0000003f000000bf0000003f0000003f00000000000000800000803f00000080000000800000003f0000003f0000003f0000003f0000003f00000000000000000000803f0000008000000080000000800000003f0000003f0000003f000000bf00000000000000bf0000000000000080000080bf00000000000000800000003f000000bf000000bf000000bf000000000000003f00000000000000800000803f0000008000000080000000bf0000003f0000003f0000003f000000bf000000bf0000000000000080000080bf0000000000000080000000bf000000bf000000bf000000bf000000bf0000000000000000000080bf000000800000008000000080000000bf000000bf000000bf0000003f000000bf0000003f00000000000080bf000000800000008000000080000000bf0000003f000000bf0000003f0000003f00000000000000000000803f0000008000000080000000800000003f0000003f0000003f000000bf0000003f000000bf0000000000000080000080bf00000000000000800000003f000000bf0000003f000000bf0000003f0000003f000000000000803f0000008000000080000000800000003f0000003f0000003f0000003f000000000000003f00000000000000800000803f0000008000000080000000bf0000003f0000003f0000003f00000000000000bf0000000000000080000080bf00000000000000800000003f000000bf000000bf000000bf000000bf0000003f00000000000000800000803f0000008000000080000000bf0000003f000000bf0000003f000000bf000000bf00000000000080bf000000800000008000000080000000bf000000bf000000bf000000bf000000bf0000000000000000000080bf000000800000008000000080000000bf000000bf000000bf0000003f
+  m_CompressedMesh:
+    m_Vertices:
+      m_NumItems: 0
+      m_Range: 0
+      m_Start: 0
+      m_Data: 
+      m_BitSize: 0
+    m_UV:
+      m_NumItems: 0
+      m_Range: 0
+      m_Start: 0
+      m_Data: 
+      m_BitSize: 0
+    m_Normals:
+      m_NumItems: 0
+      m_Range: 0
+      m_Start: 0
+      m_Data: 
+      m_BitSize: 0
+    m_Tangents:
+      m_NumItems: 0
+      m_Range: 0
+      m_Start: 0
+      m_Data: 
+      m_BitSize: 0
+    m_Weights:
+      m_NumItems: 0
+      m_Data: 
+      m_BitSize: 0
+    m_NormalSigns:
+      m_NumItems: 0
+      m_Data: 
+      m_BitSize: 0
+    m_TangentSigns:
+      m_NumItems: 0
+      m_Data: 
+      m_BitSize: 0
+    m_FloatColors:
+      m_NumItems: 0
+      m_Range: 0
+      m_Start: 0
+      m_Data: 
+      m_BitSize: 0
+    m_BoneIndices:
+      m_NumItems: 0
+      m_Data: 
+      m_BitSize: 0
+    m_Triangles:
+      m_NumItems: 0
+      m_Data: 
+      m_BitSize: 0
+    m_UVInfo: 0
+  m_LocalAABB:
+    m_Center: {x: 0, y: 0, z: 0}
+    m_Extent: {x: 0.5, y: 0.5, z: 0}
+  m_MeshUsageFlags: 0
+  m_BakedConvexCollisionMesh: 
+  m_BakedTriangleCollisionMesh: 
+  m_MeshMetrics[0]: 1
+  m_MeshMetrics[1]: 1
+  m_MeshOptimizationFlags: 1
+  m_StreamData:
+    serializedVersion: 2
+    offset: 0
+    size: 0
+    path: 
 --- !u!1 &1471239889
 GameObject:
   m_ObjectHideFlags: 0
@@ -12836,170 +13082,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!43 &1694089087
-Mesh:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  serializedVersion: 10
-  m_SubMeshes:
-  - serializedVersion: 2
-    firstByte: 0
-    indexCount: 42
-    topology: 0
-    baseVertex: 0
-    firstVertex: 0
-    vertexCount: 16
-    localAABB:
-      m_Center: {x: 0, y: 0, z: 0}
-      m_Extent: {x: 0.5, y: 0.5, z: 0}
-  m_Shapes:
-    vertices: []
-    shapes: []
-    channels: []
-    fullWeights: []
-  m_BindPose: []
-  m_BoneNameHashes: 
-  m_RootBoneNameHash: 0
-  m_BonesAABB: []
-  m_VariableBoneCountWeights:
-    m_Data: 
-  m_MeshCompression: 0
-  m_IsReadable: 1
-  m_KeepVertices: 1
-  m_KeepIndices: 1
-  m_IndexFormat: 0
-  m_IndexBuffer: 00000100020003000100000003000400010005000400030006000400050004000600070002000800000000000900030001000a00020004000b00010003000c00050007000d00040005000e00060006000f000700
-  m_VertexData:
-    serializedVersion: 3
-    m_VertexCount: 16
-    m_Channels:
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 3
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 12
-      format: 0
-      dimension: 4
-    - stream: 0
-      offset: 28
-      format: 0
-      dimension: 4
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    m_DataSize: 704
-    _typelessdata: 0000003f000000bf000000000000803f0000008000000080000000800000003f000000bf0000003f000000bf0000003f0000003f00000000000000800000803f00000080000000800000003f0000003f0000003f0000003f0000003f00000000000000000000803f0000008000000080000000800000003f0000003f0000003f000000bf00000000000000bf0000000000000080000080bf00000000000000800000003f000000bf000000bf000000bf000000000000003f00000000000000800000803f0000008000000080000000bf0000003f0000003f0000003f000000bf000000bf0000000000000080000080bf0000000000000080000000bf000000bf000000bf000000bf000000bf0000000000000000000080bf000000800000008000000080000000bf000000bf000000bf0000003f000000bf0000003f00000000000080bf000000800000008000000080000000bf0000003f000000bf0000003f0000003f00000000000000000000803f0000008000000080000000800000003f0000003f0000003f000000bf0000003f000000bf0000000000000080000080bf00000000000000800000003f000000bf0000003f000000bf0000003f0000003f000000000000803f0000008000000080000000800000003f0000003f0000003f0000003f000000000000003f00000000000000800000803f0000008000000080000000bf0000003f0000003f0000003f00000000000000bf0000000000000080000080bf00000000000000800000003f000000bf000000bf000000bf000000bf0000003f00000000000000800000803f0000008000000080000000bf0000003f000000bf0000003f000000bf000000bf00000000000080bf000000800000008000000080000000bf000000bf000000bf000000bf000000bf0000000000000000000080bf000000800000008000000080000000bf000000bf000000bf0000003f
-  m_CompressedMesh:
-    m_Vertices:
-      m_NumItems: 0
-      m_Range: 0
-      m_Start: 0
-      m_Data: 
-      m_BitSize: 0
-    m_UV:
-      m_NumItems: 0
-      m_Range: 0
-      m_Start: 0
-      m_Data: 
-      m_BitSize: 0
-    m_Normals:
-      m_NumItems: 0
-      m_Range: 0
-      m_Start: 0
-      m_Data: 
-      m_BitSize: 0
-    m_Tangents:
-      m_NumItems: 0
-      m_Range: 0
-      m_Start: 0
-      m_Data: 
-      m_BitSize: 0
-    m_Weights:
-      m_NumItems: 0
-      m_Data: 
-      m_BitSize: 0
-    m_NormalSigns:
-      m_NumItems: 0
-      m_Data: 
-      m_BitSize: 0
-    m_TangentSigns:
-      m_NumItems: 0
-      m_Data: 
-      m_BitSize: 0
-    m_FloatColors:
-      m_NumItems: 0
-      m_Range: 0
-      m_Start: 0
-      m_Data: 
-      m_BitSize: 0
-    m_BoneIndices:
-      m_NumItems: 0
-      m_Data: 
-      m_BitSize: 0
-    m_Triangles:
-      m_NumItems: 0
-      m_Data: 
-      m_BitSize: 0
-    m_UVInfo: 0
-  m_LocalAABB:
-    m_Center: {x: 0, y: 0, z: 0}
-    m_Extent: {x: 0.5, y: 0.5, z: 0}
-  m_MeshUsageFlags: 0
-  m_BakedConvexCollisionMesh: 
-  m_BakedTriangleCollisionMesh: 
-  m_MeshMetrics[0]: 1
-  m_MeshMetrics[1]: 1
-  m_MeshOptimizationFlags: 1
-  m_StreamData:
-    serializedVersion: 2
-    offset: 0
-    size: 0
-    path: 
 --- !u!1 &1744877034
 GameObject:
   m_ObjectHideFlags: 0
