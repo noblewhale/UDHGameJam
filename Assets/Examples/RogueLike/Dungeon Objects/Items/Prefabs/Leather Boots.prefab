@@ -91,6 +91,8 @@ MonoBehaviour:
   occupyExtraSlots: 
   autoEquip: 0
   autoEquipSlot: 6
+  objectsToEnableForSlot: []
+  actualSlot: 0
 --- !u!114 &2878320872813702605
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -326,6 +328,7 @@ GameObject:
   - component: {fileID: 1713904435910146774}
   - component: {fileID: 7404299837123624598}
   - component: {fileID: 4409781404819343592}
+  - component: {fileID: 2729782139246477511}
   m_Layer: 5
   m_Name: Icon
   m_TagString: Untagged
@@ -391,3 +394,15 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &2729782139246477511
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7986129053330759915}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51394248ac241e8429c73f38085fbcb2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

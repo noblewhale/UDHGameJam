@@ -39,6 +39,8 @@ namespace Noble.TileEngine
 
         public Equipment.Slot actualSlot;
 
+        List<Equipable> subItems = new();
+
         DungeonObject _object;
         public DungeonObject DungeonObject
         {
@@ -57,6 +59,12 @@ namespace Noble.TileEngine
                 _objectsToEnableForSlot.Add(slotObject.slot, slotObject.ob);
             }
             DungeonObject.onPickedUp += OnPickedUp;
+        }
+
+        public void Start()
+        {
+            subItems = new List<Equipable>(GetComponentsInChildren<Equipable>());
+            subItems = subItems.Where(item => item.gameObject != gameObject).ToList();
         }
 
         public void OnDestroy()
@@ -79,6 +87,15 @@ namespace Noble.TileEngine
             var equipment = equipper.GetComponent<Equipment>();
             if (!equipment) return;
 
+            actualSlot = slot;
+
+            if (useOverrideSlot)
+            {
+                actualSlot = overrideSlot;
+            }
+
+            equipment.GetEquipment(actualSlot)?.UnEquip();
+
             foreach (var objectSlot in _objectsToEnableForSlot)
             {
                 objectSlot.Value.SetActive(false);
@@ -89,10 +106,8 @@ namespace Noble.TileEngine
             }
 
             // Add sub-items to their respective slots
-            var subEquipment = GetComponentsInChildren<Equipable>();
-            foreach (var subItem in subEquipment)
+            foreach (var subItem in subItems)
             {
-                if (subItem.transform == transform) continue;
                 subItem.Equip(equipper, subItem.allowedSlots[0]);
             }
 
@@ -114,14 +129,6 @@ namespace Noble.TileEngine
                 }
             }
 
-            actualSlot = slot;
-
-            if (useOverrideSlot)
-            {
-                actualSlot = overrideSlot;
-            }
-
-            equipment.GetEquipment(actualSlot)?.UnEquip();
 
             IsEquipped = true;
             EquippedBy = equipper;
@@ -172,6 +179,14 @@ namespace Noble.TileEngine
         {
             var equipment = EquippedBy.GetComponent<Equipment>();
             equipment.SetEquipment(actualSlot, null);
+            
+            // Remote subitems from slot and add them back to parent
+            foreach (var subItem in subItems)
+            {
+                subItem.UnEquip();
+                subItem.transform.parent = transform;
+            }
+
             IsEquipped = false;
             EquippedBy = null;
             transform.parent = null;
