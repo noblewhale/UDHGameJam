@@ -1,6 +1,7 @@
 ﻿namespace Noble.TileEngine
 {
     using System.Collections;
+    using UnityEditor.Experimental.GraphView;
     using UnityEngine;
     using UnityEngine.EventSystems;
     using UnityEngine.UI;
@@ -44,6 +45,20 @@
             {
                 return selectable.navigation.selectOnRight;
             }
+        }
+
+        public static void SelectFirstInteractableInDirection(Selectable selectable, AxisEventData axisEvent)
+        {
+            var currentSelectable = selectable;
+            while (currentSelectable != null && !currentSelectable.interactable)
+            {
+                currentSelectable = GetNextSelectable(currentSelectable, axisEvent.moveVector);
+            }
+            if (currentSelectable == null)
+            {
+                currentSelectable = currentSelectedGameObject_Recent.GetComponent<Selectable>();
+            }
+            selectable.StartCoroutine(DelaySelect(currentSelectable));
         }
 
         public static IEnumerator DelaySelect(Selectable nextSelectable)

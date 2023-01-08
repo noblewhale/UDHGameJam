@@ -22,6 +22,19 @@
         }
 
         public Equipment Equipment => Creature?.Equipment;
+        Equipable _equipable;
+        public Equipable Equipable 
+        {
+            get
+            {
+                if (_equipable == null)
+                {
+                    _equipable = GetComponent<Equipable>();
+                }
+
+                return _equipable;
+            }
+        }
 
         [Serializable]
         public class CreatureEvent : UnityEvent<DungeonObject> { }
@@ -101,7 +114,7 @@
 
         public Tickable tickable { get; private set; }
 
-        virtual protected void Start()
+        virtual protected void Awake()
         {
             tickable = GetComponent<Tickable>();
             glyphs = GetComponentInChildren<Glyphs>(true);
@@ -110,7 +123,10 @@
                 glyphsOb = glyphs.gameObject;
                 originalGlyphPosition = glyphs.transform.localPosition;
             }
+        }
 
+        virtual protected void Start()
+        { 
             map.OnPreMapLoaded += OnPreMapLoaded;
         }
 

@@ -7,7 +7,6 @@ namespace Noble.DungeonCrawler
     using UnityEngine.Rendering.Universal;
     using UnityEngine.UI;
     using UnityEngine.InputSystem;
-    using UnityEngine.InputSystem.Controls;
     using System.Collections.Generic;
 
     public class InventoryMenu : MonoBehaviour, IDropHandler
@@ -43,48 +42,37 @@ namespace Noble.DungeonCrawler
         public void OnEnable()
         {
             Cursor.visible = true;
-            if (globalLightOff)
-            {
-                globalLightOff.enabled = false;
-            }
-            if (globalLightOn)
-            {
-                globalLightOn.enabled = true;
-            }
-            var player = Player.instance.identity;
+            
+            var player = Player.Identity;
             player.transform.parent = characterPosition;
             player.transform.localPosition = new Vector3(-.5f, -.5f, 0);
             player.transform.localScale = Vector3.one;
-            var lights = player.GetComponentsInChildren<Light2D>();
-            foreach (var light in lights) light.enabled = false;
-            foreach (Transform trans in player.GetComponentsInChildren<Transform>(true))
-            {
-                trans.gameObject.layer = this.gameObject.layer;
-            }
+
+            SetupLightsAndLayers(false, gameObject.layer);
         }
 
         public void OnDisable()
         {
-            if (Player.instance && Player.instance.identity)
+            if (Player.Identity)
             {
-                if (globalLightOff)
-                {
-                    globalLightOff.enabled = true;
-                }
-                if (globalLightOn)
-                {
-                    globalLightOn.enabled = false;
-                }
-                var player = Player.instance.identity;
+                var player = Player.Identity;
                 Tile tile = Map.instance.GetTile(player.x, player.y);
                 tile.AddObject(player, false, 2);
-                var lights = player.GetComponentsInChildren<Light2D>();
-                foreach (var light in lights) light.enabled = true;
-                foreach (Transform trans in player.GetComponentsInChildren<Transform>(true))
-                {
-                    trans.gameObject.layer = Map.instance.gameObject.layer;
-                }
+
+                SetupLightsAndLayers(true, Map.instance.gameObject.layer);
             }
+        }
+
+        void SetupLightsAndLayers(bool lightingOn, int layer)
+        {
+            if (globalLightOff) globalLightOff.enabled = lightingOn;
+            if (globalLightOn) globalLightOn.enabled = !lightingOn;
+
+            var lights = Player.Identity.GetComponentsInChildren<Light2D>();
+            foreach (var light in lights) light.enabled = lightingOn;
+
+            var transforms = Player.Identity.GetComponentsInChildren<Transform>(true);
+            foreach (var trans in transforms) trans.gameObject.layer = layer;
         }
 
         public void Update()
@@ -165,6 +153,8 @@ namespace Noble.DungeonCrawler
 
         public void EnterAssignItemToSlotMode(Equipable equipment)
         {
+            if (equipment == null) return;
+
             mode = Mode.ASSIGN_ITEM_TO_SLOT;
             currentItemForAssignment = equipment;
             EnableSlotsThatAllowItem(equipment);
@@ -196,24 +186,9 @@ namespace Noble.DungeonCrawler
         public void EnterAssignSlotToItemMode(EquipSlotGUI equipSlotGUI, Equipable equipable)
         {
             mode = Mode.ASSIGN_SLOT_TO_ITEM;
-            //var equipSlotGUIs = FindObjectsOfType<EquipSlotGUI>();
-            //foreach (var equipSlot in equipSlotGUIs)
-            //{
-            //    var colorBlock = equipSlot.GetComponent<Button>().colors;
-            //    colorBlock.selectedColor = Color.green;
-            //    equipSlot.GetComponent<Button>().colors = colorBlock;
-            //}
             currentSlotForAssignment = equipSlotGUI;
             currentItemForAssignment = equipable;
             DisableItemsThatDontFitSlots(equipSlotGUI.slots);
-            //foreach (var slot in equipSlotGUI.slots)
-            //{
-            //    var equippedItem = Player.instance.identity.Creature.GetEquipment(slot);
-            //    if (equippedItem)
-            //    {
-            //        EnableSlotsThatAllowItem(equippedItem);
-            //    }
-            //}
             var inventorySlots = FindObjectsOfType<InventorySlotGUI>();
             inventorySlots.Last(s => s.GetComponent<Button>().interactable).GetComponent<Button>().Select();
 

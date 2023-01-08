@@ -13,8 +13,9 @@ namespace Noble.DungeonCrawler
 
         public static CameraTarget instance;
 
-        protected void Awake()
+        override protected void Awake()
         {
+            base.Awake();
             instance = this;
         }
 

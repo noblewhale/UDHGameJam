@@ -784,22 +784,6 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-  - eventID: 1
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 58739717}
-          m_TargetAssemblyTypeName: Noble.DungeonCrawler.EquipSlotGUI, Assembly-CSharp
-          m_MethodName: OnMouseExit
-          m_Mode: 0
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
   - eventID: 4
     callback:
       m_PersistentCalls:
@@ -1069,22 +1053,6 @@ MonoBehaviour:
         - m_Target: {fileID: 69814891}
           m_TargetAssemblyTypeName: Noble.DungeonCrawler.EquipSlotGUI, Assembly-CSharp
           m_MethodName: OnMouseEnter
-          m_Mode: 0
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  - eventID: 1
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 69814891}
-          m_TargetAssemblyTypeName: Noble.DungeonCrawler.EquipSlotGUI, Assembly-CSharp
-          m_MethodName: OnMouseExit
           m_Mode: 0
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -2804,22 +2772,6 @@ MonoBehaviour:
         - m_Target: {fileID: 462334870}
           m_TargetAssemblyTypeName: Noble.DungeonCrawler.EquipSlotGUI, Assembly-CSharp
           m_MethodName: OnMouseEnter
-          m_Mode: 0
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  - eventID: 1
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 462334870}
-          m_TargetAssemblyTypeName: Noble.DungeonCrawler.EquipSlotGUI, Assembly-CSharp
-          m_MethodName: OnMouseExit
           m_Mode: 0
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -4562,22 +4514,6 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-  - eventID: 1
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 830969847}
-          m_TargetAssemblyTypeName: Noble.DungeonCrawler.EquipSlotGUI, Assembly-CSharp
-          m_MethodName: OnMouseExit
-          m_Mode: 0
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
   - eventID: 4
     callback:
       m_PersistentCalls:
@@ -4847,22 +4783,6 @@ MonoBehaviour:
         - m_Target: {fileID: 834469400}
           m_TargetAssemblyTypeName: Noble.DungeonCrawler.EquipSlotGUI, Assembly-CSharp
           m_MethodName: OnMouseEnter
-          m_Mode: 0
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  - eventID: 1
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 834469400}
-          m_TargetAssemblyTypeName: Noble.DungeonCrawler.EquipSlotGUI, Assembly-CSharp
-          m_MethodName: OnMouseExit
           m_Mode: 0
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -6952,22 +6872,6 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-  - eventID: 1
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1291126610}
-          m_TargetAssemblyTypeName: Noble.DungeonCrawler.EquipSlotGUI, Assembly-CSharp
-          m_MethodName: OnMouseExit
-          m_Mode: 0
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
   - eventID: 4
     callback:
       m_PersistentCalls:
@@ -7237,22 +7141,6 @@ MonoBehaviour:
         - m_Target: {fileID: 1293200045}
           m_TargetAssemblyTypeName: Noble.DungeonCrawler.EquipSlotGUI, Assembly-CSharp
           m_MethodName: OnMouseEnter
-          m_Mode: 0
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  - eventID: 1
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1293200045}
-          m_TargetAssemblyTypeName: Noble.DungeonCrawler.EquipSlotGUI, Assembly-CSharp
-          m_MethodName: OnMouseExit
           m_Mode: 0
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -7687,22 +7575,6 @@ MonoBehaviour:
         - m_Target: {fileID: 1397975275}
           m_TargetAssemblyTypeName: Noble.DungeonCrawler.EquipSlotGUI, Assembly-CSharp
           m_MethodName: OnMouseEnter
-          m_Mode: 0
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  - eventID: 1
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1397975275}
-          m_TargetAssemblyTypeName: Noble.DungeonCrawler.EquipSlotGUI, Assembly-CSharp
-          m_MethodName: OnMouseExit
           m_Mode: 0
           m_Arguments:
             m_ObjectArgument: {fileID: 0}

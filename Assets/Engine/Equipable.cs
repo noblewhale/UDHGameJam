@@ -66,9 +66,9 @@ namespace Noble.TileEngine
         {
             if (transform.parent)
             {
-                parentItem = transform.parent.GetComponentInParent<Equipable>();
+                parentItem = transform.parent.GetComponentInParent<Equipable>(true);
             }
-            subItems = new List<Equipable>(GetComponentsInChildren<Equipable>());
+            subItems = new List<Equipable>(GetComponentsInChildren<Equipable>(true));
             subItems = subItems.Where(item => item.gameObject != gameObject).ToList();
         }
 
@@ -113,6 +113,7 @@ namespace Noble.TileEngine
             // Add sub-items to their respective slots
             foreach (var subItem in subItems)
             {
+                subItem.gameObject.SetActive(true);
                 subItem.Equip(equipper, subItem.allowedSlots[0]);
             }
 
@@ -185,11 +186,12 @@ namespace Noble.TileEngine
             var equipment = EquippedBy.GetComponent<Equipment>();
             equipment.SetEquipment(actualSlot, null);
             
-            // Remote subitems from slot and add them back to parent
+            // Remove subitems from slot and add them back to parent
             foreach (var subItem in subItems)
             {
                 subItem.UnEquip();
                 subItem.transform.parent = transform;
+                subItem.gameObject.SetActive(false);
             }
 
             IsEquipped = false;

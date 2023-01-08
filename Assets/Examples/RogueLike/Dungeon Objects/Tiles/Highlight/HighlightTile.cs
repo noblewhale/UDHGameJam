@@ -16,8 +16,9 @@ namespace Noble.DungeonCrawler
         public bool isKeyboardControlled;
         public List<Tile> allowedTiles = null;
 
-        protected void Awake()
+        override protected void Awake()
         {
+            base.Awake();
             instance = this;
         }
 
