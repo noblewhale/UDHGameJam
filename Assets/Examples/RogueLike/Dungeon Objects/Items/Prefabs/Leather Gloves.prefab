@@ -179,6 +179,7 @@ MonoBehaviour:
   autoEquipSlot: 9
   objectsToEnableForSlot: []
   actualSlot: 9
+  parentItem: {fileID: 0}
 --- !u!1 &2166327110892646640
 GameObject:
   m_ObjectHideFlags: 0
@@ -453,6 +454,7 @@ MonoBehaviour:
   autoEquipSlot: 8
   objectsToEnableForSlot: []
   actualSlot: 8
+  parentItem: {fileID: 0}
 --- !u!1 &4049858851128619528
 GameObject:
   m_ObjectHideFlags: 0
@@ -994,7 +996,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   handle: {fileID: 0}
-  allowedSlots: 0800000009000000
+  allowedSlots: 02000000
   useOverrideSlot: 1
   overrideSlot: 2
   occupyExtraSlots: 
@@ -1002,6 +1004,7 @@ MonoBehaviour:
   autoEquipSlot: 2
   objectsToEnableForSlot: []
   actualSlot: 2
+  parentItem: {fileID: 0}
 --- !u!1 &7483110043457238279
 GameObject:
   m_ObjectHideFlags: 0

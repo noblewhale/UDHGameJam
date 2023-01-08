@@ -20,38 +20,6 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: {x: 0.109375, y: -0.125, z: 0}
-        inSlope: {x: 0, y: 0, z: 0}
-        outSlope: {x: 0, y: 0, z: 0}
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: {x: 0, y: 0.33333334, z: 0.33333334}
-        outWeight: {x: 0, y: 0.33333334, z: 0.33333334}
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    path: Glyphs/Noble Man/Arms/Right Arm
-  - curve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: {x: 0, y: -0.0625, z: 0}
-        inSlope: {x: 0, y: 0, z: 0}
-        outSlope: {x: 0, y: 0, z: 0}
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: {x: 0, y: 0.33333334, z: 0.33333334}
-        outWeight: {x: 0, y: 0.33333334, z: 0.33333334}
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    path: Glyphs/Noble Man/Arms/Right Arm/Right Hand Mask
-  - curve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
         value: {x: -0.125, y: -0.1875, z: 0}
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
@@ -62,7 +30,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: Glyphs/Noble Man/Arms/Left Arm
+    path: Glyphs/Noble Man/Chest/Arms/Left Arm
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -78,7 +46,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: Glyphs/Noble Man/Arms/Left Arm/Left Hand Mask
+    path: Glyphs/Noble Man/Chest/Arms/Left Arm/Left Hand Mask
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -94,9 +62,60 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: Glyphs/Noble Man/Arms/Left Arm/Left Hand Slot
+    path: Glyphs/Noble Man/Chest/Arms/Left Arm/Left Hand Slot
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: {x: 0.109375, y: -0.125, z: 0}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: {x: 0, y: 0.33333334, z: 0.33333334}
+        outWeight: {x: 0, y: 0.33333334, z: 0.33333334}
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Glyphs/Noble Man/Chest/Arms/Right Arm
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: {x: 0, y: -0.0625, z: 0}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: {x: 0, y: 0.33333334, z: 0.33333334}
+        outWeight: {x: 0, y: 0.33333334, z: 0.33333334}
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Glyphs/Noble Man/Chest/Arms/Right Arm/Right Hand Mask
   m_ScaleCurves: []
   m_FloatCurves:
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 60
+        inSlope: Infinity
+        outSlope: Infinity
+        tangentMode: 103
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: m_SortingOrder
+    path: Glyphs/Noble Man/Chest/Arms/Left Arm
+    classID: 212
+    script: {fileID: 0}
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -113,7 +132,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_Enabled
-    path: Glyphs/Noble Man/Arms/Right Arm/Right Hand Mask
+    path: Glyphs/Noble Man/Chest/Arms/Left Arm/Left Hand Mask
     classID: 331
     script: {fileID: 0}
   - curve:
@@ -132,7 +151,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_Enabled
-    path: Glyphs/Noble Man/Arms/Left Arm/Left Hand Mask
+    path: Glyphs/Noble Man/Chest/Arms/Right Arm/Right Hand Mask
     classID: 331
     script: {fileID: 0}
   - curve:
@@ -151,41 +170,22 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_Enabled
-    path: Glyphs/Noble Man/Arms/Two Hand Mask
+    path: Glyphs/Noble Man/Chest/Arms/Two Hand Mask
     classID: 331
-    script: {fileID: 0}
-  - curve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 60
-        inSlope: Infinity
-        outSlope: Infinity
-        tangentMode: 103
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    attribute: m_SortingOrder
-    path: Glyphs/Noble Man/Arms/Left Arm
-    classID: 212
     script: {fileID: 0}
   m_PPtrCurves:
   - curve:
     - time: 0
-      value: {fileID: 6269612397163196716, guid: 0dec2101246de604194bc892acf67064, type: 3}
+      value: {fileID: -1201067062064169547, guid: 0dec2101246de604194bc892acf67064, type: 3}
     attribute: m_Sprite
-    path: Glyphs/Noble Man/Arms/Right Arm
+    path: Glyphs/Noble Man/Chest/Arms/Left Arm
     classID: 212
     script: {fileID: 0}
   - curve:
     - time: 0
-      value: {fileID: -1201067062064169547, guid: 0dec2101246de604194bc892acf67064, type: 3}
+      value: {fileID: 6269612397163196716, guid: 0dec2101246de604194bc892acf67064, type: 3}
     attribute: m_Sprite
-    path: Glyphs/Noble Man/Arms/Left Arm
+    path: Glyphs/Noble Man/Chest/Arms/Right Arm
     classID: 212
     script: {fileID: 0}
   m_SampleRate: 60
@@ -196,85 +196,85 @@ AnimationClip:
   m_ClipBindingConstant:
     genericBindings:
     - serializedVersion: 2
-      path: 626836522
-      attribute: 3305885265
-      script: {fileID: 0}
-      typeID: 331
-      customType: 0
-      isPPtrCurve: 0
-    - serializedVersion: 2
-      path: 1940310729
-      attribute: 3305885265
-      script: {fileID: 0}
-      typeID: 331
-      customType: 0
-      isPPtrCurve: 0
-    - serializedVersion: 2
-      path: 14088902
-      attribute: 3305885265
-      script: {fileID: 0}
-      typeID: 331
-      customType: 0
-      isPPtrCurve: 0
-    - serializedVersion: 2
-      path: 2375923606
+      path: 2438563966
       attribute: 3762991556
       script: {fileID: 0}
       typeID: 212
       customType: 26
       isPPtrCurve: 0
     - serializedVersion: 2
-      path: 3159404652
+      path: 2576891139
+      attribute: 3305885265
+      script: {fileID: 0}
+      typeID: 331
+      customType: 0
+      isPPtrCurve: 0
+    - serializedVersion: 2
+      path: 932214383
+      attribute: 3305885265
+      script: {fileID: 0}
+      typeID: 331
+      customType: 0
+      isPPtrCurve: 0
+    - serializedVersion: 2
+      path: 3236691438
+      attribute: 3305885265
+      script: {fileID: 0}
+      typeID: 331
+      customType: 0
+      isPPtrCurve: 0
+    - serializedVersion: 2
+      path: 2438563966
       attribute: 0
       script: {fileID: 0}
       typeID: 212
       customType: 23
       isPPtrCurve: 1
     - serializedVersion: 2
-      path: 2375923606
+      path: 312286745
       attribute: 0
       script: {fileID: 0}
       typeID: 212
       customType: 23
       isPPtrCurve: 1
     - serializedVersion: 2
-      path: 3159404652
+      path: 2438563966
       attribute: 1
       script: {fileID: 0}
       typeID: 4
       customType: 0
       isPPtrCurve: 0
     - serializedVersion: 2
-      path: 626836522
+      path: 2576891139
       attribute: 1
       script: {fileID: 0}
       typeID: 4
       customType: 0
       isPPtrCurve: 0
     - serializedVersion: 2
-      path: 2375923606
+      path: 1257889364
       attribute: 1
       script: {fileID: 0}
       typeID: 4
       customType: 0
       isPPtrCurve: 0
     - serializedVersion: 2
-      path: 1940310729
+      path: 312286745
       attribute: 1
       script: {fileID: 0}
       typeID: 4
       customType: 0
       isPPtrCurve: 0
     - serializedVersion: 2
-      path: 2697406878
+      path: 932214383
       attribute: 1
       script: {fileID: 0}
       typeID: 4
       customType: 0
       isPPtrCurve: 0
     pptrCurveMapping:
-    - {fileID: 6269612397163196716, guid: 0dec2101246de604194bc892acf67064, type: 3}
     - {fileID: -1201067062064169547, guid: 0dec2101246de604194bc892acf67064, type: 3}
+    - {fileID: 6269612397163196716, guid: 0dec2101246de604194bc892acf67064, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
@@ -301,120 +301,6 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.109375
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 136
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    attribute: m_LocalPosition.x
-    path: Glyphs/Noble Man/Arms/Right Arm
-    classID: 4
-    script: {fileID: 0}
-  - curve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: -0.125
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 136
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    attribute: m_LocalPosition.y
-    path: Glyphs/Noble Man/Arms/Right Arm
-    classID: 4
-    script: {fileID: 0}
-  - curve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 136
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    attribute: m_LocalPosition.z
-    path: Glyphs/Noble Man/Arms/Right Arm
-    classID: 4
-    script: {fileID: 0}
-  - curve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 136
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    attribute: m_LocalPosition.x
-    path: Glyphs/Noble Man/Arms/Right Arm/Right Hand Mask
-    classID: 4
-    script: {fileID: 0}
-  - curve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: -0.0625
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 136
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    attribute: m_LocalPosition.y
-    path: Glyphs/Noble Man/Arms/Right Arm/Right Hand Mask
-    classID: 4
-    script: {fileID: 0}
-  - curve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 136
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    attribute: m_LocalPosition.z
-    path: Glyphs/Noble Man/Arms/Right Arm/Right Hand Mask
-    classID: 4
-    script: {fileID: 0}
-  - curve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
         value: -0.125
         inSlope: 0
         outSlope: 0
@@ -426,7 +312,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.x
-    path: Glyphs/Noble Man/Arms/Left Arm
+    path: Glyphs/Noble Man/Chest/Arms/Left Arm
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -445,7 +331,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.y
-    path: Glyphs/Noble Man/Arms/Left Arm
+    path: Glyphs/Noble Man/Chest/Arms/Left Arm
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -464,8 +350,27 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.z
-    path: Glyphs/Noble Man/Arms/Left Arm
+    path: Glyphs/Noble Man/Chest/Arms/Left Arm
     classID: 4
+    script: {fileID: 0}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 60
+        inSlope: Infinity
+        outSlope: Infinity
+        tangentMode: 103
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: m_SortingOrder
+    path: Glyphs/Noble Man/Chest/Arms/Left Arm
+    classID: 212
     script: {fileID: 0}
   - curve:
       serializedVersion: 2
@@ -483,7 +388,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.x
-    path: Glyphs/Noble Man/Arms/Left Arm/Left Hand Mask
+    path: Glyphs/Noble Man/Chest/Arms/Left Arm/Left Hand Mask
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -502,7 +407,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.y
-    path: Glyphs/Noble Man/Arms/Left Arm/Left Hand Mask
+    path: Glyphs/Noble Man/Chest/Arms/Left Arm/Left Hand Mask
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -521,7 +426,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.z
-    path: Glyphs/Noble Man/Arms/Left Arm/Left Hand Mask
+    path: Glyphs/Noble Man/Chest/Arms/Left Arm/Left Hand Mask
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -540,65 +445,8 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_Enabled
-    path: Glyphs/Noble Man/Arms/Right Arm/Right Hand Mask
+    path: Glyphs/Noble Man/Chest/Arms/Left Arm/Left Hand Mask
     classID: 331
-    script: {fileID: 0}
-  - curve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: Infinity
-        outSlope: Infinity
-        tangentMode: 103
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    attribute: m_Enabled
-    path: Glyphs/Noble Man/Arms/Left Arm/Left Hand Mask
-    classID: 331
-    script: {fileID: 0}
-  - curve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 1
-        inSlope: Infinity
-        outSlope: Infinity
-        tangentMode: 103
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    attribute: m_Enabled
-    path: Glyphs/Noble Man/Arms/Two Hand Mask
-    classID: 331
-    script: {fileID: 0}
-  - curve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 60
-        inSlope: Infinity
-        outSlope: Infinity
-        tangentMode: 103
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    attribute: m_SortingOrder
-    path: Glyphs/Noble Man/Arms/Left Arm
-    classID: 212
     script: {fileID: 0}
   - curve:
       serializedVersion: 2
@@ -616,7 +464,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.x
-    path: Glyphs/Noble Man/Arms/Left Arm/Left Hand Slot
+    path: Glyphs/Noble Man/Chest/Arms/Left Arm/Left Hand Slot
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -635,7 +483,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.y
-    path: Glyphs/Noble Man/Arms/Left Arm/Left Hand Slot
+    path: Glyphs/Noble Man/Chest/Arms/Left Arm/Left Hand Slot
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -654,8 +502,160 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.z
-    path: Glyphs/Noble Man/Arms/Left Arm/Left Hand Slot
+    path: Glyphs/Noble Man/Chest/Arms/Left Arm/Left Hand Slot
     classID: 4
+    script: {fileID: 0}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0.109375
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: m_LocalPosition.x
+    path: Glyphs/Noble Man/Chest/Arms/Right Arm
+    classID: 4
+    script: {fileID: 0}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: -0.125
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: m_LocalPosition.y
+    path: Glyphs/Noble Man/Chest/Arms/Right Arm
+    classID: 4
+    script: {fileID: 0}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: m_LocalPosition.z
+    path: Glyphs/Noble Man/Chest/Arms/Right Arm
+    classID: 4
+    script: {fileID: 0}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: m_LocalPosition.x
+    path: Glyphs/Noble Man/Chest/Arms/Right Arm/Right Hand Mask
+    classID: 4
+    script: {fileID: 0}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: -0.0625
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: m_LocalPosition.y
+    path: Glyphs/Noble Man/Chest/Arms/Right Arm/Right Hand Mask
+    classID: 4
+    script: {fileID: 0}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: m_LocalPosition.z
+    path: Glyphs/Noble Man/Chest/Arms/Right Arm/Right Hand Mask
+    classID: 4
+    script: {fileID: 0}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: Infinity
+        outSlope: Infinity
+        tangentMode: 103
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: m_Enabled
+    path: Glyphs/Noble Man/Chest/Arms/Right Arm/Right Hand Mask
+    classID: 331
+    script: {fileID: 0}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: Infinity
+        outSlope: Infinity
+        tangentMode: 103
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: m_Enabled
+    path: Glyphs/Noble Man/Chest/Arms/Two Hand Mask
+    classID: 331
     script: {fileID: 0}
   m_EulerEditorCurves: []
   m_HasGenericRootTransform: 0

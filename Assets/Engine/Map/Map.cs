@@ -665,7 +665,7 @@
                 t => t.SetInView(isVisible),
                 t => t.DoesBlockLineOfSight() && t.tilePosition != pos,
                 false,
-                true
+                false
             );
         }
 

@@ -6,6 +6,9 @@ namespace Noble.DungeonCrawler
     using UnityEngine.EventSystems;
     using UnityEngine.Rendering.Universal;
     using UnityEngine.UI;
+    using UnityEngine.InputSystem;
+    using UnityEngine.InputSystem.Controls;
+    using System.Collections.Generic;
 
     public class InventoryMenu : MonoBehaviour, IDropHandler
     {
@@ -14,6 +17,8 @@ namespace Noble.DungeonCrawler
         public Transform characterPosition;
         public Light2D globalLightOff;
         public Light2D globalLightOn;
+
+        public InventoryGUI inventoryGUI;
 
         public enum Mode
         {
@@ -26,15 +31,18 @@ namespace Noble.DungeonCrawler
 
         public EquipSlotGUI currentSlotForAssignment;
         public Equipable currentItemForAssignment;
+        public List<EquipSlotGUI> fakeSelectedSlots = new();
 
         virtual protected void Awake()
         {
             instance = this;
             gameObject.SetActive(false);
+            inventoryGUI = GetComponentInChildren<InventoryGUI>();
         }
 
         public void OnEnable()
         {
+            Cursor.visible = true;
             if (globalLightOff)
             {
                 globalLightOff.enabled = false;
@@ -79,9 +87,42 @@ namespace Noble.DungeonCrawler
             }
         }
 
-        public void OnSelect(BaseEventData data)
+        public void Update()
         {
-            //ReturnToDefaultMode();
+            if (Keyboard.current.iKey.wasPressedThisFrame)
+            {
+                CloseMenu();
+            }
+            else if (Keyboard.current.escapeKey.wasPressedThisFrame)
+            {
+                if (mode == Mode.DEFAULT)
+                {
+                    CloseMenu();
+                }
+                else
+                {
+                    ReturnToDefaultMode();
+                }
+            }
+        }
+
+        public void CloseMenu()
+        {
+            ReturnToDefaultMode();
+            gameObject.SetActive(false);
+            PlayerInputHandler.instance.enabled = true;
+        }
+
+        public void OnMouseClick(BaseEventData data)
+        {
+            if (mode != Mode.DEFAULT)
+            {
+                ReturnToDefaultMode();
+            }
+            else
+            {
+                EventSystemExtensions.LastSelectedGameObject.GetComponent<Button>().Select();
+            }
         }
 
         public void EnableSlotsThatAllowItem(Equipable item)
@@ -115,22 +156,38 @@ namespace Noble.DungeonCrawler
             var inventoryGUIItems = FindObjectsOfType<InventorySlotGUI>();
             foreach (var inventoryGUIItem in inventoryGUIItems)
             {
-                if (inventoryGUIItem.item.GetComponent<Equipable>() != item)
+                //if (inventoryGUIItem.item.GetComponent<Equipable>() != item)
                 {
                     inventoryGUIItem.GetComponent<Button>().interactable = false;
                 }
             }
         }
 
-        public void EnterAssignItemToSlotMode(Equipable equipment, bool autoSelectLikelySlot)
+        public void EnterAssignItemToSlotMode(Equipable equipment)
         {
             mode = Mode.ASSIGN_ITEM_TO_SLOT;
             currentItemForAssignment = equipment;
             EnableSlotsThatAllowItem(equipment);
             DisableOtherItems(equipment);
-            if (autoSelectLikelySlot)
+            var nav = inventoryGUI.thingToConnectNavigationTo.navigation;
+            nav.selectOnRight = null;
+            inventoryGUI.thingToConnectNavigationTo.navigation = nav;
+
+            var equipSlotGUIS = FindObjectsOfType<EquipSlotGUI>();
+            if (equipment.useOverrideSlot)
             {
-                var equipSlotGUIS = FindObjectsOfType<EquipSlotGUI>();
+                var mostLikelySlots = equipSlotGUIS.Where(guiSlot => guiSlot.slots.Contains(equipment.overrideSlot));
+                fakeSelectedSlots.Clear();
+                mostLikelySlots.First().GetComponent<Button>().Select();
+                foreach (var slot in mostLikelySlots)
+                {
+                    fakeSelectedSlots.Add(slot);
+                    if (slot == mostLikelySlots.First()) continue;
+                    slot.GetComponent<Image>().color = Color.green;
+                }
+            }
+            else
+            {
                 var mostLikelySlot = equipSlotGUIS.First(guiSlot => guiSlot.slots.Contains(equipment.allowedSlots[0]));
                 mostLikelySlot.GetComponent<Button>().Select();
             }
@@ -160,12 +217,30 @@ namespace Noble.DungeonCrawler
             var inventorySlots = FindObjectsOfType<InventorySlotGUI>();
             inventorySlots.Last(s => s.GetComponent<Button>().interactable).GetComponent<Button>().Select();
 
+            foreach (var inventorySlot in inventorySlots)
+            {
+                var nav = inventorySlot.GetComponent<Selectable>().navigation;
+                nav.selectOnLeft = null;
+                inventorySlot.GetComponent<Selectable>().navigation = nav;
+            }
+
             equipSlotGUI.GetComponent<Image>().color = Color.green;
         }
 
         public void ReturnToDefaultMode()
         {
+            var inventorySlots = inventoryGUI.slots.Values;
+
+            if (mode == Mode.ASSIGN_ITEM_TO_SLOT)
+            {
+                if (currentItemForAssignment)
+                {
+                    inventorySlots.First(s => s.item == currentItemForAssignment.DungeonObject).GetComponent<Button>().Select();
+                }
+            }
+
             mode = Mode.DEFAULT;
+
             var equipSlots = FindObjectsOfType<EquipSlotGUI>();
             foreach (var equipSlot in equipSlots)
             {
@@ -177,12 +252,18 @@ namespace Noble.DungeonCrawler
             {
                 inventoryGUISlot.GetComponent<Button>().interactable = true;
             }
+            
+            var nav = inventoryGUI.thingToConnectNavigationTo.navigation;
+            nav.selectOnRight = inventoryGUI.lastSelectedSlot.GetComponent<Selectable>();
+            inventoryGUI.thingToConnectNavigationTo.navigation = nav;
 
-            if (currentItemForAssignment)
+            foreach (var inventorySlot in inventorySlots)
             {
-                var inventorySlots = FindObjectsOfType<InventorySlotGUI>();
-                inventorySlots.First(s => s.item == currentItemForAssignment.DungeonObject).GetComponent<Button>().Select();
+                nav = inventorySlot.GetComponent<Selectable>().navigation;
+                nav.selectOnLeft = inventoryGUI.thingToConnectNavigationTo;
+                inventorySlot.GetComponent<Selectable>().navigation = nav;
             }
+
 
             currentItemForAssignment = null;
             currentSlotForAssignment = null;

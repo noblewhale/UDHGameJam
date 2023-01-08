@@ -806,23 +806,7 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: 58739717}
           m_TargetAssemblyTypeName: Noble.DungeonCrawler.EquipSlotGUI, Assembly-CSharp
-          m_MethodName: OnMousePress
-          m_Mode: 0
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  - eventID: 2
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 58739717}
-          m_TargetAssemblyTypeName: Noble.DungeonCrawler.EquipSlotGUI, Assembly-CSharp
-          m_MethodName: OnMouseDown
+          m_MethodName: OnMousePressed
           m_Mode: 0
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -854,7 +838,7 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: 58739717}
           m_TargetAssemblyTypeName: Noble.DungeonCrawler.EquipSlotGUI, Assembly-CSharp
-          m_MethodName: OnMousePress
+          m_MethodName: OnSubmit
           m_Mode: 0
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -871,6 +855,38 @@ MonoBehaviour:
         - m_Target: {fileID: 58739717}
           m_TargetAssemblyTypeName: Noble.DungeonCrawler.EquipSlotGUI, Assembly-CSharp
           m_MethodName: OnDeselect
+          m_Mode: 0
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 16
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 58739717}
+          m_TargetAssemblyTypeName: Noble.DungeonCrawler.EquipSlotGUI, Assembly-CSharp
+          m_MethodName: OnCancel
+          m_Mode: 0
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 13
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 58739717}
+          m_TargetAssemblyTypeName: Noble.DungeonCrawler.EquipSlotGUI, Assembly-CSharp
+          m_MethodName: OnBeginDrag
           m_Mode: 0
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -1084,23 +1100,7 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: 69814891}
           m_TargetAssemblyTypeName: Noble.DungeonCrawler.EquipSlotGUI, Assembly-CSharp
-          m_MethodName: OnMousePress
-          m_Mode: 0
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  - eventID: 2
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 69814891}
-          m_TargetAssemblyTypeName: Noble.DungeonCrawler.EquipSlotGUI, Assembly-CSharp
-          m_MethodName: OnMouseDown
+          m_MethodName: OnMousePressed
           m_Mode: 0
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -1132,7 +1132,7 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: 69814891}
           m_TargetAssemblyTypeName: Noble.DungeonCrawler.EquipSlotGUI, Assembly-CSharp
-          m_MethodName: OnMousePress
+          m_MethodName: OnSubmit
           m_Mode: 0
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -1149,6 +1149,38 @@ MonoBehaviour:
         - m_Target: {fileID: 69814891}
           m_TargetAssemblyTypeName: Noble.DungeonCrawler.EquipSlotGUI, Assembly-CSharp
           m_MethodName: OnDeselect
+          m_Mode: 0
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 16
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 69814891}
+          m_TargetAssemblyTypeName: Noble.DungeonCrawler.EquipSlotGUI, Assembly-CSharp
+          m_MethodName: OnCancel
+          m_Mode: 0
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 13
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 69814891}
+          m_TargetAssemblyTypeName: Noble.DungeonCrawler.EquipSlotGUI, Assembly-CSharp
+          m_MethodName: OnBeginDrag
           m_Mode: 0
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -1513,6 +1545,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   slotPrefab: {fileID: 331701162, guid: be25871bb87257a41983b75e2a4bf7d8, type: 3}
   thingToConnectNavigationTo: {fileID: 834469402}
+  lastSelectedSlot: {fileID: 0}
 --- !u!1 &170619392
 GameObject:
   m_ObjectHideFlags: 0
@@ -1570,8 +1603,8 @@ MonoBehaviour:
   - {x: 0.5, y: 0.5, z: 0}
   - {x: 0.5, y: -0.5, z: 0}
   m_ShapePathHash: 0
-  m_Mesh: {fileID: 1456329233}
-  m_InstanceId: 147184
+  m_Mesh: {fileID: 1664986433}
+  m_InstanceId: 28416
 --- !u!1 &171146702
 GameObject:
   m_ObjectHideFlags: 0
@@ -2690,7 +2723,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84a4d5d399c910449bcbaa57660ff7be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slots: 09000000
+  slots: 0900000002000000
   content: {fileID: 0}
 --- !u!114 &462334871
 MonoBehaviour:
@@ -2802,23 +2835,7 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: 462334870}
           m_TargetAssemblyTypeName: Noble.DungeonCrawler.EquipSlotGUI, Assembly-CSharp
-          m_MethodName: OnMousePress
-          m_Mode: 0
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  - eventID: 2
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 462334870}
-          m_TargetAssemblyTypeName: Noble.DungeonCrawler.EquipSlotGUI, Assembly-CSharp
-          m_MethodName: OnMouseDown
+          m_MethodName: OnMousePressed
           m_Mode: 0
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -2850,7 +2867,7 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: 462334870}
           m_TargetAssemblyTypeName: Noble.DungeonCrawler.EquipSlotGUI, Assembly-CSharp
-          m_MethodName: OnMousePress
+          m_MethodName: OnSubmit
           m_Mode: 0
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -2867,6 +2884,38 @@ MonoBehaviour:
         - m_Target: {fileID: 462334870}
           m_TargetAssemblyTypeName: Noble.DungeonCrawler.EquipSlotGUI, Assembly-CSharp
           m_MethodName: OnDeselect
+          m_Mode: 0
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 16
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 462334870}
+          m_TargetAssemblyTypeName: Noble.DungeonCrawler.EquipSlotGUI, Assembly-CSharp
+          m_MethodName: OnCancel
+          m_Mode: 0
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 13
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 462334870}
+          m_TargetAssemblyTypeName: Noble.DungeonCrawler.EquipSlotGUI, Assembly-CSharp
+          m_MethodName: OnBeginDrag
           m_Mode: 0
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -4529,29 +4578,13 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-  - eventID: 2
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 830969847}
-          m_TargetAssemblyTypeName: Noble.DungeonCrawler.EquipSlotGUI, Assembly-CSharp
-          m_MethodName: OnMouseDown
-          m_Mode: 0
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
   - eventID: 4
     callback:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 830969847}
           m_TargetAssemblyTypeName: Noble.DungeonCrawler.EquipSlotGUI, Assembly-CSharp
-          m_MethodName: OnMousePress
+          m_MethodName: OnMousePressed
           m_Mode: 0
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -4583,7 +4616,7 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: 830969847}
           m_TargetAssemblyTypeName: Noble.DungeonCrawler.EquipSlotGUI, Assembly-CSharp
-          m_MethodName: OnMousePress
+          m_MethodName: OnSubmit
           m_Mode: 0
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -4600,6 +4633,38 @@ MonoBehaviour:
         - m_Target: {fileID: 830969847}
           m_TargetAssemblyTypeName: Noble.DungeonCrawler.EquipSlotGUI, Assembly-CSharp
           m_MethodName: OnDeselect
+          m_Mode: 0
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 16
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 830969847}
+          m_TargetAssemblyTypeName: Noble.DungeonCrawler.EquipSlotGUI, Assembly-CSharp
+          m_MethodName: OnCancel
+          m_Mode: 0
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 13
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 830969847}
+          m_TargetAssemblyTypeName: Noble.DungeonCrawler.EquipSlotGUI, Assembly-CSharp
+          m_MethodName: OnBeginDrag
           m_Mode: 0
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -4813,23 +4878,7 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: 834469400}
           m_TargetAssemblyTypeName: Noble.DungeonCrawler.EquipSlotGUI, Assembly-CSharp
-          m_MethodName: OnMousePress
-          m_Mode: 0
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  - eventID: 2
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 834469400}
-          m_TargetAssemblyTypeName: Noble.DungeonCrawler.EquipSlotGUI, Assembly-CSharp
-          m_MethodName: OnMouseDown
+          m_MethodName: OnMousePressed
           m_Mode: 0
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -4861,7 +4910,7 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: 834469400}
           m_TargetAssemblyTypeName: Noble.DungeonCrawler.EquipSlotGUI, Assembly-CSharp
-          m_MethodName: OnMousePress
+          m_MethodName: OnSubmit
           m_Mode: 0
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -4878,6 +4927,38 @@ MonoBehaviour:
         - m_Target: {fileID: 834469400}
           m_TargetAssemblyTypeName: Noble.DungeonCrawler.EquipSlotGUI, Assembly-CSharp
           m_MethodName: OnDeselect
+          m_Mode: 0
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 16
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 834469400}
+          m_TargetAssemblyTypeName: Noble.DungeonCrawler.EquipSlotGUI, Assembly-CSharp
+          m_MethodName: OnCancel
+          m_Mode: 0
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 13
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 834469400}
+          m_TargetAssemblyTypeName: Noble.DungeonCrawler.EquipSlotGUI, Assembly-CSharp
+          m_MethodName: OnBeginDrag
           m_Mode: 0
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -6454,6 +6535,7 @@ GameObject:
   - component: {fileID: 1268782441}
   - component: {fileID: 1268782444}
   - component: {fileID: 1268782443}
+  - component: {fileID: 1268782445}
   m_Layer: 5
   m_Name: Inventory Menu
   m_TagString: Untagged
@@ -6544,9 +6626,11 @@ MonoBehaviour:
   characterPosition: {fileID: 1504203523}
   globalLightOff: {fileID: 830948451}
   globalLightOn: {fileID: 33173299}
+  inventoryGUI: {fileID: 0}
   mode: 0
   currentSlotForAssignment: {fileID: 0}
   currentItemForAssignment: {fileID: 0}
+  fakeSelectedSlots: []
 --- !u!114 &1268782438
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6657,6 +6741,35 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1268782433}
   m_CullTransparentMesh: 1
+--- !u!114 &1268782445
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1268782433}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 4
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1268782437}
+          m_TargetAssemblyTypeName: Noble.DungeonCrawler.InventoryMenu, Assembly-CSharp
+          m_MethodName: OnMouseClick
+          m_Mode: 0
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &1291126606
 GameObject:
   m_ObjectHideFlags: 0
@@ -6861,23 +6974,7 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: 1291126610}
           m_TargetAssemblyTypeName: Noble.DungeonCrawler.EquipSlotGUI, Assembly-CSharp
-          m_MethodName: OnMousePress
-          m_Mode: 0
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  - eventID: 2
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1291126610}
-          m_TargetAssemblyTypeName: Noble.DungeonCrawler.EquipSlotGUI, Assembly-CSharp
-          m_MethodName: OnMouseDown
+          m_MethodName: OnMousePressed
           m_Mode: 0
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -6909,7 +7006,7 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: 1291126610}
           m_TargetAssemblyTypeName: Noble.DungeonCrawler.EquipSlotGUI, Assembly-CSharp
-          m_MethodName: OnMousePress
+          m_MethodName: OnSubmit
           m_Mode: 0
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -6926,6 +7023,38 @@ MonoBehaviour:
         - m_Target: {fileID: 1291126610}
           m_TargetAssemblyTypeName: Noble.DungeonCrawler.EquipSlotGUI, Assembly-CSharp
           m_MethodName: OnDeselect
+          m_Mode: 0
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 16
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1291126610}
+          m_TargetAssemblyTypeName: Noble.DungeonCrawler.EquipSlotGUI, Assembly-CSharp
+          m_MethodName: OnCancel
+          m_Mode: 0
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 13
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1291126610}
+          m_TargetAssemblyTypeName: Noble.DungeonCrawler.EquipSlotGUI, Assembly-CSharp
+          m_MethodName: OnBeginDrag
           m_Mode: 0
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -7139,23 +7268,7 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: 1293200045}
           m_TargetAssemblyTypeName: Noble.DungeonCrawler.EquipSlotGUI, Assembly-CSharp
-          m_MethodName: OnMousePress
-          m_Mode: 0
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  - eventID: 2
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1293200045}
-          m_TargetAssemblyTypeName: Noble.DungeonCrawler.EquipSlotGUI, Assembly-CSharp
-          m_MethodName: OnMouseDown
+          m_MethodName: OnMousePressed
           m_Mode: 0
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -7187,7 +7300,7 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: 1293200045}
           m_TargetAssemblyTypeName: Noble.DungeonCrawler.EquipSlotGUI, Assembly-CSharp
-          m_MethodName: OnMousePress
+          m_MethodName: OnSubmit
           m_Mode: 0
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -7204,6 +7317,38 @@ MonoBehaviour:
         - m_Target: {fileID: 1293200045}
           m_TargetAssemblyTypeName: Noble.DungeonCrawler.EquipSlotGUI, Assembly-CSharp
           m_MethodName: OnDeselect
+          m_Mode: 0
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 16
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1293200045}
+          m_TargetAssemblyTypeName: Noble.DungeonCrawler.EquipSlotGUI, Assembly-CSharp
+          m_MethodName: OnCancel
+          m_Mode: 0
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 13
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1293200045}
+          m_TargetAssemblyTypeName: Noble.DungeonCrawler.EquipSlotGUI, Assembly-CSharp
+          m_MethodName: OnBeginDrag
           m_Mode: 0
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -7461,7 +7606,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84a4d5d399c910449bcbaa57660ff7be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slots: 08000000
+  slots: 0800000002000000
   content: {fileID: 0}
 --- !u!114 &1397975276
 MonoBehaviour:
@@ -7573,23 +7718,7 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: 1397975275}
           m_TargetAssemblyTypeName: Noble.DungeonCrawler.EquipSlotGUI, Assembly-CSharp
-          m_MethodName: OnMousePress
-          m_Mode: 0
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  - eventID: 2
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1397975275}
-          m_TargetAssemblyTypeName: Noble.DungeonCrawler.EquipSlotGUI, Assembly-CSharp
-          m_MethodName: OnMouseDown
+          m_MethodName: OnMousePressed
           m_Mode: 0
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -7621,7 +7750,7 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: 1397975275}
           m_TargetAssemblyTypeName: Noble.DungeonCrawler.EquipSlotGUI, Assembly-CSharp
-          m_MethodName: OnMousePress
+          m_MethodName: OnSubmit
           m_Mode: 0
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -7638,6 +7767,38 @@ MonoBehaviour:
         - m_Target: {fileID: 1397975275}
           m_TargetAssemblyTypeName: Noble.DungeonCrawler.EquipSlotGUI, Assembly-CSharp
           m_MethodName: OnDeselect
+          m_Mode: 0
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 16
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1397975275}
+          m_TargetAssemblyTypeName: Noble.DungeonCrawler.EquipSlotGUI, Assembly-CSharp
+          m_MethodName: OnCancel
+          m_Mode: 0
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 13
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1397975275}
+          m_TargetAssemblyTypeName: Noble.DungeonCrawler.EquipSlotGUI, Assembly-CSharp
+          m_MethodName: OnBeginDrag
           m_Mode: 0
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -12547,170 +12708,6 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
---- !u!43 &1456329233
-Mesh:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  serializedVersion: 10
-  m_SubMeshes:
-  - serializedVersion: 2
-    firstByte: 0
-    indexCount: 42
-    topology: 0
-    baseVertex: 0
-    firstVertex: 0
-    vertexCount: 16
-    localAABB:
-      m_Center: {x: 0, y: 0, z: 0}
-      m_Extent: {x: 0.5, y: 0.5, z: 0}
-  m_Shapes:
-    vertices: []
-    shapes: []
-    channels: []
-    fullWeights: []
-  m_BindPose: []
-  m_BoneNameHashes: 
-  m_RootBoneNameHash: 0
-  m_BonesAABB: []
-  m_VariableBoneCountWeights:
-    m_Data: 
-  m_MeshCompression: 0
-  m_IsReadable: 1
-  m_KeepVertices: 1
-  m_KeepIndices: 1
-  m_IndexFormat: 0
-  m_IndexBuffer: 00000100020003000100000003000400010005000400030006000400050004000600070002000800000000000900030001000a00020004000b00010003000c00050007000d00040005000e00060006000f000700
-  m_VertexData:
-    serializedVersion: 3
-    m_VertexCount: 16
-    m_Channels:
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 3
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 12
-      format: 0
-      dimension: 4
-    - stream: 0
-      offset: 28
-      format: 0
-      dimension: 4
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    m_DataSize: 704
-    _typelessdata: 0000003f000000bf000000000000803f0000008000000080000000800000003f000000bf0000003f000000bf0000003f0000003f00000000000000800000803f00000080000000800000003f0000003f0000003f0000003f0000003f00000000000000000000803f0000008000000080000000800000003f0000003f0000003f000000bf00000000000000bf0000000000000080000080bf00000000000000800000003f000000bf000000bf000000bf000000000000003f00000000000000800000803f0000008000000080000000bf0000003f0000003f0000003f000000bf000000bf0000000000000080000080bf0000000000000080000000bf000000bf000000bf000000bf000000bf0000000000000000000080bf000000800000008000000080000000bf000000bf000000bf0000003f000000bf0000003f00000000000080bf000000800000008000000080000000bf0000003f000000bf0000003f0000003f00000000000000000000803f0000008000000080000000800000003f0000003f0000003f000000bf0000003f000000bf0000000000000080000080bf00000000000000800000003f000000bf0000003f000000bf0000003f0000003f000000000000803f0000008000000080000000800000003f0000003f0000003f0000003f000000000000003f00000000000000800000803f0000008000000080000000bf0000003f0000003f0000003f00000000000000bf0000000000000080000080bf00000000000000800000003f000000bf000000bf000000bf000000bf0000003f00000000000000800000803f0000008000000080000000bf0000003f000000bf0000003f000000bf000000bf00000000000080bf000000800000008000000080000000bf000000bf000000bf000000bf000000bf0000000000000000000080bf000000800000008000000080000000bf000000bf000000bf0000003f
-  m_CompressedMesh:
-    m_Vertices:
-      m_NumItems: 0
-      m_Range: 0
-      m_Start: 0
-      m_Data: 
-      m_BitSize: 0
-    m_UV:
-      m_NumItems: 0
-      m_Range: 0
-      m_Start: 0
-      m_Data: 
-      m_BitSize: 0
-    m_Normals:
-      m_NumItems: 0
-      m_Range: 0
-      m_Start: 0
-      m_Data: 
-      m_BitSize: 0
-    m_Tangents:
-      m_NumItems: 0
-      m_Range: 0
-      m_Start: 0
-      m_Data: 
-      m_BitSize: 0
-    m_Weights:
-      m_NumItems: 0
-      m_Data: 
-      m_BitSize: 0
-    m_NormalSigns:
-      m_NumItems: 0
-      m_Data: 
-      m_BitSize: 0
-    m_TangentSigns:
-      m_NumItems: 0
-      m_Data: 
-      m_BitSize: 0
-    m_FloatColors:
-      m_NumItems: 0
-      m_Range: 0
-      m_Start: 0
-      m_Data: 
-      m_BitSize: 0
-    m_BoneIndices:
-      m_NumItems: 0
-      m_Data: 
-      m_BitSize: 0
-    m_Triangles:
-      m_NumItems: 0
-      m_Data: 
-      m_BitSize: 0
-    m_UVInfo: 0
-  m_LocalAABB:
-    m_Center: {x: 0, y: 0, z: 0}
-    m_Extent: {x: 0.5, y: 0.5, z: 0}
-  m_MeshUsageFlags: 0
-  m_BakedConvexCollisionMesh: 
-  m_BakedTriangleCollisionMesh: 
-  m_MeshMetrics[0]: 1
-  m_MeshMetrics[1]: 1
-  m_MeshOptimizationFlags: 1
-  m_StreamData:
-    serializedVersion: 2
-    offset: 0
-    size: 0
-    path: 
 --- !u!1 &1471239889
 GameObject:
   m_ObjectHideFlags: 0
@@ -13082,6 +13079,170 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!43 &1664986433
+Mesh:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  serializedVersion: 10
+  m_SubMeshes:
+  - serializedVersion: 2
+    firstByte: 0
+    indexCount: 42
+    topology: 0
+    baseVertex: 0
+    firstVertex: 0
+    vertexCount: 16
+    localAABB:
+      m_Center: {x: 0, y: 0, z: 0}
+      m_Extent: {x: 0.5, y: 0.5, z: 0}
+  m_Shapes:
+    vertices: []
+    shapes: []
+    channels: []
+    fullWeights: []
+  m_BindPose: []
+  m_BoneNameHashes: 
+  m_RootBoneNameHash: 0
+  m_BonesAABB: []
+  m_VariableBoneCountWeights:
+    m_Data: 
+  m_MeshCompression: 0
+  m_IsReadable: 1
+  m_KeepVertices: 1
+  m_KeepIndices: 1
+  m_IndexFormat: 0
+  m_IndexBuffer: 00000100020003000100000003000400010005000400030006000400050004000600070002000800000000000900030001000a00020004000b00010003000c00050007000d00040005000e00060006000f000700
+  m_VertexData:
+    serializedVersion: 3
+    m_VertexCount: 16
+    m_Channels:
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 3
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 12
+      format: 0
+      dimension: 4
+    - stream: 0
+      offset: 28
+      format: 0
+      dimension: 4
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    m_DataSize: 704
+    _typelessdata: 0000003f000000bf000000000000803f0000008000000080000000800000003f000000bf0000003f000000bf0000003f0000003f00000000000000800000803f00000080000000800000003f0000003f0000003f0000003f0000003f00000000000000000000803f0000008000000080000000800000003f0000003f0000003f000000bf00000000000000bf0000000000000080000080bf00000000000000800000003f000000bf000000bf000000bf000000000000003f00000000000000800000803f0000008000000080000000bf0000003f0000003f0000003f000000bf000000bf0000000000000080000080bf0000000000000080000000bf000000bf000000bf000000bf000000bf0000000000000000000080bf000000800000008000000080000000bf000000bf000000bf0000003f000000bf0000003f00000000000080bf000000800000008000000080000000bf0000003f000000bf0000003f0000003f00000000000000000000803f0000008000000080000000800000003f0000003f0000003f000000bf0000003f000000bf0000000000000080000080bf00000000000000800000003f000000bf0000003f000000bf0000003f0000003f000000000000803f0000008000000080000000800000003f0000003f0000003f0000003f000000000000003f00000000000000800000803f0000008000000080000000bf0000003f0000003f0000003f00000000000000bf0000000000000080000080bf00000000000000800000003f000000bf000000bf000000bf000000bf0000003f00000000000000800000803f0000008000000080000000bf0000003f000000bf0000003f000000bf000000bf00000000000080bf000000800000008000000080000000bf000000bf000000bf000000bf000000bf0000000000000000000080bf000000800000008000000080000000bf000000bf000000bf0000003f
+  m_CompressedMesh:
+    m_Vertices:
+      m_NumItems: 0
+      m_Range: 0
+      m_Start: 0
+      m_Data: 
+      m_BitSize: 0
+    m_UV:
+      m_NumItems: 0
+      m_Range: 0
+      m_Start: 0
+      m_Data: 
+      m_BitSize: 0
+    m_Normals:
+      m_NumItems: 0
+      m_Range: 0
+      m_Start: 0
+      m_Data: 
+      m_BitSize: 0
+    m_Tangents:
+      m_NumItems: 0
+      m_Range: 0
+      m_Start: 0
+      m_Data: 
+      m_BitSize: 0
+    m_Weights:
+      m_NumItems: 0
+      m_Data: 
+      m_BitSize: 0
+    m_NormalSigns:
+      m_NumItems: 0
+      m_Data: 
+      m_BitSize: 0
+    m_TangentSigns:
+      m_NumItems: 0
+      m_Data: 
+      m_BitSize: 0
+    m_FloatColors:
+      m_NumItems: 0
+      m_Range: 0
+      m_Start: 0
+      m_Data: 
+      m_BitSize: 0
+    m_BoneIndices:
+      m_NumItems: 0
+      m_Data: 
+      m_BitSize: 0
+    m_Triangles:
+      m_NumItems: 0
+      m_Data: 
+      m_BitSize: 0
+    m_UVInfo: 0
+  m_LocalAABB:
+    m_Center: {x: 0, y: 0, z: 0}
+    m_Extent: {x: 0.5, y: 0.5, z: 0}
+  m_MeshUsageFlags: 0
+  m_BakedConvexCollisionMesh: 
+  m_BakedTriangleCollisionMesh: 
+  m_MeshMetrics[0]: 1
+  m_MeshMetrics[1]: 1
+  m_MeshOptimizationFlags: 1
+  m_StreamData:
+    serializedVersion: 2
+    offset: 0
+    size: 0
+    path: 
 --- !u!1 &1744877034
 GameObject:
   m_ObjectHideFlags: 0

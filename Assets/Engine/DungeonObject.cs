@@ -137,6 +137,13 @@
             return (Property<T>)prop;
         }
 
+        public T GetPropertyValue<T>(string propertyName)
+        {
+            Properties.TryGetValue(propertyName, out IProperty prop);
+            if (prop == null) return default(T);
+            else return ((Property<T>)prop).GetValue();
+        }
+
         public void UpdateLighting()
         {
             if (illuminationRange == 0) return;
@@ -158,7 +165,7 @@
                 {
                     return t.DoesBlockLineOfSight() && (t != tile);
                 },
-                true
+                false
             );
         }
 
@@ -302,7 +309,7 @@
                     illuminationRange,
                     t => t.RemoveIlluminationSource(),
                     null,
-                    true
+                    false
                 );
                 UpdateLighting();
             }

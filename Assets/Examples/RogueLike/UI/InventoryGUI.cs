@@ -16,6 +16,8 @@
 
         public static InventoryGUI instance;
 
+        public InventorySlotGUI lastSelectedSlot;
+
         private void Awake()
         {
             instance = this;
@@ -28,6 +30,7 @@
             if (slots.Count > 0)
             {
                 slots.First().Value.GetComponent<Button>().Select();
+                lastSelectedSlot = slots.First().Value;
             }
         }
 

@@ -17,12 +17,12 @@ MonoBehaviour:
   - item: {fileID: 114211803322470130, guid: 5b2ba62a34f59bc479659d1cf0dfa9fa, type: 3}
     minQuantity: 1
     maxQuantity: 1
-    probability: 0.1
+    probability: 0.8
     onlySpawnOn: []
     dontSpawnOn: []
     requireSpawnable: 1
-    minQuantityPerBiome: 5
-    maxQuantityPerBiome: 10
+    minQuantityPerBiome: 100
+    maxQuantityPerBiome: 9999999
   minX: 0
   maxX: 0
   minY: -1

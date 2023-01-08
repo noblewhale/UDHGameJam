@@ -182,7 +182,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   handle: {fileID: 5054745993009845054}
-  allowedSlots: 000000000100000007000000
+  allowedSlots: 07000000
   useOverrideSlot: 1
   overrideSlot: 7
   occupyExtraSlots: 0000000001000000
@@ -190,6 +190,7 @@ MonoBehaviour:
   autoEquipSlot: 8
   objectsToEnableForSlot: []
   actualSlot: 0
+  parentItem: {fileID: 0}
 --- !u!1 &3196934914895267844
 GameObject:
   m_ObjectHideFlags: 0

@@ -14,11 +14,13 @@ namespace Noble.DungeonCrawler
 
         public void OnBeginDrag(PointerEventData eventData)
         {
+            if (eventData.button != PointerEventData.InputButton.Left) return;
+
             if (selectOnDrag)
             {
                 GetComponent<Selectable>().Select();
             }
-            draggableCopy = Instantiate(itemToDrag);
+            draggableCopy = Instantiate(itemToDrag, null);
             draggableCopy.transform.localScale = Vector3.one;
             var glyphsComponent = draggableCopy.GetComponentInChildren<Glyphs>(true);
             glyphsComponent.GetComponentInChildren<Glyphs>(true).enabled = false;
@@ -27,22 +29,31 @@ namespace Noble.DungeonCrawler
             foreach (var glyph in glyphsComponent.glyphs)
             {
                 glyph.GetComponent<SpriteRenderer>().color = glyph.originalColor;
+                glyph.GetComponent<SpriteRenderer>().sortingOrder = 999;
             }
             foreach (Transform trans in draggableCopy.GetComponentsInChildren<Transform>(true))
             {
                 trans.gameObject.layer = this.gameObject.layer;
             }
-            draggableCopy.transform.position = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue()) + new Vector3(-.5f, -.5f, 1);
+            var combinedBounds = draggableCopy.GetCombinedBounds();
+            draggableCopy.transform.localScale = Vector3.one / Mathf.Max(combinedBounds.size.x, combinedBounds.size.y);
+            draggableCopy.transform.position = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue()) + new Vector3(-draggableCopy.transform.localScale.x/2, -draggableCopy.transform.localScale.y/2, 1);
         }
 
         public void OnDrag(PointerEventData eventData)
         {
-            draggableCopy.transform.position = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue()) + new Vector3(-.5f, -.5f, 1);
+            if (draggableCopy)
+            {
+                draggableCopy.transform.position = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue()) + new Vector3(-draggableCopy.transform.localScale.x / 2, -draggableCopy.transform.localScale.y / 2, 1);
+            }
         }
 
         public void OnEndDrag(PointerEventData eventData)
         {
-            Destroy(draggableCopy);
+            if (draggableCopy)
+            {
+                Destroy(draggableCopy);
+            }
         }
     }
 

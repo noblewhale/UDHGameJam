@@ -40,6 +40,7 @@ namespace Noble.TileEngine
         public Equipment.Slot actualSlot;
 
         List<Equipable> subItems = new();
+        public Equipable parentItem;
 
         DungeonObject _object;
         public DungeonObject DungeonObject
@@ -63,6 +64,10 @@ namespace Noble.TileEngine
 
         public void Start()
         {
+            if (transform.parent)
+            {
+                parentItem = transform.parent.GetComponentInParent<Equipable>();
+            }
             subItems = new List<Equipable>(GetComponentsInChildren<Equipable>());
             subItems = subItems.Where(item => item.gameObject != gameObject).ToList();
         }

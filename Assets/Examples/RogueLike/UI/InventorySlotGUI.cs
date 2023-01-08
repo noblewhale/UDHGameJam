@@ -58,24 +58,70 @@
             }
             else
             {
-                label.color = Color.white / 2;
-                var icons = glyphParent.GetComponentsInChildren<Image>();
-                int i = 0;
-                foreach (var icon in icons)
+                if (InventoryMenu.instance.currentItemForAssignment != item.GetComponent<Equipable>())
                 {
-                    icon.color = originalGlyphColors[i] / 2;
-                    i++;
+                    label.color = Color.white / 2;
+                    var icons = glyphParent.GetComponentsInChildren<Image>();
+                    int i = 0;
+                    foreach (var icon in icons)
+                    {
+                        icon.color = originalGlyphColors[i] / 2;
+                        i++;
+                    }
+                }
+            }
+        }
+
+        public void OnBeginDrag(BaseEventData data)
+        {
+            if (data is PointerEventData pointerData)
+            {
+                if (pointerData.button != PointerEventData.InputButton.Left)
+                {
+                    return;
+                }
+            }
+            if (InventoryMenu.instance.mode == InventoryMenu.Mode.DEFAULT)
+            {
+                //GetComponent<Button>().Select();
+                var equipment = item.GetComponent<Equipable>();
+                if (equipment)
+                {
+                    InventoryMenu.instance.EnterAssignItemToSlotMode(equipment);
                 }
             }
         }
 
         public void OnSelect(BaseEventData data)
         {
-            //if (InventoryMenu.instance.mode == InventoryMenu.Mode.DEFAULT)
-            //{
-            //    InventoryMenu.instance.ReturnToDefaultMode();
-            //    InventoryMenu.instance.EnableSlotsThatAllowItem(item.GetComponent<Equipable>());
-            //}
+            if (!GetComponent<Selectable>().interactable)
+            {
+                if (data is AxisEventData axisEvent)
+                {
+                    var currentSelectable = GetComponent<Selectable>();
+                    while (currentSelectable != null && !currentSelectable.interactable)
+                    {
+                        currentSelectable = EventSystemExtensions.GetNextSelectable(currentSelectable, axisEvent.moveVector);
+                    }
+                    if (currentSelectable == null)
+                    {
+                        currentSelectable = EventSystemExtensions.currentSelectedGameObject_Recent.GetComponent<Selectable>();
+                    }
+                    StartCoroutine(EventSystemExtensions.DelaySelect(currentSelectable));
+                }
+            }
+            else
+            {
+                InventoryGUI.instance.lastSelectedSlot = this;
+                var nav = InventoryGUI.instance.thingToConnectNavigationTo.navigation;
+                nav.selectOnRight = GetComponent<Selectable>();
+                InventoryGUI.instance.thingToConnectNavigationTo.navigation = nav;
+                //if (InventoryMenu.instance.mode == InventoryMenu.Mode.DEFAULT)
+                //{
+                //    InventoryMenu.instance.ReturnToDefaultMode();
+                //    InventoryMenu.instance.EnableSlotsThatAllowItem(item.GetComponent<Equipable>());
+                //}
+            }
         }
 
         public void OnSubmit(BaseEventData data)
@@ -85,7 +131,7 @@
                 var equipment = item.GetComponent<Equipable>();
                 if (equipment)
                 {
-                    InventoryMenu.instance.EnterAssignItemToSlotMode(equipment, true);
+                    InventoryMenu.instance.EnterAssignItemToSlotMode(equipment);
                 }
             }
             else if (InventoryMenu.instance.mode == InventoryMenu.Mode.ASSIGN_SLOT_TO_ITEM)
@@ -97,19 +143,30 @@
 
         public void OnMouseDown(BaseEventData data)
         {
-            if (InventoryMenu.instance.mode == InventoryMenu.Mode.DEFAULT)
-            {
-                //GetComponent<Button>().Select();
-                var equipment = item.GetComponent<Equipable>();
-                if (equipment)
-                {
-                    InventoryMenu.instance.EnterAssignItemToSlotMode(equipment, false);
-                }
-            }
+            //if (InventoryMenu.instance.mode == InventoryMenu.Mode.DEFAULT)
+            //{
+            //    //GetComponent<Button>().Select();
+            //    var equipment = item.GetComponent<Equipable>();
+            //    if (equipment)
+            //    {
+            //        InventoryMenu.instance.EnterAssignItemToSlotMode(equipment, false);
+            //    }
+            //}
         }
 
         public void OnMousePressed(BaseEventData data)
         {
+            if (data is PointerEventData pointerData)
+            {
+                if (pointerData.button == PointerEventData.InputButton.Left)
+                {
+                    OnSubmit(data);
+                }
+                else if (pointerData.button == PointerEventData.InputButton.Right)
+                {
+                    //OnCancel(data);
+                }
+            }
             //if (InventoryMenu.instance.mode == InventoryMenu.Mode.DEFAULT)
             //{
             //    var equipment = item.GetComponent<Equipable>();
@@ -119,11 +176,11 @@
             //    }
             //}
             //else
-            if (InventoryMenu.instance.mode == InventoryMenu.Mode.ASSIGN_SLOT_TO_ITEM)
-            {
-                InventoryMenu.instance.currentSlotForAssignment.EquipItem(item.gameObject);
-                InventoryMenu.instance.ReturnToDefaultMode();
-            }
+            //if (InventoryMenu.instance.mode == InventoryMenu.Mode.ASSIGN_SLOT_TO_ITEM)
+            //{
+            //    InventoryMenu.instance.currentSlotForAssignment.EquipItem(item.gameObject);
+            //    InventoryMenu.instance.ReturnToDefaultMode();
+            //}
         }
 
         public void OnMouseEnter(BaseEventData data)

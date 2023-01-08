@@ -7,6 +7,7 @@ namespace Noble.DungeonCrawler
     using UnityEngine;
     using UnityEngine.EventSystems;
     using UnityEngine.UI;
+    using static Noble.TileEngine.Equipment;
 
     [RequireComponent(typeof(DraggableItem))]
     public class EquipSlotGUI : MonoBehaviour, IDropHandler
@@ -46,17 +47,7 @@ namespace Noble.DungeonCrawler
                     }
                     var rect = transform.GetComponent<RectTransform>().rect;
 
-                    var renderers = content.GetComponentsInChildren<SpriteRenderer>();
-                    Bounds combinedBounds = renderers[0].bounds;
-                    foreach (var renderer in renderers)
-                    {
-                        //renderer.gameObject.SetActive(true);
-                        if (renderer != GetComponent<SpriteRenderer>())
-                        {
-                            Debug.Log("b: " + renderer.bounds);
-                            combinedBounds.Encapsulate(renderer.bounds);
-                        }
-                    }
+                    Bounds combinedBounds = content.GetCombinedBounds();
 
                     Vector2 dim = combinedBounds.size;
                     float scale;
@@ -71,7 +62,6 @@ namespace Noble.DungeonCrawler
 
                     scale *= .8f;
 
-                    Debug.Log(combinedBounds);
                     content.transform.parent = transform;
                     content.transform.localPosition = -combinedBounds.center*scale;
                     content.transform.localScale = new Vector3(scale, scale, 1);
@@ -89,6 +79,28 @@ namespace Noble.DungeonCrawler
             if (!item.GetComponent<Equipable>().allowedSlots.Any(s => slots.Contains(s))) return;
 
             item.GetComponent<Equipable>().Equip(Player.instance.identity.Creature, slots[0]);
+            var allEquipSlots = FindObjectsOfType<EquipSlotGUI>();
+            foreach (var equipSlot in allEquipSlots)
+            {
+                equipSlot.UpdateSlot();
+            }
+        }
+
+        public void UnEquipSlot()
+        {
+            var playerCreature = Player.instance.identity.GetComponent<Creature>();
+            foreach (var slot in slots)
+            {
+                var equippedItem = playerCreature.GetComponent<Equipment>().GetEquipment(slot);
+                if (equippedItem != null)
+                {
+                    var itemToUnequip = equippedItem;
+                    if (itemToUnequip.parentItem != null) itemToUnequip = itemToUnequip.parentItem;
+                    itemToUnequip.UnEquip();
+                    break;
+                }
+            }
+
             var allEquipSlots = FindObjectsOfType<EquipSlotGUI>();
             foreach (var equipSlot in allEquipSlots)
             {
@@ -117,6 +129,14 @@ namespace Noble.DungeonCrawler
             }
         }
 
+        public void OnCancel(BaseEventData data)
+        {
+            if (InventoryMenu.instance.mode == InventoryMenu.Mode.DEFAULT)
+            {
+                UnEquipSlot();
+            }
+        }
+
         public void OnSelect(BaseEventData data)
         {
             if (InventoryMenu.instance.mode == InventoryMenu.Mode.DEFAULT)
@@ -131,12 +151,17 @@ namespace Noble.DungeonCrawler
                 }
                 else if (data is AxisEventData axisEvent)
                 {
-                    var nextSelectable = GetComponent<Button>().FindSelectable(axisEvent.moveVector);
-                    if (nextSelectable == null)
+                    var currentSelectable = GetComponent<Selectable>();
+                    while (currentSelectable != null && !currentSelectable.interactable)
                     {
-                        nextSelectable = GetComponent<Button>().FindSelectable(axisEvent.moveVector * -1);
+                        currentSelectable = EventSystemExtensions.GetNextSelectable(currentSelectable, axisEvent.moveVector);
                     }
-                    StartCoroutine(DelaySelect(nextSelectable));
+                    if (currentSelectable == null)
+                    {
+                        currentSelectable = EventSystemExtensions.currentSelectedGameObject_Recent.GetComponent<Selectable>();
+                    }
+                    Debug.Log(gameObject + " " + currentSelectable);
+                    StartCoroutine(EventSystemExtensions.DelaySelect(currentSelectable));
                     return;
                 }
             }
@@ -152,7 +177,10 @@ namespace Noble.DungeonCrawler
             {
                 if (GetComponent<Button>().interactable)
                 {
-                    GetComponent<Image>().color = Color.white;
+                    if (!InventoryMenu.instance.fakeSelectedSlots.Contains(this))
+                    {
+                        GetComponent<Image>().color = Color.white;
+                    }
                 }
             }
         }
@@ -161,12 +189,6 @@ namespace Noble.DungeonCrawler
         {
             yield return new WaitForEndOfFrame();
             GetComponent<Button>().interactable = false;
-        }
-
-        IEnumerator DelaySelect(Selectable nextSelectable)
-        {
-            yield return new WaitForEndOfFrame();
-            nextSelectable.Select();
         }
 
         public void OnDrop(PointerEventData eventData)
@@ -182,15 +204,7 @@ namespace Noble.DungeonCrawler
             }
         }
 
-        public void OnMouseDown(BaseEventData data)
-        {
-            if (InventoryMenu.instance.mode == InventoryMenu.Mode.DEFAULT)
-            {
-                InventoryMenu.instance.EnterAssignSlotToItemMode(this, Player.instance.identity.Creature.GetEquipment(slots[0]));
-            }
-        }
-
-        public void OnMousePress(BaseEventData data)
+        public void OnSubmit(BaseEventData data)
         {
             if (InventoryMenu.instance.mode == InventoryMenu.Mode.ASSIGN_ITEM_TO_SLOT)
             {
@@ -205,21 +219,75 @@ namespace Noble.DungeonCrawler
                 AssignSlotAndReturnToDefault();
             }
         }
-        
+
+        public void OnBeginDrag(BaseEventData data)
+        {
+            if (data is PointerEventData pointerData)
+            {
+                if (pointerData.button != PointerEventData.InputButton.Left)
+                {
+                    return;
+                }
+            }
+            if (InventoryMenu.instance.mode == InventoryMenu.Mode.DEFAULT)
+            {
+                InventoryMenu.instance.EnterAssignSlotToItemMode(this, Player.instance.identity.Creature.GetEquipment(slots[0]));
+            }
+        }
+
+        public void OnMousePressed(BaseEventData data)
+        {
+            if (data is PointerEventData pointerData)
+            {
+                if (pointerData.button == PointerEventData.InputButton.Left)
+                {
+                    OnSubmit(data);
+                }
+                else if (pointerData.button == PointerEventData.InputButton.Right)
+                {
+                    OnCancel(data);
+                }
+            }
+        }
+
+        //public void OnMousePress(BaseEventData data)
+        //{
+        //if (InventoryMenu.instance.mode == InventoryMenu.Mode.ASSIGN_ITEM_TO_SLOT)
+        //{
+        //    AssignItemAndReturnToDefault();
+        //}
+        //else if (InventoryMenu.instance.mode == InventoryMenu.Mode.DEFAULT)
+        //{
+        //    InventoryMenu.instance.EnterAssignSlotToItemMode(this, Player.instance.identity.Creature.GetEquipment(slots[0]));
+        //}
+        //else if (InventoryMenu.instance.mode == InventoryMenu.Mode.ASSIGN_SLOT_TO_ITEM)
+        //{
+        //    AssignSlotAndReturnToDefault();
+        //}
+        //}
+
         public void OnMouseEnter(BaseEventData data)
         {
             if (InventoryMenu.instance.mode == InventoryMenu.Mode.DEFAULT)
             {
                 GetComponent<Button>().interactable = true;
+                GetComponent<Button>().Select();
+            }
+            if (InventoryMenu.instance.mode == InventoryMenu.Mode.ASSIGN_ITEM_TO_SLOT)
+            {
+                if (GetComponent<Button>().interactable)
+                {
+                    GetComponent<Button>().Select();
+                }
             }
         }
 
         public void OnMouseExit(BaseEventData data)
         {
-            if (InventoryMenu.instance.mode == InventoryMenu.Mode.DEFAULT)
-            {
-                GetComponent<Button>().interactable = false;
-            }
+            //if (InventoryMenu.instance.mode == InventoryMenu.Mode.DEFAULT)
+            //{
+            //    GetComponent<Button>().interactable = false;
+            //}
         }
 
     }
