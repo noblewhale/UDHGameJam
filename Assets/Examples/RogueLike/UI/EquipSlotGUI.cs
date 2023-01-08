@@ -14,7 +14,7 @@ namespace Noble.DungeonCrawler
     public class EquipSlotGUI : MonoBehaviour, IDropHandler
     {
         public Equipment.Slot[] slots = new Equipment.Slot[0];
-        public DungeonObject content;
+        DungeonObject content;
 
         DraggableItem draggedItem;
         Button button;
@@ -70,21 +70,21 @@ namespace Noble.DungeonCrawler
 
         void SpawnItemClone(Equipable equippedItem)
         {
-            draggedItem.itemToDrag = equippedItem.gameObject;
+            draggedItem.Init(equippedItem.gameObject);
             var contentOb = GameObject.Instantiate(equippedItem.gameObject);
             content = contentOb.GetComponent<DungeonObject>();
-            content.transform.position = Vector3.zero;
+
             var glyphsComponent = content.glyphs;
             glyphsComponent.gameObject.SetActive(true);
             glyphsComponent.SetLit(true);
-            foreach (var glyph in glyphsComponent.glyphs)
-            {
-                glyph.sprite.color = glyph.originalColor;
-            }
+            glyphsComponent.ResetGlyphColors();
+
             foreach (Transform trans in content.GetComponentsInChildren<Transform>(true))
             {
                 trans.gameObject.layer = gameObject.layer;
             }
+
+            content.transform.position = Vector3.zero;
             Bounds combinedBounds = content.gameObject.GetCombinedBounds();
 
             Vector2 dim = combinedBounds.size;
@@ -145,8 +145,7 @@ namespace Noble.DungeonCrawler
         {
             EquipItem(inventoryMenu.currentItemForAssignment);
             inventoryMenu.ReturnToDefaultMode();
-            button.interactable = true;
-            button.Select();
+            EnableAndSelect();
         }
 
         void AssignSlotAndReturnToDefault()
@@ -166,10 +165,7 @@ namespace Noble.DungeonCrawler
 
         public void OnCancel(BaseEventData data)
         {
-            if (inventoryMenu.mode == InventoryMode.DEFAULT)
-            {
-                UnEquipSlot();
-            }
+            if (inventoryMenu.mode == InventoryMode.DEFAULT) UnEquipSlot();
         }
 
         public void OnSelect(BaseEventData data)
@@ -209,7 +205,7 @@ namespace Noble.DungeonCrawler
             image.color = Color.white;
         }
 
-        public IEnumerator DeactivateAtEndOfFrame()
+        IEnumerator DeactivateAtEndOfFrame()
         {
             yield return new WaitForEndOfFrame();
             button.interactable = false;
@@ -270,17 +266,15 @@ namespace Noble.DungeonCrawler
         {
             switch (inventoryMenu.mode)
             {
-                case InventoryMode.DEFAULT:
-                    button.interactable = true;
-                    button.Select();
-                    break;
-                case InventoryMode.ASSIGN_ITEM_TO_SLOT:
-                    if (button.interactable)
-                    {
-                        button.Select();
-                    }
-                    break;
+                case InventoryMode.DEFAULT: EnableAndSelect(); break;
+                case InventoryMode.ASSIGN_ITEM_TO_SLOT: if (button.interactable) button.Select(); break;
             }
+        }
+
+        public void EnableAndSelect()
+        {
+            button.interactable = true;
+            button.Select();
         }
 
     }

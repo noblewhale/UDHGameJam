@@ -30,7 +30,7 @@
             this.item = item;
             button = GetComponent<Button>();
             selectable = GetComponent<Selectable>();
-            GetComponent<DraggableItem>().itemToDrag = this.item.gameObject;
+            GetComponent<DraggableItem>().Init(this.item.gameObject);
             transform.localRotation = Quaternion.identity;
             label.text = item.objectName;
             if (item.guiIcon)
@@ -56,12 +56,9 @@
             {
                 SetTint(1);
             }
-            else
+            else if (item.Equipable == null || inventoryMenu.currentItemForAssignment != item.Equipable)
             {
-                if (item.Equipable == null || inventoryMenu.currentItemForAssignment != item.Equipable)
-                {
-                    SetTint(.5f);
-                }
+                SetTint(.5f);
             }
         }
 

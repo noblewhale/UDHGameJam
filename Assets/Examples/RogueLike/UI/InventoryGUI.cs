@@ -25,7 +25,7 @@
 
         public void OnEnable()
         {
-            if (!Player.instance || !Player.instance.identity) return;
+            if (!Player.instance || !Player.Identity) return;
             UpdateSlots();
             if (slots.Count > 0)
             {
@@ -36,7 +36,7 @@
 
         void UpdateSlots()
         {
-            DungeonObject playerOb = Player.instance.identity;
+            DungeonObject playerOb = Player.Identity;
             foreach (var item in playerOb.inventory.items)
             {
                 InventorySlotGUI slot;
@@ -68,7 +68,7 @@
 
         public void Update()
         {
-            if (!Player.instance.identity) return;
+            if (!Player.Identity) return;
 
             UpdateSlots();
         }

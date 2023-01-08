@@ -13,7 +13,7 @@ public class PropertyIntValueGUI : MonoBehaviour
     {
         if (!Player.instance) return;
 
-        var dungeonObject = Player.instance.identity;
+        var dungeonObject = Player.Identity;
 
         if (!dungeonObject) return;
 

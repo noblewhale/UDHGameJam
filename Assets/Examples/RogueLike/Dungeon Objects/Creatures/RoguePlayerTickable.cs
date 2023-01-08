@@ -34,9 +34,9 @@
 
         public TickableBehaviour DefaultAction(Command command)
         {
-            if (Player.instance.identity == null || Player.instance.identity.tile == null) return null;
+            if (Player.Identity == null || Player.Identity.tile == null) return null;
 
-            Vector2Int newTilePos = Player.instance.identity.tilePosition;
+            Vector2Int newTilePos = Player.Identity.tilePosition;
 
             bool doSomething = true;
 
@@ -52,7 +52,7 @@
                 if (success)
                 {
                     Tile tile = Map.instance.GetTileFromWorldPosition(unwarpedPos);
-                    Vector2Int dif = Map.instance.GetDifference(Player.instance.identity.tilePosition, tile.tilePosition);
+                    Vector2Int dif = Map.instance.GetDifference(Player.Identity.tilePosition, tile.tilePosition);
                     if (Math.Abs(dif.x) == Math.Abs(dif.y))
                     {
                         if (dif.x > 0 && dif.y > 0) key = Key.Numpad9;

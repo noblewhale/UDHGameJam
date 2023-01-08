@@ -56,6 +56,14 @@
             }
         }
 
+        public void ResetGlyphColors()
+        {
+            foreach (Glyph glyph in glyphs)
+            {
+                glyph.ResetColor();
+            }
+        }
+
         private void Update()
         {
             foreach (Glyph glyph in glyphs)

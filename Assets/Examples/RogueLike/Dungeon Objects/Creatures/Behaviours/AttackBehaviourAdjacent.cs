@@ -50,7 +50,7 @@
                     {
                         // TODO: For now only considering the player hostile but could use alignments or disposition or w/e
                         // and really how hostility is determined should be up to the creature not the attack behaviour probably
-                        if (creature.baseObject == Player.instance.identity)
+                        if (creature.baseObject == Player.Identity)
                         {
                             results.Add(creature);
                         }

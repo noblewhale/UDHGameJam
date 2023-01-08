@@ -8,7 +8,7 @@ public class LoadNextLevel : MonoBehaviour
 {
     public void LoadLevel(DungeonObject ob)
     {
-        if (ob == Player.instance.identity)
+        if (ob == Player.Identity)
         {
             SceneManager.LoadScene("Level 2");
         }

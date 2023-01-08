@@ -24,6 +24,11 @@
             }
         }
 
+        internal void ResetColor()
+        {
+            sprite.color = originalColor;
+        }
+
         void Awake()
         {
             originalColor = sprite.color;

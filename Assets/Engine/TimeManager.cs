@@ -38,7 +38,7 @@
 
                     var ob = currentTickableNode.Value;
 
-                    if (Player.instance.identity.tickable == ob)
+                    if (Player.Identity.tickable == ob)
                     {
                         while (!PlayerInputHandler.instance.HasInput) yield return new WaitForEndOfFrame();
                         
@@ -89,7 +89,7 @@
                                 {
                                     bool isDone = behaviour.ContinueSubAction(Time - ob.lastActionTime);
                                     if (isDone) break;
-                                    if (Player.instance.identity.tickable != ob && isInterrupted) break;
+                                    if (Player.Identity.tickable != ob && isInterrupted) break;
                                     yield return new WaitForEndOfFrame();
                                 }
                             }

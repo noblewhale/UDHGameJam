@@ -15,7 +15,7 @@
 
             ulong duration = 1;
 
-            Vector2Int newTilePosition = Player.instance.identity.tilePosition;
+            Vector2Int newTilePosition = Player.Identity.tilePosition;
 
             bool doSomething = true;
             switch (command.key)

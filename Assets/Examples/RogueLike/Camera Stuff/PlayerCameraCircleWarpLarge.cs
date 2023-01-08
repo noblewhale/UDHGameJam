@@ -11,12 +11,12 @@ namespace Noble.DungeonCrawler
 
         public void Start()
         {
-            Player.instance.identity.onSpawn += OnPlayerSpawned;
+            Player.Identity.onSpawn += OnPlayerSpawned;
         }
 
         private void OnDestroy()
         {
-            Player.instance.identity.onSpawn -= OnPlayerSpawned;
+            Player.Identity.onSpawn -= OnPlayerSpawned;
         }
 
         void OnPlayerSpawned()
