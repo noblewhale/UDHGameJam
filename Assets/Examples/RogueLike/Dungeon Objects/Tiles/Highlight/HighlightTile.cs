@@ -47,28 +47,31 @@ namespace Noble.DungeonCrawler
             {
                 isKeyboardControlled = false;
 
-                Vector2 mousePosRelativeToMapRenderer = ((Vector2)Camera.main.ScreenToWorldPoint(mousePos) - (Vector2)Camera.main.transform.position) - (Vector2)MapRenderer.instance.transform.localPosition;
-                mousePosRelativeToMapRenderer /= MapRenderer.instance.transform.localScale;
-                float angle = Vector2.Angle(mousePosRelativeToMapRenderer, Vector2.up);
-                bool ignoreInput = false;
-                ignoreInput |= angle > -40 && angle < 40;
-                ignoreInput |= mousePosRelativeToMapRenderer.y > 0 && mousePosRelativeToMapRenderer.magnitude < .075f;
-                if (!ignoreInput)
+                if (MapRenderer.instance)
                 {
-                    Vector2 relativeWorldPos = PolarMapUtil.GetPositionRelativeCenterOfMapRenderer(mousePos);
-                    Vector2 unwarpedPos;
-                    bool success = PolarMapUtil.UnwarpPosition(relativeWorldPos, out unwarpedPos);
-                    if (success)
+                    Vector2 mousePosRelativeToMapRenderer = ((Vector2)Camera.main.ScreenToWorldPoint(mousePos) - (Vector2)Camera.main.transform.position) - (Vector2)MapRenderer.instance.transform.localPosition;
+                    mousePosRelativeToMapRenderer /= MapRenderer.instance.transform.localScale;
+                    float angle = Vector2.Angle(mousePosRelativeToMapRenderer, Vector2.up);
+                    bool ignoreInput = false;
+                    ignoreInput |= angle > -40 && angle < 40;
+                    ignoreInput |= mousePosRelativeToMapRenderer.y > 0 && mousePosRelativeToMapRenderer.magnitude < .075f;
+                    if (!ignoreInput)
                     {
-                        Tile tileUnderMouse = Map.instance.GetTileFromWorldPosition(unwarpedPos);
-
-                        if (tile == null || tileUnderMouse != tile)
+                        Vector2 relativeWorldPos = PolarMapUtil.GetPositionRelativeCenterOfMapRenderer(mousePos);
+                        Vector2 unwarpedPos;
+                        bool success = PolarMapUtil.UnwarpPosition(relativeWorldPos, out unwarpedPos);
+                        if (success)
                         {
-                            tile?.RemoveObject(this);
-                            tileUnderMouse.AddObject(this, false, 2);
+                            Tile tileUnderMouse = Map.instance.GetTileFromWorldPosition(unwarpedPos);
+
+                            if (tile == null || tileUnderMouse != tile)
+                            {
+                                tile?.RemoveObject(this);
+                                tileUnderMouse.AddObject(this, false, 2);
+                            }
                         }
+                        oldCameraPosition = PlayerCamera.instance.transform.position;
                     }
-                    oldCameraPosition = PlayerCamera.instance.transform.position;
                 }
             }
             if (allowedTiles != null && allowedTiles.Count > 0)
