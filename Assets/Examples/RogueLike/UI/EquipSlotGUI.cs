@@ -14,17 +14,20 @@ namespace Noble.DungeonCrawler
     public class EquipSlotGUI : MonoBehaviour, IDropHandler
     {
         public Equipment.Slot[] slots = new Equipment.Slot[0];
+
+        public EquipSlotGUI alsoSelect;
+
         DungeonObject content;
 
         DraggableItem draggedItem;
-        Button button;
+        public Button button;
         Selectable selectable;
-        Image image;
+        public Image image;
         Rect boundsRect;
 
         InventoryMenu inventoryMenu => InventoryMenu.instance;
 
-        static EquipSlotGUI[] AllSlots;
+        public static EquipSlotGUI[] AllSlots;
 
         void Awake()
         {
@@ -209,6 +212,10 @@ namespace Noble.DungeonCrawler
         {
             yield return new WaitForEndOfFrame();
             button.interactable = false;
+            if (alsoSelect)
+            {
+                alsoSelect.button.interactable = false;
+            }
         }
 
         public void OnDrop(PointerEventData eventData)
@@ -275,6 +282,10 @@ namespace Noble.DungeonCrawler
         {
             button.interactable = true;
             button.Select();
+            if (alsoSelect)
+            {
+                alsoSelect.button.interactable = true;
+            }
         }
 
     }

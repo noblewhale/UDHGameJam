@@ -42,22 +42,23 @@ namespace Noble.DungeonCrawler
         public void OnEnable()
         {
             Cursor.visible = true;
-            
-            var player = Player.Identity;
-            player.transform.parent = characterPosition;
-            player.transform.localPosition = new Vector3(-.5f, -.5f, 0);
-            player.transform.localScale = Vector3.one;
 
-            SetupLightsAndLayers(false, gameObject.layer);
+            if (Player.Identity && Map.instance.isDoneGeneratingMap)
+            {
+                Player.Identity.transform.parent = characterPosition;
+                Player.Identity.transform.localPosition = new Vector3(-.5f, -.5f, 0);
+                Player.Identity.transform.localScale = Vector3.one;
+
+                SetupLightsAndLayers(false, gameObject.layer);
+            }
         }
 
         public void OnDisable()
         {
-            if (Player.Identity)
+            if (Player.Identity && Map.instance.isDoneGeneratingMap)
             {
-                var player = Player.Identity;
-                Tile tile = Map.instance.GetTile(player.x, player.y);
-                tile.AddObject(player, false, 2);
+                Tile tile = Map.instance.GetTile(Player.Identity.x, Player.Identity.y);
+                tile.AddObject(Player.Identity, false, 2);
 
                 SetupLightsAndLayers(true, Map.instance.gameObject.layer);
             }
@@ -116,7 +117,7 @@ namespace Noble.DungeonCrawler
         public void EnableSlotsThatAllowItem(Equipable item)
         {
             if (item == null) return;
-            var equipSlots = FindObjectsOfType<EquipSlotGUI>();
+            var equipSlots = EquipSlotGUI.AllSlots;
             foreach (var equipSlot in equipSlots)
             {
                 if (item.allowedSlots.Any(s => equipSlot.slots.Contains(s)))
@@ -129,7 +130,7 @@ namespace Noble.DungeonCrawler
 
         public void DisableItemsThatDontFitSlots(Equipment.Slot[] slots)
         {
-            var inventoryGUIItems = FindObjectsOfType<InventorySlotGUI>();
+            var inventoryGUIItems = InventoryGUI.instance.slots.Values;
             foreach (var inventoryGUIItem in inventoryGUIItems)
             {
                 if (!inventoryGUIItem.item.GetComponent<Equipable>() || !inventoryGUIItem.item.GetComponent<Equipable>().allowedSlots.Any(s => slots.Contains(s)))
@@ -141,7 +142,7 @@ namespace Noble.DungeonCrawler
 
         public void DisableOtherItems(Equipable item)
         {
-            var inventoryGUIItems = FindObjectsOfType<InventorySlotGUI>();
+            var inventoryGUIItems = InventoryGUI.instance.slots.Values;
             foreach (var inventoryGUIItem in inventoryGUIItems)
             {
                 //if (inventoryGUIItem.item.GetComponent<Equipable>() != item)
@@ -163,10 +164,9 @@ namespace Noble.DungeonCrawler
             nav.selectOnRight = null;
             inventoryGUI.thingToConnectNavigationTo.navigation = nav;
 
-            var equipSlotGUIS = FindObjectsOfType<EquipSlotGUI>();
             if (equipment.useOverrideSlot)
             {
-                var mostLikelySlots = equipSlotGUIS.Where(guiSlot => guiSlot.slots.Contains(equipment.overrideSlot));
+                var mostLikelySlots = EquipSlotGUI.AllSlots.Where(guiSlot => guiSlot.slots.Contains(equipment.overrideSlot));
                 fakeSelectedSlots.Clear();
                 mostLikelySlots.First().GetComponent<Button>().Select();
                 foreach (var slot in mostLikelySlots)
@@ -178,7 +178,7 @@ namespace Noble.DungeonCrawler
             }
             else
             {
-                var mostLikelySlot = equipSlotGUIS.First(guiSlot => guiSlot.slots.Contains(equipment.allowedSlots[0]));
+                var mostLikelySlot = EquipSlotGUI.AllSlots.First(guiSlot => guiSlot.slots.Contains(equipment.allowedSlots[0]));
                 mostLikelySlot.GetComponent<Button>().Select();
             }
         }
@@ -189,17 +189,27 @@ namespace Noble.DungeonCrawler
             currentSlotForAssignment = equipSlotGUI;
             currentItemForAssignment = equipable;
             DisableItemsThatDontFitSlots(equipSlotGUI.slots);
-            var inventorySlots = FindObjectsOfType<InventorySlotGUI>();
+            var inventorySlots = InventoryGUI.instance.slots.Values;
             inventorySlots.Last(s => s.GetComponent<Button>().interactable).GetComponent<Button>().Select();
 
             foreach (var inventorySlot in inventorySlots)
             {
-                var nav = inventorySlot.GetComponent<Selectable>().navigation;
+                var nav = inventorySlot.selectable.navigation;
                 nav.selectOnLeft = null;
-                inventorySlot.GetComponent<Selectable>().navigation = nav;
+                inventorySlot.selectable.navigation = nav;
             }
 
-            equipSlotGUI.GetComponent<Image>().color = Color.green;
+            equipSlotGUI.image.color = Color.green;
+
+            // Fake select the "alsoSelect" slot for things like the hand slots that are always both used at once
+            fakeSelectedSlots.Clear();
+            fakeSelectedSlots.Add(equipSlotGUI);
+            fakeSelectedSlots.Add(equipSlotGUI.alsoSelect);
+            if (equipSlotGUI.alsoSelect)
+            {
+                equipSlotGUI.alsoSelect.button.interactable = true;
+                equipSlotGUI.alsoSelect.image.color = Color.green;
+            }
         }
 
         public void ReturnToDefaultMode()
@@ -216,13 +226,13 @@ namespace Noble.DungeonCrawler
 
             mode = Mode.DEFAULT;
 
-            var equipSlots = FindObjectsOfType<EquipSlotGUI>();
+            var equipSlots = EquipSlotGUI.AllSlots;
             foreach (var equipSlot in equipSlots)
             {
                 equipSlot.GetComponent<Image>().color = Color.white;
                 equipSlot.GetComponent<Button>().interactable = false;
             }
-            var inventoryGUISlots = FindObjectsOfType<InventorySlotGUI>();
+            var inventoryGUISlots = InventoryGUI.instance.slots.Values;
             foreach (var inventoryGUISlot in inventoryGUISlots)
             {
                 inventoryGUISlot.GetComponent<Button>().interactable = true;

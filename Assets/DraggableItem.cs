@@ -34,6 +34,7 @@ namespace Noble.DungeonCrawler
             glyphsComponent.SetLit(true);
             foreach (var glyph in glyphsComponent.glyphs)
             {
+                glyph.gameObject.SetActive(true);
                 glyph.sprite.color = glyph.originalColor;
                 // Dragged item appears in front of everything
                 glyph.sprite.sortingOrder = 999;

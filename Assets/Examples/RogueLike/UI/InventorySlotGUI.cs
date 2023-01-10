@@ -2,6 +2,7 @@
 {
     using Noble.TileEngine;
     using System.Collections.Generic;
+    using System.Linq;
     using TMPro;
     using UnityEngine;
     using UnityEngine.EventSystems;
@@ -21,7 +22,7 @@
         public List<Color> originalGlyphColors = new();
 
         Button button;
-        Selectable selectable;
+        public Selectable selectable;
         Image[] icons;
         InventoryMenu inventoryMenu => InventoryMenu.instance;
 
@@ -101,6 +102,45 @@
                 var nav = InventoryGUI.instance.thingToConnectNavigationTo.navigation;
                 nav.selectOnRight = selectable;
                 InventoryGUI.instance.thingToConnectNavigationTo.navigation = nav;
+
+                if (inventoryMenu.mode == InventoryMode.ASSIGN_SLOT_TO_ITEM)
+                {
+                    if (item.Equipable)
+                    {
+                        if (item.Equipable.useOverrideSlot)
+                        {
+                            foreach (var equipSlot in EquipSlotGUI.AllSlots)
+                            {
+                                if (equipSlot.slots.Contains(item.Equipable.overrideSlot))
+                                {
+                                    equipSlot.image.color = Color.green;
+                                    equipSlot.button.interactable = true;
+                                }
+                            }
+                        }
+                        //else
+                        //{
+                        //    InventoryMenu.instance.currentSlotForAssignment.EnableAndSelect();
+                        //}
+                    }
+                }
+            }
+        }
+
+        public void OnDeselect(BaseEventData data)
+        {
+            if (inventoryMenu.mode == InventoryMode.ASSIGN_SLOT_TO_ITEM)
+            {
+                if (item.Equipable && item.Equipable.useOverrideSlot)
+                {
+                    foreach (var equipSlot in EquipSlotGUI.AllSlots)
+                    {
+                        if (inventoryMenu.fakeSelectedSlots.Contains(equipSlot)) continue;
+
+                        equipSlot.image.color = Color.white;
+                        equipSlot.button.interactable = false;
+                    }
+                }
             }
         }
 
@@ -133,7 +173,7 @@
 
         public void OnMouseEnter(BaseEventData data)
         {
-            if (inventoryMenu.mode == InventoryMode.ASSIGN_SLOT_TO_ITEM) return;
+            if (inventoryMenu.mode == InventoryMode.ASSIGN_ITEM_TO_SLOT) return;
             button.Select();
         }
     }

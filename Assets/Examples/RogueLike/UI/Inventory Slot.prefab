@@ -124,9 +124,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8af080e3087069a4c9b2e09764ca07d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemToDrag: {fileID: 0}
-  draggableCopy: {fileID: 0}
-  selectOnDrag: 1
 --- !u!222 &7891721617418768517
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -293,6 +290,22 @@ MonoBehaviour:
         - m_Target: {fileID: 331701162}
           m_TargetAssemblyTypeName: Noble.DungeonCrawler.InventorySlotGUI, Assembly-CSharp
           m_MethodName: OnBeginDrag
+          m_Mode: 0
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 10
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 331701162}
+          m_TargetAssemblyTypeName: Noble.DungeonCrawler.InventorySlotGUI, Assembly-CSharp
+          m_MethodName: OnDeselect
           m_Mode: 0
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
