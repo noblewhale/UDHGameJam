@@ -6,8 +6,8 @@
 
     public class MovementBehaviourTowardsPlayer : TickableBehaviour
     {
-        public bool useViewDistance;
-        public float radiusIfNotUsingViewDistance;
+        public bool useViewDistance = true;
+        public float radiusIfNotUsingViewDistance = 4;
         Tile nextMoveTarget;
         Creature owningCreature;
 
@@ -102,7 +102,6 @@
                     {
                         nextMoveTarget = verticalMoveTarget;
                     }
-
                     return .5f;
                 }
                 else
@@ -110,7 +109,6 @@
                     return 0;
                 }
             }
-
             return 0;
         }
     }
