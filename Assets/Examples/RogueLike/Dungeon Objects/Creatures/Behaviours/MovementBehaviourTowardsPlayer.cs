@@ -34,7 +34,7 @@
 
         public override float GetActionConfidence()
         {
-            Vector2Int playerPos = Player.instance.identity.tilePosition;
+            Vector2Int playerPos = Player.Identity.tilePosition;
             Vector2Int myPos = owner.tilePosition;
 
             float radius = radiusIfNotUsingViewDistance;

@@ -13,23 +13,23 @@ public class TwoHandToggle : MonoBehaviour
     {
         UpdateState();
 
-        if (Player.instance && Player.instance.identity)
+        if (Player.instance && Player.Identity)
         {
-            Player.instance.identity.Equipment.onChange += UpdateState;
+            Player.Identity.Equipment.onChange += UpdateState;
         }
     }
 
     private void OnDisable()
     {
-        if (Player.instance && Player.instance.identity)
+        if (Player.instance && Player.Identity)
         {
-            Player.instance.identity.Equipment.onChange -= UpdateState;
+            Player.Identity.Equipment.onChange -= UpdateState;
         }
     }
 
     void UpdateState()
     {
-        if (Player.instance.identity.Equipment.GetEquipment(Equipment.Slot.TWO_HANDED))
+        if (Player.Identity.Equipment.GetEquipment(Equipment.Slot.TWO_HANDED))
         {
             if (twoHandObject)
             {

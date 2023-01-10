@@ -15,39 +15,28 @@
         {
             Command command = PlayerInputHandler.instance.commandQueue.Dequeue();
 
-            if (InventoryMenu.instance.gameObject.activeSelf)
+            if (command.key == Key.I)
             {
-                if (command.key == Key.I)
-                {
-                    InventoryMenu.instance.gameObject.SetActive(false);
-                }
+                InventoryMenu.instance.gameObject.SetActive(true);
                 owner.tickable.nextActionTime = TimeManager.instance.Time;
+                PlayerInputHandler.instance.enabled = false;
                 return null;
+            }
+            else if (command.key == Key.F)
+            {
+                return owner.Equipment.GetEquipment(Equipment.Slot.LEFT_HAND_WEAPON).GetComponent<TickableBehaviour>();
             }
             else
             {
-                if (command.key == Key.I)
-                {
-                    InventoryMenu.instance.gameObject.SetActive(true);
-                    owner.tickable.nextActionTime = TimeManager.instance.Time;
-                    return null;
-                }
-                else if (command.key == Key.F)
-                {
-                    return owner.Equipment.GetEquipment(Equipment.Slot.LEFT_HAND_WEAPON).GetComponent<TickableBehaviour>();
-                }
-                else
-                {
-                    return DefaultAction(command);
-                }
+                return DefaultAction(command);
             }
         }
 
         public TickableBehaviour DefaultAction(Command command)
         {
-            if (Player.instance.identity == null || Player.instance.identity.tile == null) return null;
+            if (Player.Identity == null || Player.Identity.tile == null) return null;
 
-            Vector2Int newTilePos = Player.instance.identity.tilePosition;
+            Vector2Int newTilePos = Player.Identity.tilePosition;
 
             bool doSomething = true;
 
@@ -63,7 +52,7 @@
                 if (success)
                 {
                     Tile tile = Map.instance.GetTileFromWorldPosition(unwarpedPos);
-                    Vector2Int dif = Map.instance.GetDifference(Player.instance.identity.tilePosition, tile.tilePosition);
+                    Vector2Int dif = Map.instance.GetDifference(Player.Identity.tilePosition, tile.tilePosition);
                     if (Math.Abs(dif.x) == Math.Abs(dif.y))
                     {
                         if (dif.x > 0 && dif.y > 0) key = Key.Numpad9;

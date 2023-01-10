@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 namespace Noble.TileEngine
 {
     using UnityEditor;
@@ -14,3 +15,4 @@ namespace Noble.TileEngine
         }
     }
 }
+#endif

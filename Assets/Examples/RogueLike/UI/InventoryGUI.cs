@@ -16,6 +16,8 @@
 
         public static InventoryGUI instance;
 
+        public InventorySlotGUI lastSelectedSlot;
+
         private void Awake()
         {
             instance = this;
@@ -23,17 +25,18 @@
 
         public void OnEnable()
         {
-            if (!Player.instance || !Player.instance.identity) return;
+            if (!Player.instance || !Player.Identity) return;
             UpdateSlots();
             if (slots.Count > 0)
             {
                 slots.First().Value.GetComponent<Button>().Select();
+                lastSelectedSlot = slots.First().Value;
             }
         }
 
         void UpdateSlots()
         {
-            DungeonObject playerOb = Player.instance.identity;
+            DungeonObject playerOb = Player.Identity;
             foreach (var item in playerOb.inventory.items)
             {
                 InventorySlotGUI slot;
@@ -65,7 +68,7 @@
 
         public void Update()
         {
-            if (!Player.instance.identity) return;
+            if (!Player.Identity) return;
 
             UpdateSlots();
         }

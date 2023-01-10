@@ -25,9 +25,9 @@
             if (!targetCreature) return;
 
             float roll = Random.Range(0, 20);
-            int attackerDex = GetComponent<Equipable>().EquippedBy.baseObject.GetProperty<int>("Dexterity").GetValue();
-            int defenderDex = targetCreature.baseObject.GetProperty<int>("Dexterity").GetValue();
-            int defenderArmor = targetCreature.baseObject.GetProperty<int>("Armor").GetValue();
+            int attackerDex = GetComponent<Equipable>().EquippedBy.baseObject.GetPropertyValue<int>("Dexterity");
+            int defenderDex = targetCreature.baseObject.GetPropertyValue<int>("Dexterity");
+            int defenderArmor = targetCreature.baseObject.GetPropertyValue<int>("Armor");
             roll += attackerDex;
             if (roll > defenderDex)
             {

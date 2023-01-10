@@ -29,7 +29,7 @@
 
         public virtual void Update()
         {
-            if (!Player.instance.identity) return;
+            if (!Player.Identity) return;
 
             if (lastMousePosition != Mouse.current.position.ReadValue())
             {
@@ -38,7 +38,7 @@
                 lastMouseMoveTime = Time.realtimeSinceStartup;
             }
 
-            if (Time.realtimeSinceStartup - lastMouseMoveTime > 3)
+            if (Time.realtimeSinceStartup - lastMouseMoveTime > 3 && Cursor.visible)
             {
                 Cursor.visible = false;
             }
@@ -46,7 +46,7 @@
             CollectInputCommands();
             if (HasInput)
             {
-                TimeManager.instance.Interrupt(Player.instance.identity.GetComponent<Tickable>());
+                TimeManager.instance.Interrupt(Player.Identity.GetComponent<Tickable>());
             }
         }
 

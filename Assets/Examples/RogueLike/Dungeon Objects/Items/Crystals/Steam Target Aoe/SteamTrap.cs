@@ -20,7 +20,7 @@ namespace Noble.DungeonCrawler
                 var creature = dungeonObject.GetComponent<Creature>();
                 if (creature)
                 {
-                    if (creature.baseObject == Player.instance.identity)
+                    if (creature.baseObject == Player.Identity)
                     {
                         Map.instance.UpdateIsVisible(creature.tilePosition, creature.effectiveViewDistance, false);
                     }
@@ -37,7 +37,7 @@ namespace Noble.DungeonCrawler
                 var creature = dungeonObject.GetComponent<Creature>();
                 if (creature)
                 {
-                    if (creature.baseObject == Player.instance.identity)
+                    if (creature.baseObject == Player.Identity)
                     {
                         Map.instance.UpdateIsVisible(creature.tilePosition, creature.effectiveViewDistance, false);
                     }

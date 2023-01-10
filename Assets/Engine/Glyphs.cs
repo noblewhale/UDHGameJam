@@ -6,15 +6,20 @@
     public class Glyphs : MonoBehaviour
     {
         public Color damageFlashColor = Color.red;
-        public List<Glyph> glyphs = new List<Glyph>();
-        bool isLit = true;
-
-        void Awake()
+        List<Glyph> _glyphs;
+        public List<Glyph> glyphs
         {
-            glyphs = new List<Glyph>(GetComponentsInChildren<Glyph>(true));
+            get
+            {
+                if (_glyphs == null || _glyphs.Count == 0)
+                {
+                    _glyphs = new List<Glyph>(GetComponentsInChildren<Glyph>(true));
+                }
 
-            //gameObject.SetActive(false);
+                return _glyphs;
+            }
         }
+        bool isLit = true;
 
         public void SetRevealed(bool isRevealed)
         {
@@ -48,6 +53,14 @@
                 {
                     glyphs[i].extraTint = Color.white;
                 }
+            }
+        }
+
+        public void ResetGlyphColors()
+        {
+            foreach (Glyph glyph in glyphs)
+            {
+                glyph.ResetColor();
             }
         }
 

@@ -22,6 +22,19 @@
         }
 
         public Equipment Equipment => Creature?.Equipment;
+        Equipable _equipable;
+        public Equipable Equipable 
+        {
+            get
+            {
+                if (_equipable == null)
+                {
+                    _equipable = GetComponent<Equipable>();
+                }
+
+                return _equipable;
+            }
+        }
 
         [Serializable]
         public class CreatureEvent : UnityEvent<DungeonObject> { }
@@ -101,7 +114,7 @@
 
         public Tickable tickable { get; private set; }
 
-        virtual protected void Start()
+        virtual protected void Awake()
         {
             tickable = GetComponent<Tickable>();
             glyphs = GetComponentInChildren<Glyphs>(true);
@@ -110,7 +123,10 @@
                 glyphsOb = glyphs.gameObject;
                 originalGlyphPosition = glyphs.transform.localPosition;
             }
+        }
 
+        virtual protected void Start()
+        { 
             map.OnPreMapLoaded += OnPreMapLoaded;
         }
 
@@ -137,6 +153,13 @@
             return (Property<T>)prop;
         }
 
+        public T GetPropertyValue<T>(string propertyName)
+        {
+            Properties.TryGetValue(propertyName, out IProperty prop);
+            if (prop == null) return default(T);
+            else return ((Property<T>)prop).GetValue();
+        }
+
         public void UpdateLighting()
         {
             if (illuminationRange == 0) return;
@@ -158,7 +181,7 @@
                 {
                     return t.DoesBlockLineOfSight() && (t != tile);
                 },
-                true
+                false
             );
         }
 
@@ -302,7 +325,7 @@
                     illuminationRange,
                     t => t.RemoveIlluminationSource(),
                     null,
-                    true
+                    false
                 );
                 UpdateLighting();
             }

@@ -10,12 +10,27 @@
         public Color extraTint = Color.white;
         public Color originalColor;
 
-        [NonSerialized]
-        public SpriteRenderer sprite;
-
-        void Start()
+        SpriteRenderer _sprite;
+        public SpriteRenderer sprite
         {
-            sprite = GetComponent<SpriteRenderer>();
+            get 
+            { 
+                if (_sprite == null)
+                {
+                    _sprite = GetComponent<SpriteRenderer>();
+                    originalColor = _sprite.color;
+                }
+                return _sprite; 
+            }
+        }
+
+        internal void ResetColor()
+        {
+            sprite.color = originalColor;
+        }
+
+        void Awake()
+        {
             originalColor = sprite.color;
         }
     }

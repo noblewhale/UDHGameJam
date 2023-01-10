@@ -133,7 +133,7 @@
 			AimOverlay.instance.gameObject.SetActive(true);
 
 			var allowedTiles = Map.instance.GetTilesInRadius(
-				Player.instance.identity.tilePosition + owner.map.tileDimensions / 2,
+				Player.Identity.tilePosition + owner.map.tileDimensions / 2,
 				aimingRadius,
 				null,
 				false
@@ -179,7 +179,7 @@
 
 			HighlightTile.instance.allowedTiles = null;
 
-			CameraTarget.instance.owner = Player.instance.identity;
+			CameraTarget.instance.owner = Player.Identity;
 			CameraTarget.instance.thresholdX = 0;
 			CameraTarget.instance.thresholdY = 0;
 			AimOverlay.instance.gameObject.SetActive(false);

@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8386448262223792796}
+  - component: {fileID: 1241883287438365026}
   m_Layer: 5
   m_Name: Glyph
   m_TagString: Untagged
@@ -31,11 +32,25 @@ RectTransform:
   m_Father: {fileID: 3802748256159513159}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.5}
-  m_AnchorMax: {x: 0, y: 0.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 11.499939, y: 0}
   m_SizeDelta: {x: 50, y: 50}
-  m_Pivot: {x: 0, y: 0.5}
+  m_Pivot: {x: 0, y: 0}
+--- !u!114 &1241883287438365026
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 742521626917784484}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3312d7739989d2b4e91e6319e9a96d76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Padding: {x: 0, y: 0, z: 0, w: 0}
+  m_Softness: {x: 0, y: 0}
 --- !u!1 &3802748256159513158
 GameObject:
   m_ObjectHideFlags: 0
@@ -109,9 +124,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8af080e3087069a4c9b2e09764ca07d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemToDrag: {fileID: 0}
-  draggableCopy: {fileID: 0}
-  selectOnDrag: 1
 --- !u!222 &7891721617418768517
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -223,22 +235,6 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-  - eventID: 1
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 331701162}
-          m_TargetAssemblyTypeName: Noble.DungeonCrawler.InventorySlotGUI, Assembly-CSharp
-          m_MethodName: OnMouseExit
-          m_Mode: 0
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
   - eventID: 4
     callback:
       m_PersistentCalls:
@@ -246,22 +242,6 @@ MonoBehaviour:
         - m_Target: {fileID: 331701162}
           m_TargetAssemblyTypeName: Noble.DungeonCrawler.InventorySlotGUI, Assembly-CSharp
           m_MethodName: OnMousePressed
-          m_Mode: 0
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  - eventID: 2
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 331701162}
-          m_TargetAssemblyTypeName: Noble.DungeonCrawler.InventorySlotGUI, Assembly-CSharp
-          m_MethodName: OnMouseDown
           m_Mode: 0
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -294,6 +274,38 @@ MonoBehaviour:
         - m_Target: {fileID: 331701162}
           m_TargetAssemblyTypeName: Noble.DungeonCrawler.InventorySlotGUI, Assembly-CSharp
           m_MethodName: OnSelect
+          m_Mode: 0
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 13
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 331701162}
+          m_TargetAssemblyTypeName: Noble.DungeonCrawler.InventorySlotGUI, Assembly-CSharp
+          m_MethodName: OnBeginDrag
+          m_Mode: 0
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 10
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 331701162}
+          m_TargetAssemblyTypeName: Noble.DungeonCrawler.InventorySlotGUI, Assembly-CSharp
+          m_MethodName: OnDeselect
           m_Mode: 0
           m_Arguments:
             m_ObjectArgument: {fileID: 0}

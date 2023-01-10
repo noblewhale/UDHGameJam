@@ -21,13 +21,13 @@
 
         public void Start()
         {
-            Player.instance.identity.onSpawn += OnPlayerSpawned;
+            Player.Identity.onSpawn += OnPlayerSpawned;
             targetPos = transform.position;
         }
 
         private void OnDestroy()
         {
-            Player.instance.identity.onSpawn -= OnPlayerSpawned;
+            Player.Identity.onSpawn -= OnPlayerSpawned;
         }
 
         void OnPlayerSpawned()

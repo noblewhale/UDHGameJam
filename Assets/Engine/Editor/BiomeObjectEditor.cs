@@ -1,4 +1,5 @@
-﻿namespace Noble.TileEngine
+﻿#if UNITY_EDITOR
+namespace Noble.TileEngine
 {
     using UnityEditor;
     using UnityEditor.IMGUI.Controls;
@@ -73,3 +74,4 @@
         }
     }
 }
+#endif

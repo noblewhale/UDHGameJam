@@ -7,7 +7,7 @@
     {
         public void OnSteppedOn(Creature creature)
         {
-            if (Player.instance.identity == creature)
+            if (Player.Identity == creature)
             {
                 Map.instance.StartCoroutine(Map.instance.RegenerateMap());
             }

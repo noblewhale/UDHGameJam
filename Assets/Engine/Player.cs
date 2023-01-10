@@ -9,6 +9,11 @@
 
         public static Player instance;
 
+        // For my sanity and finger joints
+        public static DungeonObject Identity => instance?.identity;
+        public static Creature Creature => Identity?.Creature;
+        public static Equipment Equipment => Creature?.Equipment;
+
         public virtual void Awake()
         {
             instance = this;
