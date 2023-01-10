@@ -482,7 +482,7 @@ ScriptedImporter:
     spriteName: 
     isGroup: 0
     parentIndex: -1
-    spriteID: 00000000000000000000000000000000
+    spriteID: ef46862a4821f9f429a06e78e5ec02c8
     layerID: 147
     mosaicPosition: {x: 0, y: 0}
     flatten: 0
@@ -512,7 +512,7 @@ ScriptedImporter:
     spriteName: 
     isGroup: 0
     parentIndex: -1
-    spriteID: 00000000000000000000000000000000
+    spriteID: cef239261c4b5ae46adc4caab747b9fe
     layerID: 159
     mosaicPosition: {x: 0, y: 0}
     flatten: 0
@@ -572,7 +572,7 @@ ScriptedImporter:
     spriteName: 
     isGroup: 0
     parentIndex: -1
-    spriteID: 00000000000000000000000000000000
+    spriteID: 59faaf27b9b52e64ab459dafba451d77
     layerID: 158
     mosaicPosition: {x: 0, y: 0}
     flatten: 0
@@ -732,7 +732,7 @@ ScriptedImporter:
     spriteName: 
     isGroup: 1
     parentIndex: 24
-    spriteID: 00000000000000000000000000000000
+    spriteID: 939c73c7a51623d439fe7daa69d85e35
     layerID: 160
     mosaicPosition: {x: 0, y: 0}
     flatten: 0
@@ -742,7 +742,7 @@ ScriptedImporter:
     spriteName: 
     isGroup: 0
     parentIndex: 25
-    spriteID: 00000000000000000000000000000000
+    spriteID: aa98728bad2241641a05da4f2bb042d9
     layerID: 164
     mosaicPosition: {x: 0, y: 0}
     flatten: 0
@@ -752,7 +752,7 @@ ScriptedImporter:
     spriteName: 
     isGroup: 0
     parentIndex: 25
-    spriteID: 00000000000000000000000000000000
+    spriteID: e688771329f0adb4fb1d4000f5ce89f2
     layerID: 162
     mosaicPosition: {x: 0, y: 0}
     flatten: 0
@@ -792,7 +792,7 @@ ScriptedImporter:
     spriteName: 
     isGroup: 0
     parentIndex: 29
-    spriteID: 00000000000000000000000000000000
+    spriteID: 040874315991ede40a57647a2149c872
     layerID: 166
     mosaicPosition: {x: 0, y: 0}
     flatten: 0
@@ -912,7 +912,7 @@ ScriptedImporter:
     spriteName: 
     isGroup: 1
     parentIndex: 24
-    spriteID: 00000000000000000000000000000000
+    spriteID: f50ebd3077b281142b075430b7fd5d71
     layerID: 156
     mosaicPosition: {x: 0, y: 0}
     flatten: 0
