@@ -88,7 +88,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3194396394040112642}
   - component: {fileID: 3300392959844046706}
-  - component: {fileID: 3300319173108635374}
   - component: {fileID: 7351972079377745321}
   - component: {fileID: 7255016432821685811}
   m_Layer: 0
@@ -177,24 +176,6 @@ MonoBehaviour:
   onTakeDamage:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &3300319173108635374
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3196843922296835516}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 50a1b5f5c9c41e74fa30aab2d58e2841, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  owner: {fileID: 0}
-  executeEveryTick: 0
-  minBaseDamage: 2
-  maxBaseDamage: 4
-  enchantmentLevel: 1
-  targetCreature: {fileID: 0}
 --- !u!114 &7351972079377745321
 MonoBehaviour:
   m_ObjectHideFlags: 0
