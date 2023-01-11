@@ -151,7 +151,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   viewDistance: 4
-  ticksPerMove: 1
+  ticksPerMove: 2
   ticksPerAttack: 2
   attackMovementAnimation:
     serializedVersion: 2
@@ -213,7 +213,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   owner: {fileID: 0}
   executeEveryTick: 0
-  useViewDistance: 0
+  useViewDistance: 1
   radiusIfNotUsingViewDistance: 0
 --- !u!1001 &7759578580696897634
 PrefabInstance:

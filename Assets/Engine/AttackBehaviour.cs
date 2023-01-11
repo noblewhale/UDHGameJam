@@ -18,7 +18,8 @@ namespace Noble.TileEngine
 
 		override public void StartAction()
 		{
-			owner.tickable.nextActionTime = TimeManager.instance.Time + identityCreature.ticksPerAttack;
+            Debug.Log("Start Action");
+            owner.tickable.nextActionTime = TimeManager.instance.Time + identityCreature.ticksPerAttack;
 			foreach (var dOb in targetTile.objectList)
 			{
 				if (dOb.isCollidable)
@@ -160,5 +161,11 @@ namespace Noble.TileEngine
 				weapon.FinishSubAction(time);
 			}
 		}
+
+		public override float GetActionConfidence()
+		{
+			return .5f;
+		}
+
 	}
 }
