@@ -52,7 +52,7 @@
                     if (Time >= ob.nextActionTime)
                     {
                         var behaviours = ob.GetBehavioursToExecute();
-
+                        Debug.Log(behaviours[0]);
                         if (behaviours != null && behaviours.Count != 0)
                         {
                             foreach (var behaviour in behaviours)

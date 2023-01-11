@@ -78,7 +78,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageFlashColor: {r: 1, g: 0, b: 0, a: 1}
-  glyphs: []
 --- !u!1 &3196843922296835516
 GameObject:
   m_ObjectHideFlags: 0
@@ -91,6 +90,7 @@ GameObject:
   - component: {fileID: 3300392959844046706}
   - component: {fileID: 3300319173108635374}
   - component: {fileID: 7351972079377745321}
+  - component: {fileID: 7255016432821685811}
   m_Layer: 0
   m_Name: Fishing Pole
   m_TagString: Untagged
@@ -130,27 +130,53 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectName: Fishing Pole
   illuminationRange: 0
-  OnSteppedOn:
-    m_PersistentCalls:
-      m_Calls: []
-  OnPreSteppedOn:
-    m_PersistentCalls:
-      m_Calls: []
-  originalGlyphPosition: {x: 0, y: 0, z: 0}
-  previousTilePosition: {x: 0, y: 0}
   quantity: 1
   canBePickedUp: 1
   canTakeDamage: 0
   isVisibleWhenNotInSight: 1
   pathingWeight: 0
   guiIcon: {fileID: 1204894190351212166}
-  maxHealth: 1
   isCollidable: 0
   blocksLineOfSight: 0
   coversObjectsBeneath: 0
   preventsObjectSpawning: 0
-  hasDoneDamageFlash: 0
   autoAddToTileAtStart: 0
+  OnSteppedOn:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPreSteppedOn:
+    m_PersistentCalls:
+      m_Calls: []
+  onMove:
+    m_PersistentCalls:
+      m_Calls: []
+  onSetPosition:
+    m_PersistentCalls:
+      m_Calls: []
+  onPreMove:
+    m_PersistentCalls:
+      m_Calls: []
+  onPreSetPosition:
+    m_PersistentCalls:
+      m_Calls: []
+  onPickedUpObject:
+    m_PersistentCalls:
+      m_Calls: []
+  onPickedUp:
+    m_PersistentCalls:
+      m_Calls: []
+  onCollision:
+    m_PersistentCalls:
+      m_Calls: []
+  onDeath:
+    m_PersistentCalls:
+      m_Calls: []
+  onSpawn:
+    m_PersistentCalls:
+      m_Calls: []
+  onTakeDamage:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &3300319173108635374
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -186,11 +212,29 @@ MonoBehaviour:
   useOverrideSlot: 1
   overrideSlot: 7
   occupyExtraSlots: 0000000001000000
-  autoEquip: 0
-  autoEquipSlot: 8
+  autoEquip: 1
+  autoEquipSlot: 7
   objectsToEnableForSlot: []
-  actualSlot: 0
+  assignedSlot: 0
   parentItem: {fileID: 0}
+--- !u!114 &7255016432821685811
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3196843922296835516}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a05bdfdfd72186429ead16c258fb890, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  owner: {fileID: 0}
+  executeEveryTick: 0
+  aimingRadius: 3
+  shapeSprite: {fileID: 1709452272, guid: 56dc95184da85084d877a2ed4892f9d1, type: 3}
+  shape: []
+  level: 0
 --- !u!1 &3196934914895267844
 GameObject:
   m_ObjectHideFlags: 0

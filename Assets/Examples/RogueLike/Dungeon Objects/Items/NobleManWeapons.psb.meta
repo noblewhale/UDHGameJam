@@ -97,8 +97,8 @@ ScriptedImporter:
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
-      x: 4
-      y: 76
+      x: 76
+      y: 74
       width: 22
       height: 22
     spriteID: fa6b3a5ac22de7342b37d304743a4942
@@ -110,7 +110,7 @@ ScriptedImporter:
     edges: []
     tessellationDetail: 0
     parentGroupIndex: -1
-    uvTransform: {x: -4, y: 67}
+    uvTransform: {x: 68, y: 65}
   - name: Bronze Spear
     originalName: 
     pivot: {x: 0, y: 0}
@@ -118,7 +118,7 @@ ScriptedImporter:
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
-      x: 76
+      x: 116
       y: 4
       width: 8
       height: 62
@@ -131,7 +131,112 @@ ScriptedImporter:
     edges: []
     tessellationDetail: 0
     parentGroupIndex: -1
-    uvTransform: {x: 35, y: 4}
+    uvTransform: {x: 75, y: 4}
+  - name: Layer 8
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 76
+      y: 4
+      width: 32
+      height: 62
+    spriteID: 5c825f7f11a47ab41b182ea1e4bf92ee
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 60, y: 4}
+  - name: Bronze Sword
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 116
+      y: 74
+      width: 8
+      height: 37
+    spriteID: 0f7e143279574614b830bfca8018616d
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 75, y: 51}
+  - name: Alien Dagger
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 76
+      width: 6
+      height: 21
+    spriteID: 9fbe3c53969772b4a8789e143d8abec3
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: -38, y: 52}
+  - name: Coffee Cup
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 76
+      y: 104
+      width: 8
+      height: 12
+    spriteID: d666cbf5609ba5247836ee960d2a180f
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 40, y: 78}
+  - name: Layer 5
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 4
+      width: 64
+      height: 64
+    spriteID: 7d9366331b1d2484a810754972fd3962
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 4, y: 4}
   rigSpriteImportData:
   - name: Layer 5
     originalName: 
@@ -222,7 +327,7 @@ ScriptedImporter:
     parentIndex: -1
     spriteID: fa6b3a5ac22de7342b37d304743a4942
     layerID: 147
-    mosaicPosition: {x: 4, y: 76}
+    mosaicPosition: {x: 76, y: 74}
     flatten: 0
     isImported: 1
     isVisible: 0
@@ -232,7 +337,47 @@ ScriptedImporter:
     parentIndex: -1
     spriteID: 5a9e51cdd7051e74cbef82e1ecac4c28
     layerID: 73
+    mosaicPosition: {x: 116, y: 4}
+    flatten: 0
+    isImported: 1
+    isVisible: 0
+  - name: Layer 8
+    spriteName: Layer 8
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 5c825f7f11a47ab41b182ea1e4bf92ee
+    layerID: 174
     mosaicPosition: {x: 76, y: 4}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: Bronze Sword
+    spriteName: Bronze Sword
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 0f7e143279574614b830bfca8018616d
+    layerID: 175
+    mosaicPosition: {x: 116, y: 74}
+    flatten: 0
+    isImported: 1
+    isVisible: 0
+  - name: Alien Dagger
+    spriteName: Alien Dagger
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 9fbe3c53969772b4a8789e143d8abec3
+    layerID: 176
+    mosaicPosition: {x: 4, y: 76}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: Coffee Cup
+    spriteName: Coffee Cup
+    isGroup: 0
+    parentIndex: -1
+    spriteID: d666cbf5609ba5247836ee960d2a180f
+    layerID: 169
+    mosaicPosition: {x: 76, y: 104}
     flatten: 0
     isImported: 1
     isVisible: 0

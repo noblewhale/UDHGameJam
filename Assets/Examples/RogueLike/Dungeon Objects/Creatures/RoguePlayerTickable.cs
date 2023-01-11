@@ -24,6 +24,13 @@
             }
             else if (command.key == Key.F)
             {
+                
+                if (owner.Equipment.GetEquipment(Equipment.Slot.TWO_HANDED)!=null)
+                {
+                    Debug.Log("F this");
+                    return owner.Equipment.GetEquipment(Equipment.Slot.TWO_HANDED).GetComponent<TickableBehaviour>();
+                }
+                
                 return owner.Equipment.GetEquipment(Equipment.Slot.LEFT_HAND_WEAPON).GetComponent<TickableBehaviour>();
             }
             else
