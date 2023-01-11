@@ -34,7 +34,11 @@
             {
                 for (currentTickableNode = tickableObjects.Last; currentTickableNode != null; )
                 {
-                    if (currentTickableNode.Value.markedForRemoval) continue;
+                    if (currentTickableNode.Value.markedForRemoval)
+                    {
+                        currentTickableNode = currentTickableNode.Previous;
+                        continue; 
+                    }
 
                     var ob = currentTickableNode.Value;
 
