@@ -23,7 +23,7 @@
         {
             behaviours = GetComponents<TickableBehaviour>().ToList();
             owner = GetComponent<DungeonObject>();
-            owner.onDeath += OnDeath;
+            owner.onDeath.AddListener(OnDeath);
         }
 
         virtual public void Start()
@@ -33,11 +33,11 @@
 
         virtual public void OnDestroy()
         {
-            owner.onDeath -= OnDeath;
+            owner.onDeath.RemoveListener(OnDeath);
             markedForRemoval = true;
         }
 
-        void OnDeath()
+        void OnDeath(DungeonObject _)
         {
             markedForRemoval = true;
         }

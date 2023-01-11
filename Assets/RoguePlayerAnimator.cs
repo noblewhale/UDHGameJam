@@ -2,7 +2,6 @@ using Noble.TileEngine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 public class RoguePlayerAnimator : MonoBehaviour
 {
@@ -20,8 +19,10 @@ public class RoguePlayerAnimator : MonoBehaviour
     {
         // TODO: These should really only be set when they change
         var healthProperty = creature.baseObject.GetProperty<int>("Health");
+        var maxHealthProperty = creature.baseObject.GetProperty<int>("Max Health");
         int health = healthProperty.GetValue();
-        playerAnimator.SetFloat("Health", (float)health / creature.maxHealth);
+        int maxHealth = maxHealthProperty.GetValue(); ;
+        playerAnimator.SetFloat("Health", (float)health / maxHealth);
         Equipable twoHandWeapon = creature.GetEquipment(Equipment.Slot.TWO_HANDED);
         if (twoHandWeapon)
         {

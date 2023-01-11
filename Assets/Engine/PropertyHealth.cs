@@ -7,17 +7,17 @@ namespace Noble.TileEngine
     {
         public void Awake()
         {
-            GetComponent<DungeonObject>().onTakeDamage += OnTakeDamage;
+            GetComponent<DungeonObject>().onTakeDamage.AddListener(OnTakeDamage);
         }
 
-        void OnTakeDamage(int damage)
+        void OnTakeDamage(DungeonObject ob, int damage)
         {
             int newHealth = Mathf.Max(0, _value - damage);
             SetValue(newHealth);
 
             if (newHealth == 0)
             {
-                GetComponent<DungeonObject>().Die();
+                ob.Die();
             }
         }
     }

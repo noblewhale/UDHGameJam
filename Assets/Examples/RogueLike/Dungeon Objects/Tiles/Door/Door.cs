@@ -20,7 +20,12 @@
             {
                 SetLocked(isLocked);
             }
-            base.onCollision += OnCollision;
+            base.onCollision.AddListener(OnCollision);
+        }
+
+        private void OnDestroy()
+        {
+            base.onCollision.RemoveListener(OnCollision);
         }
 
         // Update is called once per frame

@@ -1,12 +1,11 @@
 ﻿namespace Noble.TileEngine
 {
     using System;
-    using System.Collections;
     using System.Collections.Generic;
     using UnityEngine;
     using UnityEngine.Events;
     using System.Linq;
-    using UnityEngine.Tilemaps;
+    using static Noble.TileEngine.DungeonObject;
 
     public class DungeonObject : MonoBehaviour
     {
@@ -22,26 +21,18 @@
         }
 
         public Equipment Equipment => Creature?.Equipment;
-        Equipable _equipable;
-        public Equipable Equipable 
-        {
-            get
-            {
-                if (_equipable == null)
-                {
-                    _equipable = GetComponent<Equipable>();
-                }
 
+        Equipable _equipable;
+        public Equipable Equipable {
+            get {
+                if (_equipable == null)_equipable = GetComponent<Equipable>();
                 return _equipable;
             }
         }
 
-        [Serializable]
-        public class CreatureEvent : UnityEvent<DungeonObject> { }
-
         public float illuminationRange = 0;
-        public CreatureEvent OnSteppedOn;
-        public CreatureEvent OnPreSteppedOn;
+
+        [NonSerialized]
         public Vector3 originalGlyphPosition;
         public Map map => Map.instance;
 
@@ -50,6 +41,7 @@
         public int x => tilePosition.x;
         public int y => tilePosition.y;
 
+        [NonSerialized]
         public Vector2Int previousTilePosition;
         public int quantity = 1;
         public bool canBePickedUp;
@@ -90,29 +82,49 @@
                 return _properties;
             }
         }
-        public int maxHealth = 1;
-        //public int health = 1;
+
         public bool isCollidable = true;
         public bool blocksLineOfSight = false;
         public bool coversObjectsBeneath = false;
         public bool preventsObjectSpawning = false;
         bool hasBeenSeen = false;
-        public bool hasDoneDamageFlash = false;
 
-        public event Action<Vector2Int, Vector2Int> onMove;
-        public event Action<Vector2Int, Vector2Int> onSetPosition;
-        public event Action<Vector2Int, Vector2Int> onPreMove;
-        public event Action<Vector2Int, Vector2Int> onPreSetPosition;
-        public event Action<DungeonObject> onPickedUpObject;
-        public event Action<DungeonObject> onPickedUp;
-        public event Action<DungeonObject, bool> onCollision;
-        public event Action onDeath;
-        public event Action onSpawn;
-        public event Action<int> onTakeDamage;
         public Tile tile;
         public bool autoAddToTileAtStart = true;
 
         public Tickable tickable { get; private set; }
+
+        [Serializable]
+        public class DungeonObjectEvent : UnityEvent<DungeonObject> { }
+        [Serializable]
+        public class DungeonObjectEvent<T> : UnityEvent<DungeonObject, T> { }
+        [Serializable]
+        public class DungeonObjectEvent<T1, T2> : UnityEvent<DungeonObject, T1, T2> { }
+
+        [HideInInspector]
+        public DungeonObjectEvent OnSteppedOn;
+        [HideInInspector]
+        public DungeonObjectEvent OnPreSteppedOn;
+        [HideInInspector]
+        public DungeonObjectEvent<Vector2Int, Vector2Int> onMove;
+        [HideInInspector]
+        public DungeonObjectEvent<Vector2Int, Vector2Int> onSetPosition;
+        [HideInInspector]
+        public DungeonObjectEvent<Vector2Int, Vector2Int> onPreMove;
+        [HideInInspector]
+        public DungeonObjectEvent<Vector2Int, Vector2Int> onPreSetPosition;
+        [HideInInspector]
+        public DungeonObjectEvent<DungeonObject> onPickedUpObject;
+        [HideInInspector]
+        public DungeonObjectEvent<DungeonObject> onPickedUp;
+        [HideInInspector]
+        public DungeonObjectEvent<bool> onCollision;
+        [HideInInspector]
+        public DungeonObjectEvent onDeath;
+        [HideInInspector]
+        public DungeonObjectEvent onSpawn;
+        [HideInInspector]
+        public DungeonObjectEvent<int> onTakeDamage;
 
         virtual protected void Awake()
         {
@@ -144,7 +156,7 @@
 
         public void Spawn()
         {
-            onSpawn?.Invoke();
+            onSpawn?.Invoke(this);
         }
 
         public Property<T> GetProperty<T>(string propertyName)
@@ -162,6 +174,7 @@
 
         public void UpdateLighting()
         {
+            if (tile == null) return;
             if (illuminationRange == 0) return;
 
             if (illuminationRange < .5f)
@@ -229,7 +242,7 @@
 
         public void CollideWith(DungeonObject ob, bool isInstigator)
         {
-            if (onCollision != null) onCollision(ob, isInstigator);
+            onCollision?.Invoke(ob, isInstigator);
         }
 
         public void SteppedOn(DungeonObject creature)
@@ -244,7 +257,6 @@
 
         public void DamageFlash(float animationTime)
         {
-            hasDoneDamageFlash = true;
             glyphs.DamageFlash(animationTime);
         }
 
@@ -252,14 +264,12 @@
         {
             if (!canTakeDamage) return;
 
-            hasDoneDamageFlash = false;
-
-            onTakeDamage?.Invoke(v);
+            onTakeDamage.Invoke(this, v);
         }
 
         virtual public void Die()
         {
-            if (onDeath != null) onDeath();
+            if (onDeath != null) onDeath.Invoke(this);
             tile.objectList.Remove(this);
             DropItems();
             Destroy(gameObject);
@@ -298,8 +308,8 @@
                 inventory.items.Add(objectToPickUp.objectName, objectToPickUp);
             }
             objectToPickUp.transform.position = new Vector3(-666, -666, -666);
-            if (onPickedUpObject != null) onPickedUpObject(objectToPickUp);
-            if (objectToPickUp.onPickedUp != null) objectToPickUp.onPickedUp(this);
+            if (onPickedUpObject != null) onPickedUpObject.Invoke(this, objectToPickUp);
+            if (objectToPickUp.onPickedUp != null) objectToPickUp.onPickedUp.Invoke(objectToPickUp, this);
         }
 
         public void Move(Vector2Int pos)
@@ -309,13 +319,16 @@
 
         public void SetPosition(Vector2Int position, bool isMove = false)
         {
-            if (isMove && onPreMove != null) onPreMove(tilePosition, position);
-            if (onPreSetPosition != null) onPreSetPosition(tilePosition, position);
+            if (tile != null)
+            {
+                if (isMove && onPreMove != null) onPreMove.Invoke(this, tilePosition, position);
+                onPreSetPosition?.Invoke(this, tilePosition, position);
+            }
 
             tile = map.GetTile(position);
 
-            if (isMove && onMove != null) onMove(previousTilePosition, tilePosition);
-            if (onSetPosition != null) onSetPosition(previousTilePosition, tilePosition);
+            if (isMove && onMove != null) onMove.Invoke(this, previousTilePosition, tilePosition);
+            if (onSetPosition != null) onSetPosition.Invoke(this, previousTilePosition, tilePosition);
 
 
             if (isMove)

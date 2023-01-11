@@ -38,6 +38,7 @@
             }
         }
 
+        [NonSerialized]
         public Direction lastDirectionAttackedOrMoved = Direction.UP;
 
         public Coroutine attackAnimationProcess;
@@ -50,7 +51,9 @@
             } 
         }
 
+        [NonSerialized]
         public DungeonObject baseObject;
+        [NonSerialized]
         public Tickable tickable;
 
         public Vector2Int tilePosition => baseObject.tilePosition;
@@ -59,14 +62,13 @@
         public Map map => baseObject.map;
         public Inventory inventory => baseObject.inventory;
 
-        public int maxHealth { get { return baseObject.maxHealth; } }
-        //public int health { get { return baseObject.health; } }
         public int gold { get { return baseObject.gold; } }
 
+        [NonSerialized]
         public float attackAnimationTime = 0;
+
         public float attackAnimationDuration = .5f;
         public float attackAnimationScale = 1;
-        //bool attackWillHit = false;
 
         MentalMap mentalMap;
 
@@ -74,8 +76,8 @@
         {
             baseObject = GetComponent<DungeonObject>();
             tickable = GetComponent<Tickable>();
-            baseObject.onMove += OnMove;
-            baseObject.onPreMove += OnPreMove;
+            baseObject.onMove.AddListener(OnMove);
+            baseObject.onPreMove.RemoveListener(OnPreMove);
         }
 
         private void Start()
@@ -83,12 +85,12 @@
             mentalMap = new MentalMap();
         }
 
-        void OnPreMove(Vector2Int pos, Vector2Int newPos)
+        void OnPreMove(DungeonObject _, Vector2Int pos, Vector2Int newPos)
         {
             map.GetTile(newPos).PreStepOn(baseObject);
         }
 
-        void OnMove(Vector2Int oldPos, Vector2Int newPos)
+        void OnMove(DungeonObject _, Vector2Int oldPos, Vector2Int newPos)
         {
             lastDirectionAttackedOrMoved = GetDirection(oldPos, newPos);
 

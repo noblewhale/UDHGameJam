@@ -71,6 +71,8 @@ namespace Noble.DungeonCrawler
 
         public void UpdatePosition()
         {
+            if (owner.tile == null) return;
+
             Map.instance.MoveObject(this, owner.tilePosition);
         }
     }

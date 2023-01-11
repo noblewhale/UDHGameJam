@@ -21,16 +21,16 @@
 
         public void Start()
         {
-            Player.Identity.onSpawn += OnPlayerSpawned;
+            Player.Identity.onSpawn.AddListener(OnPlayerSpawned);
             targetPos = transform.position;
         }
 
         private void OnDestroy()
         {
-            Player.Identity.onSpawn -= OnPlayerSpawned;
+            Player.Identity.onSpawn.RemoveListener(OnPlayerSpawned);
         }
 
-        void OnPlayerSpawned()
+        void OnPlayerSpawned(DungeonObject _)
         {
             CameraTarget.instance.UpdatePosition();
 

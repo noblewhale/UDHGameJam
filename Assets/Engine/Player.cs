@@ -18,7 +18,7 @@
         {
             instance = this;
 
-            identity.onSetPosition += OnPositionChange;
+            identity.onSetPosition.AddListener(OnPositionChange);
         }
 
         public virtual void Start()
@@ -26,10 +26,10 @@
             Map.instance.OnMapLoaded += OnMapLoaded;
         }
 
-        void OnPositionChange(Vector2Int oldPos, Vector2Int newPos)
+        void OnPositionChange(DungeonObject ob, Vector2Int oldPos, Vector2Int newPos)
         {
-            Map.instance.UpdateIsVisible(oldPos, identity.GetComponent<Creature>().effectiveViewDistance, false);
-            Map.instance.UpdateIsVisible(newPos, identity.GetComponent<Creature>().effectiveViewDistance, true);
+            Map.instance.UpdateIsVisible(oldPos, ob.Creature.effectiveViewDistance, false);
+            Map.instance.UpdateIsVisible(newPos, ob.Creature.effectiveViewDistance, true);
         }
 
         void OnMapLoaded()

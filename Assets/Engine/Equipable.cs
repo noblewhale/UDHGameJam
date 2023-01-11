@@ -71,7 +71,7 @@ namespace Noble.TileEngine
             {
                 _objectsToEnableForSlot.Add(slotObject.slot, slotObject.ob);
             }
-            DungeonObject.onPickedUp += OnPickedUp;
+            DungeonObject.onPickedUp.AddListener(OnPickedUp);
         }
 
         public void Start()
@@ -86,10 +86,10 @@ namespace Noble.TileEngine
 
         public void OnDestroy()
         {
-            DungeonObject.onPickedUp -= OnPickedUp;
+            DungeonObject.onPickedUp.RemoveListener(OnPickedUp);
         }
 
-        void OnPickedUp(DungeonObject equipper)
+        void OnPickedUp(DungeonObject _, DungeonObject equipper)
         {
             if (!autoEquip) return;
 
