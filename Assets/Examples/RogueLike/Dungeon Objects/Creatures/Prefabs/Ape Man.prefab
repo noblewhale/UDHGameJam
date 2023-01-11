@@ -59,8 +59,9 @@ GameObject:
   - component: {fileID: 9140996343759105234}
   - component: {fileID: -666644008462866357}
   - component: {fileID: 1189452424725527280}
-  - component: {fileID: -5608545811395557503}
   - component: {fileID: 5911172150504259820}
+  - component: {fileID: -174278571811022796}
+  - component: {fileID: 2041316919}
   m_Layer: 0
   m_Name: Ape Man
   m_TagString: Untagged
@@ -185,20 +186,6 @@ MonoBehaviour:
     onlySpawnOn: []
     dontSpawnOn: []
     requireSpawnable: 0
---- !u!114 &-5608545811395557503
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7650685111929252365}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 34ffcf7667e5c7b4da20d0da498f6cd9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  owner: {fileID: 0}
-  executeEveryTick: 0
 --- !u!114 &5911172150504259820
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -215,6 +202,34 @@ MonoBehaviour:
   executeEveryTick: 0
   useViewDistance: 1
   radiusIfNotUsingViewDistance: 0
+--- !u!114 &-174278571811022796
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7650685111929252365}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32a1aeab73ec2a544b64ed1450be1142, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _value: 1
+  _propertyName: Health
+--- !u!114 &2041316919
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7650685111929252365}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 833be36acda985c40b8919bf0b143819, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  owner: {fileID: 0}
+  executeEveryTick: 0
 --- !u!1001 &7759578580696897634
 PrefabInstance:
   m_ObjectHideFlags: 0

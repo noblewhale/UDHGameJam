@@ -52,7 +52,8 @@ namespace Noble.TileEngine
 
 			if (targetCreature != null)
 			{
-				float roll = Random.Range(0, 20);
+                Debug.Log("Target Spotted");
+                float roll = Random.Range(0, 20);
 				int attackerDex = identityCreature.baseObject.GetPropertyValue<int>("Dexterity");
 				int defenderDex = targetCreature.baseObject.GetPropertyValue<int>("Dexterity");
 				int defenderArmor = targetCreature.baseObject.GetPropertyValue<int>("Armor");
@@ -149,7 +150,8 @@ namespace Noble.TileEngine
 				// Got past armor / defense
 				if (!weapon)
 				{
-					targetCreature.baseObject.TakeDamage(1);
+                    Debug.Log("Target Hit");
+                    targetCreature.baseObject.TakeDamage(1);
 				}
 			}
 

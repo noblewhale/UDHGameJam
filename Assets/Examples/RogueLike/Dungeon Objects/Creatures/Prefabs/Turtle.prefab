@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 114822529988612696}
   - component: {fileID: 114129307105589948}
   - component: {fileID: 114178137825594656}
+  - component: {fileID: -5110999215488496214}
   m_Layer: 0
   m_Name: Turtle
   m_TagString: Untagged
@@ -59,7 +60,6 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   originalGlyphPosition: {x: 0, y: 0, z: 0}
-  map: {fileID: 0}
   previousTilePosition: {x: 0, y: 0}
   quantity: 1
   canBePickedUp: 0
@@ -67,7 +67,7 @@ MonoBehaviour:
   isVisibleWhenNotInSight: 0
   pathingWeight: 0
   guiIcon: {fileID: 0}
-  health: 11
+  maxHealth: 1
   isCollidable: 1
   blocksLineOfSight: 0
   coversObjectsBeneath: 0
@@ -86,13 +86,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bcd10d15a30478449e00ad96e33416d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mana: 0
-  strength: 0
-  dexterity: 0
-  constitution: 0
-  intelligence: 0
-  charisma: 0
-  defense: 0
   viewDistance: 4
   ticksPerMove: 2
   ticksPerAttack: 1
@@ -130,13 +123,6 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   lastDirectionAttackedOrMoved: 0
-  leftHandObject: {fileID: 0}
-  rightHandObject: {fileID: 0}
-  rightHand: {fileID: 0}
-  leftHand: {fileID: 0}
-  chest: {fileID: 0}
-  helmet: {fileID: 0}
-  pants: {fileID: 0}
   baseObject: {fileID: 0}
   tickable: {fileID: 0}
   attackAnimationTime: 0
@@ -211,6 +197,20 @@ MonoBehaviour:
     onlySpawnOn: []
     dontSpawnOn: []
     requireSpawnable: 1
+--- !u!114 &-5110999215488496214
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1079141470586608}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32a1aeab73ec2a544b64ed1450be1142, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _value: 30
+  _propertyName: Health
 --- !u!1 &1125687164467710
 GameObject:
   m_ObjectHideFlags: 0
@@ -257,7 +257,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageFlashColor: {r: 1, g: 0, b: 0, a: 1}
-  glyphs: []
 --- !u!1 &1565732633263944
 GameObject:
   m_ObjectHideFlags: 0
@@ -357,4 +356,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tint: {r: 1, g: 1, b: 1, a: 1}
   extraTint: {r: 1, g: 1, b: 1, a: 1}
-  isLit: 0
+  originalColor: {r: 0, g: 0, b: 0, a: 0}
