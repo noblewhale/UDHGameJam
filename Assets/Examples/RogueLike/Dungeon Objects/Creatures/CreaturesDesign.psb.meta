@@ -91,48 +91,6 @@ ScriptedImporter:
     uvTransform: {x: 0, y: 0}
   mosaicSpriteImportData: []
   rigSpriteImportData:
-  - name: Layer 13
-    originalName: 
-    pivot: {x: 0.5, y: 0.5}
-    alignment: 0
-    border: {x: 0, y: 0, z: 0, w: 0}
-    rect:
-      serializedVersion: 2
-      x: 67
-      y: 76
-      width: 27
-      height: 34
-    spriteID: 93eae15120f654249bb436454e240bac
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    parentGroupIndex: -1
-    uvTransform: {x: 47, y: 47}
-  - name: Layer 15
-    originalName: 
-    pivot: {x: 0.5, y: 0.5}
-    alignment: 0
-    border: {x: 0, y: 0, z: 0, w: 0}
-    rect:
-      serializedVersion: 2
-      x: 4
-      y: 76
-      width: 55
-      height: 63
-    spriteID: c405fff3ad18b514d8fe9f8a44e2869e
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    parentGroupIndex: -1
-    uvTransform: {x: -1, y: 76}
   - name: Layer 9
     originalName: 
     pivot: {x: 0.5, y: 0.5}
@@ -140,8 +98,8 @@ ScriptedImporter:
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
-      x: 67
-      y: 160
+      x: 101
+      y: 76
       width: 10
       height: 60
     spriteID: b378f1df2e3a5ba468b26dd7f9fba80d
@@ -153,7 +111,7 @@ ScriptedImporter:
     edges: []
     tessellationDetail: 0
     parentGroupIndex: -1
-    uvTransform: {x: 21, y: 160}
+    uvTransform: {x: 45, y: 76}
   - name: Layer 6
     originalName: 
     pivot: {x: 0.5, y: 0.5}
@@ -161,8 +119,8 @@ ScriptedImporter:
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
-      x: 4
-      y: 147
+      x: 76
+      y: 220
       width: 50
       height: 59
     spriteID: c42e4c531ad43064f845fd7a3ddc540c
@@ -174,7 +132,7 @@ ScriptedImporter:
     edges: []
     tessellationDetail: 0
     parentGroupIndex: -1
-    uvTransform: {x: -2, y: 147}
+    uvTransform: {x: 60, y: 220}
   - name: Layer 7
     originalName: 
     pivot: {x: 0.5, y: 0.5}
@@ -182,8 +140,8 @@ ScriptedImporter:
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
-      x: 67
-      y: 228
+      x: 134
+      y: 119
       width: 23
       height: 24
     spriteID: f47490357e3980748b8453230b5c2d57
@@ -195,18 +153,312 @@ ScriptedImporter:
     edges: []
     tessellationDetail: 0
     parentGroupIndex: -1
-    uvTransform: {x: 47, y: 217}
-  - name: Layer 16
+    uvTransform: {x: 104, y: 108}
+  - name: Ape King Head
     originalName: 
     pivot: {x: 0.5, y: 0.5}
     alignment: 0
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
-      x: 67
-      y: 118
-      width: 27
+      x: 76
+      y: 292
+      width: 31
       height: 34
+    spriteID: 4220437c641e36c42b6373889ecf93f6
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 16, y: 263}
+  - name: Ape King Body
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 70
+      y: 364
+      width: 55
+      height: 45
+    spriteID: c405fff3ad18b514d8fe9f8a44e2869e
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 23, y: 364}
+  - name: Gorilla Head
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 134
+      y: 4
+      width: 27
+      height: 33
+    spriteID: 0064df4d1f1ecb44e83cb421bda6f42b
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 105, y: -27}
+  - name: Gorilla Gloves
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 169
+      y: 62
+      width: 32
+      height: 18
+    spriteID: 7de07e5943be9aa4493d225a9f2902de
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 141, y: 48}
+  - name: Gorilla Chest Armor
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 134
+      y: 151
+      width: 27
+      height: 20
+    spriteID: 5d8389ba14d533e4e830d52a7ffa7e5b
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 105, y: 134}
+  - name: Gorilla Boots
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 134
+      y: 347
+      width: 21
+      height: 10
+    spriteID: 102ed09ed0c14ea42b561997019344aa
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 102, y: 347}
+  - name: Gorilla Pants
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 134
+      y: 321
+      width: 12
+      height: 18
+    spriteID: 8e7f4ead139eb5b46aa387f32e473641
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 98, y: 317}
+  - name: Gorilla Arms
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 76
+      y: 334
+      width: 32
+      height: 21
+    spriteID: e2c44083f1159bb4cacb1e1f03015a87
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 48, y: 320}
+  - name: Gorilla Legs
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 134
+      y: 179
+      width: 21
+      height: 18
+    spriteID: 6b29e410f38bb034f9d7050e65275cc0
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 102, y: 179}
+  - name: Gorilla Torso
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 110
+      y: 468
+      width: 12
+      height: 24
+    spriteID: 76921081756f9074392440bd788d8c25
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 74, y: 454}
+  - name: Chimp Head
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 134
+      y: 45
+      width: 27
+      height: 29
+    spriteID: a5348ff7aba7053438964366460ba36b
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 37, y: 12}
+  - name: Chimp Arms
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 169
+      y: 4
+      width: 32
+      height: 21
+    spriteID: c7e66c3e44804a345a998ed45f99d4f6
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 73, y: -10}
+  - name: Chimp Legs
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 134
+      y: 205
+      width: 21
+      height: 18
+    spriteID: 13afbd276c7b7434db2e0c7cf9c8abe3
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 34, y: 205}
+  - name: Chimp Torso
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 134
+      y: 257
+      width: 12
+      height: 24
+    spriteID: ba742886e59bb814aa02778a05c516c4
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 30, y: 243}
+  - name: Orang Head
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 134
+      y: 82
+      width: 27
+      height: 29
     spriteID: ccea2efe45678ff4882be6915d02e561
     spriteBone: []
     spriteOutline: []
@@ -216,7 +468,70 @@ ScriptedImporter:
     edges: []
     tessellationDetail: 0
     parentGroupIndex: -1
-    uvTransform: {x: 50, y: 88}
+    uvTransform: {x: 133, y: 49}
+  - name: Orang Arms
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 169
+      y: 33
+      width: 32
+      height: 21
+    spriteID: 2165bbcd2de56f247a8e7bbad7d3ab87
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 169, y: 19}
+  - name: 'Orang Legs '
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 134
+      y: 231
+      width: 21
+      height: 18
+    spriteID: 9a5d7140254d0b343af6122af0c5b820
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 130, y: 231}
+  - name: Orang Torso
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 134
+      y: 289
+      width: 12
+      height: 24
+    spriteID: f9207f6b0254e734e81799ba87439a5f
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 126, y: 275}
   - name: Layer 17
     originalName: 
     pivot: {x: 0.5, y: 0.5}
@@ -224,8 +539,8 @@ ScriptedImporter:
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
-      x: 4
-      y: 214
+      x: 70
+      y: 468
       width: 32
       height: 36
     spriteID: 18d3f23b61bf6bc4eae03e04a2c8f249
@@ -237,16 +552,16 @@ ScriptedImporter:
     edges: []
     tessellationDetail: 0
     parentGroupIndex: -1
-    uvTransform: {x: -12, y: 214}
-  - name: Layer 5
+    uvTransform: {x: 54, y: 468}
+  - name: Man Model
     originalName: 
     pivot: {x: 0.5, y: 0.5}
     alignment: 0
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
-      x: 76
-      y: 4
+      x: 92
+      y: 148
       width: 32
       height: 62
     spriteID: 9a2ed2d3411029347b4591785946b59a
@@ -258,8 +573,29 @@ ScriptedImporter:
     edges: []
     tessellationDetail: 0
     parentGroupIndex: -1
-    uvTransform: {x: 60, y: 4}
-  - name: Layer 0
+    uvTransform: {x: 76, y: 148}
+  - name: Layer 29
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 220
+      width: 64
+      height: 64
+    spriteID: abb290f4f9868484ab6dcc91e25284d3
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: -60, y: 220}
+  - name: Layer 28
     originalName: 
     pivot: {x: 0.5, y: 0.5}
     alignment: 0
@@ -268,6 +604,132 @@ ScriptedImporter:
       serializedVersion: 2
       x: 4
       y: 4
+      width: 122
+      height: 64
+    spriteID: 1821c2c7f45b9f54c8e9cd9dad3b9ad1
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: -2, y: 4}
+  - name: Layer 27
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 76
+      width: 89
+      height: 64
+    spriteID: 4c925238f18f54444a575bfe80da2e38
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: -35, y: 76}
+  - name: Layer 26
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 148
+      width: 80
+      height: 64
+    spriteID: fc1bd062362b2e44db399abb52351409
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: -44, y: 148}
+  - name: Layer 21
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 70
+      y: 417
+      width: 56
+      height: 43
+    spriteID: 7f7595216b5d60b42a27ef75adbde1fe
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: -2, y: 396}
+  - name: Layer 22
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 435
+      width: 54
+      height: 58
+    spriteID: 1d9584759af7d844dae338ac6e54aef1
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: -70, y: 434}
+  - name: Layer 25
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 364
+      width: 58
+      height: 63
+    spriteID: 23782a66cc4ef8840af127e96c18ef08
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: -61, y: 363}
+  - name: Layer 0
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 292
       width: 64
       height: 64
     spriteID: bf61c5dcbe9cda448831013af691b763
@@ -279,7 +741,7 @@ ScriptedImporter:
     edges: []
     tessellationDetail: 0
     parentGroupIndex: -1
-    uvTransform: {x: 4, y: 4}
+    uvTransform: {x: 4, y: 292}
   characterData:
     bones: []
     parts: []
@@ -352,64 +814,254 @@ ScriptedImporter:
     mosaicPosition: {x: 0, y: 0}
     flatten: 0
     isImported: 0
-    isVisible: 0
-  - name: Layer 13
-    spriteName: Layer 13
-    isGroup: 0
-    parentIndex: 0
-    spriteID: 93eae15120f654249bb436454e240bac
-    layerID: 19
-    mosaicPosition: {x: 67, y: 76}
-    flatten: 0
-    isImported: 1
-    isVisible: 1
-  - name: Layer 15
-    spriteName: Layer 15
-    isGroup: 0
-    parentIndex: 0
-    spriteID: c405fff3ad18b514d8fe9f8a44e2869e
-    layerID: 21
-    mosaicPosition: {x: 4, y: 76}
-    flatten: 0
-    isImported: 1
     isVisible: 1
   - name: Layer 9
     spriteName: Layer 9
     isGroup: 0
-    parentIndex: -1
+    parentIndex: 0
     spriteID: b378f1df2e3a5ba468b26dd7f9fba80d
     layerID: 13
-    mosaicPosition: {x: 67, y: 160}
+    mosaicPosition: {x: 101, y: 76}
     flatten: 0
     isImported: 1
     isVisible: 0
   - name: Layer 6
     spriteName: Layer 6
     isGroup: 0
-    parentIndex: -1
+    parentIndex: 0
     spriteID: c42e4c531ad43064f845fd7a3ddc540c
     layerID: 9
-    mosaicPosition: {x: 4, y: 147}
+    mosaicPosition: {x: 76, y: 220}
     flatten: 0
     isImported: 1
     isVisible: 0
   - name: Layer 7
     spriteName: Layer 7
     isGroup: 0
-    parentIndex: -1
+    parentIndex: 0
     spriteID: f47490357e3980748b8453230b5c2d57
     layerID: 10
-    mosaicPosition: {x: 67, y: 228}
+    mosaicPosition: {x: 134, y: 119}
     flatten: 0
     isImported: 1
     isVisible: 0
-  - name: Layer 16
-    spriteName: Layer 16
+  - name: Ape King Head
+    spriteName: Ape King Head
     isGroup: 0
+    parentIndex: 0
+    spriteID: 4220437c641e36c42b6373889ecf93f6
+    layerID: 47
+    mosaicPosition: {x: 76, y: 292}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: Ape King Body
+    spriteName: Ape King Body
+    isGroup: 0
+    parentIndex: 0
+    spriteID: c405fff3ad18b514d8fe9f8a44e2869e
+    layerID: 21
+    mosaicPosition: {x: 70, y: 364}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: Gorilla Man
+    spriteName: 
+    isGroup: 1
     parentIndex: -1
+    spriteID: 00000000000000000000000000000000
+    layerID: 50
+    mosaicPosition: {x: 0, y: 0}
+    flatten: 0
+    isImported: 0
+    isVisible: 1
+  - name: Gorilla Head
+    spriteName: Gorilla Head
+    isGroup: 0
+    parentIndex: 6
+    spriteID: 0064df4d1f1ecb44e83cb421bda6f42b
+    layerID: 25
+    mosaicPosition: {x: 134, y: 4}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: Gorilla Armor
+    spriteName: 
+    isGroup: 1
+    parentIndex: 6
+    spriteID: 00000000000000000000000000000000
+    layerID: 70
+    mosaicPosition: {x: 0, y: 0}
+    flatten: 0
+    isImported: 0
+    isVisible: 1
+  - name: Gorilla Gloves
+    spriteName: Gorilla Gloves
+    isGroup: 0
+    parentIndex: 8
+    spriteID: 7de07e5943be9aa4493d225a9f2902de
+    layerID: 40
+    mosaicPosition: {x: 169, y: 62}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: Gorilla Chest Armor
+    spriteName: Gorilla Chest Armor
+    isGroup: 0
+    parentIndex: 8
+    spriteID: 5d8389ba14d533e4e830d52a7ffa7e5b
+    layerID: 35
+    mosaicPosition: {x: 134, y: 151}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: Gorilla Boots
+    spriteName: Gorilla Boots
+    isGroup: 0
+    parentIndex: 8
+    spriteID: 102ed09ed0c14ea42b561997019344aa
+    layerID: 41
+    mosaicPosition: {x: 134, y: 347}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: Gorilla Pants
+    spriteName: Gorilla Pants
+    isGroup: 0
+    parentIndex: 8
+    spriteID: 8e7f4ead139eb5b46aa387f32e473641
+    layerID: 28
+    mosaicPosition: {x: 134, y: 321}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: Gorilla Arms
+    spriteName: Gorilla Arms
+    isGroup: 0
+    parentIndex: 6
+    spriteID: e2c44083f1159bb4cacb1e1f03015a87
+    layerID: 43
+    mosaicPosition: {x: 76, y: 334}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: Gorilla Legs
+    spriteName: Gorilla Legs
+    isGroup: 0
+    parentIndex: 6
+    spriteID: 6b29e410f38bb034f9d7050e65275cc0
+    layerID: 45
+    mosaicPosition: {x: 134, y: 179}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: Gorilla Torso
+    spriteName: Gorilla Torso
+    isGroup: 0
+    parentIndex: 6
+    spriteID: 76921081756f9074392440bd788d8c25
+    layerID: 36
+    mosaicPosition: {x: 110, y: 468}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: Chimp Man
+    spriteName: 
+    isGroup: 1
+    parentIndex: -1
+    spriteID: 00000000000000000000000000000000
+    layerID: 55
+    mosaicPosition: {x: 0, y: 0}
+    flatten: 0
+    isImported: 0
+    isVisible: 1
+  - name: Chimp Head
+    spriteName: Chimp Head
+    isGroup: 0
+    parentIndex: 16
+    spriteID: a5348ff7aba7053438964366460ba36b
+    layerID: 49
+    mosaicPosition: {x: 134, y: 45}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: Chimp Arms
+    spriteName: Chimp Arms
+    isGroup: 0
+    parentIndex: 16
+    spriteID: c7e66c3e44804a345a998ed45f99d4f6
+    layerID: 54
+    mosaicPosition: {x: 169, y: 4}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: Chimp Legs
+    spriteName: Chimp Legs
+    isGroup: 0
+    parentIndex: 16
+    spriteID: 13afbd276c7b7434db2e0c7cf9c8abe3
+    layerID: 53
+    mosaicPosition: {x: 134, y: 205}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: Chimp Torso
+    spriteName: Chimp Torso
+    isGroup: 0
+    parentIndex: 16
+    spriteID: ba742886e59bb814aa02778a05c516c4
+    layerID: 52
+    mosaicPosition: {x: 134, y: 257}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: Orang Man
+    spriteName: 
+    isGroup: 1
+    parentIndex: -1
+    spriteID: 00000000000000000000000000000000
+    layerID: 68
+    mosaicPosition: {x: 0, y: 0}
+    flatten: 0
+    isImported: 0
+    isVisible: 1
+  - name: Orang Head
+    spriteName: Orang Head
+    isGroup: 0
+    parentIndex: 21
     spriteID: ccea2efe45678ff4882be6915d02e561
     layerID: 22
-    mosaicPosition: {x: 67, y: 118}
+    mosaicPosition: {x: 134, y: 82}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: Orang Arms
+    spriteName: Orang Arms
+    isGroup: 0
+    parentIndex: 21
+    spriteID: 2165bbcd2de56f247a8e7bbad7d3ab87
+    layerID: 65
+    mosaicPosition: {x: 169, y: 33}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: 'Orang Legs '
+    spriteName: 'Orang Legs '
+    isGroup: 0
+    parentIndex: 21
+    spriteID: 9a5d7140254d0b343af6122af0c5b820
+    layerID: 64
+    mosaicPosition: {x: 134, y: 231}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: Orang Torso
+    spriteName: Orang Torso
+    isGroup: 0
+    parentIndex: 21
+    spriteID: f9207f6b0254e734e81799ba87439a5f
+    layerID: 63
+    mosaicPosition: {x: 134, y: 289}
     flatten: 0
     isImported: 1
     isVisible: 1
@@ -419,30 +1071,100 @@ ScriptedImporter:
     parentIndex: -1
     spriteID: 18d3f23b61bf6bc4eae03e04a2c8f249
     layerID: 23
-    mosaicPosition: {x: 4, y: 214}
+    mosaicPosition: {x: 70, y: 468}
     flatten: 0
     isImported: 1
-    isVisible: 1
-  - name: Layer 5
-    spriteName: Layer 5
+    isVisible: 0
+  - name: Man Model
+    spriteName: Man Model
     isGroup: 0
     parentIndex: -1
     spriteID: 9a2ed2d3411029347b4591785946b59a
     layerID: 7
-    mosaicPosition: {x: 76, y: 4}
+    mosaicPosition: {x: 92, y: 148}
     flatten: 0
     isImported: 1
-    isVisible: 1
+    isVisible: 0
+  - name: Layer 29
+    spriteName: Layer 29
+    isGroup: 0
+    parentIndex: -1
+    spriteID: abb290f4f9868484ab6dcc91e25284d3
+    layerID: 66
+    mosaicPosition: {x: 4, y: 220}
+    flatten: 0
+    isImported: 1
+    isVisible: 0
+  - name: Layer 28
+    spriteName: Layer 28
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 1821c2c7f45b9f54c8e9cd9dad3b9ad1
+    layerID: 61
+    mosaicPosition: {x: 4, y: 4}
+    flatten: 0
+    isImported: 1
+    isVisible: 0
+  - name: Layer 27
+    spriteName: Layer 27
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 4c925238f18f54444a575bfe80da2e38
+    layerID: 59
+    mosaicPosition: {x: 4, y: 76}
+    flatten: 0
+    isImported: 1
+    isVisible: 0
+  - name: Layer 26
+    spriteName: Layer 26
+    isGroup: 0
+    parentIndex: -1
+    spriteID: fc1bd062362b2e44db399abb52351409
+    layerID: 57
+    mosaicPosition: {x: 4, y: 148}
+    flatten: 0
+    isImported: 1
+    isVisible: 0
+  - name: Layer 21
+    spriteName: Layer 21
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 7f7595216b5d60b42a27ef75adbde1fe
+    layerID: 31
+    mosaicPosition: {x: 70, y: 417}
+    flatten: 0
+    isImported: 1
+    isVisible: 0
+  - name: Layer 22
+    spriteName: Layer 22
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 1d9584759af7d844dae338ac6e54aef1
+    layerID: 33
+    mosaicPosition: {x: 4, y: 435}
+    flatten: 0
+    isImported: 1
+    isVisible: 0
+  - name: Layer 25
+    spriteName: Layer 25
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 23782a66cc4ef8840af127e96c18ef08
+    layerID: 37
+    mosaicPosition: {x: 4, y: 364}
+    flatten: 0
+    isImported: 1
+    isVisible: 0
   - name: Layer 0
     spriteName: Layer 0
     isGroup: 0
     parentIndex: -1
     spriteID: bf61c5dcbe9cda448831013af691b763
     layerID: 2
-    mosaicPosition: {x: 4, y: 4}
+    mosaicPosition: {x: 4, y: 292}
     flatten: 0
     isImported: 1
-    isVisible: 1
+    isVisible: 0
   sharedRigPSDLayers: []
   pSDLayerImportSetting: []
   generateGOHierarchy: 1
