@@ -28,7 +28,7 @@
         public Biome electricTraps;
         public DungeonObject finalDoorPrefab;
 
-        public GameObject roomLightPrefab;
+        //public GameObject roomLightPrefab;
 
         class Node
         {
@@ -267,9 +267,9 @@
                 var bottomLeftCorner = Map.instance.GetTilePositionOnMap(new Vector2Int(rect.xMin - 1, rect.yMax + 1));
                 var bottomRightCorner = Map.instance.GetTilePositionOnMap(new Vector2Int(rect.xMax + 1, rect.yMax + 1));
 
-                GameObject roomLight = Instantiate(roomLightPrefab, Map.instance.transform);
-                roomLight.transform.localScale = new Vector3(topRightCorner.x - topLeftCorner.x + 1, bottomRightCorner.y - topRightCorner.y + 1, 1);
-                roomLight.transform.localPosition = new Vector3(topLeftCorner.x + (topRightCorner.x - topLeftCorner.x + 1) / 2.0f, topRightCorner.y + (bottomRightCorner.y - topRightCorner.y + 1) / 2.0f, 0);
+                //GameObject roomLight = Instantiate(roomLightPrefab, Map.instance.transform);
+                //roomLight.transform.localScale = new Vector3(topRightCorner.x - topLeftCorner.x + 1, bottomRightCorner.y - topRightCorner.y + 1, 1);
+                //roomLight.transform.localPosition = new Vector3(topLeftCorner.x + (topRightCorner.x - topLeftCorner.x + 1) / 2.0f, topRightCorner.y + (bottomRightCorner.y - topRightCorner.y + 1) / 2.0f, 0);
 
                 for (int x = bottomLeftCorner.x; x <= bottomRightCorner.x; x++)
                 {

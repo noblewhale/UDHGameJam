@@ -4,7 +4,6 @@ namespace Noble.DungeonCrawler
     using System.Linq;
     using UnityEngine;
     using UnityEngine.EventSystems;
-    using UnityEngine.Rendering.Universal;
     using UnityEngine.UI;
     using UnityEngine.InputSystem;
     using System.Collections.Generic;
@@ -14,8 +13,8 @@ namespace Noble.DungeonCrawler
         public static InventoryMenu instance;
 
         public Transform characterPosition;
-        public Light2D globalLightOff;
-        public Light2D globalLightOn;
+        //public Light2D globalLightOff;
+        //public Light2D globalLightOn;
 
         public InventoryGUI inventoryGUI;
 
@@ -66,11 +65,11 @@ namespace Noble.DungeonCrawler
 
         void SetupLightsAndLayers(bool lightingOn, int layer)
         {
-            if (globalLightOff) globalLightOff.enabled = lightingOn;
-            if (globalLightOn) globalLightOn.enabled = !lightingOn;
+            //if (globalLightOff) globalLightOff.enabled = lightingOn;
+            //if (globalLightOn) globalLightOn.enabled = !lightingOn;
 
-            var lights = Player.Identity.GetComponentsInChildren<Light2D>();
-            foreach (var light in lights) light.enabled = lightingOn;
+            //var lights = Player.Identity.GetComponentsInChildren<Light2D>();
+            //foreach (var light in lights) light.enabled = lightingOn;
 
             var transforms = Player.Identity.GetComponentsInChildren<Transform>(true);
             foreach (var trans in transforms) trans.gameObject.layer = layer;

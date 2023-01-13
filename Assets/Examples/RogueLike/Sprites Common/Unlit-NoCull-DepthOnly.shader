@@ -10,7 +10,7 @@ Properties {
     _MainTex ("Base (RGB) Trans (A)", 2D) = "white" {}
 }
 SubShader {
-    Tags {"Queue"="Transparent" "IgnoreProjector"="True" "RenderType"="Transparent"}
+    Tags {"Queue"="AlphaTest" "IgnoreProjector"="True" "RenderType"="TransparentCutout"}
     LOD 100
     Cull Off
     ZTest Off
@@ -38,6 +38,7 @@ SubShader {
                 float4 vertex : SV_POSITION;
                 float2 texcoord : TEXCOORD0;
                 UNITY_VERTEX_OUTPUT_STEREO
+                float2 depth : DEPTH;
             };
 
             sampler2D _MainTex;
@@ -51,12 +52,14 @@ SubShader {
                 UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 o.texcoord = TRANSFORM_TEX(v.texcoord, _MainTex);
+                UNITY_TRANSFER_DEPTH(o.depth);
                 return o;
             }
 
             fixed4 frag(v2f i) : SV_Target
             {
                 fixed4 col = fixed4(0, 0, 0, 0);
+                UNITY_OUTPUT_DEPTH(i.depth);
                 return col;
             }
         ENDCG

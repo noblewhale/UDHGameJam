@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 8389843478819687981}
   - component: {fileID: 8891802863267309862}
   - component: {fileID: 7207893087013073817}
-  - component: {fileID: 2159911961365006012}
   m_Layer: 0
   m_Name: Two Handed Glyph
   m_TagString: Untagged
@@ -55,7 +54,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -102,57 +101,6 @@ MonoBehaviour:
   tint: {r: 1, g: 1, b: 1, a: 1}
   extraTint: {r: 1, g: 1, b: 1, a: 1}
   originalColor: {r: 1, g: 1, b: 1, a: 1}
---- !u!331 &2159911961365006012
-SpriteMask:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 42201562996652045}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 0
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: 15d0c3709176029428a0da2f8cecf0b5, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: -445685822706703903, guid: 017d7b454eccbae49b9a34acdb0f230a, type: 3}
-  m_MaskAlphaCutoff: 0.2
-  m_FrontSortingLayerID: 0
-  m_BackSortingLayerID: 0
-  m_FrontSortingLayer: 0
-  m_BackSortingLayer: 0
-  m_FrontSortingOrder: 0
-  m_BackSortingOrder: 0
-  m_IsCustomRangeActive: 0
-  m_SpriteSortPoint: 0
 --- !u!1 &222671947881471501
 GameObject:
   m_ObjectHideFlags: 0
@@ -326,7 +274,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -421,7 +369,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageFlashColor: {r: 1, g: 0, b: 0, a: 1}
-  glyphs: []
 --- !u!114 &7495296519771584554
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -484,27 +431,53 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectName: Right Rat Glove
   illuminationRange: 0
-  OnSteppedOn:
-    m_PersistentCalls:
-      m_Calls: []
-  OnPreSteppedOn:
-    m_PersistentCalls:
-      m_Calls: []
-  originalGlyphPosition: {x: 0, y: 0, z: 0}
-  previousTilePosition: {x: 0, y: 0}
   quantity: 1
   canBePickedUp: 0
   canTakeDamage: 0
   isVisibleWhenNotInSight: 1
   pathingWeight: 0
   guiIcon: {fileID: 0}
-  maxHealth: 1
   isCollidable: 1
   blocksLineOfSight: 0
   coversObjectsBeneath: 0
   preventsObjectSpawning: 0
-  hasDoneDamageFlash: 0
   autoAddToTileAtStart: 1
+  OnSteppedOn:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPreSteppedOn:
+    m_PersistentCalls:
+      m_Calls: []
+  onMove:
+    m_PersistentCalls:
+      m_Calls: []
+  onSetPosition:
+    m_PersistentCalls:
+      m_Calls: []
+  onPreMove:
+    m_PersistentCalls:
+      m_Calls: []
+  onPreSetPosition:
+    m_PersistentCalls:
+      m_Calls: []
+  onPickedUpObject:
+    m_PersistentCalls:
+      m_Calls: []
+  onPickedUp:
+    m_PersistentCalls:
+      m_Calls: []
+  onCollision:
+    m_PersistentCalls:
+      m_Calls: []
+  onDeath:
+    m_PersistentCalls:
+      m_Calls: []
+  onSpawn:
+    m_PersistentCalls:
+      m_Calls: []
+  onTakeDamage:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &3768895304014826997
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -525,7 +498,7 @@ MonoBehaviour:
   autoEquip: 0
   autoEquipSlot: 9
   objectsToEnableForSlot: []
-  actualSlot: 9
+  assignedSlot: 0
   parentItem: {fileID: 0}
 --- !u!1 &4175209901181735069
 GameObject:
@@ -574,7 +547,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageFlashColor: {r: 1, g: 0, b: 0, a: 1}
-  glyphs: []
 --- !u!114 &8062271231629638117
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -662,7 +634,7 @@ GameObject:
   - component: {fileID: 6981057118696698856}
   - component: {fileID: 8450275713945859963}
   - component: {fileID: 7657553079111882471}
-  - component: {fileID: 8229369947436035836}
+  - component: {fileID: 3914993500323606876}
   m_Layer: 0
   m_Name: Glyph
   m_TagString: Untagged
@@ -706,7 +678,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -753,7 +725,7 @@ MonoBehaviour:
   tint: {r: 1, g: 1, b: 1, a: 1}
   extraTint: {r: 1, g: 1, b: 1, a: 1}
   originalColor: {r: 1, g: 1, b: 1, a: 1}
---- !u!331 &8229369947436035836
+--- !u!331 &3914993500323606876
 SpriteMask:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -773,7 +745,7 @@ SpriteMask:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 15d0c3709176029428a0da2f8cecf0b5, type: 2}
+  - {fileID: 10758, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -815,7 +787,7 @@ GameObject:
   - component: {fileID: 5017934133439376690}
   - component: {fileID: 1719607653391412311}
   - component: {fileID: 1893916628744121061}
-  - component: {fileID: 5699196428470733840}
+  - component: {fileID: 7282168060614086878}
   m_Layer: 0
   m_Name: Glyph
   m_TagString: Untagged
@@ -859,7 +831,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -906,7 +878,7 @@ MonoBehaviour:
   tint: {r: 1, g: 1, b: 1, a: 1}
   extraTint: {r: 1, g: 1, b: 1, a: 1}
   originalColor: {r: 1, g: 1, b: 1, a: 1}
---- !u!331 &5699196428470733840
+--- !u!331 &7282168060614086878
 SpriteMask:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -926,7 +898,7 @@ SpriteMask:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 15d0c3709176029428a0da2f8cecf0b5, type: 2}
+  - {fileID: 10758, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1005,27 +977,53 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectName: Left Rat Glove
   illuminationRange: 0
-  OnSteppedOn:
-    m_PersistentCalls:
-      m_Calls: []
-  OnPreSteppedOn:
-    m_PersistentCalls:
-      m_Calls: []
-  originalGlyphPosition: {x: 0, y: 0, z: 0}
-  previousTilePosition: {x: 0, y: 0}
   quantity: 1
   canBePickedUp: 0
   canTakeDamage: 0
   isVisibleWhenNotInSight: 1
   pathingWeight: 0
   guiIcon: {fileID: 0}
-  maxHealth: 1
   isCollidable: 1
   blocksLineOfSight: 0
   coversObjectsBeneath: 0
   preventsObjectSpawning: 0
-  hasDoneDamageFlash: 0
   autoAddToTileAtStart: 1
+  OnSteppedOn:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPreSteppedOn:
+    m_PersistentCalls:
+      m_Calls: []
+  onMove:
+    m_PersistentCalls:
+      m_Calls: []
+  onSetPosition:
+    m_PersistentCalls:
+      m_Calls: []
+  onPreMove:
+    m_PersistentCalls:
+      m_Calls: []
+  onPreSetPosition:
+    m_PersistentCalls:
+      m_Calls: []
+  onPickedUpObject:
+    m_PersistentCalls:
+      m_Calls: []
+  onPickedUp:
+    m_PersistentCalls:
+      m_Calls: []
+  onCollision:
+    m_PersistentCalls:
+      m_Calls: []
+  onDeath:
+    m_PersistentCalls:
+      m_Calls: []
+  onSpawn:
+    m_PersistentCalls:
+      m_Calls: []
+  onTakeDamage:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &1626582978550036486
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1046,7 +1044,7 @@ MonoBehaviour:
   autoEquip: 0
   autoEquipSlot: 8
   objectsToEnableForSlot: []
-  actualSlot: 8
+  assignedSlot: 0
   parentItem: {fileID: 0}
 --- !u!1 &7008124136840932609
 GameObject:
@@ -1100,27 +1098,53 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectName: Rat Gloves
   illuminationRange: 0
-  OnSteppedOn:
-    m_PersistentCalls:
-      m_Calls: []
-  OnPreSteppedOn:
-    m_PersistentCalls:
-      m_Calls: []
-  originalGlyphPosition: {x: 0, y: 0, z: 0}
-  previousTilePosition: {x: 0, y: 0}
   quantity: 1
   canBePickedUp: 1
   canTakeDamage: 0
   isVisibleWhenNotInSight: 0
   pathingWeight: 0
   guiIcon: {fileID: 4666742542881274343}
-  maxHealth: 1
   isCollidable: 0
   blocksLineOfSight: 0
   coversObjectsBeneath: 0
   preventsObjectSpawning: 0
-  hasDoneDamageFlash: 0
   autoAddToTileAtStart: 1
+  OnSteppedOn:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPreSteppedOn:
+    m_PersistentCalls:
+      m_Calls: []
+  onMove:
+    m_PersistentCalls:
+      m_Calls: []
+  onSetPosition:
+    m_PersistentCalls:
+      m_Calls: []
+  onPreMove:
+    m_PersistentCalls:
+      m_Calls: []
+  onPreSetPosition:
+    m_PersistentCalls:
+      m_Calls: []
+  onPickedUpObject:
+    m_PersistentCalls:
+      m_Calls: []
+  onPickedUp:
+    m_PersistentCalls:
+      m_Calls: []
+  onCollision:
+    m_PersistentCalls:
+      m_Calls: []
+  onDeath:
+    m_PersistentCalls:
+      m_Calls: []
+  onSpawn:
+    m_PersistentCalls:
+      m_Calls: []
+  onTakeDamage:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &2198777374956728066
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1155,7 +1179,7 @@ MonoBehaviour:
   autoEquip: 0
   autoEquipSlot: 2
   objectsToEnableForSlot: []
-  actualSlot: 2
+  assignedSlot: 0
   parentItem: {fileID: 0}
 --- !u!1 &7483110043457238279
 GameObject:
@@ -1243,7 +1267,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1369,7 +1393,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageFlashColor: {r: 1, g: 0, b: 0, a: 1}
-  glyphs: []
 --- !u!114 &7315471970866163566
 MonoBehaviour:
   m_ObjectHideFlags: 0

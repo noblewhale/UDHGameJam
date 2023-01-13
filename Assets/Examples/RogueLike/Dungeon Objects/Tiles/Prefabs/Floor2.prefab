@@ -53,7 +53,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -99,7 +99,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tint: {r: 1, g: 1, b: 1, a: 1}
   extraTint: {r: 1, g: 1, b: 1, a: 1}
-  isLit: 0
+  originalColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &1886671731430450
 GameObject:
   m_ObjectHideFlags: 0
@@ -146,7 +146,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageFlashColor: {r: 1, g: 0, b: 0, a: 1}
-  glyphs: []
 --- !u!1 &1920995248641060
 GameObject:
   m_ObjectHideFlags: 0
@@ -194,24 +193,50 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectName: Floor
   illuminationRange: 0
-  OnSteppedOn:
-    m_PersistentCalls:
-      m_Calls: []
-  OnPreSteppedOn:
-    m_PersistentCalls:
-      m_Calls: []
-  originalGlyphPosition: {x: 0, y: 0, z: 0}
-  previousTilePosition: {x: 0, y: 0}
   quantity: 1
   canBePickedUp: 0
   canTakeDamage: 0
   isVisibleWhenNotInSight: 1
   pathingWeight: 0
   guiIcon: {fileID: 0}
-  health: 1
   isCollidable: 0
   blocksLineOfSight: 0
   coversObjectsBeneath: 1
   preventsObjectSpawning: 0
-  hasDoneDamageFlash: 0
   autoAddToTileAtStart: 1
+  OnSteppedOn:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPreSteppedOn:
+    m_PersistentCalls:
+      m_Calls: []
+  onMove:
+    m_PersistentCalls:
+      m_Calls: []
+  onSetPosition:
+    m_PersistentCalls:
+      m_Calls: []
+  onPreMove:
+    m_PersistentCalls:
+      m_Calls: []
+  onPreSetPosition:
+    m_PersistentCalls:
+      m_Calls: []
+  onPickedUpObject:
+    m_PersistentCalls:
+      m_Calls: []
+  onPickedUp:
+    m_PersistentCalls:
+      m_Calls: []
+  onCollision:
+    m_PersistentCalls:
+      m_Calls: []
+  onDeath:
+    m_PersistentCalls:
+      m_Calls: []
+  onSpawn:
+    m_PersistentCalls:
+      m_Calls: []
+  onTakeDamage:
+    m_PersistentCalls:
+      m_Calls: []
