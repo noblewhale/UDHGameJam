@@ -5,6 +5,7 @@
 		_MainTex ("Main Tex", 2D) = "white"
 		_WrapTexture("Wrap Texture", 2D) = "white"
 		_Depth("Depth", 2D) = "white" {}
+		_WrapDepth("Wrap Depth", 2D) = "white" {}
 		_InnerColor("Inner Color", Color) = (0, 0, 0, 0)
 		_SeaLevel("Sea Level", Float) = 5
 		_Rotation("Rotation", Float) = 0
@@ -13,27 +14,26 @@
 		_InnerFadeExp("Inner Fade Exponent", Float) = 4.0
 		_CameraPos("Camera Position", Vector) = (.1, .1, 0, 0)
 		_CameraDim("Camera Dimensions", Vector) = (.8, .8, 0, 0)
+		_OutlineThickness("Outline Thickness", Vector) = (.0005, .004, 0, 0)
+		[HDR]_OutlineColor("Outline Color", Color) = (1, 1, 1, 1)
 	}
 	SubShader
 	{
-		Tags { "RenderType"="Opaque" "RenderPipeline" = "UniversalRenderPipeline"}
+		Tags { "RenderType"="Opaque"}
 		LOD 100
 
 		Pass
 		{
 			Tags {"Queue" = "Transparent" "IgnoreProjector" = "True" "RenderType" = "Transparent"}
 			ZWrite Off
-			Blend SrcAlpha OneMinusSrcAlpha
+			Blend SrcAlpha OneMinusSrcAlpha 
 			Cull back
 
-			HLSLPROGRAM
+			CGPROGRAM
 			#pragma vertex vert
 			#pragma fragment frag
 
-			// It's a PI
-			#define PI 3.141592653589793238462643;
-
-			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+			#include "UnityCG.cginc"
 
 			struct appdata
 			{
@@ -48,34 +48,13 @@
 			};
 
 			// The texture to warp
-			
-			// This macro declares _BaseMap as a Texture2D object.
-			TEXTURE2D(_MainTex);
-			// This macro declares the sampler for the _BaseMap texture.
-			SAMPLER(sampler_MainTex);
-			
-			CBUFFER_START(UnityPerMaterial)
-				// The following line declares the _BaseMap_ST variable, so that you
-				// can use the _BaseMap variable in the fragment shader. The _ST
-				// suffix is necessary for the tiling and offset function to work.
-				float4 _MainTex_ST;
-			CBUFFER_END
-			
-				// This macro declares _BaseMap as a Texture2D object.
-			TEXTURE2D(_WrapTexture);
-			// This macro declares the sampler for the _BaseMap texture.
-			SAMPLER(sampler_WrapTexture);
+			sampler2D _MainTex;
+			sampler2D _WrapTexture;
 
-			CBUFFER_START(UnityPerMaterial)
-				// The following line declares the _BaseMap_ST variable, so that you
-				// can use the _BaseMap variable in the fragment shader. The _ST
-				// suffix is necessary for the tiling and offset function to work.
-				float4 _WrapTexture_ST;
-			CBUFFER_END
-
-			float4 _MainTex_TexelSize;
+			float4 _MainTex_TexelSize; 
 			// The depth texture to use for outlines
 			sampler2D _Depth;
+			// The depth texture to use for outlines
 			sampler2D _WrapDepth;
 			// The rotation to apply to the circular warp
 			float _Rotation;
@@ -91,17 +70,23 @@
 			float4 _InnerColor;
 			float2 _CameraPos;
 			float2 _CameraDim;
+			// The thickness to use for the outline
+			float4 _OutlineThickness;
+			// The color of the outline
+			float4 _OutlineColor;
 
 			// Angles are calculated from this vector
 			// At large scales there are rendering errors near this vector so we don't use RIGHT where the player is rendered.
 			static const float3 RIGHT = float3(1, 0, 0);
+			// It's a PI
+			static const float PI = 3.1415926535897932384626433832795028841971693993751058209749445923078164062;
 			
 			// Just your standard vertex shader
 			v2f vert(appdata v)
 			{
 				v2f o;
-				o.vertex = TransformObjectToHClip(v.vertex.xyz);
-				o.uv = TRANSFORM_TEX(v.uv, _MainTex);
+				o.vertex = UnityObjectToClipPos(v.vertex);
+				o.uv = v.uv;
 				return o;
 			}
 
@@ -154,6 +139,8 @@
 				// Wrap between 0 and 1 because rotation may have made angle negative or greater than 2*PI
 				x -= floor(x);
 				return x;
+
+				return 0; 
 			}
 
 			// Use distance and angle to calculate the unwarped positon
@@ -162,7 +149,44 @@
 				return float2(UnWarpX(angle), UnWarpY(distance));
 			}
 
-			half4 frag(v2f i) : SV_Target
+			// For grabbing adjacent pixels for outline stuff
+			// Handles wrapping the x value within the middle third of the texture
+			float2 GetAdjacent(float2 pos, int xDir, int yDir)
+			{
+				// Calculate adjacent location
+				float xDif = _OutlineThickness.x * xDir;
+				float yDif = _OutlineThickness.y * yDir;
+				float2 adjacent = float2(pos.x + xDif, pos.y + yDif);
+
+				return adjacent;
+			}
+
+			bool IsOutline(float2 uv, sampler2D depth_texture)
+			{
+				// Get some adjacent locations, accounting for x wrapping
+				float2 adjacentUV1 = GetAdjacent(uv, 1, 1);
+				float2 adjacentUV2 = GetAdjacent(uv, -1, -1); 
+				float2 adjacentUV3 = GetAdjacent(uv, -1, 1);
+				float2 adjacentUV4 = GetAdjacent(uv, 1, -1); 
+
+				// Sample the depth at the current pixel location as well as the adjacent locations
+				float depthMe = SAMPLE_DEPTH_TEXTURE(depth_texture, uv);
+				float depth0 = SAMPLE_DEPTH_TEXTURE(depth_texture, adjacentUV1);
+				float depth1 = SAMPLE_DEPTH_TEXTURE(depth_texture, adjacentUV2);
+				float depth2 = SAMPLE_DEPTH_TEXTURE(depth_texture, adjacentUV3);
+				float depth3 = SAMPLE_DEPTH_TEXTURE(depth_texture, adjacentUV4);
+
+				// If the difference between the depths of opposite pixels is large then this is an outline pixel (maybe)
+				bool isOutline = abs(depth0 - depth1) > .8f || abs(depth2 - depth3) > .8f;
+				// If current pixel depth is the max among neighbors then don't treat it as outline.
+				// This keeps the outline strictly outside of the thing being outlined
+				// Otherwise the outline would be centered on the edge and half of it would overlap the thing being outlined.
+				isOutline = isOutline && (depthMe != max(max(max(depth0, depth1), depth2), depth3));
+
+				return isOutline;
+			}
+
+			fixed4 frag(v2f i) : SV_Target
 			{ 				
 				// Transform texture coordinates to be relative to the center. The values go from -1 to 1
 				i.uv = i.uv * 2 - 1;
@@ -185,6 +209,8 @@
 
 				// Ok finally sample the texture
 				half4 totalColor;
+				bool isOutline = false;
+				float depthMe = 0;
 				if (unwarpedUV.y < _CameraPos.y || unwarpedUV.y > _CameraPos.y + _CameraDim.y)
 				{
 					totalColor = float4(1, 0, 0, 1);
@@ -193,33 +219,22 @@
 				{
 					unwarpedUV.x = (unwarpedUV.x - _CameraPos.x) / (_CameraDim.x);
 					unwarpedUV.y = (unwarpedUV.y - _CameraPos.y) / _CameraDim.y;
-					/*if (_CameraPos.x + _CameraDim.x / 2 > .5)
-					{
-						unwarpedUV.x = floor(unwarpedUV.x / _MainTex_TexelSize.x) * _MainTex_TexelSize.x;
-					}
-					else*/
-					//{
-						//unwarpedUV.x = ceil(unwarpedUV.x / _MainTex_TexelSize.x) * _MainTex_TexelSize.x;
-					//}
-					totalColor = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, unwarpedUV);
-					//totalColor = tex2D(_MainTex, unwarpedUV);
+					totalColor = tex2D(_MainTex, unwarpedUV);
+					isOutline = IsOutline(unwarpedUV, _Depth);
 				}
 				else if (unwarpedUV.x >= _CameraPos.x - 1 && unwarpedUV.x <= _CameraPos.x - 1 + _CameraDim.x)
 				{
 					unwarpedUV.x = (unwarpedUV.x - (_CameraPos.x - 1)) / (_CameraDim.x);
 					unwarpedUV.y = (unwarpedUV.y - _CameraPos.y) / _CameraDim.y;
-					// You're just going to have to trust me on this one -------V
-					//unwarpedUV.x = (ceil(unwarpedUV.x / _MainTex_TexelSize.x) + 1) * _MainTex_TexelSize.x;
-					totalColor = SAMPLE_TEXTURE2D(_WrapTexture, sampler_WrapTexture, unwarpedUV);
-					//totalColor = tex2D(_WrapTexture, unwarpedUV);
+					totalColor = tex2D(_WrapTexture, unwarpedUV);
+					isOutline = IsOutline(unwarpedUV, _WrapDepth);
 				}
 				else if (unwarpedUV.x >= _CameraPos.x + 1 && unwarpedUV.x <= _CameraPos.x + 1 + _CameraDim.x)
 				{
 					unwarpedUV.x = (unwarpedUV.x - (_CameraPos.x + 1)) / (_CameraDim.x);
 					unwarpedUV.y = (unwarpedUV.y - _CameraPos.y) / _CameraDim.y;
-					//unwarpedUV.x = floor(unwarpedUV.x / _MainTex_TexelSize.x) * _MainTex_TexelSize.x;
-					totalColor = SAMPLE_TEXTURE2D(_WrapTexture, sampler_WrapTexture, unwarpedUV);
-					//totalColor = tex2D(_WrapTexture, unwarpedUV);
+					totalColor = tex2D(_WrapTexture, unwarpedUV);
+					isOutline = IsOutline(unwarpedUV, _WrapDepth);
 				}
 				else
 				{
@@ -229,14 +244,18 @@
 				// Apply a fade around the _InnerRadius
 				totalColor = lerp(_InnerColor, totalColor, min(1, pow((distance - _InnerRadius)/_InnerFadeSize, _InnerFadeExp)));
 				
+				float4 outlineColor = isOutline * _OutlineColor;
+				totalColor.rgb = totalColor.rgb * (1 - outlineColor.a) + outlineColor.rgb * outlineColor.a;
+				totalColor.a += outlineColor.a;
+
 				// Check if distance is within inner circle, if so use solid color instead of texture samples
 				bool isInsideInnerRadius = distance < _InnerRadius;
 
 				return isInsideInnerRadius * _InnerColor + !isInsideInnerRadius * totalColor;
 
-				//return totalColor;
+				return totalColor;
 			}
-			ENDHLSL
+			ENDCG
 		}
 	}
 }

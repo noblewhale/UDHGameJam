@@ -18,7 +18,6 @@ namespace Noble.TileEngine
 
 		override public void StartAction()
 		{
-            Debug.Log("Start Action");
             owner.tickable.nextActionTime = TimeManager.instance.Time + identityCreature.ticksPerAttack;
 			foreach (var dOb in targetTile.objectList)
 			{

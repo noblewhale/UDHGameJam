@@ -91,6 +91,7 @@ ScriptedImporter:
     uvTransform: {x: 0, y: 0}
   mosaicSpriteImportData: []
   rigSpriteImportData:
+<<<<<<< HEAD
   - name: Orang Chest Armor
     originalName: 
     pivot: {x: 0.5, y: 0.5}
@@ -259,6 +260,8 @@ ScriptedImporter:
     tessellationDetail: 0
     parentGroupIndex: -1
     uvTransform: {x: 15, y: 102}
+=======
+>>>>>>> 807266ff66761f3f55dd4c6041efc77485408e42
   - name: Background
     originalName: 
     pivot: {x: 0.5, y: 0.5}
@@ -319,6 +322,7 @@ ScriptedImporter:
     mosaicPosition: {x: 0, y: 0}
     flatten: 0
     isImported: 0
+<<<<<<< HEAD
     isVisible: 1
   - name: Orang Chest Armor
     spriteName: Orang Chest Armor
@@ -339,6 +343,28 @@ ScriptedImporter:
     mosaicPosition: {x: 76, y: 58}
     flatten: 0
     isImported: 1
+=======
+    isVisible: 0
+  - name: Orang Chest Armor
+    spriteName: 
+    isGroup: 0
+    parentIndex: 0
+    spriteID: 00000000000000000000000000000000
+    layerID: 18
+    mosaicPosition: {x: 0, y: 0}
+    flatten: 0
+    isImported: 0
+    isVisible: 1
+  - name: Orang Pants
+    spriteName: 
+    isGroup: 0
+    parentIndex: 0
+    spriteID: 00000000000000000000000000000000
+    layerID: 20
+    mosaicPosition: {x: 0, y: 0}
+    flatten: 0
+    isImported: 0
+>>>>>>> 807266ff66761f3f55dd4c6041efc77485408e42
     isVisible: 1
   - name: Chimp Armor
     spriteName: 
@@ -349,6 +375,7 @@ ScriptedImporter:
     mosaicPosition: {x: 0, y: 0}
     flatten: 0
     isImported: 0
+<<<<<<< HEAD
     isVisible: 1
   - name: Chimp Chest Armor
     spriteName: Chimp Chest Armor
@@ -369,6 +396,28 @@ ScriptedImporter:
     mosaicPosition: {x: 76, y: 83}
     flatten: 0
     isImported: 1
+=======
+    isVisible: 0
+  - name: Chimp Chest Armor
+    spriteName: 
+    isGroup: 0
+    parentIndex: 3
+    spriteID: 00000000000000000000000000000000
+    layerID: 11
+    mosaicPosition: {x: 0, y: 0}
+    flatten: 0
+    isImported: 0
+    isVisible: 1
+  - name: Chimp Pants
+    spriteName: 
+    isGroup: 0
+    parentIndex: 3
+    spriteID: 00000000000000000000000000000000
+    layerID: 13
+    mosaicPosition: {x: 0, y: 0}
+    flatten: 0
+    isImported: 0
+>>>>>>> 807266ff66761f3f55dd4c6041efc77485408e42
     isVisible: 1
   - name: Gorilla Armor
     spriteName: 
@@ -379,7 +428,11 @@ ScriptedImporter:
     mosaicPosition: {x: 0, y: 0}
     flatten: 0
     isImported: 0
+<<<<<<< HEAD
     isVisible: 1
+=======
+    isVisible: 0
+>>>>>>> 807266ff66761f3f55dd4c6041efc77485408e42
   - name: Gorilla Gloves
     spriteName: Gorilla Gloves
     isGroup: 0
@@ -388,7 +441,7 @@ ScriptedImporter:
     layerID: 9
     mosaicPosition: {x: 76, y: 4}
     flatten: 0
-    isImported: 1
+    isImported: 0
     isVisible: 1
   - name: Gorilla Chest Armor
     spriteName: Gorilla Chest Armor
@@ -398,7 +451,7 @@ ScriptedImporter:
     layerID: 7
     mosaicPosition: {x: 76, y: 30}
     flatten: 0
-    isImported: 1
+    isImported: 0
     isVisible: 1
   - name: Gorilla Boots
     spriteName: Gorilla Boots
@@ -408,7 +461,7 @@ ScriptedImporter:
     layerID: 6
     mosaicPosition: {x: 4, y: 107}
     flatten: 0
-    isImported: 1
+    isImported: 0
     isVisible: 1
   - name: Gorilla Pants
     spriteName: Gorilla Pants
@@ -418,7 +471,7 @@ ScriptedImporter:
     layerID: 4
     mosaicPosition: {x: 39, y: 106}
     flatten: 0
-    isImported: 1
+    isImported: 0
     isVisible: 1
   - name: Background
     spriteName: Background

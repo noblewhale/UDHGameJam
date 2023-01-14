@@ -396,8 +396,8 @@
             var area = new RectIntExclusive(
                 (int)(start.x - radius - 1),
                 (int)(start.y - radius - 1),
-                (int)(radius * 2 + 2),
-                (int)(radius * 2 + 2)
+                (int)(radius * 2 + 2 + 1),
+                (int)(radius * 2 + 2 + 1)
             );
             var tilesInArea = new List<TileAndPosition>();
             lock (isDirtyLock)
@@ -435,8 +435,8 @@
             var area = new RectIntExclusive(
                 Mathf.FloorToInt(start.x - radius - 1),
                 Mathf.FloorToInt(start.y - radius - 1),
-                Mathf.CeilToInt(radius * 2 + 2),
-                Mathf.CeilToInt(radius * 2 + 2)
+                Mathf.CeilToInt(radius * 2 + 2 + 1),
+                Mathf.CeilToInt(radius * 2 + 2 + 1)
             );
             List<TileAndPosition> tilesInArea = new List<TileAndPosition>();
             lock (isDirtyLock)
@@ -503,10 +503,10 @@
         {
             var area = new RectIntExclusive();
             area.SetMinMax(
-                Mathf.Min(Mathf.FloorToInt(start.x), Mathf.FloorToInt(start.x + dir.x * distance)),
-                Mathf.Max(Mathf.CeilToInt(start.x), Mathf.CeilToInt(start.x + dir.x * distance)),
-                Mathf.Min(Mathf.FloorToInt(start.y), Mathf.FloorToInt(start.y + dir.y * distance)),
-                Mathf.Max(Mathf.CeilToInt(start.y), Mathf.CeilToInt(start.y + dir.y * distance))
+                Mathf.Min(Mathf.FloorToInt(start.x), Mathf.FloorToInt(start.x + dir.x * distance)) - 1,
+                Mathf.Max(Mathf.CeilToInt(start.x), Mathf.CeilToInt(start.x + dir.x * distance)) + 1,
+                Mathf.Min(Mathf.FloorToInt(start.y), Mathf.FloorToInt(start.y + dir.y * distance)) - 1,
+                Mathf.Max(Mathf.CeilToInt(start.y), Mathf.CeilToInt(start.y + dir.y * distance)) + 1
             );
             List<TileAndPosition> tilesInRay = new();
             lock (isDirtyLock)
@@ -551,56 +551,6 @@
                             hitPosition = currentPosition
                         };
                         results.Add(hit);
-
-                        // Also add any tiles that are super close by so that we don't need a ton of rays
-                        var extraPosition = currentPosition + new Vector2(.2f, .2f);
-                        var extraTile = GetTileFromWorldPosition(extraPosition.x, extraPosition.y);
-                        if (!extraTile.isDirty)
-                        {
-                            extraTile.isDirty = true;
-                            hit = new TileAndPosition
-                            {
-                                tile = extraTile,
-                                hitPosition = extraPosition
-                            };
-                            results.Add(hit);
-                        }
-                        extraPosition = currentPosition + new Vector2(-.2f, -.2f);
-                        extraTile = GetTileFromWorldPosition(extraPosition.x, extraPosition.y);
-                        if (!extraTile.isDirty)
-                        {
-                            extraTile.isDirty = true;
-                            hit = new TileAndPosition
-                            {
-                                tile = extraTile,
-                                hitPosition = extraPosition
-                            };
-                            results.Add(hit);
-                        }
-                        extraPosition = currentPosition + new Vector2(-.2f, .2f);
-                        extraTile = GetTileFromWorldPosition(extraPosition.x, extraPosition.y);
-                        if (!extraTile.isDirty)
-                        {
-                            extraTile.isDirty = true;
-                            hit = new TileAndPosition
-                            {
-                                tile = extraTile,
-                                hitPosition = extraPosition
-                            };
-                            results.Add(hit);
-                        }
-                        extraPosition = currentPosition + new Vector2(.2f, +.2f);
-                        extraTile = GetTileFromWorldPosition(extraPosition.x, extraPosition.y);
-                        if (!extraTile.isDirty)
-                        {
-                            extraTile.isDirty = true;
-                            hit = new TileAndPosition
-                            {
-                                tile = extraTile,
-                                hitPosition = extraPosition
-                            };
-                            results.Add(hit);
-                        }
                     }
 
                     if (stopCondition != null && stopCondition(currentTile))
@@ -614,10 +564,12 @@
             if (!wasStopped)
             {
                 Vector2 relative = start + dir * distance;
+
                 if (showDebug)
                 {
                     Debug.DrawLine((Vector2)transform.position + prev, (Vector2)transform.position + relative, new Color(Random.value, Random.value, Random.value), 4);
                 }
+
                 y = (int)relative.y;
                 if (y >= 0 && y < height)
                 {

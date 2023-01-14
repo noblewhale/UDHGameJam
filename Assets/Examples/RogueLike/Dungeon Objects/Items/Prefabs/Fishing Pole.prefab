@@ -212,7 +212,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   owner: {fileID: 0}
   executeEveryTick: 0
-  aimingRadius: 3
+  aimingRadius: 2.9
   shapeSprite: {fileID: 1709452272, guid: 56dc95184da85084d877a2ed4892f9d1, type: 3}
   shape: []
   level: 0

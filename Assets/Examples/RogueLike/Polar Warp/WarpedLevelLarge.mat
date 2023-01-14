@@ -60,6 +60,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _WrapDepth:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _WrapTexture:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -96,6 +100,6 @@ Material:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _InnerColor: {r: 0.05490196, g: 0.05490196, b: 0.05490196, a: 1}
-    - _OutlineColor: {r: 0.1081128, g: 0, b: 4.594794, a: 0.42745098}
-    - _OutlineThickness: {r: 0.002, g: 0.01, b: 0, a: 0}
+    - _OutlineColor: {r: 5.992157, g: 5.992157, b: 5.992157, a: 0.42745098}
+    - _OutlineThickness: {r: 0.001, g: 0.003, b: 0, a: 0}
   m_BuildTextureStacks: []

@@ -34,6 +34,8 @@
 
         public override float GetActionConfidence()
         {
+            if (!Player.Identity || Player.Identity.tile == null) return 0;
+
             Vector2Int playerPos = Player.Identity.tilePosition;
             Vector2Int myPos = owner.tilePosition;
 
