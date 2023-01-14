@@ -131,12 +131,12 @@
 			CameraTarget.instance.owner = HighlightTile.instance;
 			CameraTarget.instance.thresholdX = 6;
 			CameraTarget.instance.thresholdY = 4;
-			AimOverlay.instance.gameObject.SetActive(true);
 
 			var allowedTiles = Map.instance.GetTilesInRadius(
 				Player.Identity.tilePosition + owner.map.tileDimensions / 2,
 				aimingRadius,
 				null,
+				false,
 				false
 			);
 
@@ -183,7 +183,6 @@
 			CameraTarget.instance.owner = Player.Identity;
 			CameraTarget.instance.thresholdX = 0;
 			CameraTarget.instance.thresholdY = 0;
-			AimOverlay.instance.gameObject.SetActive(false);
 
 			RemoveOutline();
 			RemoveThreatened();

@@ -9,6 +9,8 @@
     {
         override public float GetActionConfidence()
         {
+            if (!owner || !owner.map || owner.tile == null) return 0f;
+
             List<Creature> adjacentHostileCreatures = new List<Creature>();
 
             Tile adjacent;

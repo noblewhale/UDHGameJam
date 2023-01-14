@@ -14,8 +14,6 @@ public class FishingPoleBehavior : TargetAoeShapeBehaviour
     {
         Debug.Log("F has begun");
         yield return StartCoroutine(base.StartActionCoroutine());
-
-
     }
 
     override public void StartSubAction(ulong time) { }

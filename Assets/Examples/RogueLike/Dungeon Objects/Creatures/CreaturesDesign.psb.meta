@@ -217,6 +217,69 @@ ScriptedImporter:
     tessellationDetail: 0
     parentGroupIndex: -1
     uvTransform: {x: 105, y: -27}
+  - name: Gorilla Arms
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 76
+      y: 334
+      width: 32
+      height: 21
+    spriteID: e2c44083f1159bb4cacb1e1f03015a87
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 48, y: 320}
+  - name: Gorilla Legs
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 134
+      y: 179
+      width: 21
+      height: 18
+    spriteID: 6b29e410f38bb034f9d7050e65275cc0
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 102, y: 179}
+  - name: Gorilla Torso
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 110
+      y: 468
+      width: 12
+      height: 24
+    spriteID: 76921081756f9074392440bd788d8c25
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 74, y: 454}
   - name: Gorilla Gloves
     originalName: 
     pivot: {x: 0.5, y: 0.5}
@@ -301,69 +364,6 @@ ScriptedImporter:
     tessellationDetail: 0
     parentGroupIndex: -1
     uvTransform: {x: 98, y: 317}
-  - name: Gorilla Arms
-    originalName: 
-    pivot: {x: 0.5, y: 0.5}
-    alignment: 0
-    border: {x: 0, y: 0, z: 0, w: 0}
-    rect:
-      serializedVersion: 2
-      x: 76
-      y: 334
-      width: 32
-      height: 21
-    spriteID: e2c44083f1159bb4cacb1e1f03015a87
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    parentGroupIndex: -1
-    uvTransform: {x: 48, y: 320}
-  - name: Gorilla Legs
-    originalName: 
-    pivot: {x: 0.5, y: 0.5}
-    alignment: 0
-    border: {x: 0, y: 0, z: 0, w: 0}
-    rect:
-      serializedVersion: 2
-      x: 134
-      y: 179
-      width: 21
-      height: 18
-    spriteID: 6b29e410f38bb034f9d7050e65275cc0
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    parentGroupIndex: -1
-    uvTransform: {x: 102, y: 179}
-  - name: Gorilla Torso
-    originalName: 
-    pivot: {x: 0.5, y: 0.5}
-    alignment: 0
-    border: {x: 0, y: 0, z: 0, w: 0}
-    rect:
-      serializedVersion: 2
-      x: 110
-      y: 468
-      width: 12
-      height: 24
-    spriteID: 76921081756f9074392440bd788d8c25
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    parentGroupIndex: -1
-    uvTransform: {x: 74, y: 454}
   - name: Chimp Head
     originalName: 
     pivot: {x: 0.5, y: 0.5}
@@ -869,7 +869,7 @@ ScriptedImporter:
     spriteName: 
     isGroup: 1
     parentIndex: -1
-    spriteID: 00000000000000000000000000000000
+    spriteID: 17a2c7296bcaf384d92fc465f2224f21
     layerID: 50
     mosaicPosition: {x: 0, y: 0}
     flatten: 0
@@ -882,56 +882,6 @@ ScriptedImporter:
     spriteID: 0064df4d1f1ecb44e83cb421bda6f42b
     layerID: 25
     mosaicPosition: {x: 134, y: 4}
-    flatten: 0
-    isImported: 1
-    isVisible: 1
-  - name: Gorilla Armor
-    spriteName: 
-    isGroup: 1
-    parentIndex: 6
-    spriteID: 00000000000000000000000000000000
-    layerID: 70
-    mosaicPosition: {x: 0, y: 0}
-    flatten: 0
-    isImported: 0
-    isVisible: 1
-  - name: Gorilla Gloves
-    spriteName: Gorilla Gloves
-    isGroup: 0
-    parentIndex: 8
-    spriteID: 7de07e5943be9aa4493d225a9f2902de
-    layerID: 40
-    mosaicPosition: {x: 169, y: 62}
-    flatten: 0
-    isImported: 1
-    isVisible: 1
-  - name: Gorilla Chest Armor
-    spriteName: Gorilla Chest Armor
-    isGroup: 0
-    parentIndex: 8
-    spriteID: 5d8389ba14d533e4e830d52a7ffa7e5b
-    layerID: 35
-    mosaicPosition: {x: 134, y: 151}
-    flatten: 0
-    isImported: 1
-    isVisible: 1
-  - name: Gorilla Boots
-    spriteName: Gorilla Boots
-    isGroup: 0
-    parentIndex: 8
-    spriteID: 102ed09ed0c14ea42b561997019344aa
-    layerID: 41
-    mosaicPosition: {x: 134, y: 347}
-    flatten: 0
-    isImported: 1
-    isVisible: 1
-  - name: Gorilla Pants
-    spriteName: Gorilla Pants
-    isGroup: 0
-    parentIndex: 8
-    spriteID: 8e7f4ead139eb5b46aa387f32e473641
-    layerID: 28
-    mosaicPosition: {x: 134, y: 321}
     flatten: 0
     isImported: 1
     isVisible: 1
@@ -965,11 +915,61 @@ ScriptedImporter:
     flatten: 0
     isImported: 1
     isVisible: 1
+  - name: Gorilla Armor
+    spriteName: 
+    isGroup: 1
+    parentIndex: -1
+    spriteID: ec5273e760e82134ead05bb2d38515f5
+    layerID: 70
+    mosaicPosition: {x: 0, y: 0}
+    flatten: 0
+    isImported: 0
+    isVisible: 1
+  - name: Gorilla Gloves
+    spriteName: Gorilla Gloves
+    isGroup: 0
+    parentIndex: 11
+    spriteID: 7de07e5943be9aa4493d225a9f2902de
+    layerID: 40
+    mosaicPosition: {x: 169, y: 62}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: Gorilla Chest Armor
+    spriteName: Gorilla Chest Armor
+    isGroup: 0
+    parentIndex: 11
+    spriteID: 5d8389ba14d533e4e830d52a7ffa7e5b
+    layerID: 35
+    mosaicPosition: {x: 134, y: 151}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: Gorilla Boots
+    spriteName: Gorilla Boots
+    isGroup: 0
+    parentIndex: 11
+    spriteID: 102ed09ed0c14ea42b561997019344aa
+    layerID: 41
+    mosaicPosition: {x: 134, y: 347}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: Gorilla Pants
+    spriteName: Gorilla Pants
+    isGroup: 0
+    parentIndex: 11
+    spriteID: 8e7f4ead139eb5b46aa387f32e473641
+    layerID: 28
+    mosaicPosition: {x: 134, y: 321}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
   - name: Chimp Man
     spriteName: 
     isGroup: 1
     parentIndex: -1
-    spriteID: 00000000000000000000000000000000
+    spriteID: f8218f758e8028441924a61fbff827fe
     layerID: 55
     mosaicPosition: {x: 0, y: 0}
     flatten: 0
@@ -1019,7 +1019,7 @@ ScriptedImporter:
     spriteName: 
     isGroup: 1
     parentIndex: -1
-    spriteID: 00000000000000000000000000000000
+    spriteID: a68db85bc009bbc4ea56741b018529a8
     layerID: 68
     mosaicPosition: {x: 0, y: 0}
     flatten: 0

@@ -221,7 +221,6 @@
 					unwarpedUV.y = (unwarpedUV.y - _CameraPos.y) / _CameraDim.y;
 					totalColor = tex2D(_MainTex, unwarpedUV);
 					isOutline = IsOutline(unwarpedUV, _Depth);
-					depthMe = SAMPLE_DEPTH_TEXTURE(_Depth, unwarpedUV);
 				}
 				else if (unwarpedUV.x >= _CameraPos.x - 1 && unwarpedUV.x <= _CameraPos.x - 1 + _CameraDim.x)
 				{
@@ -229,7 +228,6 @@
 					unwarpedUV.y = (unwarpedUV.y - _CameraPos.y) / _CameraDim.y;
 					totalColor = tex2D(_WrapTexture, unwarpedUV);
 					isOutline = IsOutline(unwarpedUV, _WrapDepth);
-					depthMe = SAMPLE_DEPTH_TEXTURE(_WrapDepth, unwarpedUV);
 				}
 				else if (unwarpedUV.x >= _CameraPos.x + 1 && unwarpedUV.x <= _CameraPos.x + 1 + _CameraDim.x)
 				{
@@ -237,7 +235,6 @@
 					unwarpedUV.y = (unwarpedUV.y - _CameraPos.y) / _CameraDim.y;
 					totalColor = tex2D(_WrapTexture, unwarpedUV);
 					isOutline = IsOutline(unwarpedUV, _WrapDepth);
-					depthMe = SAMPLE_DEPTH_TEXTURE(_WrapDepth, unwarpedUV);
 				}
 				else
 				{

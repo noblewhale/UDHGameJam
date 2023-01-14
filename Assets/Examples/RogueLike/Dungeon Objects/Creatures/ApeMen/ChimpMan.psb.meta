@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 0a786a29185116242b788dbfc0f154e0
+guid: 683593bd6defec14d933291266feef80
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -91,7 +91,7 @@ ScriptedImporter:
     uvTransform: {x: 0, y: 0}
   mosaicSpriteImportData: []
   rigSpriteImportData:
-  - name: Background
+  - name: Chimp Head
     originalName: 
     pivot: {x: 0.5, y: 0.5}
     alignment: 0
@@ -100,9 +100,9 @@ ScriptedImporter:
       serializedVersion: 2
       x: 4
       y: 4
-      width: 64
-      height: 64
-    spriteID: 810a8bdace7dd514bac75079f3471728
+      width: 27
+      height: 29
+    spriteID: c671d5b4c7b3c86498b1f136a00293bd
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -111,7 +111,70 @@ ScriptedImporter:
     edges: []
     tessellationDetail: 0
     parentGroupIndex: -1
-    uvTransform: {x: 4, y: 4}
+    uvTransform: {x: -14, y: -29}
+  - name: Chimp Arms
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 41
+      width: 32
+      height: 21
+    spriteID: 4e5052e2999db5644abcc76d58065676
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: -13, y: 27}
+  - name: Chimp Legs
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 39
+      y: 4
+      width: 21
+      height: 18
+    spriteID: 670110bca4d7a8e46a4d0dec562c5235
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 18, y: 4}
+  - name: Chimp Torso
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 70
+      width: 12
+      height: 24
+    spriteID: ab5c653fda41e0a4b82bb2a2c0d87fee
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: -21, y: 56}
   characterData:
     bones: []
     parts: []
@@ -142,123 +205,53 @@ ScriptedImporter:
   resliceFromLayer: 0
   mosaicPSDLayers: []
   rigPSDLayers:
-  - name: Orang Armor
+  - name: Chimp Man
     spriteName: 
     isGroup: 1
     parentIndex: -1
     spriteID: 00000000000000000000000000000000
-    layerID: 22
-    mosaicPosition: {x: 0, y: 0}
-    flatten: 0
-    isImported: 0
-    isVisible: 0
-  - name: Orang Chest Armor
-    spriteName: 
-    isGroup: 0
-    parentIndex: 0
-    spriteID: 00000000000000000000000000000000
-    layerID: 18
-    mosaicPosition: {x: 0, y: 0}
-    flatten: 0
-    isImported: 0
-    isVisible: 1
-  - name: Orang Pants
-    spriteName: 
-    isGroup: 0
-    parentIndex: 0
-    spriteID: 00000000000000000000000000000000
-    layerID: 20
-    mosaicPosition: {x: 0, y: 0}
-    flatten: 0
-    isImported: 0
-    isVisible: 1
-  - name: Chimp Armor
-    spriteName: 
-    isGroup: 1
-    parentIndex: -1
-    spriteID: 00000000000000000000000000000000
-    layerID: 16
-    mosaicPosition: {x: 0, y: 0}
-    flatten: 0
-    isImported: 0
-    isVisible: 0
-  - name: Chimp Chest Armor
-    spriteName: 
-    isGroup: 0
-    parentIndex: 3
-    spriteID: 00000000000000000000000000000000
-    layerID: 11
-    mosaicPosition: {x: 0, y: 0}
-    flatten: 0
-    isImported: 0
-    isVisible: 1
-  - name: Chimp Pants
-    spriteName: 
-    isGroup: 0
-    parentIndex: 3
-    spriteID: 00000000000000000000000000000000
-    layerID: 13
-    mosaicPosition: {x: 0, y: 0}
-    flatten: 0
-    isImported: 0
-    isVisible: 1
-  - name: Gorilla Armor
-    spriteName: 
-    isGroup: 1
-    parentIndex: -1
-    spriteID: 00000000000000000000000000000000
-    layerID: 14
-    mosaicPosition: {x: 0, y: 0}
-    flatten: 0
-    isImported: 0
-    isVisible: 0
-  - name: Gorilla Gloves
-    spriteName: Gorilla Gloves
-    isGroup: 0
-    parentIndex: 6
-    spriteID: d97ed6a79b63b434c8fdc2523b297314
-    layerID: 9
-    mosaicPosition: {x: 4, y: 76}
-    flatten: 0
-    isImported: 0
-    isVisible: 1
-  - name: Gorilla Chest Armor
-    spriteName: Gorilla Chest Armor
-    isGroup: 0
-    parentIndex: 6
-    spriteID: 6091bd44e9b032d46b712a2f443ea5c3
     layerID: 7
-    mosaicPosition: {x: 4, y: 102}
+    mosaicPosition: {x: 0, y: 0}
     flatten: 0
     isImported: 0
     isVisible: 1
-  - name: Gorilla Boots
-    spriteName: Gorilla Boots
+  - name: Chimp Head
+    spriteName: Chimp Head
     isGroup: 0
-    parentIndex: 6
-    spriteID: caffd1a2d58021543b7f356496ec062b
+    parentIndex: 0
+    spriteID: c671d5b4c7b3c86498b1f136a00293bd
     layerID: 6
-    mosaicPosition: {x: 39, y: 102}
-    flatten: 0
-    isImported: 0
-    isVisible: 1
-  - name: Gorilla Pants
-    spriteName: Gorilla Pants
-    isGroup: 0
-    parentIndex: 6
-    spriteID: def9fc3a93d406c47b5c1c6bc5ba9bbe
-    layerID: 4
-    mosaicPosition: {x: 44, y: 76}
-    flatten: 0
-    isImported: 0
-    isVisible: 1
-  - name: Background
-    spriteName: Background
-    isGroup: 0
-    parentIndex: -1
-    spriteID: 810a8bdace7dd514bac75079f3471728
-    layerID: 1
     mosaicPosition: {x: 4, y: 4}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: Chimp Arms
+    spriteName: Chimp Arms
+    isGroup: 0
+    parentIndex: 0
+    spriteID: 4e5052e2999db5644abcc76d58065676
+    layerID: 5
+    mosaicPosition: {x: 4, y: 41}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: Chimp Legs
+    spriteName: Chimp Legs
+    isGroup: 0
+    parentIndex: 0
+    spriteID: 670110bca4d7a8e46a4d0dec562c5235
+    layerID: 4
+    mosaicPosition: {x: 39, y: 4}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: Chimp Torso
+    spriteName: Chimp Torso
+    isGroup: 0
+    parentIndex: 0
+    spriteID: ab5c653fda41e0a4b82bb2a2c0d87fee
+    layerID: 3
+    mosaicPosition: {x: 4, y: 70}
     flatten: 0
     isImported: 1
     isVisible: 1

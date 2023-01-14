@@ -41,6 +41,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3592996919368632366}
   - component: {fileID: 5239417967651963230}
+  - component: {fileID: 1060111810736228633}
   m_Layer: 0
   m_Name: Face
   m_TagString: Untagged
@@ -115,6 +116,21 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1060111810736228633
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 267159861441994447}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7484360c001bc541b5df9e45926dda3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tint: {r: 1, g: 1, b: 1, a: 1}
+  extraTint: {r: 1, g: 1, b: 1, a: 1}
+  originalColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &290248060562424694
 GameObject:
   m_ObjectHideFlags: 0
@@ -125,6 +141,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2596086956458225693}
   - component: {fileID: 3482783358156782093}
+  - component: {fileID: 4711047461740950670}
   m_Layer: 0
   m_Name: Right Arm
   m_TagString: Untagged
@@ -202,6 +219,21 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &4711047461740950670
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 290248060562424694}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7484360c001bc541b5df9e45926dda3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tint: {r: 1, g: 1, b: 1, a: 1}
+  extraTint: {r: 1, g: 1, b: 1, a: 1}
+  originalColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &2240452002803470891
 GameObject:
   m_ObjectHideFlags: 0
@@ -243,6 +275,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2616446768321704684}
   - component: {fileID: 2197216104600741935}
+  - component: {fileID: 2843624674006418683}
   m_Layer: 0
   m_Name: Eyes
   m_TagString: Untagged
@@ -317,6 +350,21 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &2843624674006418683
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2586004720556271703}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7484360c001bc541b5df9e45926dda3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tint: {r: 1, g: 1, b: 1, a: 1}
+  extraTint: {r: 1, g: 1, b: 1, a: 1}
+  originalColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &2969301614618844302
 GameObject:
   m_ObjectHideFlags: 0
@@ -1061,6 +1109,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5437401037323636614}
   - component: {fileID: 2736492672294145968}
+  - component: {fileID: 3776012496530553116}
   m_Layer: 0
   m_Name: Legs
   m_TagString: Untagged
@@ -1136,6 +1185,21 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &3776012496530553116
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4086445226850424039}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7484360c001bc541b5df9e45926dda3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tint: {r: 1, g: 1, b: 1, a: 1}
+  extraTint: {r: 1, g: 1, b: 1, a: 1}
+  originalColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &4224655585414152979
 GameObject:
   m_ObjectHideFlags: 0
@@ -1213,6 +1277,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6190633363875192465}
   - component: {fileID: 2728600327937856070}
+  - component: {fileID: 2653990090255603941}
   m_Layer: 0
   m_Name: Chest
   m_TagString: Untagged
@@ -1289,6 +1354,21 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &2653990090255603941
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5306069963234208418}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7484360c001bc541b5df9e45926dda3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tint: {r: 1, g: 1, b: 1, a: 1}
+  extraTint: {r: 1, g: 1, b: 1, a: 1}
+  originalColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &5474592085304933621
 GameObject:
   m_ObjectHideFlags: 0
@@ -1382,6 +1462,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5744361868510195373}
   - component: {fileID: 1720319111786628080}
+  - component: {fileID: 8820027306117794120}
   m_Layer: 0
   m_Name: Left Arm
   m_TagString: Untagged
@@ -1459,6 +1540,21 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &8820027306117794120
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5750019773866916172}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7484360c001bc541b5df9e45926dda3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tint: {r: 1, g: 1, b: 1, a: 1}
+  extraTint: {r: 1, g: 1, b: 1, a: 1}
+  originalColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &6428804665889019140
 GameObject:
   m_ObjectHideFlags: 0
@@ -1503,7 +1599,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3854370421937593438}
-  - component: {fileID: 5946807682840380869}
+  - component: {fileID: 2439914190140925011}
   m_Layer: 0
   m_Name: Two Hand Mask
   m_TagString: Untagged
@@ -1526,7 +1622,7 @@ Transform:
   m_Father: {fileID: 4062021279427941340}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!331 &5946807682840380869
+--- !u!331 &2439914190140925011
 SpriteMask:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1546,7 +1642,7 @@ SpriteMask:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 15d0c3709176029428a0da2f8cecf0b5, type: 2}
+  - {fileID: 10758, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1623,6 +1719,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3247658115576941370}
   - component: {fileID: 5898418006785699130}
+  - component: {fileID: 3134966454640349715}
   m_Layer: 0
   m_Name: Hair
   m_TagString: Untagged
@@ -1697,6 +1794,21 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &3134966454640349715
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6894728206912033700}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7484360c001bc541b5df9e45926dda3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tint: {r: 1, g: 1, b: 1, a: 1}
+  extraTint: {r: 1, g: 1, b: 1, a: 1}
+  originalColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &8189030791319283502
 GameObject:
   m_ObjectHideFlags: 0
@@ -1821,6 +1933,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1070166284458090981}
   - component: {fileID: 5475627656864659219}
+  - component: {fileID: 5375790014789361380}
   m_Layer: 0
   m_Name: Mouth
   m_TagString: Untagged
@@ -1895,3 +2008,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &5375790014789361380
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8717145150387998938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7484360c001bc541b5df9e45926dda3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tint: {r: 1, g: 1, b: 1, a: 1}
+  extraTint: {r: 1, g: 1, b: 1, a: 1}
+  originalColor: {r: 0, g: 0, b: 0, a: 0}
