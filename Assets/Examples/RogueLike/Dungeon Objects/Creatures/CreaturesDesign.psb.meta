@@ -814,7 +814,7 @@ ScriptedImporter:
     mosaicPosition: {x: 0, y: 0}
     flatten: 0
     isImported: 0
-    isVisible: 1
+    isVisible: 0
   - name: Layer 9
     spriteName: Layer 9
     isGroup: 0
@@ -865,20 +865,10 @@ ScriptedImporter:
     flatten: 0
     isImported: 1
     isVisible: 1
-  - name: Gorilla Man
-    spriteName: 
-    isGroup: 1
-    parentIndex: -1
-    spriteID: 00000000000000000000000000000000
-    layerID: 50
-    mosaicPosition: {x: 0, y: 0}
-    flatten: 0
-    isImported: 0
-    isVisible: 1
   - name: Gorilla Head
     spriteName: Gorilla Head
     isGroup: 0
-    parentIndex: 6
+    parentIndex: -1
     spriteID: 0064df4d1f1ecb44e83cb421bda6f42b
     layerID: 25
     mosaicPosition: {x: 134, y: 4}
@@ -888,8 +878,8 @@ ScriptedImporter:
   - name: Gorilla Armor
     spriteName: 
     isGroup: 1
-    parentIndex: 6
-    spriteID: 00000000000000000000000000000000
+    parentIndex: -1
+    spriteID: 9fc4b66ceab893546b8d19f7f6d4eecd
     layerID: 70
     mosaicPosition: {x: 0, y: 0}
     flatten: 0
@@ -898,7 +888,7 @@ ScriptedImporter:
   - name: Gorilla Gloves
     spriteName: Gorilla Gloves
     isGroup: 0
-    parentIndex: 8
+    parentIndex: 7
     spriteID: 7de07e5943be9aa4493d225a9f2902de
     layerID: 40
     mosaicPosition: {x: 169, y: 62}
@@ -908,7 +898,7 @@ ScriptedImporter:
   - name: Gorilla Chest Armor
     spriteName: Gorilla Chest Armor
     isGroup: 0
-    parentIndex: 8
+    parentIndex: 7
     spriteID: 5d8389ba14d533e4e830d52a7ffa7e5b
     layerID: 35
     mosaicPosition: {x: 134, y: 151}
@@ -918,7 +908,7 @@ ScriptedImporter:
   - name: Gorilla Boots
     spriteName: Gorilla Boots
     isGroup: 0
-    parentIndex: 8
+    parentIndex: 7
     spriteID: 102ed09ed0c14ea42b561997019344aa
     layerID: 41
     mosaicPosition: {x: 134, y: 347}
@@ -928,17 +918,27 @@ ScriptedImporter:
   - name: Gorilla Pants
     spriteName: Gorilla Pants
     isGroup: 0
-    parentIndex: 8
+    parentIndex: 7
     spriteID: 8e7f4ead139eb5b46aa387f32e473641
     layerID: 28
     mosaicPosition: {x: 134, y: 321}
     flatten: 0
     isImported: 1
     isVisible: 1
+  - name: Gorilla Man
+    spriteName: 
+    isGroup: 1
+    parentIndex: -1
+    spriteID: 93baa605afc205f44a0a0944b65bae18
+    layerID: 50
+    mosaicPosition: {x: 0, y: 0}
+    flatten: 0
+    isImported: 0
+    isVisible: 1
   - name: Gorilla Arms
     spriteName: Gorilla Arms
     isGroup: 0
-    parentIndex: 6
+    parentIndex: 12
     spriteID: e2c44083f1159bb4cacb1e1f03015a87
     layerID: 43
     mosaicPosition: {x: 76, y: 334}
@@ -948,7 +948,7 @@ ScriptedImporter:
   - name: Gorilla Legs
     spriteName: Gorilla Legs
     isGroup: 0
-    parentIndex: 6
+    parentIndex: 12
     spriteID: 6b29e410f38bb034f9d7050e65275cc0
     layerID: 45
     mosaicPosition: {x: 134, y: 179}
@@ -958,7 +958,7 @@ ScriptedImporter:
   - name: Gorilla Torso
     spriteName: Gorilla Torso
     isGroup: 0
-    parentIndex: 6
+    parentIndex: 12
     spriteID: 76921081756f9074392440bd788d8c25
     layerID: 36
     mosaicPosition: {x: 110, y: 468}
@@ -969,7 +969,7 @@ ScriptedImporter:
     spriteName: 
     isGroup: 1
     parentIndex: -1
-    spriteID: 00000000000000000000000000000000
+    spriteID: cef33a96b30acb340b474f29cd5a1cbb
     layerID: 55
     mosaicPosition: {x: 0, y: 0}
     flatten: 0
@@ -1019,7 +1019,7 @@ ScriptedImporter:
     spriteName: 
     isGroup: 1
     parentIndex: -1
-    spriteID: 00000000000000000000000000000000
+    spriteID: aaf6dd96e765e8d4b84b1bd28291de6a
     layerID: 68
     mosaicPosition: {x: 0, y: 0}
     flatten: 0
