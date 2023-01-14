@@ -146,9 +146,8 @@
             }
         }
 
-        override public void Update()
+        public void Update()
         {
-            base.Update();
             UpdateCameraShaderProperties();
         }
 
