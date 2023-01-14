@@ -8,6 +8,7 @@ public class RoguePlayerAnimator : MonoBehaviour
     Animator playerAnimator;
     Creature creature;
     float nextBlinkTime;
+    bool wasTwoHanded = false;
 
     private void Awake()
     {
@@ -24,12 +25,14 @@ public class RoguePlayerAnimator : MonoBehaviour
         int maxHealth = maxHealthProperty.GetValue(); ;
         playerAnimator.SetFloat("Health", (float)health / maxHealth);
         Equipable twoHandWeapon = creature.GetEquipment(Equipment.Slot.TWO_HANDED);
-        if (twoHandWeapon)
+        if (twoHandWeapon && !wasTwoHanded)
         {
+            wasTwoHanded = true;
             playerAnimator.SetBool("IsTwoHanded", true);
         }
-        else
+        else if (!twoHandWeapon && wasTwoHanded)
         {
+            wasTwoHanded = false;
             playerAnimator.SetBool("IsTwoHanded", false);
         }
 

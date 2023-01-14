@@ -25,13 +25,6 @@
             PlaceQuad();
         }
 
-        virtual public void Update()
-        {
-            // Do these every frame for debugging when testing warp parameters
-            CreateRenderTexture();
-            PlaceQuad();
-        }
-
         virtual public void PlaceQuad()
         {
 
