@@ -10,7 +10,7 @@ Properties {
     _MainTex ("Base (RGB) Trans (A)", 2D) = "white" {}
 }
 SubShader {
-    Tags {"Queue"="AlphaTest" "IgnoreProjector"="True" "RenderType"="TransparentCutout"}
+    Tags {"Queue"="Geometry" "IgnoreProjector"="True" "RenderType"="TransparentCutout"}
     LOD 100
     Cull Off
     ZTest Off
@@ -56,14 +56,23 @@ SubShader {
                 return o;
             }
 
-            fixed4 frag(v2f i) : SV_Target
+            struct fragOut {
+              fixed4 color : SV_TARGET;
+              float depth : SV_DEPTH;
+            };
+
+            fragOut frag(v2f i)
             {
                 fixed4 col = fixed4(0, 0, 0, 0);
-                UNITY_OUTPUT_DEPTH(i.depth);
-                return col;
+                //UNITY_OUTPUT_DEPTH(i.depth);
+                fragOut result;
+                result.color = col;
+                result.depth = i.depth;
+                return result;
             }
         ENDCG
     }
+    UsePass "Legacy Shaders/VertexLit/SHADOWCASTER"
 }
 
 }
