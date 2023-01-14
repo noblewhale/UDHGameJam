@@ -4,21 +4,34 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FishingPoleBehavior : TargetAoeShapeBehaviour
+public class FishingPoleBehavior : TickableBehaviour
 {
-    public override bool IsActionACoroutine()
-    {
-        return true;
-    }
+    public PowerBehaviour fishingBehaviour;
+    public TargetableBehaviour castBehaviour;
+
+    public override bool IsActionACoroutine() => true;
+    
     override public IEnumerator StartActionCoroutine()
     {
-        Debug.Log("F has begun");
-        yield return StartCoroutine(base.StartActionCoroutine());
+        yield return castBehaviour.StartActionCoroutine();
+        yield return fishingBehaviour.StartActionCoroutine();
     }
 
-    override public void StartSubAction(ulong time) { }
-    override public bool ContinueSubAction(ulong time) { return true; }
-    override public void FinishSubAction(ulong time) { }
+    override public void StartSubAction(ulong time) 
+    { 
+        fishingBehaviour.StartSubAction(time);  
+    }
+    override public bool ContinueSubAction(ulong time) 
+    { 
+        return true; 
+    }
+    override public void FinishSubAction(ulong time) 
+    { 
+        fishingBehaviour.FinishSubAction(time);
+    }
 
-    override public void FinishAction() { }
+    override public void FinishAction() 
+    { 
+        fishingBehaviour.FinishAction();
+    }
 }

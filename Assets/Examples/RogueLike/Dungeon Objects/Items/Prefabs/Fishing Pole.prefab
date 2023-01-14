@@ -90,6 +90,7 @@ GameObject:
   - component: {fileID: 3300392959844046706}
   - component: {fileID: 7351972079377745321}
   - component: {fileID: 7255016432821685811}
+  - component: {fileID: -9008316990682759589}
   m_Layer: 0
   m_Name: Fishing Pole
   m_TagString: Untagged
@@ -212,8 +213,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   owner: {fileID: 0}
   executeEveryTick: 0
-  aimingRadius: 2.9
-  shapeSprite: {fileID: 1709452272, guid: 56dc95184da85084d877a2ed4892f9d1, type: 3}
+  fishingBehaviour: {fileID: 0}
+  castBehaviour: {fileID: -9008316990682759589}
+--- !u!114 &-9008316990682759589
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3196843922296835516}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95278dde8c692dc4eaab71ba20daf806, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  owner: {fileID: 0}
+  executeEveryTick: 0
+  aimingRadius: 3
+  shapeSprite: {fileID: 0}
   shape: []
   level: 0
 --- !u!1 &3196934914895267844

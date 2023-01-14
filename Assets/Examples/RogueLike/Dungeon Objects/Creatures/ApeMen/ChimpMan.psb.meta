@@ -1,9 +1,5 @@
 fileFormatVersion: 2
-<<<<<<< HEAD
 guid: e0bee4d5a707fff4799217ce2349dd95
-=======
-guid: 683593bd6defec14d933291266feef80
->>>>>>> 807266ff66761f3f55dd4c6041efc77485408e42
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -106,11 +102,7 @@ ScriptedImporter:
       y: 4
       width: 27
       height: 29
-<<<<<<< HEAD
-    spriteID: a2066550444132f4ab58cb0ab4987058
-=======
-    spriteID: c671d5b4c7b3c86498b1f136a00293bd
->>>>>>> 807266ff66761f3f55dd4c6041efc77485408e42
+    spriteID: cd99ecad101f16446ba8d42c5f3c50f5
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -131,11 +123,7 @@ ScriptedImporter:
       y: 41
       width: 32
       height: 21
-<<<<<<< HEAD
-    spriteID: b4bec32450b6edf49ad714817e6a2230
-=======
-    spriteID: 4e5052e2999db5644abcc76d58065676
->>>>>>> 807266ff66761f3f55dd4c6041efc77485408e42
+    spriteID: 2f4121b35b9cb1a4a97a8331e78857a5
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -156,11 +144,7 @@ ScriptedImporter:
       y: 4
       width: 21
       height: 18
-<<<<<<< HEAD
-    spriteID: 75733a40806652f4084f62df92fe458f
-=======
-    spriteID: 670110bca4d7a8e46a4d0dec562c5235
->>>>>>> 807266ff66761f3f55dd4c6041efc77485408e42
+    spriteID: 4827a077ec23d1c4ab158c2a8bcd141f
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -181,11 +165,7 @@ ScriptedImporter:
       y: 70
       width: 12
       height: 24
-<<<<<<< HEAD
-    spriteID: 74a2cdb27c6762e47953288f48c7e91e
-=======
-    spriteID: ab5c653fda41e0a4b82bb2a2c0d87fee
->>>>>>> 807266ff66761f3f55dd4c6041efc77485408e42
+    spriteID: e4df3ba61a782c54faa9b1c334159cf2
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -239,11 +219,7 @@ ScriptedImporter:
     spriteName: Chimp Head
     isGroup: 0
     parentIndex: 0
-<<<<<<< HEAD
-    spriteID: a2066550444132f4ab58cb0ab4987058
-=======
-    spriteID: c671d5b4c7b3c86498b1f136a00293bd
->>>>>>> 807266ff66761f3f55dd4c6041efc77485408e42
+    spriteID: cd99ecad101f16446ba8d42c5f3c50f5
     layerID: 6
     mosaicPosition: {x: 4, y: 4}
     flatten: 0
@@ -253,11 +229,7 @@ ScriptedImporter:
     spriteName: Chimp Arms
     isGroup: 0
     parentIndex: 0
-<<<<<<< HEAD
-    spriteID: b4bec32450b6edf49ad714817e6a2230
-=======
-    spriteID: 4e5052e2999db5644abcc76d58065676
->>>>>>> 807266ff66761f3f55dd4c6041efc77485408e42
+    spriteID: 2f4121b35b9cb1a4a97a8331e78857a5
     layerID: 5
     mosaicPosition: {x: 4, y: 41}
     flatten: 0
@@ -267,11 +239,7 @@ ScriptedImporter:
     spriteName: Chimp Legs
     isGroup: 0
     parentIndex: 0
-<<<<<<< HEAD
-    spriteID: 75733a40806652f4084f62df92fe458f
-=======
-    spriteID: 670110bca4d7a8e46a4d0dec562c5235
->>>>>>> 807266ff66761f3f55dd4c6041efc77485408e42
+    spriteID: 4827a077ec23d1c4ab158c2a8bcd141f
     layerID: 4
     mosaicPosition: {x: 39, y: 4}
     flatten: 0
@@ -281,11 +249,7 @@ ScriptedImporter:
     spriteName: Chimp Torso
     isGroup: 0
     parentIndex: 0
-<<<<<<< HEAD
-    spriteID: 74a2cdb27c6762e47953288f48c7e91e
-=======
-    spriteID: ab5c653fda41e0a4b82bb2a2c0d87fee
->>>>>>> 807266ff66761f3f55dd4c6041efc77485408e42
+    spriteID: e4df3ba61a782c54faa9b1c334159cf2
     layerID: 3
     mosaicPosition: {x: 4, y: 70}
     flatten: 0

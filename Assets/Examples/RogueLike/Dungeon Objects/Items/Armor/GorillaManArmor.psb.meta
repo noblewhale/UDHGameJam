@@ -91,7 +91,6 @@ ScriptedImporter:
     uvTransform: {x: 0, y: 0}
   mosaicSpriteImportData: []
   rigSpriteImportData:
-<<<<<<< HEAD
   - name: Orang Chest Armor
     originalName: 
     pivot: {x: 0.5, y: 0.5}
@@ -103,7 +102,7 @@ ScriptedImporter:
       y: 76
       width: 27
       height: 23
-    spriteID: 46a636702bc07474f908b65f38d9388b
+    spriteID: f3c53515422ec3b48bfb332974c903c9
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -124,7 +123,7 @@ ScriptedImporter:
       y: 58
       width: 12
       height: 17
-    spriteID: ce3a061df0edab3429191a10c78a4ae9
+    spriteID: ba96204398440b142ad0a10eee4cb80d
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -145,7 +144,7 @@ ScriptedImporter:
       y: 76
       width: 26
       height: 22
-    spriteID: dae06cd34a3a31142afbc4fa270ec61e
+    spriteID: dcbb386dc4f900f4f906b1780e825d68
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -166,7 +165,7 @@ ScriptedImporter:
       y: 83
       width: 12
       height: 16
-    spriteID: b05b2f48c54ece04dac8724dde071615
+    spriteID: 97e834347e53d544493d2eb103749e1f
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -187,7 +186,7 @@ ScriptedImporter:
       y: 4
       width: 32
       height: 18
-    spriteID: d97ed6a79b63b434c8fdc2523b297314
+    spriteID: 7426114d5c30f8545905542dcc3228d9
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -208,7 +207,7 @@ ScriptedImporter:
       y: 30
       width: 27
       height: 20
-    spriteID: 6091bd44e9b032d46b712a2f443ea5c3
+    spriteID: b7c454c3bb4ea8a4a9734ee621ec1a36
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -229,7 +228,7 @@ ScriptedImporter:
       y: 107
       width: 21
       height: 10
-    spriteID: caffd1a2d58021543b7f356496ec062b
+    spriteID: dcb6ff4266728304986cd7cc326877b6
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -250,7 +249,7 @@ ScriptedImporter:
       y: 106
       width: 12
       height: 18
-    spriteID: def9fc3a93d406c47b5c1c6bc5ba9bbe
+    spriteID: 35bc1d854b7fdd64dba9f02921f5e235
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -260,8 +259,6 @@ ScriptedImporter:
     tessellationDetail: 0
     parentGroupIndex: -1
     uvTransform: {x: 15, y: 102}
-=======
->>>>>>> 807266ff66761f3f55dd4c6041efc77485408e42
   - name: Background
     originalName: 
     pivot: {x: 0.5, y: 0.5}
@@ -273,7 +270,7 @@ ScriptedImporter:
       y: 4
       width: 64
       height: 64
-    spriteID: 810a8bdace7dd514bac75079f3471728
+    spriteID: 6de7e297aafb78a4ba532480080e4849
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -322,13 +319,12 @@ ScriptedImporter:
     mosaicPosition: {x: 0, y: 0}
     flatten: 0
     isImported: 0
-<<<<<<< HEAD
     isVisible: 1
   - name: Orang Chest Armor
     spriteName: Orang Chest Armor
     isGroup: 0
     parentIndex: 0
-    spriteID: 46a636702bc07474f908b65f38d9388b
+    spriteID: f3c53515422ec3b48bfb332974c903c9
     layerID: 18
     mosaicPosition: {x: 4, y: 76}
     flatten: 0
@@ -338,33 +334,11 @@ ScriptedImporter:
     spriteName: Orang Pants
     isGroup: 0
     parentIndex: 0
-    spriteID: ce3a061df0edab3429191a10c78a4ae9
+    spriteID: ba96204398440b142ad0a10eee4cb80d
     layerID: 20
     mosaicPosition: {x: 76, y: 58}
     flatten: 0
     isImported: 1
-=======
-    isVisible: 0
-  - name: Orang Chest Armor
-    spriteName: 
-    isGroup: 0
-    parentIndex: 0
-    spriteID: 00000000000000000000000000000000
-    layerID: 18
-    mosaicPosition: {x: 0, y: 0}
-    flatten: 0
-    isImported: 0
-    isVisible: 1
-  - name: Orang Pants
-    spriteName: 
-    isGroup: 0
-    parentIndex: 0
-    spriteID: 00000000000000000000000000000000
-    layerID: 20
-    mosaicPosition: {x: 0, y: 0}
-    flatten: 0
-    isImported: 0
->>>>>>> 807266ff66761f3f55dd4c6041efc77485408e42
     isVisible: 1
   - name: Chimp Armor
     spriteName: 
@@ -375,13 +349,12 @@ ScriptedImporter:
     mosaicPosition: {x: 0, y: 0}
     flatten: 0
     isImported: 0
-<<<<<<< HEAD
     isVisible: 1
   - name: Chimp Chest Armor
     spriteName: Chimp Chest Armor
     isGroup: 0
     parentIndex: 3
-    spriteID: dae06cd34a3a31142afbc4fa270ec61e
+    spriteID: dcbb386dc4f900f4f906b1780e825d68
     layerID: 11
     mosaicPosition: {x: 39, y: 76}
     flatten: 0
@@ -391,33 +364,11 @@ ScriptedImporter:
     spriteName: Chimp Pants
     isGroup: 0
     parentIndex: 3
-    spriteID: b05b2f48c54ece04dac8724dde071615
+    spriteID: 97e834347e53d544493d2eb103749e1f
     layerID: 13
     mosaicPosition: {x: 76, y: 83}
     flatten: 0
     isImported: 1
-=======
-    isVisible: 0
-  - name: Chimp Chest Armor
-    spriteName: 
-    isGroup: 0
-    parentIndex: 3
-    spriteID: 00000000000000000000000000000000
-    layerID: 11
-    mosaicPosition: {x: 0, y: 0}
-    flatten: 0
-    isImported: 0
-    isVisible: 1
-  - name: Chimp Pants
-    spriteName: 
-    isGroup: 0
-    parentIndex: 3
-    spriteID: 00000000000000000000000000000000
-    layerID: 13
-    mosaicPosition: {x: 0, y: 0}
-    flatten: 0
-    isImported: 0
->>>>>>> 807266ff66761f3f55dd4c6041efc77485408e42
     isVisible: 1
   - name: Gorilla Armor
     spriteName: 
@@ -428,56 +379,52 @@ ScriptedImporter:
     mosaicPosition: {x: 0, y: 0}
     flatten: 0
     isImported: 0
-<<<<<<< HEAD
     isVisible: 1
-=======
-    isVisible: 0
->>>>>>> 807266ff66761f3f55dd4c6041efc77485408e42
   - name: Gorilla Gloves
     spriteName: Gorilla Gloves
     isGroup: 0
     parentIndex: 6
-    spriteID: d97ed6a79b63b434c8fdc2523b297314
+    spriteID: 7426114d5c30f8545905542dcc3228d9
     layerID: 9
     mosaicPosition: {x: 76, y: 4}
     flatten: 0
-    isImported: 0
+    isImported: 1
     isVisible: 1
   - name: Gorilla Chest Armor
     spriteName: Gorilla Chest Armor
     isGroup: 0
     parentIndex: 6
-    spriteID: 6091bd44e9b032d46b712a2f443ea5c3
+    spriteID: b7c454c3bb4ea8a4a9734ee621ec1a36
     layerID: 7
     mosaicPosition: {x: 76, y: 30}
     flatten: 0
-    isImported: 0
+    isImported: 1
     isVisible: 1
   - name: Gorilla Boots
     spriteName: Gorilla Boots
     isGroup: 0
     parentIndex: 6
-    spriteID: caffd1a2d58021543b7f356496ec062b
+    spriteID: dcb6ff4266728304986cd7cc326877b6
     layerID: 6
     mosaicPosition: {x: 4, y: 107}
     flatten: 0
-    isImported: 0
+    isImported: 1
     isVisible: 1
   - name: Gorilla Pants
     spriteName: Gorilla Pants
     isGroup: 0
     parentIndex: 6
-    spriteID: def9fc3a93d406c47b5c1c6bc5ba9bbe
+    spriteID: 35bc1d854b7fdd64dba9f02921f5e235
     layerID: 4
     mosaicPosition: {x: 39, y: 106}
     flatten: 0
-    isImported: 0
+    isImported: 1
     isVisible: 1
   - name: Background
     spriteName: Background
     isGroup: 0
     parentIndex: -1
-    spriteID: 810a8bdace7dd514bac75079f3471728
+    spriteID: 6de7e297aafb78a4ba532480080e4849
     layerID: 1
     mosaicPosition: {x: 4, y: 4}
     flatten: 0
