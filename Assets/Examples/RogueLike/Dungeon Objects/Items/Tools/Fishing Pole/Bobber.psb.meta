@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 8c8c719def42dc04cb24127942fc455a
+guid: 07679da039dbfe54b896336f1599cffc
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -91,7 +91,7 @@ ScriptedImporter:
     uvTransform: {x: 0, y: 0}
   mosaicSpriteImportData: []
   rigSpriteImportData:
-  - name: Fishing Swoosh
+  - name: Bobber Fish on
     originalName: 
     pivot: {x: 0.5, y: 0.5}
     alignment: 0
@@ -99,10 +99,10 @@ ScriptedImporter:
     rect:
       serializedVersion: 2
       x: 4
-      y: 59
-      width: 52
-      height: 28
-    spriteID: baf6c27229e714b47b201bf9da13a3b6
+      y: 47
+      width: 9
+      height: 6
+    spriteID: 304ecb5d8046e8841859beb34dc1875f
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -111,19 +111,61 @@ ScriptedImporter:
     edges: []
     tessellationDetail: 0
     parentGroupIndex: -1
-    uvTransform: {x: -3, y: 44}
-  - name: FishingPole
+    uvTransform: {x: -25, y: 21}
+  - name: Bobber Bobbing
     originalName: 
-    pivot: {x: 0, y: 0}
-    alignment: 6
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 21
+      y: 4
+      width: 13
+      height: 11
+    spriteID: b4d1a4ddec103e946a0a193b4b71ec62
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: -6, y: -20}
+  - name: Bobber in Water
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 28
+      width: 9
+      height: 11
+    spriteID: 5eb4640150e241f48979b128186d8df5
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: -25, y: 2}
+  - name: Bobber
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
       x: 4
       y: 4
-      width: 53
-      height: 47
-    spriteID: c87d13579c309d147a9dd9e23b058ad4
+      width: 9
+      height: 16
+    spriteID: 990a413685ca7934ba1bd08379c6a7fa
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -132,7 +174,7 @@ ScriptedImporter:
     edges: []
     tessellationDetail: 0
     parentGroupIndex: -1
-    uvTransform: {x: 1, y: -1}
+    uvTransform: {x: -25, y: -17}
   characterData:
     bones: []
     parts: []
@@ -183,7 +225,7 @@ ScriptedImporter:
   mosaicLayers: 1
   characterMode: 1
   documentPivot: {x: 0, y: 0}
-  documentAlignment: 6
+  documentAlignment: 7
   importHiddenLayers: 1
   layerMappingOption: 2
   generatePhysicsShape: 0
@@ -196,22 +238,52 @@ ScriptedImporter:
   resliceFromLayer: 0
   mosaicPSDLayers: []
   rigPSDLayers:
-  - name: Fishing Swoosh
-    spriteName: Fishing Swoosh
-    isGroup: 0
+  - name: Bobber
+    spriteName: 
+    isGroup: 1
     parentIndex: -1
-    spriteID: baf6c27229e714b47b201bf9da13a3b6
-    layerID: 42
-    mosaicPosition: {x: 4, y: 59}
+    spriteID: 3610f4cbd6936df408665f3c2e48cd6d
+    layerID: 54
+    mosaicPosition: {x: 0, y: 0}
+    flatten: 0
+    isImported: 0
+    isVisible: 1
+  - name: Bobber Fish on
+    spriteName: Bobber Fish on
+    isGroup: 0
+    parentIndex: 0
+    spriteID: 304ecb5d8046e8841859beb34dc1875f
+    layerID: 31
+    mosaicPosition: {x: 4, y: 47}
     flatten: 0
     isImported: 1
     isVisible: 0
-  - name: FishingPole
-    spriteName: FishingPole
+  - name: Bobber Bobbing
+    spriteName: Bobber Bobbing
     isGroup: 0
-    parentIndex: -1
-    spriteID: c87d13579c309d147a9dd9e23b058ad4
-    layerID: 47
+    parentIndex: 0
+    spriteID: b4d1a4ddec103e946a0a193b4b71ec62
+    layerID: 33
+    mosaicPosition: {x: 21, y: 4}
+    flatten: 0
+    isImported: 1
+    isVisible: 0
+  - name: Bobber in Water
+    spriteName: Bobber in Water
+    isGroup: 0
+    parentIndex: 0
+    spriteID: 5eb4640150e241f48979b128186d8df5
+    layerID: 30
+    mosaicPosition: {x: 4, y: 28}
+    flatten: 0
+    isImported: 1
+    isVisible: 0
+  - name: Bobber
+    spriteName: Bobber
+    isGroup: 0
+    parentIndex: 0
+    spriteID: 990a413685ca7934ba1bd08379c6a7fa
+    layerID: 46
     mosaicPosition: {x: 4, y: 4}
     flatten: 0
     isImported: 1

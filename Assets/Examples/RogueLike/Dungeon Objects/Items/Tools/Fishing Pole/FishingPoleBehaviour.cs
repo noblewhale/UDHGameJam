@@ -4,16 +4,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FishingPoleBehavior : TickableBehaviour
+public class FishingPoleBehaviour : TickableBehaviour
 {
-    public PowerBehaviour fishingBehaviour;
-    public TargetableBehaviour castBehaviour;
+    public FishingBehaviour fishingBehaviour;
+    public TargetableBehaviour castBehavior;
+    
+    public void OnCastAnimationEnd()
+    {
+        fishingBehaviour.OnCastAnimationEnd();
+
+    }
 
     public override bool IsActionACoroutine() => true;
     
     override public IEnumerator StartActionCoroutine()
     {
-        yield return castBehaviour.StartActionCoroutine();
+        yield return castBehavior.StartActionCoroutine();
         yield return fishingBehaviour.StartActionCoroutine();
     }
 
@@ -22,8 +28,8 @@ public class FishingPoleBehavior : TickableBehaviour
         fishingBehaviour.StartSubAction(time);  
     }
     override public bool ContinueSubAction(ulong time) 
-    { 
-        return true; 
+    {
+        return fishingBehaviour.ContinueSubAction(time); 
     }
     override public void FinishSubAction(ulong time) 
     { 

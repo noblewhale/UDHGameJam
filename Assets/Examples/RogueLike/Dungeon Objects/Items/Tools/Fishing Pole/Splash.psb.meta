@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 8c8c719def42dc04cb24127942fc455a
+guid: e063b0651f5a4de42815969a5c63e573
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -91,7 +91,7 @@ ScriptedImporter:
     uvTransform: {x: 0, y: 0}
   mosaicSpriteImportData: []
   rigSpriteImportData:
-  - name: Fishing Swoosh
+  - name: Fish on Splash 3
     originalName: 
     pivot: {x: 0.5, y: 0.5}
     alignment: 0
@@ -99,10 +99,10 @@ ScriptedImporter:
     rect:
       serializedVersion: 2
       x: 4
-      y: 59
-      width: 52
-      height: 28
-    spriteID: baf6c27229e714b47b201bf9da13a3b6
+      y: 43
+      width: 23
+      height: 5
+    spriteID: 7b4576dad738a2f48bf5fd21c8167bd6
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -111,19 +111,19 @@ ScriptedImporter:
     edges: []
     tessellationDetail: 0
     parentGroupIndex: -1
-    uvTransform: {x: -3, y: 44}
-  - name: FishingPole
+    uvTransform: {x: -19, y: 25}
+  - name: Fish on Splash 2
     originalName: 
-    pivot: {x: 0, y: 0}
-    alignment: 6
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
       x: 4
       y: 4
-      width: 53
-      height: 47
-    spriteID: c87d13579c309d147a9dd9e23b058ad4
+      width: 24
+      height: 11
+    spriteID: dbe277bcd261f2e408d7bad309ea94b1
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -132,7 +132,28 @@ ScriptedImporter:
     edges: []
     tessellationDetail: 0
     parentGroupIndex: -1
-    uvTransform: {x: 1, y: -1}
+    uvTransform: {x: -19, y: -15}
+  - name: Fish on Splash
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 23
+      width: 22
+      height: 12
+    spriteID: ab37ee4fb443d8c449417053e5bbc508
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: -19, y: 3}
   characterData:
     bones: []
     parts: []
@@ -183,7 +204,7 @@ ScriptedImporter:
   mosaicLayers: 1
   characterMode: 1
   documentPivot: {x: 0, y: 0}
-  documentAlignment: 6
+  documentAlignment: 7
   importHiddenLayers: 1
   layerMappingOption: 2
   generatePhysicsShape: 0
@@ -196,23 +217,43 @@ ScriptedImporter:
   resliceFromLayer: 0
   mosaicPSDLayers: []
   rigPSDLayers:
-  - name: Fishing Swoosh
-    spriteName: Fishing Swoosh
-    isGroup: 0
+  - name: Splash
+    spriteName: 
+    isGroup: 1
     parentIndex: -1
-    spriteID: baf6c27229e714b47b201bf9da13a3b6
-    layerID: 42
-    mosaicPosition: {x: 4, y: 59}
+    spriteID: 2b7dba7e83cbd234895591fe7eed5bad
+    layerID: 52
+    mosaicPosition: {x: 0, y: 0}
+    flatten: 0
+    isImported: 0
+    isVisible: 1
+  - name: Fish on Splash 3
+    spriteName: Fish on Splash 3
+    isGroup: 0
+    parentIndex: 0
+    spriteID: 7b4576dad738a2f48bf5fd21c8167bd6
+    layerID: 39
+    mosaicPosition: {x: 4, y: 43}
     flatten: 0
     isImported: 1
     isVisible: 0
-  - name: FishingPole
-    spriteName: FishingPole
+  - name: Fish on Splash 2
+    spriteName: Fish on Splash 2
     isGroup: 0
-    parentIndex: -1
-    spriteID: c87d13579c309d147a9dd9e23b058ad4
-    layerID: 47
+    parentIndex: 0
+    spriteID: dbe277bcd261f2e408d7bad309ea94b1
+    layerID: 38
     mosaicPosition: {x: 4, y: 4}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: Fish on Splash
+    spriteName: Fish on Splash
+    isGroup: 0
+    parentIndex: 0
+    spriteID: ab37ee4fb443d8c449417053e5bbc508
+    layerID: 37
+    mosaicPosition: {x: 4, y: 23}
     flatten: 0
     isImported: 1
     isVisible: 0
