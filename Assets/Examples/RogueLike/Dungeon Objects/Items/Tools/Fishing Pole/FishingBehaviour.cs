@@ -7,11 +7,13 @@ using UnityEngine;
 public class FishingBehaviour : TickableBehaviour
 {
     Animator fishingPoleAnimator;
+    public Animator bobberAnimator;
     public SpriteRenderer bobber;
 
     private void Start()
     {
         fishingPoleAnimator = GetComponent<Animator>();
+
     }
 
     public IEnumerator OnCastAnimationEnd()
@@ -40,6 +42,8 @@ public class FishingBehaviour : TickableBehaviour
             yield return new WaitForEndOfFrame();
             time += Time.deltaTime;
         }
+
+        bobberAnimator.SetTrigger("DoSplash");
 
         yield return null;
     }

@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 257b071673b80ca4da9b8b2c83829185
+guid: 0d044150e29c74d4aa976d757ecbbd83
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -91,7 +91,7 @@ ScriptedImporter:
     uvTransform: {x: 0, y: 0}
   mosaicSpriteImportData: []
   rigSpriteImportData:
-  - name: Waves 1
+  - name: Fish6
     originalName: 
     pivot: {x: 0.5, y: 0.5}
     alignment: 0
@@ -99,10 +99,10 @@ ScriptedImporter:
     rect:
       serializedVersion: 2
       x: 4
-      y: 76
-      width: 61
-      height: 59
-    spriteID: c64def4eec13e664e9ad8b6f28aec899
+      y: 118
+      width: 48
+      height: 50
+    spriteID: 1c6962ebdfb46d84cb25127c5b9abed0
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -111,8 +111,8 @@ ScriptedImporter:
     edges: []
     tessellationDetail: 0
     parentGroupIndex: -1
-    uvTransform: {x: 4, y: 72}
-  - name: Texture
+    uvTransform: {x: -2, y: 112}
+  - name: Fish5
     originalName: 
     pivot: {x: 0.5, y: 0.5}
     alignment: 0
@@ -121,9 +121,9 @@ ScriptedImporter:
       serializedVersion: 2
       x: 4
       y: 4
-      width: 64
-      height: 64
-    spriteID: ec5757b01b7796c4eb73e5b5f6a28746
+      width: 59
+      height: 49
+    spriteID: c69a15655db71c24bbbcac548623314a
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -132,7 +132,91 @@ ScriptedImporter:
     edges: []
     tessellationDetail: 0
     parentGroupIndex: -1
-    uvTransform: {x: 4, y: 4}
+    uvTransform: {x: 1, y: -3}
+  - name: Fish4
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 71
+      y: 61
+      width: 43
+      height: 50
+    spriteID: bb175ca9673f0a042b184259a8363f46
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 61, y: 55}
+  - name: Fish3
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 176
+      width: 48
+      height: 50
+    spriteID: 726d4b2f0fa8e4b439f81c98eead6909
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: -6, y: 168}
+  - name: Fish2
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 61
+      width: 59
+      height: 49
+    spriteID: 65d36e5ee8e488c4b9efda8be0da1fb3
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 2, y: 53}
+  - name: Fish1
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 71
+      y: 119
+      width: 43
+      height: 50
+    spriteID: d73eea3d83588bc4da9a1f5e2cc83c7f
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 60, y: 111}
   characterData:
     bones: []
     parts: []
@@ -184,7 +268,7 @@ ScriptedImporter:
   characterMode: 1
   documentPivot: {x: 0, y: 0}
   documentAlignment: 7
-  importHiddenLayers: 0
+  importHiddenLayers: 1
   layerMappingOption: 2
   generatePhysicsShape: 0
   paperDollMode: 0
@@ -196,46 +280,76 @@ ScriptedImporter:
   resliceFromLayer: 0
   mosaicPSDLayers: []
   rigPSDLayers:
-  - name: Water
+  - name: Fish Swimming
     spriteName: 
     isGroup: 1
     parentIndex: -1
-    spriteID: d3ca7922989d4c449b04cb04d8a65b10
-    layerID: 28
+    spriteID: 981f54ba6f61d2149bed26c4814eb1fd
+    layerID: 44
     mosaicPosition: {x: 0, y: 0}
     flatten: 0
     isImported: 0
     isVisible: 1
-  - name: Waves 2
-    spriteName: Waves 2
+  - name: Fish6
+    spriteName: Fish6
     isGroup: 0
     parentIndex: 0
-    spriteID: 05f223376966b5f4b9b51e897d6e0eb0
-    layerID: 27
-    mosaicPosition: {x: 4, y: 148}
-    flatten: 0
-    isImported: 0
-    isVisible: 0
-  - name: Waves 1
-    spriteName: Waves 1
-    isGroup: 0
-    parentIndex: 0
-    spriteID: c64def4eec13e664e9ad8b6f28aec899
-    layerID: 25
-    mosaicPosition: {x: 4, y: 76}
+    spriteID: 1c6962ebdfb46d84cb25127c5b9abed0
+    layerID: 42
+    mosaicPosition: {x: 4, y: 118}
     flatten: 0
     isImported: 1
     isVisible: 1
-  - name: Texture
-    spriteName: Texture
+  - name: Fish5
+    spriteName: Fish5
     isGroup: 0
     parentIndex: 0
-    spriteID: ec5757b01b7796c4eb73e5b5f6a28746
-    layerID: 19
+    spriteID: c69a15655db71c24bbbcac548623314a
+    layerID: 40
     mosaicPosition: {x: 4, y: 4}
     flatten: 0
     isImported: 1
-    isVisible: 1
+    isVisible: 0
+  - name: Fish4
+    spriteName: Fish4
+    isGroup: 0
+    parentIndex: 0
+    spriteID: bb175ca9673f0a042b184259a8363f46
+    layerID: 38
+    mosaicPosition: {x: 71, y: 61}
+    flatten: 0
+    isImported: 1
+    isVisible: 0
+  - name: Fish3
+    spriteName: Fish3
+    isGroup: 0
+    parentIndex: 0
+    spriteID: 726d4b2f0fa8e4b439f81c98eead6909
+    layerID: 36
+    mosaicPosition: {x: 4, y: 176}
+    flatten: 0
+    isImported: 1
+    isVisible: 0
+  - name: Fish2
+    spriteName: Fish2
+    isGroup: 0
+    parentIndex: 0
+    spriteID: 65d36e5ee8e488c4b9efda8be0da1fb3
+    layerID: 34
+    mosaicPosition: {x: 4, y: 61}
+    flatten: 0
+    isImported: 1
+    isVisible: 0
+  - name: Fish1
+    spriteName: Fish1
+    isGroup: 0
+    parentIndex: 0
+    spriteID: d73eea3d83588bc4da9a1f5e2cc83c7f
+    layerID: 32
+    mosaicPosition: {x: 71, y: 119}
+    flatten: 0
+    isImported: 1
+    isVisible: 0
   sharedRigPSDLayers: []
   pSDLayerImportSetting: []
   generateGOHierarchy: 1
