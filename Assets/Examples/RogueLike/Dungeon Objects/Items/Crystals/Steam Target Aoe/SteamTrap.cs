@@ -22,7 +22,7 @@ namespace Noble.DungeonCrawler
                 {
                     if (creature.baseObject == Player.Identity)
                     {
-                        Map.instance.UpdateIsVisible(creature.tilePosition, creature.effectiveViewDistance, false);
+                        Map.instance.UpdateIsVisible(creature.Tile, creature.effectiveViewDistance, false);
                     }
                     creature.AddModifier<BlindModifier>();
                 }
@@ -39,7 +39,7 @@ namespace Noble.DungeonCrawler
                 {
                     if (creature.baseObject == Player.Identity)
                     {
-                        Map.instance.UpdateIsVisible(creature.tilePosition, creature.effectiveViewDistance, false);
+                        Map.instance.UpdateIsVisible(creature.Tile, creature.effectiveViewDistance, false);
                     }
                     creature.AddModifier<BlindModifier>();
                 }

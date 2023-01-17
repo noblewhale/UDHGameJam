@@ -607,16 +607,15 @@
             ForEachTile(t => t.UpdateLighting());
         }
 
-        virtual public void UpdateIsVisible(Vector2Int pos, float radius, bool isVisible)
+        virtual public void UpdateIsVisible(Tile tile, float radius, bool isVisible)
         {
-            tiles[pos.y][pos.x].SetInView(isVisible);
+            tile.SetInView(isVisible);
 
             ForEachTileInRadius(
-                pos + tileDimensions / 2,
+                tile.position + tileDimensions / 2,
                 radius,
                 t => t.SetInView(isVisible),
-                t => t.DoesBlockLineOfSight() && t.tilePosition != pos,
-                false,
+                t => t.DoesBlockLineOfSight() && t.tilePosition != tile.tilePosition,
                 false
             );
         }

@@ -8,6 +8,7 @@
     [RequireComponent(typeof(DungeonObject))]
     public class Creature : MonoBehaviour
     {
+        public Tile Tile => baseObject?.tile;
         public float viewDistance = 4;
 
         [SerializeField]
