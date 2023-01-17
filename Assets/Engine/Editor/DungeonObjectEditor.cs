@@ -1,12 +1,9 @@
 ﻿#if UNITY_EDITOR
 namespace Noble.TileEngine
 {
-    using System.Reflection;
     using UnityEditor;
-    using UnityEngine.Events;
-    using static Noble.TileEngine.DungeonObject;
 
-    [CustomEditor(typeof(DungeonObject))]
+    [CustomEditor(typeof(DungeonObject)), CanEditMultipleObjects]
     public class DungeonObjectEditor : Editor
     {
         bool showEvents = false;
