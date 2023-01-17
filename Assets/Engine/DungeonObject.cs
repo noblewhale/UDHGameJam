@@ -5,8 +5,7 @@
     using UnityEngine;
     using UnityEngine.Events;
     using System.Linq;
-    using static Noble.TileEngine.DungeonObject;
-
+    
     public class DungeonObject : MonoBehaviour
     {
         public string objectName;
