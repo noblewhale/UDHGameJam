@@ -77,7 +77,7 @@
             baseObject = GetComponent<DungeonObject>();
             tickable = GetComponent<Tickable>();
             baseObject.onMove.AddListener(OnMove);
-            baseObject.onPreMove.RemoveListener(OnPreMove);
+            baseObject.onPreMove.AddListener(OnPreMove);
         }
 
         private void Start()
@@ -85,16 +85,16 @@
             mentalMap = new MentalMap();
         }
 
-        void OnPreMove(DungeonObject _, Vector2Int pos, Vector2Int newPos)
+        void OnPreMove(DungeonObject _, Tile oldTile, Tile newTile)
         {
-            map.GetTile(newPos).PreStepOn(baseObject);
+            newTile.PreStepOn(baseObject);
         }
 
-        void OnMove(DungeonObject _, Vector2Int oldPos, Vector2Int newPos)
+        void OnMove(DungeonObject _, Tile oldTile, Tile newTile)
         {
-            lastDirectionAttackedOrMoved = GetDirection(oldPos, newPos);
+            lastDirectionAttackedOrMoved = GetDirection(oldTile.tilePosition, newTile.tilePosition);
 
-            map.GetTile(newPos).StepOn(baseObject);
+            newTile.StepOn(baseObject);
         }
 
         public Direction GetDirection(Vector2Int start, Vector2Int end)

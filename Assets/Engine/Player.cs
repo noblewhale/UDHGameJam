@@ -26,10 +26,14 @@
             Map.instance.OnMapLoaded += OnMapLoaded;
         }
 
-        void OnPositionChange(DungeonObject ob, Vector2Int oldPos, Vector2Int newPos)
         {
-            Map.instance.UpdateIsVisible(oldPos, ob.Creature.effectiveViewDistance, false);
-            Map.instance.UpdateIsVisible(newPos, ob.Creature.effectiveViewDistance, true);
+        void OnPositionChange(DungeonObject ob, Tile oldTile, Tile newTile)
+        {
+            if (oldTile != null)
+            {
+                Map.instance.UpdateIsVisible(oldTile, ob.Creature.effectiveViewDistance, false);
+            }
+            Map.instance.UpdateIsVisible(newTile, ob.Creature.effectiveViewDistance, true);
         }
 
         void OnMapLoaded()

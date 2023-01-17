@@ -42,7 +42,7 @@
         public int y => tilePosition.y;
 
         [NonSerialized]
-        public Vector2Int previousTilePosition;
+        public Tile previousTile;
         public int quantity = 1;
         public bool canBePickedUp;
         public bool canTakeDamage = false;
@@ -106,13 +106,13 @@
         [HideInInspector]
         public DungeonObjectEvent OnPreSteppedOn;
         [HideInInspector]
-        public DungeonObjectEvent<Vector2Int, Vector2Int> onMove;
+        public DungeonObjectEvent<Tile, Tile> onMove;
         [HideInInspector]
-        public DungeonObjectEvent<Vector2Int, Vector2Int> onSetPosition;
+        public DungeonObjectEvent<Tile, Tile> onSetPosition;
         [HideInInspector]
-        public DungeonObjectEvent<Vector2Int, Vector2Int> onPreMove;
+        public DungeonObjectEvent<Tile, Tile> onPreMove;
         [HideInInspector]
-        public DungeonObjectEvent<Vector2Int, Vector2Int> onPreSetPosition;
+        public DungeonObjectEvent<Tile, Tile> onPreSetPosition;
         [HideInInspector]
         public DungeonObjectEvent<DungeonObject> onPickedUpObject;
         [HideInInspector]
@@ -319,17 +319,16 @@
 
         public void SetPosition(Vector2Int position, bool isMove = false)
         {
+            var newTile = map.GetTile(position);
+
             if (tile != null)
             {
-                if (isMove && onPreMove != null) onPreMove.Invoke(this, tilePosition, position);
-                onPreSetPosition?.Invoke(this, tilePosition, position);
+                if (isMove && onPreMove != null) onPreMove.Invoke(this, tile, newTile);
+                onPreSetPosition?.Invoke(this, tile, newTile);
             }
 
-            tile = map.GetTile(position);
-
-            if (isMove && onMove != null) onMove.Invoke(this, previousTilePosition, tilePosition);
-            if (onSetPosition != null) onSetPosition.Invoke(this, previousTilePosition, tilePosition);
-
+            previousTile = tile;
+            tile = newTile;
 
             if (isMove)
             {
@@ -343,7 +342,9 @@
                 UpdateLighting();
             }
 
-            previousTilePosition = position;
+
+            if (isMove && onMove != null) onMove.Invoke(this, previousTile, tile);
+            if (onSetPosition != null) onSetPosition.Invoke(this, previousTile, tile);
         }
     }
 }
