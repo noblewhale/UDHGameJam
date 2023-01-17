@@ -45,13 +45,14 @@ namespace Noble.DungeonCrawler
             targetPos += (Vector3)Map.instance.tileDimensions / 2;
             // Plus the vertical camera offset
             targetPos.y += cameraOffset;
+            targetPos.z = originalZ;
 
             Vector2 direction = Map.instance.GetDifference(transform.position, targetPos);
 
             // Ok, move
             transform.position = Vector3.MoveTowards(transform.position, transform.position + (Vector3)direction, Time.deltaTime * maxSpeed);
             transform.position = Map.instance.GetWorldPositionOnMap(transform.position);
-            transform.position += Vector3.forward * originalZ;
+            transform.position = new Vector3(transform.position.x, transform.position.y, originalZ);
         }
     }
 }

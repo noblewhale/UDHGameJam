@@ -28,7 +28,6 @@
 
         public object isDirtyLock = new object();
 
-        [NonSerialized]
         public List<Transform> layers;
 
         [NonSerialized]
@@ -77,7 +76,7 @@
         virtual public void Awake()
         {
             instance = this;
-            layers = GetComponentsInChildren<Tilemap>().Select(tm => tm.transform).ToList();
+            if (layers == null) layers = GetComponentsInChildren<Tilemap>().Select(tm => tm.transform).ToList();
             if (layers == null || layers.Count == 0) layers = new List<Transform>() { transform };
         }
 
@@ -118,6 +117,13 @@
                 totalArea.yMax += tileHeight;
                 width = (int)(totalArea.width / tileWidth);
                 height = (int)(totalArea.height / tileHeight);
+            }
+            else
+            {
+                totalArea.xMin = 0;
+                totalArea.yMin = 0;
+                totalArea.xMax = width;
+                totalArea.yMax = height;
             }
 
             tiles = new Tile[height][];

@@ -18,7 +18,7 @@ MonoBehaviour:
     value: 1
   SeaLevel:
     overrideState: 1
-    value: 2.62
+    value: 1.1
   InnerColor:
     overrideState: 1
     value: {r: 0, g: 0, b: 0, a: 0}
@@ -33,7 +33,7 @@ MonoBehaviour:
     value: 4
   FakeMapHeight:
     overrideState: 1
-    value: 21.656052
+    value: 17.18
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
