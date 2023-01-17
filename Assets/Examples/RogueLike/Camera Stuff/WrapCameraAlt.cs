@@ -1,57 +1,58 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class WrapCameraAlt : MonoBehaviour
+namespace Noble.DungeonCrawler
 {
-    public Camera leftCamera;
-    public Camera rightCamera;
-    Camera centerCamera;
-    public float wrapWidth = 20;
-    public float wrapCenter = 0;
+    using UnityEngine;
 
-    void Start()
+    public class WrapCameraAlt : MonoBehaviour
     {
-        centerCamera = GetComponent<Camera>();
-        SetWrapWidth(wrapWidth, wrapCenter);
-    }
+        public Camera leftCamera;
+        public Camera rightCamera;
+        Camera centerCamera;
+        public float wrapWidth = 20;
+        public float wrapCenter = 0;
 
-    public void SetWrapWidth(float wrapWidth, float wrapCenter)
-    {
-        this.wrapWidth = wrapWidth;
-        this.wrapCenter = wrapCenter;
-
-        rightCamera.transform.localPosition = Vector3.right * wrapWidth;
-        leftCamera.transform.localPosition = Vector3.left * wrapWidth;
-    }
-
-    private void Update()
-    {
-        float relativeX = transform.position.x - wrapCenter;
-        float camHalfWidth = centerCamera.orthographicSize * centerCamera.aspect;
-        if (relativeX - camHalfWidth < -wrapWidth / 2)
+        void Start()
         {
-            rightCamera.enabled = true;
-            leftCamera.enabled = false;
-        }
-        else if(relativeX + camHalfWidth > wrapWidth / 2)
-        {
-            leftCamera.enabled = true;
-            rightCamera.enabled = false;
-        }
-        else
-        {
-            leftCamera.enabled = false;
-            rightCamera.enabled = false;
+            centerCamera = GetComponent<Camera>();
+            SetWrapWidth(wrapWidth, wrapCenter);
         }
 
-        if (!leftCamera.enabled && !rightCamera.enabled)
+        public void SetWrapWidth(float wrapWidth, float wrapCenter)
         {
-            centerCamera.clearFlags = CameraClearFlags.SolidColor;
+            this.wrapWidth = wrapWidth;
+            this.wrapCenter = wrapCenter;
+
+            rightCamera.transform.localPosition = Vector3.right * wrapWidth;
+            leftCamera.transform.localPosition = Vector3.left * wrapWidth;
         }
-        else
+
+        private void Update()
         {
-            centerCamera.clearFlags = CameraClearFlags.Nothing;
+            float relativeX = transform.position.x - wrapCenter;
+            float camHalfWidth = centerCamera.orthographicSize * centerCamera.aspect;
+            if (relativeX - camHalfWidth < -wrapWidth / 2)
+            {
+                rightCamera.enabled = true;
+                leftCamera.enabled = false;
+            }
+            else if (relativeX + camHalfWidth > wrapWidth / 2)
+            {
+                leftCamera.enabled = true;
+                rightCamera.enabled = false;
+            }
+            else
+            {
+                leftCamera.enabled = false;
+                rightCamera.enabled = false;
+            }
+
+            if (!leftCamera.enabled && !rightCamera.enabled)
+            {
+                centerCamera.clearFlags = CameraClearFlags.SolidColor;
+            }
+            else
+            {
+                centerCamera.clearFlags = CameraClearFlags.Nothing;
+            }
         }
     }
 }

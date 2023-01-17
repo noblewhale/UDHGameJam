@@ -1,12 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class WrapEffect : MonoBehaviour
+namespace Noble.DungeonCrawler
 {
-    Camera cam;
-    void Start()
+    using System.Collections;
+    using System.Collections.Generic;
+    using UnityEngine;
+
+    public class WrapEffect : MonoBehaviour
     {
-        cam = GetComponent<Camera>();
+        Camera cam;
+        void Start()
+        {
+            cam = GetComponent<Camera>();
+        }
     }
 }

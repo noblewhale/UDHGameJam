@@ -1,53 +1,56 @@
-using UnityEngine;
-using UnityEngine.Rendering;
-using UnityEngine.Rendering.PostProcessing;
-
-public class KeepDepth : MonoBehaviour
+namespace Noble.DungeonCrawler
 {
-    CommandBuffer keepDepthTexture;
-    RenderTexture lastDepth;
-    float oldScreenWidth, oldScreenHeight;
-    public PostProcessVolume wrapEffectVolume;
+    using UnityEngine;
+    using UnityEngine.Rendering;
+    using UnityEngine.Rendering.PostProcessing;
 
-    private void Awake()
+    public class KeepDepth : MonoBehaviour
     {
-        lastDepth = new RenderTexture(Screen.width, Screen.height, 24, RenderTextureFormat.Depth);
-        oldScreenHeight = Screen.height;
-        oldScreenWidth = Screen.width;
-    }
+        CommandBuffer keepDepthTexture;
+        RenderTexture lastDepth;
+        float oldScreenWidth, oldScreenHeight;
 
-    void OnScreenResize()
-    {
-        // Recreate the render texture at the proper 
-        lastDepth.Release();
-        lastDepth.width = Screen.width;
-        lastDepth.height = Screen.height;
-        lastDepth.Create();
-
-        // Keep track of dimensions so we know when they change
-        oldScreenHeight = Screen.height;
-        oldScreenWidth = Screen.width;
-    }
-
-    void OnEnable()
-    {
-        if (keepDepthTexture == null)
+        private void Awake()
         {
-            Camera cam = GetComponent<Camera>();
-            keepDepthTexture = new CommandBuffer();
-            keepDepthTexture.name = "Keep MainCamera Depth Texture";
-            keepDepthTexture.SetGlobalTexture("_MainCameraDepthTexture", lastDepth);
-            keepDepthTexture.CopyTexture(BuiltinRenderTextureType.Depth, lastDepth);
-            cam.AddCommandBuffer(CameraEvent.AfterDepthTexture, keepDepthTexture);
+            GetComponent<Camera>().depthTextureMode = DepthTextureMode.Depth;
+            lastDepth = new RenderTexture(Screen.width, Screen.height, 24, RenderTextureFormat.Depth);
+            oldScreenHeight = Screen.height;
+            oldScreenWidth = Screen.width;
         }
-    }
 
-    void Update()
-    {
-        if (Screen.height != oldScreenHeight || Screen.width != oldScreenWidth)
+        void OnScreenResize()
         {
-            OnScreenResize();
-        }
-    }
+            // Recreate the render texture at the proper 
+            lastDepth.Release();
+            lastDepth.width = Screen.width;
+            lastDepth.height = Screen.height;
+            lastDepth.Create();
 
+            // Keep track of dimensions so we know when they change
+            oldScreenHeight = Screen.height;
+            oldScreenWidth = Screen.width;
+        }
+
+        void OnEnable()
+        {
+            if (keepDepthTexture == null)
+            {
+                Camera cam = GetComponent<Camera>();
+                keepDepthTexture = new CommandBuffer();
+                keepDepthTexture.name = "Keep MainCamera Depth Texture";
+                keepDepthTexture.SetGlobalTexture("_MainCameraDepthTexture", lastDepth);
+                keepDepthTexture.CopyTexture(BuiltinRenderTextureType.Depth, lastDepth);
+                cam.AddCommandBuffer(CameraEvent.AfterDepthTexture, keepDepthTexture);
+            }
+        }
+
+        void Update()
+        {
+            if (Screen.height != oldScreenHeight || Screen.width != oldScreenWidth)
+            {
+                OnScreenResize();
+            }
+        }
+
+    }
 }
