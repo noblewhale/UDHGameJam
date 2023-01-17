@@ -15,6 +15,16 @@
         override public void Start()
         {
             base.Start();
+            this.OnMapLoaded += this.SetupWrapCameras;
+        }
+
+        void SetupWrapCameras()
+        {
+            var cams = FindObjectsOfType<WrapCameraAlt>();
+            foreach (var cam in cams)
+            {
+                cam.SetWrapWidth(totalArea.width, totalArea.center.x);
+            }
         }
 
         override public float GetXDifference(float start, float end)

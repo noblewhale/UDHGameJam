@@ -244,9 +244,10 @@
 				// Apply a fade around the _InnerRadius
 				totalColor = lerp(_InnerColor, totalColor, min(1, pow((distance - _InnerRadius)/_InnerFadeSize, _InnerFadeExp)));
 				
-				float4 outlineColor = isOutline * _OutlineColor;
-				totalColor.rgb = totalColor.rgb * (1 - outlineColor.a) + outlineColor.rgb * outlineColor.a;
-				totalColor.a += outlineColor.a;
+				//float4 outlineColor = isOutline * _OutlineColor;
+				//totalColor.rgb = totalColor.rgb * (1 - outlineColor.a) + outlineColor.rgb * outlineColor.a;
+				totalColor = totalColor * (1 - isOutline) + _OutlineColor * isOutline;
+				//totalColor.a += outlineColor.a;
 
 				// Check if distance is within inner circle, if so use solid color instead of texture samples
 				bool isInsideInnerRadius = distance < _InnerRadius;

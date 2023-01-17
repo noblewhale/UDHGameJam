@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4131840311327318}
   - component: {fileID: 114870873018643620}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Glyphs
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -56,7 +56,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4037409991858056}
   - component: {fileID: 212298042747990574}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: OutlineGlyph
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -140,7 +140,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4353142694964920}
   - component: {fileID: -6944675546895815483}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: OutlineTile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -183,10 +183,18 @@ MonoBehaviour:
   isVisibleWhenNotInSight: 1
   pathingWeight: 0
   guiIcon: {fileID: 0}
+  startHidden: 0
   isCollidable: 0
   blocksLineOfSight: 0
   coversObjectsBeneath: 0
   preventsObjectSpawning: 0
+  tile:
+    tilePosition: {x: 0, y: 0}
+    map: {fileID: 0}
+    isDirty: 0
+    gapBetweenLayers: 0.1
+    isInView: 0
+    illuminationSources: 0
   autoAddToTileAtStart: 1
   OnSteppedOn:
     m_PersistentCalls:
