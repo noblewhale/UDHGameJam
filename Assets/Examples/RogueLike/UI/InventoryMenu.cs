@@ -38,6 +38,11 @@ namespace Noble.DungeonCrawler
             inventoryGUI = GetComponentInChildren<InventoryGUI>();
         }
 
+        virtual public void OnDestroy()
+        {
+            instance = null;
+        }
+
         public void OnEnable()
         {
             Cursor.visible = true;
@@ -49,17 +54,6 @@ namespace Noble.DungeonCrawler
                 Player.Identity.transform.localScale = Vector3.one;
 
                 SetupLightsAndLayers(false, gameObject.layer);
-            }
-        }
-
-        public void OnDisable()
-        {
-            if (Player.Identity && Map.instance.isDoneGeneratingMap)
-            {
-                Tile tile = Map.instance.GetTile(Player.Identity.x, Player.Identity.y);
-                tile.AddObject(Player.Identity, false, 2);
-
-                SetupLightsAndLayers(true, Map.instance.gameObject.layer);
             }
         }
 
@@ -97,6 +91,13 @@ namespace Noble.DungeonCrawler
         public void CloseMenu()
         {
             ReturnToDefaultMode();
+            Tile tile = Map.instance.GetTile(Player.Identity.x, Player.Identity.y);
+            Player.Identity.transform.parent = Map.instance.layers[2];
+            Player.Identity.transform.position = tile.position;
+            Player.Identity.transform.localScale = Vector3.one;
+            //tile.AddObject(Player.Identity, false, 2);
+
+            SetupLightsAndLayers(true, Map.instance.gameObject.layer);
             gameObject.SetActive(false);
             PlayerInputHandler.instance.enabled = true;
         }

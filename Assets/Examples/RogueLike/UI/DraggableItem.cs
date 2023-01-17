@@ -14,9 +14,13 @@ namespace Noble.DungeonCrawler
         // The actual object that gets dragged around, a copy of itemToDrag
         GameObject draggableCopy;
 
+        Camera cam;
+
         public void Init(GameObject itemToDrag)
         {
             this.itemToDrag = itemToDrag;
+
+            cam = GameObject.FindGameObjectWithTag("GUICamera").GetComponent<Camera>();
         }
 
         public void OnBeginDrag(PointerEventData eventData)
@@ -29,6 +33,7 @@ namespace Noble.DungeonCrawler
 
             // Make sure no weird lighting stuff is happening
             var glyphsComponent = draggableCopy.GetComponentInChildren<Glyphs>(true);
+            draggableCopy.GetComponent<DungeonObject>().SetInView(true, true);
             glyphsComponent.enabled = false;
             glyphsComponent.gameObject.SetActive(true);
             glyphsComponent.SetLit(true);
@@ -65,7 +70,7 @@ namespace Noble.DungeonCrawler
         void SetCopyPosition()
         {
             var mousePos = Mouse.current.position.ReadValue();
-            var mouseWorldPos = Camera.main.ScreenToWorldPoint(mousePos);
+            var mouseWorldPos = cam.ScreenToWorldPoint(mousePos);
             var center = (Vector2)draggableCopy.transform.localScale / 2;
             // Center the object on the mouse and move it in front of the camera's near plane.
             draggableCopy.transform.position = mouseWorldPos - (Vector3)center + Vector3.forward;

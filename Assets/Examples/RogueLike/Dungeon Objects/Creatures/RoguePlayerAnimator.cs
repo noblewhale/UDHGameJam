@@ -28,11 +28,13 @@ public class RoguePlayerAnimator : MonoBehaviour
         if (twoHandWeapon && !wasTwoHanded)
         {
             wasTwoHanded = true;
+            Debug.Log("Be two handed");
             playerAnimator.SetBool("IsTwoHanded", true);
         }
         else if (!twoHandWeapon && wasTwoHanded)
         {
             wasTwoHanded = false;
+            Debug.Log("Be one handed");
             playerAnimator.SetBool("IsTwoHanded", false);
         }
 
