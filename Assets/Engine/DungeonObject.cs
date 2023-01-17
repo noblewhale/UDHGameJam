@@ -148,7 +148,7 @@
 
         public void OnPreMapLoaded()
         {
-            if (tile == null && autoAddToTileAtStart)
+            if (tile == null && autoAddToTileAtStart && GetComponentInParent<Map>())
             {
                 tile = map.GetTileFromWorldPosition(transform.position);
                 if (tile != null)

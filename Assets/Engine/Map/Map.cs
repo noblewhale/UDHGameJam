@@ -106,7 +106,7 @@
             {
                 // Update map area
                 var allObs = FindObjectsOfType<DungeonObject>();
-                var autoTileObjects = allObs.Where(ob => ob.autoAddToTileAtStart == true);
+                var autoTileObjects = allObs.Where(ob => ob.autoAddToTileAtStart == true && ob.GetComponentInParent<Map>());
                 foreach (var t in autoTileObjects)
                 {
                     if (t.transform.position.x < totalArea.xMin) totalArea.xMin = t.transform.position.x;
