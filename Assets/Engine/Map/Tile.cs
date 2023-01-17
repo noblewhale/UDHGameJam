@@ -5,6 +5,7 @@
     using System.Linq;
     using System;
 
+    [Serializable]
     public class Tile
     {
         public Vector2Int tilePosition = Vector2Int.zero;
@@ -16,6 +17,7 @@
 
         public bool isInView = false;
 
+        [SerializeField]
         uint illuminationSources = 0;
         public bool IsLit => illuminationSources > 0;
 

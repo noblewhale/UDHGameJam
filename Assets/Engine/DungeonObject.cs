@@ -88,8 +88,10 @@
         public bool coversObjectsBeneath = false;
         public bool preventsObjectSpawning = false;
         bool hasBeenSeen = false;
-
+        
+        [SerializeReference]
         public Tile tile;
+
         public bool autoAddToTileAtStart = true;
 
         public Tickable tickable { get; private set; }
