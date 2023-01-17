@@ -49,6 +49,7 @@
         public bool isVisibleWhenNotInSight = true;
         public int pathingWeight = 0;
         public Transform guiIcon;
+        public bool startHidden = true;
 
         [NonSerialized]
         public Glyphs glyphs;
@@ -135,6 +136,8 @@
                 glyphsOb = glyphs.gameObject;
                 originalGlyphPosition = glyphs.transform.localPosition;
             }
+            if (!startHidden) hasBeenSeen = true;
+            SetInView(false, false);
         }
 
         virtual protected void Start()

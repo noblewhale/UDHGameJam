@@ -163,6 +163,7 @@ namespace Noble.TileEngine
         public void UpdatePosition()
         {
             var slotTransform = EquippedBy.Equipment.GetSlotTransform(assignedSlot);
+            DungeonObject.SetInView(true, true);
             transform.parent = slotTransform;
             transform.localScale = Vector3.one;
             transform.localPosition = Vector3.zero;
