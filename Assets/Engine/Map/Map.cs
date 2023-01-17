@@ -3,7 +3,9 @@
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using System.Linq;
     using UnityEngine;
+    using UnityEngine.Tilemaps;
     using Random = UnityEngine.Random;
 
     public class Map : MonoBehaviour
@@ -26,7 +28,9 @@
 
         public object isDirtyLock = new object();
 
-        public Transform[] layers;
+        [NonSerialized]
+        public List<Transform> layers;
+
         [NonSerialized]
         public Rect totalArea = new Rect();
 
@@ -63,6 +67,7 @@
         public bool isDoneGeneratingMap = false;
 
         public bool isPremade = true;
+
         public struct TileAndPosition
         {
             public Tile tile;
@@ -72,13 +77,14 @@
         virtual public void Awake()
         {
             instance = this;
+            layers = GetComponentsInChildren<Tilemap>().Select(tm => tm.transform).ToList();
+            if (layers == null || layers.Count == 0) layers = new List<Transform>() { transform };
         }
 
         virtual public void Start()
         {
             ClearMap();
             StartCoroutine(GenerateMap());
-            if (layers == null) layers = new Transform[] { transform };
         }
 
         virtual public void ClearMap()
