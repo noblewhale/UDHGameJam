@@ -426,9 +426,10 @@
 
         virtual public List<TileAndPosition> GetTileHitsInArc(Vector2 start, float radius, float arcAngleStart, float arcAngleEnd, Func<Tile, bool> stopCondition = null, bool includeSourceTile = false, bool showDebug = false)
         {
+            var startTile = GetTileFromWorldPosition(start);
             var area = new RectIntExclusive(
-                (int)(start.x - radius - 1),
-                (int)(start.y - radius - 1),
+                (int)(startTile.x - radius - 1),
+                (int)(startTile.y - radius - 1),
                 (int)(radius * 2 + 2 + 1),
                 (int)(radius * 2 + 2 + 1)
             );
