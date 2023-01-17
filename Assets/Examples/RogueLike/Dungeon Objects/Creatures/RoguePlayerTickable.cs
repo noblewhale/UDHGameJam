@@ -27,7 +27,6 @@
                 
                 if (owner.Equipment.GetEquipment(Equipment.Slot.TWO_HANDED)!=null)
                 {
-                    Debug.Log("F this");
                     return owner.Equipment.GetEquipment(Equipment.Slot.TWO_HANDED).GetComponent<TickableBehaviour>();
                 }
                 

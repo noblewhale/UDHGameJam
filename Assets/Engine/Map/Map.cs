@@ -214,7 +214,7 @@
 
         virtual public void AddTile(int x, int y)
         {
-            tiles[y][x] = new Tile();// Instantiate(tilePrefab, new Vector3(-666, -666, -666), Quaternion.identity, layers[0]).GetComponent<Tile>();
+            tiles[y][x] = new Tile();
             tiles[y][x].Init(this, x, y);
         }
 

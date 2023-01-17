@@ -125,7 +125,6 @@
 
 		override public IEnumerator StartActionCoroutine()
 		{
-            Debug.Log("F Given");
             identityCreature.tickable.nextActionTime = identityCreature.ticksPerAttack;
 
 			CameraTarget.instance.owner = HighlightTile.instance;
