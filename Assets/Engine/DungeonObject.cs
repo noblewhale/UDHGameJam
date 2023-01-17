@@ -150,7 +150,7 @@
         {
             if (tile == null && autoAddToTileAtStart)
             {
-                tile = map.GetTileFromWorldPosition(transform.position - map.transform.position);
+                tile = map.GetTileFromWorldPosition(transform.position);
                 if (tile != null)
                 {
                     tile.AddObject(this, false, (int)-transform.position.z);
@@ -188,7 +188,7 @@
             }
 
             map.ForEachTileInRadius(
-                tilePosition + map.tileDimensions / 2,
+                tile.position + map.tileDimensions / 2,
                 illuminationRange, 
                 (Tile t) => 
                 {
@@ -198,7 +198,7 @@
                 {
                     return t.DoesBlockLineOfSight() && (t != tile);
                 },
-                false
+                true
             );
         }
 
@@ -336,13 +336,16 @@
 
             if (isMove)
             {
-                map.ForEachTileInRadius(
-                    previousTilePosition,
-                    illuminationRange,
-                    t => t.RemoveIlluminationSource(),
-                    null,
-                    false
-                );
+                if (previousTile != null)
+                {
+                    map.ForEachTileInRadius(
+                        previousTile.position + map.tileDimensions / 2,
+                        illuminationRange,
+                        t => t.RemoveIlluminationSource(),
+                        null,
+                        true
+                    );
+                }
                 UpdateLighting();
             }
 

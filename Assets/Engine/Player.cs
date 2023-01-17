@@ -39,9 +39,10 @@
         void OnMapLoaded()
         {
             Tile startTile = Map.instance.GetRandomTileThatAllowsSpawn();
+
             startTile.AddObject(identity, false, 2);
             Map.instance.UpdateLighting();
-            Map.instance.UpdateIsVisible(identity.tilePosition, identity.GetComponent<Creature>().effectiveViewDistance, true);
+            Map.instance.UpdateIsVisible(identity.tile, identity.GetComponent<Creature>().effectiveViewDistance, true);
         }
     }
 }

@@ -19,11 +19,11 @@ namespace Noble.DungeonCrawler
             Player.Identity.onSpawn.RemoveListener(OnPlayerSpawned);
         }
 
-        void OnPlayerSpawned(DungeonObject _)
+        void OnPlayerSpawned(DungeonObject playerOb)
         {
-            CameraTarget.instance.UpdatePosition();
-
-            SetPosition(float.MaxValue);
+            float originalZ = transform.position.z;
+            transform.position = playerOb.tile.position + Map.instance.tileDimensions / 2;
+            transform.position += Vector3.forward * originalZ;
         }
 
         void Update()
@@ -35,16 +35,20 @@ namespace Noble.DungeonCrawler
 
         void SetPosition(float maxSpeed)
         {
+            float originalZ = transform.position.z;
             // Move towards owner position
             Vector3 targetPos = owner.transform.position;
             // Plus half the tile width/height so that tile is centered
             targetPos += (Vector3)Map.instance.tileDimensions / 2;
             // Plus the vertical camera offset
             targetPos.y += cameraOffset;
-            // But never change the camera's z position
-            targetPos.z = transform.position.z;
+
+            Vector2 direction = Map.instance.GetDifference(transform.position, targetPos);
+
             // Ok, move
-            transform.position = Vector3.MoveTowards(transform.position, targetPos, Time.deltaTime * maxSpeed);
+            transform.position = Vector3.MoveTowards(transform.position, transform.position + (Vector3)direction, Time.deltaTime * maxSpeed);
+            transform.position = Map.instance.GetWorldPositionOnMap(transform.position);
+            transform.position += Vector3.forward * originalZ;
         }
     }
 }

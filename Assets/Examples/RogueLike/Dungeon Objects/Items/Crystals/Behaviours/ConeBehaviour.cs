@@ -103,7 +103,7 @@
 
 					if (t >= 1)
 					{
-						var tileThatWasHit = Map.instance.GetTileFromWorldPosition(fireballObjects[i].transform.localPosition);
+						var tileThatWasHit = Map.instance.GetTileFromWorldPosition(fireballObjects[i].transform.position);
 
 						// Destroy the fireball
 						Destroy(fireballObjects[i]);

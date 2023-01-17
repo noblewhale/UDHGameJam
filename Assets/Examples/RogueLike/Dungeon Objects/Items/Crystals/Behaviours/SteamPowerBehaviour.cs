@@ -84,7 +84,7 @@ namespace Noble.DungeonCrawler
 				if (t >= 1)
 				{
 					attackStartTime = Time.time;
-					var tileThatWasHit = Map.instance.GetTileFromWorldPosition(projectileObject.transform.localPosition);
+					var tileThatWasHit = Map.instance.GetTileFromWorldPosition(projectileObject.transform.position);
 
 					// Destroy the projectile
 					Destroy(projectileObject);
@@ -126,7 +126,7 @@ namespace Noble.DungeonCrawler
 
 					if (t >= 1)
 					{
-						var tileThatWasHit = Map.instance.GetTileFromWorldPosition(secondaryProjectile.transform.localPosition);
+						var tileThatWasHit = Map.instance.GetTileFromWorldPosition(secondaryProjectile.transform.position);
 
 						// Destroy the projectile
 						Destroy(secondaryProjectile);

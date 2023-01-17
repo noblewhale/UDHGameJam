@@ -32,8 +32,6 @@
 
         void OnPlayerSpawned(DungeonObject _)
         {
-            CameraTarget.instance.UpdatePosition();
-
             SetRotation(owner.x, float.MaxValue);
             SetY(owner.y * Map.instance.tileHeight + Map.instance.transform.position.y, float.MaxValue);
         }

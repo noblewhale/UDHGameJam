@@ -18,7 +18,7 @@
 
         virtual public Vector2Int GetTilePosition()
         {
-            return Map.instance.GetTileFromWorldPosition(transform.position - Map.instance.transform.position).tilePosition;
+            return Map.instance.GetTileFromWorldPosition(transform.position).tilePosition;
         }
     }
 }
