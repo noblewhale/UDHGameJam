@@ -14,9 +14,12 @@ namespace Noble.DungeonCrawler
             Player.Identity.onSpawn.AddListener(OnPlayerSpawned);
         }
 
-        private void OnDestroy()
+        override public void OnDestroy()
         {
-            Player.Identity.onSpawn.RemoveListener(OnPlayerSpawned);
+            if (Player.Identity)
+            {
+                Player.Identity.onSpawn.RemoveListener(OnPlayerSpawned);
+            }
         }
 
         void OnPlayerSpawned(DungeonObject playerOb)

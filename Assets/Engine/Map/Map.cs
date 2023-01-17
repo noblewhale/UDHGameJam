@@ -85,6 +85,12 @@
         {
             ClearMap();
             StartCoroutine(GenerateMap());
+
+        }
+
+        virtual public void OnDestroy()
+        {
+            instance = null;
         }
 
         virtual public void ClearMap()
@@ -113,6 +119,7 @@
                 width = (int)(totalArea.width / tileWidth);
                 height = (int)(totalArea.height / tileHeight);
             }
+
             tiles = new Tile[height][];
             for (int y = 0; y < height; y++) tiles[y] = new Tile[width];
             for (int y = 0; y < height; y++)

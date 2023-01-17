@@ -24,6 +24,12 @@ namespace Noble.DungeonCrawler
             base.Start();
             Player.Identity.onSpawn.AddListener(UpdatePosition);
         }
+
+        virtual public void OnDestroy()
+        {
+            instance = null;
+        }
+
         void Update()
         {
             if (owner == null || tile == null) return;

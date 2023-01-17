@@ -22,6 +22,11 @@ namespace Noble.DungeonCrawler
             instance = this;
         }
 
+        virtual public void OnDestroy()
+        {
+            instance = null;
+        }
+
         void Update()
         {
             if (!Map.instance.isDoneGeneratingMap) return;

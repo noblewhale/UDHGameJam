@@ -25,7 +25,7 @@
             targetPos = transform.position;
         }
 
-        private void OnDestroy()
+        override public void OnDestroy()
         {
             Player.Identity.onSpawn.RemoveListener(OnPlayerSpawned);
         }

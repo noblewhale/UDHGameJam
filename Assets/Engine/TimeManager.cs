@@ -23,6 +23,11 @@
             instance = this;
         }
 
+        virtual public void OnDestroy()
+        {
+            instance = null;
+        }
+
         void Start()
         {
             StartCoroutine(Tick());

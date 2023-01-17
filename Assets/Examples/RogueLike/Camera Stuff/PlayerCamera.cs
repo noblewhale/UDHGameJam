@@ -16,6 +16,11 @@
             instance = this;
         }
 
+        virtual public void OnDestroy()
+        {
+            instance = null;
+        }
+
         virtual public Vector2Int GetTilePosition()
         {
             return Map.instance.GetTileFromWorldPosition(transform.position).tilePosition;

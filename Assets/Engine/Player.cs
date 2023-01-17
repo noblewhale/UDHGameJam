@@ -26,7 +26,11 @@
             Map.instance.OnMapLoaded += OnMapLoaded;
         }
 
+        public virtual void OnDestroy()
         {
+            instance = null;
+        }
+
         void OnPositionChange(DungeonObject ob, Tile oldTile, Tile newTile)
         {
             if (oldTile != null)

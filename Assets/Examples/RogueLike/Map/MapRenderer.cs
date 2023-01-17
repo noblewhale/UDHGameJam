@@ -25,6 +25,11 @@
             PlaceQuad();
         }
 
+        virtual public void OnDestroy()
+        {
+            instance = null;
+        }
+
         virtual public void PlaceQuad()
         {
 
