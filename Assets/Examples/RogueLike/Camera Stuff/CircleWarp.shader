@@ -1,4 +1,4 @@
-Shader "Custom/CircleWarpNew"
+Shader "Custom/CircleWarp"
 {
   SubShader
   {
@@ -6,14 +6,12 @@ Shader "Custom/CircleWarpNew"
     Pass
     {
       CGPROGRAM
-      #pragma vertex VertMe
-      #pragma fragment FragMe
       #include "UnityCG.cginc"
+			#pragma vertex VertMe
+			#pragma fragment FragMe
 
       sampler2D _MainTex;
-	float4 _MainTex_TexelSize;
-			// A magic number for adjusting the appearance of the warp
-			float _SeaLevel;
+			float4 _MainTex_TexelSize;
 			// The radius of the inner circle
 			float _InnerRadius;
 			// The size of the fade effect on the inner circle
@@ -22,16 +20,11 @@ Shader "Custom/CircleWarpNew"
 			float _InnerFadeExp;
 			// The color to use for the inner circle
 			float4 _InnerColor;
-			// The thickness to use for the outline
-			float4 _OutlineThickness;
-			// The color of the outline
-			float4 _OutlineColor;
 
 			float2 _CameraPosition;
 			float2 _CameraDimensions;
 			float _CameraOffset;
-			float2 _MapPosition;
-			float2 _MapDimensions;
+			float _CameraAspect;
 
 			// Angles are calculated from this vector
 			// At large scales there are rendering errors near this vector so we don't use DOWN where the player is rendered.
@@ -109,22 +102,18 @@ Shader "Custom/CircleWarpNew"
 
 			fixed4 FragMe(v2f i) : SV_Target
 			{
-				_MapDimensions *= 4;
-				float2 cameraBottomLeft = _CameraPosition - _CameraDimensions / 2;
-				float2 mapBottomLeft = _MapPosition - _MapDimensions / 2;
-				float2 normalizedCameraBottomLeft = (cameraBottomLeft - mapBottomLeft) / _MapDimensions;
-				float2 normalizedCameraDimensions = _CameraDimensions / _MapDimensions;
-
 				// Transform texture coordinates to be relative to the center. The values go from -1 to 1
 				i.uv = i.uv * 2 - 1;
 
-				i.uv *= (normalizedCameraDimensions.y - (-_CameraOffset * 2) / _MapDimensions.y) / 2;
+				// Scale so that camera area can fill the screen
+				i.uv *= _CameraDimensions.y / 2 + _CameraOffset;
+				// Put center of circle at top of screen
 				i.uv.y -= 1;
-				i.uv.y += normalizedCameraBottomLeft.y + normalizedCameraDimensions.y / 2;
+				// Shift so camera target is center of screen
+				i.uv.y += _CameraPosition.y + _CameraDimensions.y / 2 - _CameraOffset;
 
-				i.uv.x *= (_CameraDimensions.x / _CameraDimensions.y);
-
-				i.uv.y -= _CameraOffset / _MapDimensions.y;
+				// Become a circle instead of a screen-shaped oval
+				i.uv.x *= _CameraAspect;
 
 				// The distance from center to the texture coord
 				float distance = sqrt(i.uv.x * i.uv.x + i.uv.y * i.uv.y);
@@ -135,25 +124,29 @@ Shader "Custom/CircleWarpNew"
 				// Get the angle between the right vector and the texture coordinate
 				float angle = CalculateVectorAngle(i.uv, distance);
 
-				angle += 2 * PI * (normalizedCameraBottomLeft.x + normalizedCameraDimensions.x / 2) + PI / 2;
+				// Adjust angle based on camera x position + a constant to get the player at the bottom
+				angle += 2 * PI * (_CameraPosition.x + _CameraDimensions.x / 2) + PI / 2;
 
 				// Use angle and distance to get unwarped position
 				float2 unwarpedUV = UnWarp(distance, angle);
 
-				// Ok finally sample the texture
+				// Ok finally sample the texture, as long as we are within the camera view area
 				half4 totalColor;
 				if (
-					unwarpedUV.x > normalizedCameraBottomLeft.x && 
-					unwarpedUV.x < normalizedCameraBottomLeft.x + normalizedCameraDimensions.x && 
-					unwarpedUV.y > normalizedCameraBottomLeft.y &&
-					unwarpedUV.y < normalizedCameraBottomLeft.y + normalizedCameraDimensions.y)
+					unwarpedUV.x > _CameraPosition.x &&
+					unwarpedUV.x < _CameraPosition.x + _CameraDimensions.x &&
+					unwarpedUV.y > _CameraPosition.y &&
+					unwarpedUV.y < _CameraPosition.y + _CameraDimensions.y)
 				{
-					unwarpedUV -= normalizedCameraBottomLeft;
-					unwarpedUV /= normalizedCameraDimensions;
+					// Re-normalize to camera dimensions
+					unwarpedUV -= _CameraPosition;
+					unwarpedUV /= _CameraDimensions;
 
+					// Snap to pixels to avoid aliasing
 					float2 clampedUV = floor(unwarpedUV / _MainTex_TexelSize) + float2(.5, .5);
 					clampedUV *= _MainTex_TexelSize;
 
+					// And away we go
 					totalColor = tex2D(_MainTex, clampedUV);
 				}
 				else

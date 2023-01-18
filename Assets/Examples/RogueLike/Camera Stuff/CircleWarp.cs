@@ -2,6 +2,7 @@ namespace Noble.DungeonCrawler
 {
     using Noble.TileEngine;
     using System;
+    using Unity.Mathematics;
     using UnityEngine;
     using UnityEngine.Rendering.PostProcessing;
 
@@ -19,11 +20,18 @@ namespace Noble.DungeonCrawler
         public FloatParameter InnerRadius = new FloatParameter() { value = .1f };
         public FloatParameter InnerFadeSize = new FloatParameter() { value = .25f };
         public FloatParameter InnerFadeExp = new FloatParameter() { value = 4.0f };
-        public FloatParameter FakeMapHeight = new FloatParameter() { value = 20 };
+
+        [Tooltip("" +
+            "A value of 1 will warp the map fully around the circle. " +
+            "Lower values will warp only partially around the circle. " +
+            "Values larger than 1 will 'over-warp' the map, so only part of the map will fit in the circle " +
+            "and the player will have to go more than once around the circle to traverse the entire map width."
+        )]
+        public FloatParameter WarpAmount = new FloatParameter() { value = 1 };
     }
     public sealed class CircleWarpRenderer : PostProcessEffectRenderer<CircleWarp>
     {
-        const string warpShaderName = "Custom/CircleWarpNew";
+        const string warpShaderName = "Custom/CircleWarp";
         Shader warpShader;
 
         /// <summary>Cache all the things because render loop must be tight. Tight tight. Tight tight tight.</summary>
@@ -43,12 +51,31 @@ namespace Noble.DungeonCrawler
             sheet.properties.SetFloat("_InnerRadius", settings.InnerRadius);
             sheet.properties.SetFloat("_InnerFadeSize", settings.InnerFadeSize);
             sheet.properties.SetFloat("_InnerFadeExp", settings.InnerFadeExp);
-            float fakeMapHeight = Map.instance.width / Mathf.PI;
-            sheet.properties.SetVector("_MapDimensions", new Vector2(Map.instance.width, fakeMapHeight));
-            sheet.properties.SetVector("_MapPosition", new Vector2(Map.instance.totalArea.center.x, Camera.main.transform.position.y + (fakeMapHeight / 2 - Camera.main.orthographicSize)));
-            sheet.properties.SetVector("_CameraDimensions", new Vector2(Camera.main.orthographicSize * 2 * Camera.main.aspect, Camera.main.orthographicSize * 2));
-            sheet.properties.SetVector("_CameraPosition", new Vector2(Camera.main.transform.position.x, Camera.main.transform.position.y));
-            sheet.properties.SetFloat("_CameraOffset", PlayerCamera.instance.cameraOffset);
+
+            Vector2 cameraPosition = new Vector2(Camera.main.transform.position.x, Camera.main.transform.position.y);
+            Vector2 cameraDimensions = new Vector2(Camera.main.orthographicSize * 2 * Camera.main.aspect, Camera.main.orthographicSize * 2);
+            Vector2 warpedAreaDimensions = Map.instance.totalArea.size / settings.WarpAmount;
+            // This magical bit adjusts the map width/height ratio so that the center of the camera target is completely unscaled
+            warpedAreaDimensions.y = (warpedAreaDimensions.x / (2 * Mathf.PI)) - PlayerCamera.instance.cameraOffset + cameraDimensions.y / 2;
+            // Position the map so that the bottom of the area aligns with the bottom of the camera
+            Vector2 warpedAreaPosition = new Vector2(Map.instance.totalArea.center.x, cameraPosition.y + (warpedAreaDimensions.y / 2 - Camera.main.orthographicSize));
+
+            float cameraOffset = PlayerCamera.instance.cameraOffset;
+
+            // Normalize to map dimensions
+            cameraDimensions /= warpedAreaDimensions;
+            cameraPosition -= warpedAreaPosition;
+            cameraPosition /= warpedAreaDimensions;
+            cameraOffset /= warpedAreaDimensions.y;
+
+            // Camera position needs to be bottom left corner, not center
+            cameraPosition = cameraPosition - cameraDimensions / 2 + Vector2.one * .5f;
+
+            sheet.properties.SetVector("_CameraDimensions", cameraDimensions);
+            sheet.properties.SetVector("_CameraPosition", cameraPosition);
+            sheet.properties.SetFloat("_CameraOffset", cameraOffset);
+            sheet.properties.SetFloat("_CameraAspect", Camera.main.aspect);
+
             context.command.BlitFullscreenTriangle(context.source, context.destination, sheet, 0);
         }
     }

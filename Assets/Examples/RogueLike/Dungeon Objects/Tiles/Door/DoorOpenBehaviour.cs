@@ -10,14 +10,12 @@
 
         public override void StartAction()
         {
-            animator.speed = 1;
             animator.SetTrigger("Open");
             owner.tickable.nextActionTime = TimeManager.instance.Time + 1;
         }
 
         public override void StartSubAction(ulong time)
         {
-            animator.speed = 1;
             //if (time == 1)
             {
                 GetComponent<Door>().isCollidable = false;
@@ -49,7 +47,6 @@
             {
                 animator.Play(0, 0, 1);
             }
-            animator.speed = 0;
         }
     }
 }
