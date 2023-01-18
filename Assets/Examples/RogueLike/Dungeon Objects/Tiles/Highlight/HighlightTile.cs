@@ -5,6 +5,7 @@ namespace Noble.DungeonCrawler
     using System.Linq;
     using UnityEngine;
     using UnityEngine.InputSystem;
+    using UnityEngine.Rendering.PostProcessing;
 
     public class HighlightTile : DungeonObject
     {
@@ -16,10 +17,19 @@ namespace Noble.DungeonCrawler
         public bool isKeyboardControlled;
         public List<Tile> allowedTiles = null;
 
+        public PostProcessVolume circleWarpVolume;
+        CircleWarp circleWarp;
+
         override protected void Awake()
         {
             base.Awake();
             instance = this;
+        }
+
+        override protected void Start()
+        {
+            base.Start();
+            circleWarpVolume.profile.TryGetSettings(out circleWarp);
         }
 
         virtual public void OnDestroy()
@@ -52,32 +62,20 @@ namespace Noble.DungeonCrawler
             {
                 isKeyboardControlled = false;
 
-                //if (MapRenderer.instance)
-                //{
-                //    Vector2 mousePosRelativeToMapRenderer = ((Vector2)Camera.main.ScreenToWorldPoint(mousePos) - (Vector2)Camera.main.transform.position) - (Vector2)MapRenderer.instance.transform.localPosition;
-                //    mousePosRelativeToMapRenderer /= MapRenderer.instance.transform.localScale;
-                //    float angle = Vector2.Angle(mousePosRelativeToMapRenderer, Vector2.up);
-                //    bool ignoreInput = false;
-                //    ignoreInput |= angle > -40 && angle < 40;
-                //    ignoreInput |= mousePosRelativeToMapRenderer.y > 0 && mousePosRelativeToMapRenderer.magnitude < .075f;
-                //    if (!ignoreInput)
-                //    {
-                //        Vector2 relativeWorldPos = PolarMapUtil.GetPositionRelativeCenterOfMapRenderer(mousePos);
-                //        Vector2 unwarpedPos;
-                //        bool success = PolarMapUtil.UnwarpPosition(relativeWorldPos, out unwarpedPos);
-                //        if (success)
-                //        {
-                //            Tile tileUnderMouse = Map.instance.GetTileFromWorldPosition(unwarpedPos);
+                bool success = circleWarp.UnwarpPosition(mousePos, out Vector2 unwarpedPos);
+                unwarpedPos *= Camera.main.GetSize();
+                unwarpedPos += (Vector2)Camera.main.transform.position - Camera.main.GetSize() / 2;
+                if (success)
+                {
+                    Tile tileUnderMouse = Map.instance.GetTileFromWorldPosition(unwarpedPos);
 
-                //            if (tile == null || tileUnderMouse != tile)
-                //            {
-                //                tile?.RemoveObject(this);
-                //                tileUnderMouse.AddObject(this, false, 2);
-                //            }
-                //        }
-                //        oldCameraPosition = PlayerCamera.instance.transform.position;
-                //    }
-                //}
+                    if (tile == null || tileUnderMouse != tile)
+                    {
+                        tile?.RemoveObject(this);
+                        tileUnderMouse.AddObject(this, false, 2);
+                    }
+                }
+                oldCameraPosition = PlayerCamera.instance.transform.position;
             }
             if (allowedTiles != null && allowedTiles.Count > 0)
             {

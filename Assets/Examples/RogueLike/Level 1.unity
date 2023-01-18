@@ -1806,6 +1806,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player Identity
       objectReference: {fileID: 0}
+    - target: {fileID: 2987740549015043192, guid: 6bc396195a0ca5947ac50cc11e3e41f2, type: 3}
+      propertyPath: circleWarpVolume
+      value: 
+      objectReference: {fileID: 789467887}
     - target: {fileID: 2988516894490508872, guid: 6bc396195a0ca5947ac50cc11e3e41f2, type: 3}
       propertyPath: m_RootOrder
       value: 6
@@ -3937,9 +3941,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc9045b83eb8bdc4a809b3409670281b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  camera: {fileID: 0}
-  cameraOffset: 3
-  owner: {fileID: 0}
+  camera: {fileID: 501353016}
+  cameraOffset: -1.5
+  owner: {fileID: 850737001}
   movementMaxSpeed: 8
 --- !u!1 &1023053211
 GameObject:
@@ -4077,7 +4081,7 @@ Camera:
   far clip plane: 100
   field of view: 60
   orthographic: 1
-  orthographic size: 3.5
+  orthographic size: 6
   m_Depth: 1
   m_CullingMask:
     serializedVersion: 2

@@ -51,7 +51,6 @@ namespace Noble.TileEngine
 
 			if (targetCreature != null)
 			{
-                Debug.Log("Target Spotted");
                 float roll = Random.Range(0, 20);
 				int attackerDex = identityCreature.baseObject.GetPropertyValue<int>("Dexterity");
 				int defenderDex = targetCreature.baseObject.GetPropertyValue<int>("Dexterity");
