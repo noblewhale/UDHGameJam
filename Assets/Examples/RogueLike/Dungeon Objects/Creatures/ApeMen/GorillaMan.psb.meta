@@ -11,7 +11,7 @@ ScriptedImporter:
   textureImporterSettings:
     alphaSource: 1
     mipMapMode: 0
-    enableMipMap: 1
+    enableMipMap: 0
     fadeOut: 0
     borderMipMap: 0
     mipMapsPreserveCoverage: 0
@@ -33,7 +33,7 @@ ScriptedImporter:
     spriteMeshType: 1
     alignment: 0
     spritePivot: {x: 0.5, y: 0.5}
-    spritePixelsToUnits: 100
+    spritePixelsToUnits: 64
     spriteBorder: {x: 0, y: 0, z: 0, w: 0}
     spriteGenerateFallbackPhysicsShape: 0
     generateCubemap: 6
@@ -47,7 +47,7 @@ ScriptedImporter:
     flipbookRows: 0
     flipbookColumns: 0
     ignorePngGamma: 0
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 0
@@ -91,14 +91,14 @@ ScriptedImporter:
     uvTransform: {x: 0, y: 0}
   mosaicSpriteImportData: []
   rigSpriteImportData:
-  - name: Layer 5
+  - name: Gorilla Arms
     originalName: 
     pivot: {x: 0.5, y: 0.5}
     alignment: 0
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
-      x: 76
+      x: 4
       y: 46
       width: 32
       height: 21
@@ -111,15 +111,15 @@ ScriptedImporter:
     edges: []
     tessellationDetail: 0
     parentGroupIndex: -1
-    uvTransform: {x: 59, y: 32}
-  - name: Layer 4
+    uvTransform: {x: -13, y: 32}
+  - name: Gorilla Head
     originalName: 
     pivot: {x: 0.5, y: 0.5}
     alignment: 0
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
-      x: 76
+      x: 4
       y: 4
       width: 27
       height: 34
@@ -132,16 +132,16 @@ ScriptedImporter:
     edges: []
     tessellationDetail: 0
     parentGroupIndex: -1
-    uvTransform: {x: 58, y: -26}
-  - name: Layer 3
+    uvTransform: {x: -14, y: -26}
+  - name: Gorilla Legs
     originalName: 
     pivot: {x: 0.5, y: 0.5}
     alignment: 0
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
-      x: 4
-      y: 76
+      x: 39
+      y: 4
       width: 21
       height: 18
     spriteID: 2842a9620d679de43a4a90296dfd1e78
@@ -153,16 +153,16 @@ ScriptedImporter:
     edges: []
     tessellationDetail: 0
     parentGroupIndex: -1
-    uvTransform: {x: -17, y: 76}
-  - name: Layer 2
+    uvTransform: {x: 18, y: 4}
+  - name: Gorilla Torso
     originalName: 
     pivot: {x: 0.5, y: 0.5}
     alignment: 0
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
-      x: 111
-      y: 4
+      x: 4
+      y: 75
       width: 12
       height: 24
     spriteID: 39f83b6fb749524438279be86ad89dc1
@@ -174,28 +174,7 @@ ScriptedImporter:
     edges: []
     tessellationDetail: 0
     parentGroupIndex: -1
-    uvTransform: {x: 86, y: -10}
-  - name: Layer 0
-    originalName: 
-    pivot: {x: 0.5, y: 0.5}
-    alignment: 0
-    border: {x: 0, y: 0, z: 0, w: 0}
-    rect:
-      serializedVersion: 2
-      x: 4
-      y: 4
-      width: 64
-      height: 64
-    spriteID: 71ef240085d405e49bca39d180f8f4d4
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    parentGroupIndex: -1
-    uvTransform: {x: 4, y: 4}
+    uvTransform: {x: -21, y: 61}
   characterData:
     bones: []
     parts: []
@@ -209,7 +188,40 @@ ScriptedImporter:
     dimension: {x: 0, y: 0}
     characterGroups: []
     boneReadOnly: 0
-  platformSettings: []
+  platformSettings:
+  - name: DefaultTexturePlatform
+    overridden: 0
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    androidETC2FallbackOverride: 0
+  - name: Standalone
+    overridden: 0
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    androidETC2FallbackOverride: 0
+  - name: Server
+    overridden: 0
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    androidETC2FallbackOverride: 0
   mosaicLayers: 1
   characterMode: 1
   documentPivot: {x: 0, y: 0}
@@ -226,53 +238,53 @@ ScriptedImporter:
   resliceFromLayer: 0
   mosaicPSDLayers: []
   rigPSDLayers:
-  - name: Layer 5
-    spriteName: Layer 5
-    isGroup: 0
+  - name: Gorilla Man
+    spriteName: 
+    isGroup: 1
     parentIndex: -1
+    spriteID: 29e41945d8534684aa7f3c6a9bdfe947
+    layerID: 16
+    mosaicPosition: {x: 0, y: 0}
+    flatten: 0
+    isImported: 0
+    isVisible: 1
+  - name: Gorilla Arms
+    spriteName: Gorilla Arms
+    isGroup: 0
+    parentIndex: 0
     spriteID: 32c820d136f7b534b88715de4326998b
     layerID: 12
-    mosaicPosition: {x: 76, y: 46}
+    mosaicPosition: {x: 4, y: 46}
     flatten: 0
     isImported: 1
     isVisible: 1
-  - name: Layer 4
-    spriteName: Layer 4
+  - name: Gorilla Head
+    spriteName: Gorilla Head
     isGroup: 0
-    parentIndex: -1
+    parentIndex: 0
     spriteID: 818bb51af6ab6d34c802706f7f944ba0
     layerID: 11
-    mosaicPosition: {x: 76, y: 4}
+    mosaicPosition: {x: 4, y: 4}
     flatten: 0
     isImported: 1
     isVisible: 1
-  - name: Layer 3
-    spriteName: Layer 3
+  - name: Gorilla Legs
+    spriteName: Gorilla Legs
     isGroup: 0
-    parentIndex: -1
+    parentIndex: 0
     spriteID: 2842a9620d679de43a4a90296dfd1e78
     layerID: 8
-    mosaicPosition: {x: 4, y: 76}
+    mosaicPosition: {x: 39, y: 4}
     flatten: 0
     isImported: 1
     isVisible: 1
-  - name: Layer 2
-    spriteName: Layer 2
+  - name: Gorilla Torso
+    spriteName: Gorilla Torso
     isGroup: 0
-    parentIndex: -1
+    parentIndex: 0
     spriteID: 39f83b6fb749524438279be86ad89dc1
     layerID: 5
-    mosaicPosition: {x: 111, y: 4}
-    flatten: 0
-    isImported: 1
-    isVisible: 1
-  - name: Layer 0
-    spriteName: Layer 0
-    isGroup: 0
-    parentIndex: -1
-    spriteID: 71ef240085d405e49bca39d180f8f4d4
-    layerID: 2
-    mosaicPosition: {x: 4, y: 4}
+    mosaicPosition: {x: 4, y: 75}
     flatten: 0
     isImported: 1
     isVisible: 1

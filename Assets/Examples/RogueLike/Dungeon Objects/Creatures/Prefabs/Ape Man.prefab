@@ -105,10 +105,13 @@ MonoBehaviour:
   isVisibleWhenNotInSight: 0
   pathingWeight: 0
   guiIcon: {fileID: 0}
+  startHidden: 1
   isCollidable: 1
   blocksLineOfSight: 1
   coversObjectsBeneath: 1
   preventsObjectSpawning: 1
+  tile:
+    rid: -2
   autoAddToTileAtStart: 1
   OnSteppedOn:
     m_PersistentCalls:
@@ -146,6 +149,11 @@ MonoBehaviour:
   onTakeDamage:
     m_PersistentCalls:
       m_Calls: []
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
 --- !u!114 &9140996343759105234
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -252,6 +260,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   owner: {fileID: 0}
   executeEveryTick: 0
+  targetTile:
+    tilePosition: {x: 0, y: 0}
+    map: {fileID: 0}
+    isDirty: 0
+    gapBetweenLayers: 0.1
+    isInView: 0
+    illuminationSources: 0
 --- !u!1001 &7759578580696897634
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -405,46 +420,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 4843985084834002234, guid: d3e62b0c8ca57e54eb48af727f5a9af3, type: 3}
---- !u!1 &7255441424842031278 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: -8133766924598896436, guid: d3e62b0c8ca57e54eb48af727f5a9af3, type: 3}
-  m_PrefabInstance: {fileID: 7759578580696897634}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &3295932124281318660
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7255441424842031278}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d7484360c001bc541b5df9e45926dda3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tint: {r: 1, g: 1, b: 1, a: 1}
-  extraTint: {r: 1, g: 1, b: 1, a: 1}
-  originalColor: {r: 0, g: 0, b: 0, a: 0}
---- !u!1 &7692623024835445946 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: -9120316490520339240, guid: d3e62b0c8ca57e54eb48af727f5a9af3, type: 3}
-  m_PrefabInstance: {fileID: 7759578580696897634}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &7054909035396632619
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7692623024835445946}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d7484360c001bc541b5df9e45926dda3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tint: {r: 1, g: 1, b: 1, a: 1}
-  extraTint: {r: 1, g: 1, b: 1, a: 1}
-  originalColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!4 &8971268934665691580 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -7552582706839291426, guid: d3e62b0c8ca57e54eb48af727f5a9af3, type: 3}
