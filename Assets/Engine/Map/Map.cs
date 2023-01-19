@@ -10,7 +10,6 @@
 
     public class Map : MonoBehaviour
     {
-
         public BiomeObject biomeObjectPrefab;
 
         public Biome[] biomeTypes;
@@ -76,7 +75,7 @@
         virtual public void Awake()
         {
             instance = this;
-            if (layers == null) layers = GetComponentsInChildren<Tilemap>().Select(tm => tm.transform).ToList();
+            if (layers == null || layers.Count == 0) layers = GetComponentsInChildren<Tilemap>().Select(tm => tm.transform).ToList();
             if (layers == null || layers.Count == 0) layers = new List<Transform>() { transform };
         }
 
@@ -106,6 +105,8 @@
                 // Update map area
                 var allObs = FindObjectsOfType<DungeonObject>();
                 var autoTileObjects = allObs.Where(ob => ob.autoAddToTileAtStart == true && ob.GetComponentInParent<Map>());
+                totalArea.xMin = totalArea.yMin = float.MaxValue;
+                totalArea.xMax = totalArea.yMax = float.MinValue;
                 foreach (var t in autoTileObjects)
                 {
                     if (t.transform.position.x < totalArea.xMin) totalArea.xMin = t.transform.position.x;
