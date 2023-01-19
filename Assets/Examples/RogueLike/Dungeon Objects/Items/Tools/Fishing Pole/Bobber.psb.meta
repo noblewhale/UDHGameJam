@@ -277,7 +277,7 @@ ScriptedImporter:
     mosaicPosition: {x: 4, y: 28}
     flatten: 0
     isImported: 1
-    isVisible: 0
+    isVisible: 1
   - name: Bobber
     spriteName: Bobber
     isGroup: 0

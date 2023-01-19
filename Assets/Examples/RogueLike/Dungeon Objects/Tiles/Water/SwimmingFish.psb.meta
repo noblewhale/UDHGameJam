@@ -299,7 +299,7 @@ ScriptedImporter:
     mosaicPosition: {x: 4, y: 118}
     flatten: 0
     isImported: 1
-    isVisible: 1
+    isVisible: 0
   - name: Fish5
     spriteName: Fish5
     isGroup: 0
@@ -319,7 +319,7 @@ ScriptedImporter:
     mosaicPosition: {x: 71, y: 61}
     flatten: 0
     isImported: 1
-    isVisible: 0
+    isVisible: 1
   - name: Fish3
     spriteName: Fish3
     isGroup: 0
