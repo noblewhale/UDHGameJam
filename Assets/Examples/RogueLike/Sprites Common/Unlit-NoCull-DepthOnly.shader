@@ -56,19 +56,19 @@ SubShader {
                 return o;
             }
 
-            struct fragOut {
+           /* struct fragOut {
               fixed4 color : SV_TARGET;
               float depth : SV_DEPTH;
-            };
+            };*/
 
-            fragOut frag(v2f i)
+            fixed4 frag(v2f i) : SV_TARGET
             {
                 fixed4 col = fixed4(0, 0, 0, 0);
-                //UNITY_OUTPUT_DEPTH(i.depth);
-                fragOut result;
+                UNITY_OUTPUT_DEPTH(i.depth);
+                /*fragOut result;
                 result.color = col;
-                result.depth = i.depth;
-                return result;
+                result.depth = i.depth;*/
+                return col;
             }
         ENDCG
     }

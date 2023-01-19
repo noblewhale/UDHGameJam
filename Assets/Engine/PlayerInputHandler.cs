@@ -27,6 +27,11 @@
             allMouseButtons = new ButtonControl[] { Mouse.current.leftButton, Mouse.current.rightButton, Mouse.current.middleButton, Mouse.current.backButton, Mouse.current.forwardButton };
         }
 
+        public virtual void OnDestroy()
+        {
+            instance = null;
+        }
+
         public virtual void Update()
         {
             if (!Player.Identity) return;

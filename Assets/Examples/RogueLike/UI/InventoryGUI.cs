@@ -23,6 +23,11 @@
             instance = this;
         }
 
+        virtual public void OnDestroy()
+        {
+            instance = null;
+        }
+
         public void OnEnable()
         {
             if (!Player.instance || !Player.Identity) return;

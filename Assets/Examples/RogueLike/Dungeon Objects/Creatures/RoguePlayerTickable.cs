@@ -4,12 +4,21 @@
     using System;
     using UnityEngine;
     using UnityEngine.InputSystem;
-    using UnityEngine.InputSystem.Controls;
+    using UnityEngine.Rendering.PostProcessing;
 
     internal class RoguePlayerTickable : Tickable
     {
         public AttackBehaviour attackBehaviour;
         public MoveBehaviour moveBehaviour;
+
+        public PostProcessVolume circleWarpVolume;
+        CircleWarp circleWarp;
+
+        override public void Start()
+        {
+            base.Start();
+            circleWarpVolume.profile.TryGetSettings(out circleWarp);
+        }
 
         override public TickableBehaviour DetermineBehaviour()
         {
@@ -27,7 +36,6 @@
                 
                 if (owner.Equipment.GetEquipment(Equipment.Slot.TWO_HANDED)!=null)
                 {
-                    Debug.Log("F this");
                     return owner.Equipment.GetEquipment(Equipment.Slot.TWO_HANDED).GetComponent<TickableBehaviour>();
                 }
                 
@@ -52,10 +60,9 @@
 
             if (mouseButton == Mouse.current.leftButton || mouseButton == Mouse.current.rightButton)
             {
-                Vector2 relativeWorldPos = PolarMapUtil.GetPositionRelativeCenterOfMapRenderer(command.target);
-                Vector2 unwarpedPos;
-                bool success = PolarMapUtil.UnwarpPosition(relativeWorldPos, out unwarpedPos);
-
+                bool success = circleWarp.UnwarpPosition(command.target, out Vector2 unwarpedPos);
+                unwarpedPos *= Camera.main.GetSize();
+                unwarpedPos += (Vector2)Camera.main.transform.position - Camera.main.GetSize() / 2;
                 if (success)
                 {
                     Tile tile = Map.instance.GetTileFromWorldPosition(unwarpedPos);

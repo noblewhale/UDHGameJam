@@ -62,7 +62,7 @@
                         int currentHealth = healthProperty.GetValue();
                         if (knockBack && currentHealth != 0)
                         {
-                            Map.instance.MoveObject(dungeonObject, dungeonObject.previousTilePosition);
+                            Map.instance.MoveObject(dungeonObject, dungeonObject.previousTile.tilePosition);
                         }
                     }
                 }

@@ -5,8 +5,7 @@
     using UnityEngine;
     using UnityEngine.Events;
     using System.Linq;
-    using static Noble.TileEngine.DungeonObject;
-
+    
     public class DungeonObject : MonoBehaviour
     {
         public string objectName;
@@ -42,13 +41,14 @@
         public int y => tilePosition.y;
 
         [NonSerialized]
-        public Vector2Int previousTilePosition;
+        public Tile previousTile;
         public int quantity = 1;
         public bool canBePickedUp;
         public bool canTakeDamage = false;
         public bool isVisibleWhenNotInSight = true;
         public int pathingWeight = 0;
         public Transform guiIcon;
+        public bool startHidden = true;
 
         [NonSerialized]
         public Glyphs glyphs;
@@ -88,8 +88,10 @@
         public bool coversObjectsBeneath = false;
         public bool preventsObjectSpawning = false;
         bool hasBeenSeen = false;
-
+        
+        [SerializeReference]
         public Tile tile;
+
         public bool autoAddToTileAtStart = true;
 
         public Tickable tickable { get; private set; }
@@ -106,13 +108,13 @@
         [HideInInspector]
         public DungeonObjectEvent OnPreSteppedOn;
         [HideInInspector]
-        public DungeonObjectEvent<Vector2Int, Vector2Int> onMove;
+        public DungeonObjectEvent<Tile, Tile> onMove;
         [HideInInspector]
-        public DungeonObjectEvent<Vector2Int, Vector2Int> onSetPosition;
+        public DungeonObjectEvent<Tile, Tile> onSetPosition;
         [HideInInspector]
-        public DungeonObjectEvent<Vector2Int, Vector2Int> onPreMove;
+        public DungeonObjectEvent<Tile, Tile> onPreMove;
         [HideInInspector]
-        public DungeonObjectEvent<Vector2Int, Vector2Int> onPreSetPosition;
+        public DungeonObjectEvent<Tile, Tile> onPreSetPosition;
         [HideInInspector]
         public DungeonObjectEvent<DungeonObject> onPickedUpObject;
         [HideInInspector]
@@ -135,6 +137,8 @@
                 glyphsOb = glyphs.gameObject;
                 originalGlyphPosition = glyphs.transform.localPosition;
             }
+            if (!startHidden) hasBeenSeen = true;
+            SetInView(false, false);
         }
 
         virtual protected void Start()
@@ -144,9 +148,9 @@
 
         public void OnPreMapLoaded()
         {
-            if (tile == null && autoAddToTileAtStart)
+            if (tile == null && autoAddToTileAtStart && GetComponentInParent<Map>())
             {
-                tile = map.GetTileFromWorldPosition(transform.position - map.transform.position);
+                tile = map.GetTileFromWorldPosition(transform.position);
                 if (tile != null)
                 {
                     tile.AddObject(this, false, (int)-transform.position.z);
@@ -184,7 +188,7 @@
             }
 
             map.ForEachTileInRadius(
-                tilePosition + map.tileDimensions / 2,
+                tile.position + map.tileDimensions / 2,
                 illuminationRange, 
                 (Tile t) => 
                 {
@@ -194,7 +198,7 @@
                 {
                     return t.DoesBlockLineOfSight() && (t != tile);
                 },
-                false
+                true
             );
         }
 
@@ -319,31 +323,35 @@
 
         public void SetPosition(Vector2Int position, bool isMove = false)
         {
+            var newTile = map.GetTile(position);
+
             if (tile != null)
             {
-                if (isMove && onPreMove != null) onPreMove.Invoke(this, tilePosition, position);
-                onPreSetPosition?.Invoke(this, tilePosition, position);
+                if (isMove && onPreMove != null) onPreMove.Invoke(this, tile, newTile);
+                onPreSetPosition?.Invoke(this, tile, newTile);
             }
 
-            tile = map.GetTile(position);
-
-            if (isMove && onMove != null) onMove.Invoke(this, previousTilePosition, tilePosition);
-            if (onSetPosition != null) onSetPosition.Invoke(this, previousTilePosition, tilePosition);
-
+            previousTile = tile;
+            tile = newTile;
 
             if (isMove)
             {
-                map.ForEachTileInRadius(
-                    previousTilePosition,
-                    illuminationRange,
-                    t => t.RemoveIlluminationSource(),
-                    null,
-                    false
-                );
+                if (previousTile != null)
+                {
+                    map.ForEachTileInRadius(
+                        previousTile.position + map.tileDimensions / 2,
+                        illuminationRange,
+                        t => t.RemoveIlluminationSource(),
+                        null,
+                        true
+                    );
+                }
                 UpdateLighting();
             }
 
-            previousTilePosition = position;
+
+            if (isMove && onMove != null) onMove.Invoke(this, previousTile, tile);
+            if (onSetPosition != null) onSetPosition.Invoke(this, previousTile, tile);
         }
     }
 }

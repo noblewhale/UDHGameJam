@@ -1,20 +1,20 @@
-using Noble.DungeonCrawler;
-using Noble.TileEngine;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class WrapCamera : MonoBehaviour
+namespace Noble.DungeonCrawler
 {
-    void Update()
+    using Noble.TileEngine;
+    using UnityEngine;
+
+    public class WrapCamera : MonoBehaviour
     {
-        if (PlayerCamera.instance.transform.position.x > Map.instance.transform.position.x + Map.instance.TotalWidth / 2)
+        void Update()
         {
-            transform.localPosition = Vector3.left * Map.instance.TotalWidth;
-        }
-        else
-        {
-            transform.localPosition = Vector3.right * Map.instance.TotalWidth;
+            if (PlayerCamera.instance.transform.position.x > Map.instance.transform.position.x + Map.instance.TotalWidth / 2)
+            {
+                transform.localPosition = Vector3.left * Map.instance.TotalWidth;
+            }
+            else
+            {
+                transform.localPosition = Vector3.right * Map.instance.TotalWidth;
+            }
         }
     }
 }

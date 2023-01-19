@@ -3,12 +3,13 @@
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using System.Linq;
     using UnityEngine;
+    using UnityEngine.Tilemaps;
     using Random = UnityEngine.Random;
 
     public class Map : MonoBehaviour
     {
-
         public BiomeObject biomeObjectPrefab;
 
         public Biome[] biomeTypes;
@@ -26,7 +27,10 @@
 
         public object isDirtyLock = new object();
 
-        public Transform[] layers;
+        public List<Transform> layers;
+
+        [NonSerialized]
+        public Rect totalArea = new Rect();
 
         public float TotalWidth
         {
@@ -60,6 +64,8 @@
 
         public bool isDoneGeneratingMap = false;
 
+        public bool isPremade = true;
+
         public struct TileAndPosition
         {
             public Tile tile;
@@ -69,14 +75,20 @@
         virtual public void Awake()
         {
             instance = this;
-            transform.position = new Vector3(-TotalWidth / 2.0f, -TotalHeight / 2.0f);
+            if (layers == null || layers.Count == 0) layers = GetComponentsInChildren<Tilemap>().Select(tm => tm.transform).ToList();
+            if (layers == null || layers.Count == 0) layers = new List<Transform>() { transform };
         }
 
         virtual public void Start()
         {
             ClearMap();
             StartCoroutine(GenerateMap());
-            if (layers == null) layers = new Transform[] { transform };
+
+        }
+
+        virtual public void OnDestroy()
+        {
+            instance = null;
         }
 
         virtual public void ClearMap()
@@ -87,6 +99,33 @@
             {
                 t.DestroyAllObjects();
             });
+
+            if (isPremade)
+            {
+                // Update map area
+                var allObs = FindObjectsOfType<DungeonObject>();
+                var autoTileObjects = allObs.Where(ob => ob.autoAddToTileAtStart == true && ob.GetComponentInParent<Map>());
+                totalArea.xMin = totalArea.yMin = float.MaxValue;
+                totalArea.xMax = totalArea.yMax = float.MinValue;
+                foreach (var t in autoTileObjects)
+                {
+                    if (t.transform.position.x < totalArea.xMin) totalArea.xMin = t.transform.position.x;
+                    if (t.transform.position.x > totalArea.xMax) totalArea.xMax = t.transform.position.x;
+                    if (t.transform.position.y < totalArea.yMin) totalArea.yMin = t.transform.position.y;
+                    if (t.transform.position.y > totalArea.yMax) totalArea.yMax = t.transform.position.y;
+                }
+                totalArea.xMax += tileWidth;
+                totalArea.yMax += tileHeight;
+                width = (int)(totalArea.width / tileWidth);
+                height = (int)(totalArea.height / tileHeight);
+            }
+            else
+            {
+                totalArea.xMin = 0;
+                totalArea.yMin = 0;
+                totalArea.xMax = width;
+                totalArea.yMax = height;
+            }
 
             tiles = new Tile[height][];
             for (int y = 0; y < height; y++) tiles[y] = new Tile[width];
@@ -182,7 +221,7 @@
 
         virtual public void AddTile(int x, int y)
         {
-            tiles[y][x] = new Tile();// Instantiate(tilePrefab, new Vector3(-666, -666, -666), Quaternion.identity, layers[0]).GetComponent<Tile>();
+            tiles[y][x] = new Tile();
             tiles[y][x].Init(this, x, y);
         }
 
@@ -214,12 +253,12 @@
 
         virtual public float GetXWorldPositionOnMap(float x)
         {
-            return Mathf.Clamp(x, 0, TotalWidth);
+            return Mathf.Clamp(x, totalArea.min.x, totalArea.max.x);
         }
 
         virtual public float GetYWorldPositionOnMap(float y)
         {
-            return Mathf.Clamp(y, 0, TotalHeight);
+            return Mathf.Clamp(y, totalArea.min.y, totalArea.max.y);
         }
 
         virtual public Tile GetTile(int x, int y) => GetTile(new Vector2Int(x, y));
@@ -234,6 +273,7 @@
 
         virtual public Tile GetTileFromWorldPosition(Vector2 position)
         {
+            position = position - totalArea.min;
             position /= tileDimensions;
             var tilePos = new Vector2Int(Mathf.FloorToInt(position.x), Mathf.FloorToInt(position.y));
             return GetTile(tilePos);
@@ -393,9 +433,10 @@
 
         virtual public List<TileAndPosition> GetTileHitsInArc(Vector2 start, float radius, float arcAngleStart, float arcAngleEnd, Func<Tile, bool> stopCondition = null, bool includeSourceTile = false, bool showDebug = false)
         {
+            var startTile = GetTileFromWorldPosition(start);
             var area = new RectIntExclusive(
-                (int)(start.x - radius - 1),
-                (int)(start.y - radius - 1),
+                (int)(startTile.x - radius - 1),
+                (int)(startTile.y - radius - 1),
                 (int)(radius * 2 + 2 + 1),
                 (int)(radius * 2 + 2 + 1)
             );
@@ -432,9 +473,10 @@
 
         virtual public List<TileAndPosition> GetTileHitsInTruncatedArc(Vector2 start, float radius, float arcAngleStart, float arcAngleEnd, Func<Tile, bool> stopCondition = null, bool includeSourceTile = false)
         {
+            var startTile = GetTileFromWorldPosition(start);
             var area = new RectIntExclusive(
-                Mathf.FloorToInt(start.x - radius - 1),
-                Mathf.FloorToInt(start.y - radius - 1),
+                Mathf.FloorToInt(startTile.x - radius - 1),
+                Mathf.FloorToInt(startTile.y - radius - 1),
                 Mathf.CeilToInt(radius * 2 + 2 + 1),
                 Mathf.CeilToInt(radius * 2 + 2 + 1)
             );
@@ -501,12 +543,13 @@
 
         virtual public List<TileAndPosition> GetTileHitsInRay(Vector2 start, Vector2 dir, float distance, Func<Tile, bool> stopCondition = null, bool includeSourceTile = false, float stepSize = .4f, bool showDebug = false)
         {
+            Tile startTile = GetTileFromWorldPosition(start);
             var area = new RectIntExclusive();
             area.SetMinMax(
-                Mathf.Min(Mathf.FloorToInt(start.x), Mathf.FloorToInt(start.x + dir.x * distance)) - 1,
-                Mathf.Max(Mathf.CeilToInt(start.x), Mathf.CeilToInt(start.x + dir.x * distance)) + 1,
-                Mathf.Min(Mathf.FloorToInt(start.y), Mathf.FloorToInt(start.y + dir.y * distance)) - 1,
-                Mathf.Max(Mathf.CeilToInt(start.y), Mathf.CeilToInt(start.y + dir.y * distance)) + 1
+                Mathf.Min(Mathf.FloorToInt(startTile.x), Mathf.FloorToInt(startTile.x + dir.x * distance)) - 1,
+                Mathf.Max(Mathf.CeilToInt(startTile.x), Mathf.CeilToInt(startTile.x + dir.x * distance)) + 1,
+                Mathf.Min(Mathf.FloorToInt(startTile.y), Mathf.FloorToInt(startTile.y + dir.y * distance)) - 1,
+                Mathf.Max(Mathf.CeilToInt(startTile.y), Mathf.CeilToInt(startTile.y + dir.y * distance)) + 1
             );
             List<TileAndPosition> tilesInRay = new();
             lock (isDirtyLock)
@@ -521,8 +564,8 @@
         {
             Vector2 prev = start;
             Vector2 currentPosition;
+            Tile startTile = GetTileFromWorldPosition(start);
             Tile currentTile;
-            int y;
             bool wasStopped = false;
             for (int d = 0; d < distance / stepSize; d++)
             {
@@ -530,16 +573,15 @@
 
                 if (showDebug)
                 {
-                    Debug.DrawLine((Vector2)transform.position + prev, (Vector2)transform.position + currentPosition, new Color(Random.value, Random.value, Random.value), 4);
+                    Debug.DrawLine(prev, currentPosition, new Color(Random.value, Random.value, Random.value), 4);
                 }
                 prev = currentPosition;
 
-                y = (int)currentPosition.y;
-                if (y < 0 || y >= height) break;
+                if (currentPosition.y < totalArea.yMin || currentPosition.y > totalArea.yMax) break;
 
-                currentTile = GetTileFromWorldPosition(currentPosition.x, y);
+                currentTile = GetTileFromWorldPosition(currentPosition);
                 if (currentTile == null) continue;
-                if (includeSourceTile || currentTile.tilePosition != start.ToFloor())
+                if (includeSourceTile || currentTile != startTile)
                 {
                     if (!currentTile.isDirty)
                     {
@@ -563,18 +605,17 @@
 
             if (!wasStopped)
             {
-                Vector2 relative = start + dir * distance;
+                Vector2 endPos = start + dir * distance;
 
                 if (showDebug)
                 {
-                    Debug.DrawLine((Vector2)transform.position + prev, (Vector2)transform.position + relative, new Color(Random.value, Random.value, Random.value), 4);
+                    Debug.DrawLine(prev, endPos, new Color(Random.value, Random.value, Random.value), 4);
                 }
-
-                y = (int)relative.y;
-                if (y >= 0 && y < height)
+;
+                if (endPos.y > totalArea.yMin && endPos.y < totalArea.yMax)
                 {
-                    currentTile = GetTileFromWorldPosition(relative.x, y);
-                    if (currentTile != null && !currentTile.isDirty && (includeSourceTile || currentTile.tilePosition != start.ToFloor()))
+                    currentTile = GetTileFromWorldPosition(endPos);
+                    if (currentTile != null && !currentTile.isDirty && (includeSourceTile || currentTile != startTile))
                     {
                         currentTile.isDirty = true;
                         var hit = new TileAndPosition
@@ -607,16 +648,15 @@
             ForEachTile(t => t.UpdateLighting());
         }
 
-        virtual public void UpdateIsVisible(Vector2Int pos, float radius, bool isVisible)
+        virtual public void UpdateIsVisible(Tile tile, float radius, bool isVisible)
         {
-            tiles[pos.y][pos.x].SetInView(isVisible);
+            tile.SetInView(isVisible);
 
             ForEachTileInRadius(
-                pos + tileDimensions / 2,
+                tile.position + tileDimensions / 2,
                 radius,
                 t => t.SetInView(isVisible),
-                t => t.DoesBlockLineOfSight() && t.tilePosition != pos,
-                false,
+                t => t.DoesBlockLineOfSight() && t.tilePosition != tile.tilePosition,
                 false
             );
         }

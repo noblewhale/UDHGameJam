@@ -19,6 +19,17 @@ namespace Noble.DungeonCrawler
             instance = this;
         }
 
+        override protected void Start()
+        {
+            base.Start();
+            Player.Identity.onSpawn.AddListener(UpdatePosition);
+        }
+
+        virtual public void OnDestroy()
+        {
+            instance = null;
+        }
+
         void Update()
         {
             if (owner == null || tile == null) return;
@@ -40,7 +51,6 @@ namespace Noble.DungeonCrawler
                     newPos.y = owner.y + thresholdY;
                 }
             }
-            //newPos.y = Math.Clamp(newPos.y, cameraTile.y - 1, cameraTile.y + 1);
 
             if (Math.Abs(circleDifference.y) <= thresholdY || thresholdX == 0)
             {
@@ -48,31 +58,26 @@ namespace Noble.DungeonCrawler
                 {
                     if (circleDifference.x > 0)
                     {
-                        newPos.x = (x + circleDifference.x) - thresholdX;
+                        newPos.x = owner.x - thresholdY;
                     }
                     else
                     {
-                        newPos.x = (x + circleDifference.x) + thresholdX;
+                        newPos.x = owner.x + thresholdY;
                     }
                 }
-
-                newPos.x = Map.instance.GetXTilePositionOnMap(newPos.x);
-                int cameraCircleDifference = Map.instance.GetXDifference(cameraTile.x, newPos.x);
-                cameraCircleDifference = Math.Clamp(cameraCircleDifference, -1, 1);
-                newPos.x = cameraTile.x + cameraCircleDifference;
-                newPos.x = Map.instance.GetXTilePositionOnMap(newPos.x);
             }
 
-            if (newPos != tilePosition && newPos.x >= 0 && newPos.x < Map.instance.width && newPos.y >= 0 && newPos.y < Map.instance.height)
+            newPos = Map.instance.GetTilePositionOnMap(newPos);
+
+            if (newPos != tilePosition)
             {
                 Map.instance.MoveObject(this, newPos);
             }
         }
 
-        public void UpdatePosition()
+        public void UpdatePosition(DungeonObject _)
         {
             if (owner.tile == null) return;
-
             Map.instance.MoveObject(this, owner.tilePosition);
         }
     }

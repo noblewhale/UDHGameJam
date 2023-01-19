@@ -51,6 +51,7 @@ namespace Noble.DungeonCrawler
         public void OnDestroy()
         {
             db.Close();
+            instance = null;
         }
 
         internal string GetPowerFromParts(CrystalBehaviour.CrystalType[] powerParts)

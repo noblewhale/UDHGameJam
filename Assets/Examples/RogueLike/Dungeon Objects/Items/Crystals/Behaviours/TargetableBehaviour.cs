@@ -125,7 +125,6 @@
 
 		override public IEnumerator StartActionCoroutine()
 		{
-            Debug.Log("F Given");
             identityCreature.tickable.nextActionTime = identityCreature.ticksPerAttack;
 
 			CameraTarget.instance.owner = HighlightTile.instance;
@@ -133,7 +132,7 @@
 			CameraTarget.instance.thresholdY = 4;
 
 			var allowedTiles = Map.instance.GetTilesInRadius(
-				Player.Identity.tilePosition + owner.map.tileDimensions / 2,
+				Player.Identity.tile.position + owner.map.tileDimensions / 2,
 				aimingRadius,
 				null,
 				false,

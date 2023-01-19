@@ -10,4 +10,9 @@ public class AimOverlay : MonoBehaviour
         instance = this;
         gameObject.SetActive(false);
     }
+
+    virtual public void OnDestroy()
+    {
+        instance = null;
+    }
 }

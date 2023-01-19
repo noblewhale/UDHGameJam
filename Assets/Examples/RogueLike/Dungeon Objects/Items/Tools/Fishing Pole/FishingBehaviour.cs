@@ -30,7 +30,7 @@ public class FishingBehaviour : TickableBehaviour
         Tile bobberTarget = GetComponent<TargetableBehaviour>().targetTile;
 
         //Set Bobber end position
-        Vector3 endPosition = bobberTarget.position + (Vector3)Map.instance.tileDimensions / 2;
+        Vector3 endPosition = bobberTarget.position + Map.instance.tileDimensions / 2;
         endPosition.z = -2;
 
         float time = 0;

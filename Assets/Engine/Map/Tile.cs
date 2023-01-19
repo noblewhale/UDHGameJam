@@ -5,6 +5,7 @@
     using System.Linq;
     using System;
 
+    [Serializable]
     public class Tile
     {
         public Vector2Int tilePosition = Vector2Int.zero;
@@ -16,13 +17,14 @@
 
         public bool isInView = false;
 
+        [SerializeField]
         uint illuminationSources = 0;
         public bool IsLit => illuminationSources > 0;
 
         public LinkedList<DungeonObject> objectList = new LinkedList<DungeonObject>();
 
-        public Vector3 localPosition => tilePosition * map.tileDimensions;
-        public Vector3 position => Map.instance.transform.position + localPosition;
+        public Vector2 localPosition => position - (Vector2)map.transform.position;
+        public Vector2 position => map.totalArea.min + tilePosition * map.tileDimensions;
 
         public void Init(Map map, int x, int y)
         {
