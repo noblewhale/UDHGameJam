@@ -141,10 +141,13 @@ MonoBehaviour:
   isVisibleWhenNotInSight: 1
   pathingWeight: 0
   guiIcon: {fileID: 1204894190351212166}
+  startHidden: 1
   isCollidable: 0
   blocksLineOfSight: 0
   coversObjectsBeneath: 0
   preventsObjectSpawning: 0
+  tile:
+    rid: -2
   autoAddToTileAtStart: 0
   OnSteppedOn:
     m_PersistentCalls:
@@ -182,6 +185,11 @@ MonoBehaviour:
   onTakeDamage:
     m_PersistentCalls:
       m_Calls: []
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
 --- !u!114 &7351972079377745321
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -236,6 +244,11 @@ MonoBehaviour:
   executeEveryTick: 0
   bobberAnimator: {fileID: 6641087029247786956}
   bobber: {fileID: 5582889771570044888}
+  castSpeed: 4
+  endPositionOffset: {x: 0, y: -0.5}
+  bobCount: 0
+  maxBobCount: 0
+  didBob: 0
 --- !u!95 &380859177053591836
 Animator:
   serializedVersion: 4
@@ -270,7 +283,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   owner: {fileID: 0}
   executeEveryTick: 0
-  aimingRadius: 3
+  targetTile:
+    tilePosition: {x: 0, y: 0}
+    map: {fileID: 0}
+    isDirty: 0
+    gapBetweenLayers: 0.1
+    isInView: 0
+    illuminationSources: 0
+  threatenedTiles: []
+  aimingRadius: 2.9
   shapeSprite: {fileID: 1709452272, guid: 56dc95184da85084d877a2ed4892f9d1, type: 3}
   shape: []
   level: 0
@@ -416,6 +437,7 @@ GameObject:
   - component: {fileID: 2195390610796352147}
   - component: {fileID: 5582889771570044888}
   - component: {fileID: 6641087029247786956}
+  - component: {fileID: 6842797357932837922}
   m_Layer: 0
   m_Name: BobberSplash
   m_TagString: Untagged
@@ -512,6 +534,19 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &6842797357932837922
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6092349783901927418}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef4c4bf56cdebaf4db5252bd460ee31c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fishingParameter: {fileID: 8279961085041467727}
 --- !u!1 &6725103956342665371
 GameObject:
   m_ObjectHideFlags: 0

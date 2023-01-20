@@ -125,6 +125,10 @@
 
 		override public IEnumerator StartActionCoroutine()
 		{
+			var roguePlayerTickable = Player.instance.identity.GetComponent<RoguePlayerTickable>();
+
+			roguePlayerTickable.isAiming = true;
+
             identityCreature.tickable.nextActionTime = identityCreature.ticksPerAttack;
 
 			CameraTarget.instance.owner = HighlightTile.instance;
@@ -188,7 +192,15 @@
 			targetTile = HighlightTile.instance.tile;
 		}
 
-        virtual protected List<Tile> GetThreatenedTiles()
+		public override void FinishAction()
+		{
+			base.FinishAction();
+            var roguePlayerTickable = Player.instance.identity.GetComponent<RoguePlayerTickable>();
+
+            roguePlayerTickable.isAiming = false;
+        }
+
+		virtual protected List<Tile> GetThreatenedTiles()
         {
 			return null;
         }

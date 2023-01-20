@@ -11,6 +11,8 @@
         public AttackBehaviour attackBehaviour;
         public MoveBehaviour moveBehaviour;
 
+        public bool isAiming;
+
         public PostProcessVolume circleWarpVolume;
         CircleWarp circleWarp;
 
@@ -33,6 +35,7 @@
             }
             else if (command.key == Key.F)
             {
+                
                 
                 if (owner.Equipment.GetEquipment(Equipment.Slot.TWO_HANDED)!=null)
                 {

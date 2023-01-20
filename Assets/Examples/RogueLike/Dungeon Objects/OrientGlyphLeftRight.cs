@@ -2,6 +2,7 @@
 {
     using Noble.TileEngine;
     using UnityEngine;
+    using UnityEngine.InputSystem;
 
     public class OrientGlyphLeftRight : MonoBehaviour
     {
@@ -18,6 +19,24 @@
 
         void Update()
         {
+            var roguePlayerTickable = Player.instance.identity.GetComponent<RoguePlayerTickable>();
+
+            if (roguePlayerTickable.isAiming)
+            {
+
+                Vector3 mousePos = Mouse.current.position.ReadValue();
+
+                if (mousePos.x > Screen.width / 2)
+                {
+                    transform.localScale = originalScale;
+                }
+                else
+                {
+                    transform.localScale = new Vector3(-originalScale.x, originalScale.y, originalScale.z);
+                }
+              
+            }
+
             switch (owner.lastDirectionAttackedOrMoved)
             {
                 case Direction.RIGHT:

@@ -9,6 +9,13 @@ public class FishingBehaviour : TickableBehaviour
     Animator fishingPoleAnimator;
     public Animator bobberAnimator;
     public SpriteRenderer bobber;
+    public float castSpeed = 2;
+    public Vector2 endPositionOffset;
+
+    public int bobCount;
+    public int maxBobCount = 4;
+
+    public bool didBob;
 
     private void Start()
     {
@@ -31,13 +38,15 @@ public class FishingBehaviour : TickableBehaviour
 
         //Set Bobber end position
         Vector3 endPosition = bobberTarget.position + Map.instance.tileDimensions / 2;
+        endPosition += (Vector3) endPositionOffset;
+
         endPosition.z = -2;
 
         float time = 0;
 
-        while (time < 1)
+        while (time < 1/castSpeed)
         {
-            bobber.transform.position = startPosition + (endPosition - startPosition) * time;
+            bobber.transform.position = startPosition + (endPosition - startPosition) * time * castSpeed;
 
             yield return new WaitForEndOfFrame();
             time += Time.deltaTime;
@@ -58,20 +67,32 @@ public class FishingBehaviour : TickableBehaviour
 
     override public void StartSubAction(ulong time)
     {
-       
+        Debug.Log("start sub");
     }
     override public bool ContinueSubAction(ulong time)
     {
-        return true;
+        Debug.Log("cont sub");
+
+        if (didBob)
+        {
+            didBob = false;
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+        
     }
     override public void FinishSubAction(ulong time)
     {
-        
+        Debug.Log("fin sub");
     }
 
     override public void FinishAction()
     {
-        
+        Debug.Log("fin action");
+        bobberAnimator.SetTrigger("FishOn");
     }
     
 }
