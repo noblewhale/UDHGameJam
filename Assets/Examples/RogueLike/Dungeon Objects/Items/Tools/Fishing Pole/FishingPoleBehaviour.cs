@@ -19,11 +19,11 @@ public class FishingPoleBehaviour : TickableBehaviour
     
     override public IEnumerator StartActionCoroutine()
     {
-        GetComponentInParent<Tickable>().nextActionTime = TimeManager.instance.Time + (ulong) fishingBehaviour.maxBobCount;
-
         yield return castBehavior.StartActionCoroutine();
         castBehavior.FinishAction();
 
+        Player.Identity.GetComponent<Tickable>().nextActionTime = TimeManager.instance.Time + (ulong)fishingBehaviour.maxBobCount;
+        PlayerInputHandler.instance.WaitForPlayerInput = false;
         yield return fishingBehaviour.StartActionCoroutine();
     }
 
@@ -43,5 +43,6 @@ public class FishingPoleBehaviour : TickableBehaviour
     override public void FinishAction() 
     { 
         fishingBehaviour.FinishAction();
+        PlayerInputHandler.instance.WaitForPlayerInput = true;
     }
 }

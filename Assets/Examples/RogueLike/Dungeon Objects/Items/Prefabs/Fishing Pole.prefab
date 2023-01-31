@@ -247,7 +247,7 @@ MonoBehaviour:
   castSpeed: 4
   endPositionOffset: {x: 0, y: -0.5}
   bobCount: 0
-  maxBobCount: 0
+  maxBobCount: 4
   didBob: 0
 --- !u!95 &380859177053591836
 Animator:

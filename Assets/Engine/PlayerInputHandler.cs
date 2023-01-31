@@ -14,6 +14,7 @@
         {
             get => commandQueue.Count != 0;
         }
+        public bool WaitForPlayerInput = true;
 
         public static PlayerInputHandler instance;
         private ButtonControl[] allMouseButtons;

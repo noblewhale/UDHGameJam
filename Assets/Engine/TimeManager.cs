@@ -49,7 +49,7 @@
 
                     if (Player.Identity.tickable == ob)
                     {
-                        while (!PlayerInputHandler.instance.HasInput) yield return new WaitForEndOfFrame();
+                        while (!PlayerInputHandler.instance.HasInput && PlayerInputHandler.instance.WaitForPlayerInput) yield return new WaitForEndOfFrame();
                         
                         isInterrupted = false;
                     }
