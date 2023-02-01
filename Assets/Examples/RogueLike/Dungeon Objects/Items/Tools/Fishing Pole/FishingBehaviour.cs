@@ -9,7 +9,9 @@ public class FishingBehaviour : TickableBehaviour
     Animator fishingPoleAnimator;
     public Animator bobberAnimator;
     public SpriteRenderer bobber;
+
     public float castSpeed = 2;
+    public Vector3 startPosition;
     public Vector2 endPositionOffset;
 
     public int bobCount;
@@ -30,7 +32,7 @@ public class FishingBehaviour : TickableBehaviour
         bobber.transform.parent = null;
 
         //Set bobber start position from prefab
-        Vector3 startPosition = new Vector3(bobber.transform.position.x, bobber.transform.position.y, -2);
+        startPosition = new Vector3(bobber.transform.position.x, bobber.transform.position.y, -2);
         bobber.transform.position = startPosition;
 
         //Get target tile
@@ -55,6 +57,13 @@ public class FishingBehaviour : TickableBehaviour
         bobberAnimator.SetTrigger("DoSplash");
 
         yield return null;
+    }
+
+    public void ResetBobber()
+    {
+        bobber.gameObject.SetActive(true);
+        bobber.transform.parent = gameObject.transform;
+        bobber.transform.position = startPosition;
     }
 
     public override bool IsActionACoroutine() => true;

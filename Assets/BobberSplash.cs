@@ -13,6 +13,10 @@ public class BobberSplash : MonoBehaviour
         fishingParameter.didBob = true;
     }
 
+    public void OnReset()
+    {
+       fishingParameter.ResetBobber();
+    }
 
     // Start is called before the first frame update
     void Start()
