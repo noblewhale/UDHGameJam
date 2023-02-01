@@ -22,7 +22,7 @@ public class FishingPoleBehaviour : TickableBehaviour
         yield return castBehavior.StartActionCoroutine();
         castBehavior.FinishAction();
 
-        Player.Identity.GetComponent<Tickable>().nextActionTime = TimeManager.instance.Time + (ulong)fishingBehaviour.maxBobCount;
+        
         PlayerInputHandler.instance.WaitForPlayerInput = false;
         yield return fishingBehaviour.StartActionCoroutine();
     }

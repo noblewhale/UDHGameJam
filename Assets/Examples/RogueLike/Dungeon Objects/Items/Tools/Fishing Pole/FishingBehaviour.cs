@@ -13,6 +13,7 @@ public class FishingBehaviour : TickableBehaviour
     public float castSpeed = 2;
     public Vector3 startPosition;
     public Vector2 endPositionOffset;
+    public bool isOnWater = true;
 
     public int bobCount;
     public int maxBobCount = 4;
@@ -22,6 +23,7 @@ public class FishingBehaviour : TickableBehaviour
     private void Start()
     {
         fishingPoleAnimator = GetComponent<Animator>();
+        startPosition = bobber.transform.localPosition;
 
     }
 
@@ -29,11 +31,16 @@ public class FishingBehaviour : TickableBehaviour
     {
         //Turn Bobber on
         bobber.gameObject.SetActive(true);
+        bobber.transform.localPosition = startPosition;
         bobber.transform.parent = null;
+        Vector3 bobberAnimationStartPosition = bobber.transform.position;
 
-        //Set bobber start position from prefab
-        startPosition = new Vector3(bobber.transform.position.x, bobber.transform.position.y, -2);
-        bobber.transform.position = startPosition;
+        ////Set bobber start position from prefab
+        //startPosition = new Vector3(bobber.transform.position.x, bobber.transform.position.y, -2);
+        //bobber.transform.position = startPosition;
+
+
+
 
         //Get target tile
         Tile bobberTarget = GetComponent<TargetableBehaviour>().targetTile;
@@ -48,14 +55,21 @@ public class FishingBehaviour : TickableBehaviour
 
         while (time < 1/castSpeed)
         {
-            bobber.transform.position = startPosition + (endPosition - startPosition) * time * castSpeed;
+            bobber.transform.position = bobberAnimationStartPosition + (endPosition - bobberAnimationStartPosition) * time * castSpeed;
 
             yield return new WaitForEndOfFrame();
             time += Time.deltaTime;
         }
 
-        bobberAnimator.SetTrigger("DoSplash");
-
+        if (bobberTarget.ContainsObjectOfType("Water"))
+        {
+            isOnWater = true;
+            bobberAnimator.SetTrigger("DoSplash");
+        }
+        else
+        {
+            isOnWater = false;
+        }
         yield return null;
     }
 
@@ -63,7 +77,8 @@ public class FishingBehaviour : TickableBehaviour
     {
         bobber.gameObject.SetActive(true);
         bobber.transform.parent = gameObject.transform;
-        bobber.transform.position = startPosition;
+        bobber.transform.localPosition = startPosition;
+        didBob = false;
     }
 
     public override bool IsActionACoroutine() => true;
@@ -71,6 +86,23 @@ public class FishingBehaviour : TickableBehaviour
     override public IEnumerator StartActionCoroutine()
     {
         fishingPoleAnimator.SetTrigger("CastTrigger");
+
+        Tile bobberTarget = GetComponent<TargetableBehaviour>().targetTile;
+
+        if (bobberTarget.ContainsObjectOfType("Water"))
+        {
+            isOnWater = true;
+            Player.Identity.GetComponent<Tickable>().nextActionTime = TimeManager.instance.Time + 4;
+            PlayerInputHandler.instance.WaitForPlayerInput = false;
+        }
+        else
+        {
+            isOnWater = false;
+            Player.Identity.GetComponent<Tickable>().nextActionTime = TimeManager.instance.Time + 1;
+
+        }
+
+
         yield return null;
     }
 
@@ -82,7 +114,12 @@ public class FishingBehaviour : TickableBehaviour
     {
         Debug.Log("cont sub");
 
-        if (didBob)
+        if (!isOnWater)
+        {
+            
+            return true;
+        }
+        else if (didBob)
         {
             didBob = false;
             return true;
@@ -101,7 +138,16 @@ public class FishingBehaviour : TickableBehaviour
     override public void FinishAction()
     {
         Debug.Log("fin action");
-        bobberAnimator.SetTrigger("FishOn");
+        
+
+        if (!isOnWater)
+        {
+            ResetBobber();
+        }
+        else
+        {
+            bobberAnimator.SetTrigger("FishOn");
+        }
     }
     
 }

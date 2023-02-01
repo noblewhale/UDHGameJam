@@ -245,6 +245,7 @@ MonoBehaviour:
   bobberAnimator: {fileID: 6641087029247786956}
   bobber: {fileID: 5582889771570044888}
   castSpeed: 4
+  startPosition: {x: 0, y: 0, z: 0}
   endPositionOffset: {x: 0, y: -0.5}
   bobCount: 0
   maxBobCount: 4
@@ -956,6 +957,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: 0.45
       objectReference: {fileID: 0}
+    - target: {fileID: -4498939565895520204, guid: 07679da039dbfe54b896336f1599cffc, type: 3}
+      propertyPath: m_SortingOrder
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 676700011490360091, guid: 07679da039dbfe54b896336f1599cffc, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -968,9 +973,21 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: 0.48
       objectReference: {fileID: 0}
+    - target: {fileID: 3385820599010230178, guid: 07679da039dbfe54b896336f1599cffc, type: 3}
+      propertyPath: m_SortingOrder
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 3743243616894677124, guid: 07679da039dbfe54b896336f1599cffc, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6528546598206884477, guid: 07679da039dbfe54b896336f1599cffc, type: 3}
+      propertyPath: m_SortingOrder
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7095845355431891591, guid: 07679da039dbfe54b896336f1599cffc, type: 3}
+      propertyPath: m_SortingOrder
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7567406254269749928, guid: 07679da039dbfe54b896336f1599cffc, type: 3}
       propertyPath: m_IsActive
