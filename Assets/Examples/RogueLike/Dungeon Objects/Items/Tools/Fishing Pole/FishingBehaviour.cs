@@ -14,6 +14,7 @@ public class FishingBehaviour : TickableBehaviour
     public Vector3 startPosition;
     public Vector2 endPositionOffset;
     public bool isOnWater = true;
+    public bool isLanded = false;
 
     public int bobCount;
     public int maxBobCount = 4;
@@ -69,6 +70,7 @@ public class FishingBehaviour : TickableBehaviour
         else
         {
             isOnWater = false;
+            isLanded = true;
         }
         yield return null;
     }
@@ -114,9 +116,9 @@ public class FishingBehaviour : TickableBehaviour
     {
         Debug.Log("cont sub");
 
-        if (!isOnWater)
+        if (!isOnWater && isLanded)
         {
-            
+            isLanded = false;
             return true;
         }
         else if (didBob)
