@@ -22,8 +22,6 @@ public class FishingPoleBehaviour : TickableBehaviour
         yield return castBehavior.StartActionCoroutine();
         castBehavior.FinishAction();
 
-        
-        PlayerInputHandler.instance.WaitForPlayerInput = false;
         yield return fishingBehaviour.StartActionCoroutine();
     }
 

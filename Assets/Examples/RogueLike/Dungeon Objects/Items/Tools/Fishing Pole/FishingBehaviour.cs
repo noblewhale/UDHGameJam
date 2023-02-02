@@ -25,23 +25,13 @@ public class FishingBehaviour : TickableBehaviour
     {
         fishingPoleAnimator = GetComponent<Animator>();
         startPosition = bobber.transform.localPosition;
-
     }
 
     public IEnumerator OnCastAnimationEnd()
     {
-        //Turn Bobber on
-        bobber.gameObject.SetActive(true);
         bobber.transform.localPosition = startPosition;
         bobber.transform.parent = null;
         Vector3 bobberAnimationStartPosition = bobber.transform.position;
-
-        ////Set bobber start position from prefab
-        //startPosition = new Vector3(bobber.transform.position.x, bobber.transform.position.y, -2);
-        //bobber.transform.position = startPosition;
-
-
-
 
         //Get target tile
         Tile bobberTarget = GetComponent<TargetableBehaviour>().targetTile;
@@ -77,9 +67,9 @@ public class FishingBehaviour : TickableBehaviour
 
     public void ResetBobber()
     {
-        bobber.gameObject.SetActive(true);
         bobber.transform.parent = gameObject.transform;
         bobber.transform.localPosition = startPosition;
+        Debug.Log(bobber.transform.position, bobber.gameObject);
         didBob = false;
     }
 
@@ -94,28 +84,20 @@ public class FishingBehaviour : TickableBehaviour
         if (bobberTarget.ContainsObjectOfType("Water"))
         {
             isOnWater = true;
-            Player.Identity.GetComponent<Tickable>().nextActionTime = TimeManager.instance.Time + 4;
+            Player.Identity.GetComponent<Tickable>().nextActionTime = TimeManager.instance.Time + (ulong)maxBobCount;
             PlayerInputHandler.instance.WaitForPlayerInput = false;
         }
         else
         {
             isOnWater = false;
             Player.Identity.GetComponent<Tickable>().nextActionTime = TimeManager.instance.Time + 1;
-
         }
-
 
         yield return null;
     }
 
-    override public void StartSubAction(ulong time)
-    {
-        Debug.Log("start sub");
-    }
     override public bool ContinueSubAction(ulong time)
     {
-        Debug.Log("cont sub");
-
         if (!isOnWater && isLanded)
         {
             isLanded = false;
@@ -130,18 +112,10 @@ public class FishingBehaviour : TickableBehaviour
         {
             return false;
         }
-        
-    }
-    override public void FinishSubAction(ulong time)
-    {
-        Debug.Log("fin sub");
     }
 
     override public void FinishAction()
     {
-        Debug.Log("fin action");
-        
-
         if (!isOnWater)
         {
             ResetBobber();
