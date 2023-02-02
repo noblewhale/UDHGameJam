@@ -1,8 +1,10 @@
 Shader "Custom/Outline"
 {
   SubShader
-  {
-    Cull Off ZWrite Off ZTest Always
+  { 
+    Cull Off
+    ZWrite On
+    ZTest Always
     Pass
     {
       CGPROGRAM
@@ -27,7 +29,7 @@ Shader "Custom/Outline"
 
       bool IsOutline(float2 uv)
       {
-        // Get some adjacent locations, accounting for x wrapping
+        // Get some adjacent locations
         float2 adjacentUV1 = GetAdjacent(uv, 1, 1);
         float2 adjacentUV2 = GetAdjacent(uv, -1, -1);
         float2 adjacentUV3 = GetAdjacent(uv, -1, 1);
