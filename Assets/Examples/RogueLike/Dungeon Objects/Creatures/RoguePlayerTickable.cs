@@ -35,14 +35,18 @@
             }
             else if (command.key == Key.F)
             {
-                
-                
                 if (owner.Equipment.GetEquipment(Equipment.Slot.TWO_HANDED)!=null)
                 {
                     return owner.Equipment.GetEquipment(Equipment.Slot.TWO_HANDED).GetComponent<TickableBehaviour>();
                 }
-                
-                return owner.Equipment.GetEquipment(Equipment.Slot.LEFT_HAND_WEAPON).GetComponent<TickableBehaviour>();
+                else if (owner.Equipment.GetEquipment(Equipment.Slot.LEFT_HAND_WEAPON))
+                {
+                    return owner.Equipment.GetEquipment(Equipment.Slot.LEFT_HAND_WEAPON).GetComponent<TickableBehaviour>();
+                }
+                else
+                {
+                    return null;
+                }
             }
             else
             {
