@@ -4,6 +4,7 @@
     using UnityEngine;
     using System.Linq;
     using System;
+    using Random = UnityEngine.Random;
 
     [Serializable]
     public class Tile
@@ -336,6 +337,20 @@
         public bool ContainsCollidableObject()
         {
             return objectList.Any(x => x.isCollidable);
+        }
+
+        public bool ContainsPickUpObject()
+        {
+            return objectList.Any(x => x.canBePickedUp);    
+        }
+
+        public DungeonObject GetRandomPickUpObject()
+        {
+            var pickUpObjects = objectList.Where(x => x.canBePickedUp).ToList();
+
+            int r = Random.Range(0, pickUpObjects.Count);
+
+            return pickUpObjects[r];
         }
 
         public bool AllowsSpawn()

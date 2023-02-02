@@ -24,6 +24,8 @@ public class FishingBehaviour : TickableBehaviour
 
     public bool didBob;
 
+    public override bool IsActionACoroutine() => true;
+
     private void Start()
     {
         fishingPoleAnimator = GetComponent<Animator>();
@@ -88,13 +90,21 @@ public class FishingBehaviour : TickableBehaviour
         ResetBobber();
     }
 
-    public override bool IsActionACoroutine() => true;
+   public void ItemCaught()
+    {
+        //Catch item (random if multiple) from floor
+        var caughtItem = bobberTarget.GetRandomPickUpObject();
+
+        //Put it in inventory
+        Player.Identity.AddToInventory(caughtItem);
+    }
+
 
     override public IEnumerator StartActionCoroutine()
     {
         fishingPoleAnimator.SetTrigger("CastTrigger");
 
-        Tile bobberTarget = GetComponent<TargetableBehaviour>().targetTile;
+        bobberTarget = GetComponent<TargetableBehaviour>().targetTile;
 
         if (bobberTarget.ContainsObjectOfType("Water"))
         {
@@ -138,6 +148,11 @@ public class FishingBehaviour : TickableBehaviour
         }
         if (!isOnWater)
         {
+            if (bobberTarget.ContainsPickUpObject())
+            {
+                ItemCaught();
+            }
+
             ResetBobber();
         }
         else if (bobberTarget.ContainsObjectOfType("Fish Swimming"))

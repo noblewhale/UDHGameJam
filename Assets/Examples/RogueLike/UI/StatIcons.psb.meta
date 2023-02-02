@@ -436,7 +436,7 @@ ScriptedImporter:
     mosaicPosition: {x: 76, y: 59}
     flatten: 0
     isImported: 1
-    isVisible: 0
+    isVisible: 1
   - name: Intelligence Glow
     spriteName: Intelligence Glow
     isGroup: 0
@@ -446,7 +446,7 @@ ScriptedImporter:
     mosaicPosition: {x: 181, y: 52}
     flatten: 0
     isImported: 1
-    isVisible: 0
+    isVisible: 1
   - name: Agility
     spriteName: Agility
     isGroup: 0
@@ -536,7 +536,7 @@ ScriptedImporter:
     mosaicPosition: {x: 181, y: 148}
     flatten: 0
     isImported: 1
-    isVisible: 1
+    isVisible: 0
   - name: Heart Glow
     spriteName: Heart Glow
     isGroup: 0
@@ -546,7 +546,7 @@ ScriptedImporter:
     mosaicPosition: {x: 128, y: 4}
     flatten: 0
     isImported: 1
-    isVisible: 1
+    isVisible: 0
   - name: Layer 0
     spriteName: Layer 0
     isGroup: 0
