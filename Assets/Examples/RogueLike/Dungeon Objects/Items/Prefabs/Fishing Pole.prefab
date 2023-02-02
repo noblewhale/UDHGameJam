@@ -244,9 +244,12 @@ MonoBehaviour:
   executeEveryTick: 0
   bobberAnimator: {fileID: 6641087029247786956}
   bobber: {fileID: 5582889771570044888}
+  fishMeatPrefab: {fileID: 1920995248641060, guid: 9fe6e39519679c3478feb25632aba613, type: 3}
   castSpeed: 4
   startPosition: {x: 0, y: 0, z: 0}
   endPositionOffset: {x: 0, y: -0.5}
+  isOnWater: 1
+  isLanded: 0
   bobCount: 0
   maxBobCount: 4
   didBob: 0

@@ -91,7 +91,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ddd0c896d8f310e46a0e98eca91558d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectName: Water
+  objectName: Fish Swimming
   illuminationRange: 0
   quantity: 1
   canBePickedUp: 0

@@ -9,6 +9,9 @@ public class FishingBehaviour : TickableBehaviour
     Animator fishingPoleAnimator;
     public Animator bobberAnimator;
     public SpriteRenderer bobber;
+    public GameObject fishMeatPrefab;
+
+    Tile bobberTarget;
 
     public float castSpeed = 2;
     public Vector3 startPosition;
@@ -34,7 +37,7 @@ public class FishingBehaviour : TickableBehaviour
         Vector3 bobberAnimationStartPosition = bobber.transform.position;
 
         //Get target tile
-        Tile bobberTarget = GetComponent<TargetableBehaviour>().targetTile;
+        bobberTarget = GetComponent<TargetableBehaviour>().targetTile;
 
         //Set Bobber end position
         Vector3 endPosition = bobberTarget.position + Map.instance.tileDimensions / 2;
@@ -71,6 +74,18 @@ public class FishingBehaviour : TickableBehaviour
         bobber.transform.localPosition = startPosition;
         Debug.Log(bobber.transform.position, bobber.gameObject);
         didBob = false;
+    }
+
+    public void FishCaught()
+    {
+        //Spawn the meat
+        var caughtMeat = Instantiate(fishMeatPrefab);
+        var caughtMeatDO = caughtMeat.GetComponent<DungeonObject>();
+
+        //Put it in inventory
+        Player.Identity.AddToInventory(caughtMeatDO);
+
+        ResetBobber();
     }
 
     public override bool IsActionACoroutine() => true;
@@ -116,11 +131,16 @@ public class FishingBehaviour : TickableBehaviour
 
     override public void FinishAction()
     {
+        if (isOnWater && !bobberTarget.ContainsObjectOfType("Fish Swimming"))
+        {
+            bobberAnimator.SetTrigger("Reset");
+            ResetBobber();
+        }
         if (!isOnWater)
         {
             ResetBobber();
         }
-        else
+        else if (bobberTarget.ContainsObjectOfType("Fish Swimming"))
         {
             bobberAnimator.SetTrigger("FishOn");
         }
