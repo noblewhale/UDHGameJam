@@ -10,6 +10,8 @@ public class FishingBehaviour : TickableBehaviour
     public Animator bobberAnimator;
     public SpriteRenderer bobber;
     public GameObject fishMeatPrefab;
+    public FishingPoleBehaviour fishingPoleBehaviour;
+
 
     Tile bobberTarget;
 
@@ -80,23 +82,33 @@ public class FishingBehaviour : TickableBehaviour
 
     public void FishCaught()
     {
-        //Spawn the meat
-        var caughtMeat = Instantiate(fishMeatPrefab);
-        var caughtMeatDO = caughtMeat.GetComponent<DungeonObject>();
+        if (Random.value <= fishingPoleBehaviour.catchFishChance)
+        {
+            //Spawn the meat
+            var caughtMeat = Instantiate(fishMeatPrefab);
+            var caughtMeatDO = caughtMeat.GetComponent<DungeonObject>();
 
-        //Put it in inventory
-        Player.Identity.AddToInventory(caughtMeatDO);
+            //Put it in inventory
+            Player.Identity.AddToInventory(caughtMeatDO);
+        }
+
+        //Remove Fish Swimming Object
+        var fishSwimmingObject = bobberTarget.GetObjectOfType("Fish Swimming");
+        bobberTarget.RemoveObject(fishSwimmingObject, true);
 
         ResetBobber();
     }
 
    public void ItemCaught()
     {
-        //Catch item (random if multiple) from floor
-        var caughtItem = bobberTarget.GetRandomPickUpObject();
+        if (Random.value <= fishingPoleBehaviour.catchItemChance)
+        {
+            //Catch item (random if multiple) from floor
+            var caughtItem = bobberTarget.GetRandomPickUpObject();
 
-        //Put it in inventory
-        Player.Identity.AddToInventory(caughtItem);
+            //Put it in inventory
+            Player.Identity.AddToInventory(caughtItem);
+        }    
     }
 
 

@@ -7,20 +7,28 @@ using UnityEngine;
 public class FishingPoleBehaviour : TickableBehaviour
 {
     public FishingBehaviour fishingBehaviour;
-    public TargetableBehaviour castBehavior;
-    
+    public TargetableBehaviour castBehaviour;
+    public float catchFishChance = .8f;
+    public float catchItemChance = .8f;
+
+    public void Start()
+    {
+        fishingBehaviour.fishingPoleBehaviour = this;
+    }
+
     public void OnCastAnimationEnd()
     {
         fishingBehaviour.OnCastAnimationEnd();
-
     }
 
     public override bool IsActionACoroutine() => true;
     
     override public IEnumerator StartActionCoroutine()
     {
-        yield return castBehavior.StartActionCoroutine();
-        castBehavior.FinishAction();
+        
+
+        yield return castBehaviour.StartActionCoroutine();
+        castBehaviour.FinishAction();
 
         yield return fishingBehaviour.StartActionCoroutine();
     }

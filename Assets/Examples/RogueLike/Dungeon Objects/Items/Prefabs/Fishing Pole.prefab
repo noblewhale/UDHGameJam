@@ -227,7 +227,9 @@ MonoBehaviour:
   owner: {fileID: 0}
   executeEveryTick: 0
   fishingBehaviour: {fileID: 8279961085041467727}
-  castBehavior: {fileID: -6058374003691744661}
+  castBehaviour: {fileID: -6058374003691744661}
+  catchFishChance: 0.05
+  catchItemChance: 0.05
 --- !u!114 &8279961085041467727
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -245,6 +247,7 @@ MonoBehaviour:
   bobberAnimator: {fileID: 6641087029247786956}
   bobber: {fileID: 5582889771570044888}
   fishMeatPrefab: {fileID: 1920995248641060, guid: 9fe6e39519679c3478feb25632aba613, type: 3}
+  fishingPoleBehaviour: {fileID: 0}
   castSpeed: 4
   startPosition: {x: 0, y: 0, z: 0}
   endPositionOffset: {x: 0, y: -0.5}

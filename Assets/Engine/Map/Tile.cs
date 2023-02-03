@@ -98,6 +98,16 @@
             return false;
         }
 
+        public DungeonObject GetObjectOfType(string needle)
+        {
+            foreach (var hay in objectList)
+            {
+                if (needle == hay.objectName) return hay;
+            }
+
+            return null;
+        }
+
         public void SetInView(bool isVisible)
         {
             isInView = isVisible;
@@ -352,6 +362,8 @@
 
             return pickUpObjects[r];
         }
+
+
 
         public bool AllowsSpawn()
         {
