@@ -414,6 +414,35 @@
             return tilesInRadius;
         }
 
+        virtual public List<Tile> GetTilesInRadiusTaxi(Vector2Int centerPosition, int radius)
+        {
+            var area = new RectIntExclusive();
+            area.SetMinMax(
+                centerPosition.x - radius,
+                centerPosition.x + radius + 1,
+                centerPosition.y - radius,
+                centerPosition.y + radius + 1
+            );
+
+            List<Tile> taxiTiles = new List<Tile>();
+
+            for (int x = area.xMin; x < area.xMax; x++) 
+            {
+                for (int y = area.yMin; y < area.yMax; y++)
+                {
+                    Vector2Int difference = centerPosition - new Vector2Int(x, y);
+                    int taxiDistance = Math.Abs(difference.x) + Math.Abs(difference.y);
+                    if (taxiDistance <= radius)
+                    {
+                        var wrappedTile = GetTile(x, y);
+                        taxiTiles.Add(wrappedTile);
+                    }
+                }
+            }
+
+            return taxiTiles;
+        }
+
         virtual public List<Tile> GetTilesInRadius(Vector2 start, float radius, Func<Tile, bool> stopCondition = null, bool includeSourceTile = false, bool showDebug = false)
         {
             var tileHitsInRadius = GetTileHitsInRadius(start, radius, stopCondition, includeSourceTile, showDebug);

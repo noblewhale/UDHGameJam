@@ -28,7 +28,7 @@ ScriptedImporter:
     ignoreMasterTextureLimit: 0
     nPOTScale: 1
     sRGBTexture: 1
-    spriteMode: 2
+    spriteMode: 1
     spriteExtrude: 1
     spriteMeshType: 0
     alignment: 0
@@ -68,18 +68,18 @@ ScriptedImporter:
     textureFormatSet: 0
     applyGammaDecoding: 0
   spriteImportData:
-  - name: 
+  - name: WaterBackground_1
     originalName: 
-    pivot: {x: 0, y: 0}
+    pivot: {x: 0.5, y: 0.5}
     alignment: 0
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
       x: 0
       y: 0
-      width: 0
-      height: 0
-    spriteID: 
+      width: 64
+      height: 64
+    spriteID: 7590533d1ad931748b0de54481e3c499
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -176,19 +176,9 @@ ScriptedImporter:
   mosaicPSDLayers: []
   rigPSDLayers:
   - name: Water Background
-    spriteName: 
-    isGroup: 1
-    parentIndex: -1
-    spriteID: 00000000000000000000000000000000
-    layerID: 28
-    mosaicPosition: {x: 0, y: 0}
-    flatten: 0
-    isImported: 0
-    isVisible: 1
-  - name: Water Background
     spriteName: Water Background
     isGroup: 0
-    parentIndex: 0
+    parentIndex: -1
     spriteID: 76c6124b3ebeaeb41bdd9fca0e0795c5
     layerID: 31
     mosaicPosition: {x: 4, y: 4}

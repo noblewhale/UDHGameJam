@@ -106,6 +106,7 @@ MonoBehaviour:
   pathingWeight: 0
   guiIcon: {fileID: 0}
   startHidden: 1
+  weight: 100
   isCollidable: 1
   blocksLineOfSight: 1
   coversObjectsBeneath: 1
@@ -237,7 +238,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32a1aeab73ec2a544b64ed1450be1142, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _value: 1
+  _value: 20
   _propertyName: Health
 --- !u!114 &2041316919
 MonoBehaviour:
