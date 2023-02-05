@@ -24,7 +24,7 @@
         Equipable _equipable;
         public Equipable Equipable {
             get {
-                if (_equipable == null)_equipable = GetComponent<Equipable>();
+                if (_equipable == null) _equipable = GetComponent<Equipable>();
                 return _equipable;
             }
         }
@@ -49,6 +49,7 @@
         public int pathingWeight = 0;
         public Transform guiIcon;
         public bool startHidden = true;
+        public float weight = float.MaxValue;
 
         [NonSerialized]
         public Glyphs glyphs;

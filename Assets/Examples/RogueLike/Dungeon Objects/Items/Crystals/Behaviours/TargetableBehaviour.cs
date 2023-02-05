@@ -135,12 +135,9 @@
 			CameraTarget.instance.thresholdX = 6;
 			CameraTarget.instance.thresholdY = 4;
 
-			var allowedTiles = Map.instance.GetTilesInRadius(
-				Player.Identity.tile.position + owner.map.tileDimensions / 2,
-				aimingRadius,
-				null,
-				false,
-				false
+			var allowedTiles = Map.instance.GetTilesInRadiusTaxi(
+				Player.Identity.tile.tilePosition,
+				(int)aimingRadius
 			);
 
 			AddOutline(allowedTiles);
@@ -149,6 +146,7 @@
 
 			HighlightTile.instance.GetComponent<DungeonObject>().glyphs.glyphs[0].gameObject.SetActive(true);
 			HighlightTile.instance.isKeyboardControlled = true;
+			Map.instance.MoveObject(HighlightTile.instance, Player.Identity.tilePosition);
 			//HighlightTile.instance.GetComponent<DungeonObject>().glyphs.glyphs[0].tint = Color.red;
 			bool isDone = false;
 			while (!isDone)

@@ -15,8 +15,8 @@ namespace Noble.DungeonCrawler
 		override protected List<Tile> GetThreatenedTiles()
 		{
 			// Get all tiles in a line between the center of the owner tile and the center of the target tile stopping at the first IsCollidable tile in the line.
-			Vector2 rayStart = identityCreature.tilePosition + Map.instance.tileDimensions / 2;
-			Vector2 rayEnd = targetTile.tilePosition + Map.instance.tileDimensions / 2;
+			Vector2 rayStart = (Vector2)identityCreature.transform.position + Map.instance.tileDimensions / 2;
+			Vector2 rayEnd = targetTile.position + Map.instance.tileDimensions / 2;
 			threatenedTiles = Map.instance.GetTilesInRay(rayStart, rayEnd, t => t.IsCollidable(), false, .4f, true);
 
 			// We only care about the last tile in the line, whether we hit something collidable, or just reached the target

@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: ccc2fdb38c5c23f4ab2079cd96a82e87
+guid: 86495edc2d50ff54e948b1287b140b64
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -28,7 +28,7 @@ ScriptedImporter:
     ignoreMasterTextureLimit: 0
     nPOTScale: 1
     sRGBTexture: 1
-    spriteMode: 2
+    spriteMode: 1
     spriteExtrude: 1
     spriteMeshType: 0
     alignment: 0
@@ -68,18 +68,18 @@ ScriptedImporter:
     textureFormatSet: 0
     applyGammaDecoding: 0
   spriteImportData:
-  - name: 
+  - name: WaterHighlight1_1
     originalName: 
-    pivot: {x: 0, y: 0}
+    pivot: {x: 0.5, y: 0.5}
     alignment: 0
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
       x: 0
       y: 0
-      width: 0
-      height: 0
-    spriteID: 
+      width: 64
+      height: 64
+    spriteID: 84fc10cda139db54ebb9da42626bff32
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -102,7 +102,7 @@ ScriptedImporter:
       y: 4
       width: 52
       height: 53
-    spriteID: 7fd91f172a09b0e44835bf29f64a3647
+    spriteID: 3f05377b408c3ad48bffa7aff9b2fde0
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -179,7 +179,7 @@ ScriptedImporter:
     spriteName: Waves Highlight 1
     isGroup: 0
     parentIndex: -1
-    spriteID: 7fd91f172a09b0e44835bf29f64a3647
+    spriteID: 3f05377b408c3ad48bffa7aff9b2fde0
     layerID: 25
     mosaicPosition: {x: 4, y: 4}
     flatten: 0

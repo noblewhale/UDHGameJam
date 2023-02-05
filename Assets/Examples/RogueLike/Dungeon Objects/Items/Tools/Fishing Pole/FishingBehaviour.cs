@@ -76,7 +76,6 @@ public class FishingBehaviour : TickableBehaviour
     {
         bobber.transform.parent = gameObject.transform;
         bobber.transform.localPosition = startPosition;
-        Debug.Log(bobber.transform.position, bobber.gameObject);
         didBob = false;
     }
 

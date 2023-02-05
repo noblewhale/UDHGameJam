@@ -107,7 +107,7 @@ namespace Noble.DungeonCrawler
             content.transform.localPosition = -combinedBounds.center * scale;
             content.transform.localScale = new Vector3(scale, scale, 1);
             content.transform.localPosition = new Vector3(content.transform.localPosition.x, content.transform.localPosition.y, -.1f);
-            content.transform.localPosition += (Vector3)boundsRect.size / 2;
+            content.transform.localPosition += (Vector3)boundsRect.size / 2;       
         }
 
         public void EquipItem(Equipable item)

@@ -59,7 +59,7 @@ namespace Noble.DungeonCrawler
             }
 
             ToggleVisabilityOfEquippedItemPieces(false);
-            inventorySubMenu.SetActive(false);  
+            inventorySubMenu.SetActive(false);
         }
 
         void SetupLightsAndLayers(bool lightingOn, int layer)

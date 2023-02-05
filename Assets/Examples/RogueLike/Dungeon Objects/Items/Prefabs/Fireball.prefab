@@ -48,29 +48,61 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectName: Key
   illuminationRange: 0
-  OnSteppedOn:
-    m_PersistentCalls:
-      m_Calls: []
-  OnPreSteppedOn:
-    m_PersistentCalls:
-      m_Calls: []
-  originalGlyphPosition: {x: 0, y: 0, z: 0}
-  map: {fileID: 0}
-  previousTilePosition: {x: 0, y: 0}
   quantity: 1
   canBePickedUp: 1
   canTakeDamage: 0
   isVisibleWhenNotInSight: 1
   pathingWeight: 0
   guiIcon: {fileID: 0}
-  health: 1
+  startHidden: 0
   isCollidable: 0
   blocksLineOfSight: 0
   coversObjectsBeneath: 0
   preventsObjectSpawning: 0
-  hasDoneDamageFlash: 0
-  tile: {fileID: 0}
+  tile:
+    rid: -2
   autoAddToTileAtStart: 0
+  OnSteppedOn:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPreSteppedOn:
+    m_PersistentCalls:
+      m_Calls: []
+  onMove:
+    m_PersistentCalls:
+      m_Calls: []
+  onSetPosition:
+    m_PersistentCalls:
+      m_Calls: []
+  onPreMove:
+    m_PersistentCalls:
+      m_Calls: []
+  onPreSetPosition:
+    m_PersistentCalls:
+      m_Calls: []
+  onPickedUpObject:
+    m_PersistentCalls:
+      m_Calls: []
+  onPickedUp:
+    m_PersistentCalls:
+      m_Calls: []
+  onCollision:
+    m_PersistentCalls:
+      m_Calls: []
+  onDeath:
+    m_PersistentCalls:
+      m_Calls: []
+  onSpawn:
+    m_PersistentCalls:
+      m_Calls: []
+  onTakeDamage:
+    m_PersistentCalls:
+      m_Calls: []
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
 --- !u!95 &-6353288155522524805
 Animator:
   serializedVersion: 4
@@ -164,13 +196,13 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: b4b1b5da527fe4545b9034fff910c5f0, type: 3}
+  m_SortingOrder: 10
+  m_Sprite: {fileID: 252159869, guid: b4b1b5da527fe4545b9034fff910c5f0, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.32, y: 0.32}
+  m_Size: {x: 0.3, y: 0.32}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -190,7 +222,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tint: {r: 1, g: 1, b: 1, a: 1}
   extraTint: {r: 1, g: 1, b: 1, a: 1}
-  isLit: 1
+  originalColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &1785431551397464
 GameObject:
   m_ObjectHideFlags: 0
@@ -237,4 +269,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageFlashColor: {r: 1, g: 0, b: 0, a: 1}
-  glyphs: []
