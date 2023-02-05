@@ -55,6 +55,8 @@ namespace Noble.DungeonCrawler
 
                 SetupLightsAndLayers(false, gameObject.layer);
             }
+
+            ToggleVisabilityOfEquippedItemPieces(false);
         }
 
         void SetupLightsAndLayers(bool lightingOn, int layer)
@@ -100,6 +102,8 @@ namespace Noble.DungeonCrawler
             SetupLightsAndLayers(true, Map.instance.gameObject.layer);
             gameObject.SetActive(false);
             PlayerInputHandler.instance.enabled = true;
+
+            ToggleVisabilityOfEquippedItemPieces(true);
         }
 
         public void OnMouseClick(BaseEventData data)
@@ -257,6 +261,27 @@ namespace Noble.DungeonCrawler
         public void OnDrop(PointerEventData eventData)
         {
             ReturnToDefaultMode();
+        }
+
+        public void ToggleVisabilityOfEquippedItemPieces(bool pieceVisability)
+        {
+            //Hides parts of equipment if necessary
+            //Loops through equipped items
+            foreach (var equipment in Player.Identity.Equipment.GetEquipment())
+            {
+                //If the item is equipped
+                if (equipment != null)
+                {
+                    var objectsToDisable = equipment.objectsToDisableForInventory;
+
+                    //Loop through equipped items and disable the desired parts
+                    foreach (var toDisable in objectsToDisable)
+                    {
+                        toDisable.SetActive(pieceVisability);
+                    }
+                }
+
+            }
         }
     }
 }

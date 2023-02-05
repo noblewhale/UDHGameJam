@@ -210,6 +210,8 @@ MonoBehaviour:
   autoEquip: 1
   autoEquipSlot: 7
   objectsToEnableForSlot: []
+  objectsToDisableForInventory:
+  - {fileID: 6092349783901927418}
   assignedSlot: 0
   parentItem: {fileID: 0}
 --- !u!114 &7255016432821685811

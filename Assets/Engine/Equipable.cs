@@ -46,6 +46,9 @@ namespace Noble.TileEngine
         // This is the dictionary we actually use for quick look up by slot
         Dictionary<Equipment.Slot, GameObject> _objectsToEnableForSlot;
 
+        //Used by equipped objects to look different when equipped in inventory screen
+        public GameObject[] objectsToDisableForInventory;
+
         // The slot this equipable is assigned to (only valid when IsEquipped)
         public Equipment.Slot assignedSlot;
 
