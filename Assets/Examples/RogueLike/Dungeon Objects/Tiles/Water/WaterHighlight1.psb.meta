@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 12d30837b4f7bb84cb394d92c38bd042
+guid: ccc2fdb38c5c23f4ab2079cd96a82e87
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -91,18 +91,18 @@ ScriptedImporter:
     uvTransform: {x: 0, y: 0}
   mosaicSpriteImportData: []
   rigSpriteImportData:
-  - name: Water Background
+  - name: Waves Highlight 1
     originalName: 
-    pivot: {x: 0, y: 0}
-    alignment: 6
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
       x: 4
       y: 4
-      width: 21
-      height: 18
-    spriteID: 76c6124b3ebeaeb41bdd9fca0e0795c5
+      width: 52
+      height: 53
+    spriteID: 7fd91f172a09b0e44835bf29f64a3647
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -111,7 +111,7 @@ ScriptedImporter:
     edges: []
     tessellationDetail: 0
     parentGroupIndex: -1
-    uvTransform: {x: 4, y: 4}
+    uvTransform: {x: -3, y: 0}
   characterData:
     bones: []
     parts: []
@@ -175,12 +175,12 @@ ScriptedImporter:
   resliceFromLayer: 0
   mosaicPSDLayers: []
   rigPSDLayers:
-  - name: Water Background
-    spriteName: Water Background
+  - name: Waves Highlight 1
+    spriteName: Waves Highlight 1
     isGroup: 0
     parentIndex: -1
-    spriteID: 76c6124b3ebeaeb41bdd9fca0e0795c5
-    layerID: 31
+    spriteID: 7fd91f172a09b0e44835bf29f64a3647
+    layerID: 25
     mosaicPosition: {x: 4, y: 4}
     flatten: 0
     isImported: 1
