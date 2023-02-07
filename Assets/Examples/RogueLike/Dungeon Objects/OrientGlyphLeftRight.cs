@@ -34,25 +34,26 @@
                 {
                     transform.localScale = new Vector3(-originalScale.x, originalScale.y, originalScale.z);
                 }
-              
-            }
 
-            switch (owner.lastDirectionAttackedOrMoved)
+            }
+            else
             {
-                case Direction.RIGHT:
-                case Direction.UP_RIGHT:
-                case Direction.DOWN_RIGHT:
-                    transform.localScale = originalScale;
-                    //transform.localPosition = new Vector3(-originalPos.x, originalPos.y, originalPos.z);
-                    break;
-                case Direction.LEFT:
-                case Direction.UP_LEFT:
-                case Direction.DOWN_LEFT:
-                    transform.localScale = new Vector3(-originalScale.x, originalScale.y, originalScale.z); 
-                    //transform.localPosition = originalPos;
-                    break;
+                switch (owner.lastDirectionAttackedOrMoved)
+                {
+                    case Direction.RIGHT:
+                    case Direction.UP_RIGHT:
+                    case Direction.DOWN_RIGHT:
+                        transform.localScale = originalScale;
+                        //transform.localPosition = new Vector3(-originalPos.x, originalPos.y, originalPos.z);
+                        break;
+                    case Direction.LEFT:
+                    case Direction.UP_LEFT:
+                    case Direction.DOWN_LEFT:
+                        transform.localScale = new Vector3(-originalScale.x, originalScale.y, originalScale.z);
+                        //transform.localPosition = originalPos;
+                        break;
+                }
             }
-
         }
     }
 }
