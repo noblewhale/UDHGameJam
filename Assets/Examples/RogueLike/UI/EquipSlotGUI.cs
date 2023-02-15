@@ -119,7 +119,7 @@ namespace Noble.DungeonCrawler
             UpdateAllSlots();
         }
 
-        static void UpdateAllSlots()
+        public static void UpdateAllSlots()
         {
             foreach (var equipSlot in AllSlots)
             {
