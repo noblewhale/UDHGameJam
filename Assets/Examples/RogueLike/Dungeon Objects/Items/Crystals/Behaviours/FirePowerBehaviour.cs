@@ -6,7 +6,7 @@ namespace Noble.DungeonCrawler
     using System.Linq;
     using UnityEngine;
 
-    public class ForcePowerBehaviour : PowerBehaviour
+    public class FirePowerBehaviour : PowerBehaviour
     {
 		public GameObject projectilePrefab;
 		public GameObject elementalEffectPrefab;
