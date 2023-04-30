@@ -4,8 +4,9 @@ namespace Noble.TileEngine
 
     public class PropertyCreatureArmor : PropertyInt
     {
-        private void Awake()
+        override public void Awake()
         {
+            base.Awake();
             UpdateValue();
             GetComponent<DungeonObject>().Equipment.onChange += UpdateValue;
         }

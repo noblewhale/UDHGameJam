@@ -167,10 +167,9 @@
             }
             else if (pointerData.button == PointerEventData.InputButton.Right)
             {
-                InventoryMenu.instance.inventorySubMenu.SetActive(true);
+                InventoryMenu.instance.inventorySubMenu.gameObject.SetActive(true);
 
-                var subMenuLocation = InventoryMenu.instance.inventorySubMenu.transform.GetChild(0);
-                subMenuLocation.GetComponent<RectTransform>().anchoredPosition = pointerData.position;
+                InventoryMenu.instance.inventorySubMenu.OpenMenu(pointerData.position, item);
             }
         }
 

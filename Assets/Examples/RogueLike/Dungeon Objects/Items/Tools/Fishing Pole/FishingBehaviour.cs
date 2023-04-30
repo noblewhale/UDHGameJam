@@ -8,10 +8,12 @@ public class FishingBehaviour : TickableBehaviour
 {
     Animator fishingPoleAnimator;
     public Animator bobberAnimator;
-    public SpriteRenderer bobber;
+    public GameObject bobber;
     public GameObject fishMeatPrefab;
     public FishingPoleBehaviour fishingPoleBehaviour;
 
+    public Transform fishingLineAttachPointPole;
+    public Transform fishingLineAttachPointBobber;
 
     Tile bobberTarget;
 
@@ -55,6 +57,8 @@ public class FishingBehaviour : TickableBehaviour
         {
             bobber.transform.position = bobberAnimationStartPosition + (endPosition - bobberAnimationStartPosition) * time * castSpeed;
 
+            owner.GetComponent<LineRenderer>().SetPositions(new Vector3[] { fishingLineAttachPointPole.position, fishingLineAttachPointBobber.position });
+
             yield return new WaitForEndOfFrame();
             time += Time.deltaTime;
         }
@@ -76,6 +80,8 @@ public class FishingBehaviour : TickableBehaviour
     {
         bobber.transform.parent = gameObject.transform;
         bobber.transform.localPosition = startPosition;
+        owner.GetComponent<LineRenderer>().SetPositions(new Vector3[] { fishingLineAttachPointPole.position, fishingLineAttachPointBobber.position });
+        owner.GetComponent<LineRenderer>().SetPositions(new Vector3[] { RogueGlobal.Hell, RogueGlobal.Hell });
         didBob = false;
     }
 
@@ -146,6 +152,7 @@ public class FishingBehaviour : TickableBehaviour
         }
         else
         {
+            owner.GetComponent<LineRenderer>().SetPositions(new Vector3[] { fishingLineAttachPointPole.position, fishingLineAttachPointBobber.position });
             return false;
         }
     }

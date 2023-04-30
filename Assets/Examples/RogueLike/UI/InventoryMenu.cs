@@ -31,7 +31,7 @@ namespace Noble.DungeonCrawler
         public Equipable currentItemForAssignment;
         public List<EquipSlotGUI> fakeSelectedSlots = new();
 
-        public GameObject inventorySubMenu;
+        public InventorySubMenu inventorySubMenu;
 
         virtual protected void Awake()
         {
@@ -59,7 +59,7 @@ namespace Noble.DungeonCrawler
             }
 
             ToggleVisabilityOfEquippedItemPieces(false);
-            inventorySubMenu.SetActive(false);
+            inventorySubMenu.gameObject.SetActive(false);
         }
 
         void SetupLightsAndLayers(bool lightingOn, int layer)

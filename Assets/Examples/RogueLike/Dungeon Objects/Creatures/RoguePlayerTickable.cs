@@ -20,6 +20,9 @@
         {
             base.Start();
             circleWarpVolume.profile.TryGetSettings(out circleWarp);
+            var fishMod = new AdditiveIntModifier();
+            fishMod.duration = 4;
+            GetComponent<PropertyHealth>().AddModifier(fishMod);
         }
 
         override public TickableBehaviour DetermineBehaviour()

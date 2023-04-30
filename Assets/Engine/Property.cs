@@ -1,6 +1,10 @@
 namespace Noble.TileEngine
 {
+    using NUnit.Framework;
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using UnityEditor;
     using UnityEngine;
 
     public interface IProperty
@@ -10,16 +14,47 @@ namespace Noble.TileEngine
         public void SetValueUntyped(object value);
     }
 
-    public class Property<T> : MonoBehaviour, IProperty
+    [Serializable]
+    public class PropertyModifier<T>
+    {
+        public string propertyName;
+        public ulong duration = 0;
+        [NonSerialized] public ulong timeAdded = 0;
+        virtual public T Modify(T input) { return input; }
+    }
+
+    public class Property<T> : TickableBehaviour, IProperty
     {
         [SerializeField]
         protected T _value;
+
+        [SerializeField]
+        public List<PropertyModifier<T>> modifiers = new();
 
         [SerializeField]
         protected string _propertyName;
         public string propertyName { get => _propertyName; set => _propertyName = value; }
 
         public event Action<Property<T>, T, T> onValueChanged;
+
+
+        public override void Awake()
+        {
+            base.Awake();
+            executeEveryTick = true;
+        }
+
+        public override void StartSubAction(ulong time)
+        {
+            base.StartSubAction(time);
+            for (int i = modifiers.Count - 1; i >= 0; i--)
+            {
+                if (TimeManager.instance.Time - modifiers[i].timeAdded >= modifiers[i].duration)
+                {
+                    modifiers.RemoveAt(i);
+                }
+            }
+        }
 
         public object GetValueUntyped()
         {
@@ -35,7 +70,12 @@ namespace Noble.TileEngine
 
         public T GetValue()
         {
-            return _value;
+            T v = _value;
+            foreach (var modifier in modifiers)
+            {
+                v = modifier.Modify(v);
+            }
+            return v;
         }
 
         public void SetValue(T value)
@@ -43,6 +83,17 @@ namespace Noble.TileEngine
             T oldValue = _value;
             _value = value;
             onValueChanged?.Invoke(this, oldValue, _value);
+        }
+
+        public void AddModifier(PropertyModifier<T> modifier)
+        {
+            modifier.timeAdded = TimeManager.instance.Time;
+            modifiers.Add(modifier);
+        }
+
+        public void RemoveModifier(PropertyModifier<T> modifier)
+        {
+            modifiers.Remove(modifier);
         }
     }
 }

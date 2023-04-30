@@ -42,7 +42,7 @@
         void UpdateSlots()
         {
             DungeonObject playerOb = Player.Identity;
-            foreach (var item in playerOb.inventory.items)
+            foreach (var item in playerOb.inventory)
             {
                 InventorySlotGUI slot;
                 bool hasItem = slots.TryGetValue(item.Key, out slot);
@@ -59,7 +59,7 @@
             var slotsToRemove = new List<KeyValuePair<string, InventorySlotGUI>>();
             foreach (var slot in slots)
             {
-                if (!playerOb.inventory.items.ContainsKey(slot.Key))
+                if (!playerOb.inventory.ContainsKey(slot.Key))
                 {
                     slotsToRemove.Add(slot);
                 }

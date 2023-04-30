@@ -56,7 +56,10 @@
         [NonSerialized]
         public GameObject glyphsOb;
 
-        public Inventory inventory = new Inventory();
+        public Inventory inventory;
+
+        // If this object is in the inventory of another object, the containing object is stored here
+        public DungeonObject container;
 
         public int gold
         {
@@ -121,6 +124,10 @@
         [HideInInspector]
         public DungeonObjectEvent<DungeonObject> onPickedUp;
         [HideInInspector]
+        public DungeonObjectEvent<DungeonObject> onDroppedObject;
+        [HideInInspector]
+        public DungeonObjectEvent<DungeonObject> onDropped;
+        [HideInInspector]
         public DungeonObjectEvent<bool> onCollision;
         [HideInInspector]
         public DungeonObjectEvent onDeath;
@@ -131,6 +138,7 @@
 
         virtual protected void Awake()
         {
+            inventory = new Inventory(this);
             tickable = GetComponent<Tickable>();
             glyphs = GetComponentInChildren<Glyphs>(true);
             if (glyphs)
@@ -282,7 +290,7 @@
 
         virtual public void DropItems()
         {
-            foreach (var kv in inventory.items)
+            foreach (var kv in inventory)
             {
                 tile.AddObject(kv.Value);
             }
@@ -302,19 +310,20 @@
 
         public void AddToInventory(DungeonObject objectToPickUp)
         {
-            DungeonObject existingOb;
-            bool success = inventory.items.TryGetValue(objectToPickUp.objectName, out existingOb);
-            if (success)
-            {
-                existingOb.quantity += objectToPickUp.quantity;
-            }
-            else
-            {
-                inventory.items.Add(objectToPickUp.objectName, objectToPickUp);
-            }
-            objectToPickUp.transform.position = new Vector3(-666, -666, -666);
+            inventory.AddItem(objectToPickUp);
+
             if (onPickedUpObject != null) onPickedUpObject.Invoke(this, objectToPickUp);
             if (objectToPickUp.onPickedUp != null) objectToPickUp.onPickedUp.Invoke(objectToPickUp, this);
+        }
+
+        public DungeonObject RemoveFromInventory(string nameOfItemToRemove, int quantityToRemove = 1)
+        {
+            var removedObject = inventory.RemoveItem(nameOfItemToRemove, quantityToRemove);
+
+            onDroppedObject?.Invoke(this, removedObject);
+            removedObject?.onDropped?.Invoke(removedObject, this);
+
+            return removedObject;
         }
 
         public void Move(Vector2Int pos)
