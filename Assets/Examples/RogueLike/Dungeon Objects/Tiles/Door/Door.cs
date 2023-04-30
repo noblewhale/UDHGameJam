@@ -59,16 +59,9 @@
             {
                 if (ob.GetComponent<Creature>())
                 {
-                    DungeonObject key;
-                    bool hasKey = ob.inventory.items.TryGetValue("Key", out key);
-                    if (hasKey)
+                    var key = ob.RemoveFromInventory("Key");
+                    if (key != null)
                     {
-                        key.quantity--;
-                        if (key.quantity == 0)
-                        {
-                            ob.inventory.items.Remove("Key");
-                        }
-
                         SetOpen(true);
                     }
                 }

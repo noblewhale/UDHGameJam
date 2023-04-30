@@ -5,8 +5,9 @@ namespace Noble.TileEngine
     [RequireComponent(typeof(DungeonObject))]
     public class PropertyHealth : PropertyInt
     {
-        public void Awake()
+        override public void Awake()
         {
+            base.Awake();
             GetComponent<DungeonObject>().onTakeDamage.AddListener(OnTakeDamage);
         }
 
