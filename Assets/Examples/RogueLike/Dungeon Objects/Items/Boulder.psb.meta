@@ -90,7 +90,7 @@ ScriptedImporter:
     parentGroupIndex: -1
     uvTransform: {x: 0, y: 0}
   mosaicSpriteImportData:
-  - name: Layer 0
+  - name: Boulder
     originalName: 
     pivot: {x: 0.5, y: 0.5}
     alignment: 0
@@ -279,48 +279,8 @@ ScriptedImporter:
   spritePackingTag: 
   resliceFromLayer: 0
   mosaicPSDLayers:
-  - name: Layer 3
-    spriteName: Layer 3
-    isGroup: 0
-    parentIndex: -1
-    spriteID: 7281512946b54164994ee72ac959f3b6
-    layerID: 6
-    mosaicPosition: {x: 4, y: 4}
-    flatten: 0
-    isImported: 0
-    isVisible: 0
-  - name: Layer 2 copy
-    spriteName: Layer 2 copy
-    isGroup: 0
-    parentIndex: -1
-    spriteID: 504459b6379f7dc458de65e4a244186d
-    layerID: 7
-    mosaicPosition: {x: 4, y: 76}
-    flatten: 0
-    isImported: 0
-    isVisible: 0
-  - name: Layer 2
-    spriteName: Layer 2
-    isGroup: 0
-    parentIndex: -1
-    spriteID: f73c81507859e1047b71a7d824cc5e20
-    layerID: 3
-    mosaicPosition: {x: 4, y: 148}
-    flatten: 0
-    isImported: 0
-    isVisible: 0
-  - name: Layer 4
-    spriteName: Layer 4
-    isGroup: 0
-    parentIndex: -1
-    spriteID: ad298feda874dd0418b1d1a0ff83760f
-    layerID: 8
-    mosaicPosition: {x: 4, y: 220}
-    flatten: 0
-    isImported: 0
-    isVisible: 0
-  - name: Layer 0
-    spriteName: Layer 0
+  - name: Boulder
+    spriteName: Boulder
     isGroup: 0
     parentIndex: -1
     spriteID: b2882c322f9c0b4459f3e6a98ab99296
