@@ -554,10 +554,15 @@ MonoBehaviour:
   isVisibleWhenNotInSight: 1
   pathingWeight: 0
   guiIcon: {fileID: 0}
+  startHidden: 1
+  weight: 3.4028235e+38
+  container: {fileID: 0}
   isCollidable: 1
   blocksLineOfSight: 0
   coversObjectsBeneath: 0
   preventsObjectSpawning: 1
+  tile:
+    rid: -2
   autoAddToTileAtStart: 0
   OnSteppedOn:
     m_PersistentCalls:
@@ -583,6 +588,12 @@ MonoBehaviour:
   onPickedUp:
     m_PersistentCalls:
       m_Calls: []
+  onDroppedObject:
+    m_PersistentCalls:
+      m_Calls: []
+  onDropped:
+    m_PersistentCalls:
+      m_Calls: []
   onCollision:
     m_PersistentCalls:
       m_Calls: []
@@ -595,6 +606,11 @@ MonoBehaviour:
   onTakeDamage:
     m_PersistentCalls:
       m_Calls: []
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
 --- !u!114 &2949319144300183498
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -658,13 +674,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemRates:
-  - item: {fileID: 491273678994927847, guid: aa79c56919e53d74ba13b5a51231375a, type: 3}
-    minQuantity: 1
-    maxQuantity: 1
-    probability: 1
-    onlySpawnOn: []
-    dontSpawnOn: []
-    requireSpawnable: 0
   - item: {fileID: 114396989050233776, guid: 4f360649838a63a47999700c077dc8e3, type: 3}
     minQuantity: 1
     maxQuantity: 10
@@ -792,6 +801,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   owner: {fileID: 0}
   executeEveryTick: 0
+  targetTile:
+    tilePosition: {x: 0, y: 0}
+    map: {fileID: 0}
+    isDirty: 0
+    gapBetweenLayers: 0.1
+    isInView: 0
+    illuminationSources: 0
 --- !u!114 &2987740549015043192
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -813,6 +829,8 @@ MonoBehaviour:
   nextBehaviour: {fileID: 0}
   attackBehaviour: {fileID: 2987740550008959594}
   moveBehaviour: {fileID: 2987740550008959593}
+  isAiming: 0
+  circleWarpVolume: {fileID: 0}
 --- !u!95 &1426220522
 Animator:
   serializedVersion: 4
@@ -889,7 +907,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32a1aeab73ec2a544b64ed1450be1142, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  owner: {fileID: 0}
+  executeEveryTick: 0
   _value: 10
+  modifiers: []
   _propertyName: Health
 --- !u!114 &1426220526
 MonoBehaviour:
@@ -903,7 +924,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fda23d36354801347be69d199704ff1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  owner: {fileID: 0}
+  executeEveryTick: 0
   _value: 10
+  modifiers: []
   _propertyName: Max Health
 --- !u!114 &1426220527
 MonoBehaviour:
@@ -917,7 +941,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fda23d36354801347be69d199704ff1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  owner: {fileID: 0}
+  executeEveryTick: 0
   _value: 10
+  modifiers: []
   _propertyName: Mana
 --- !u!114 &1426220528
 MonoBehaviour:
@@ -931,7 +958,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fda23d36354801347be69d199704ff1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  owner: {fileID: 0}
+  executeEveryTick: 0
   _value: 10
+  modifiers: []
   _propertyName: Intelligence
 --- !u!114 &1426220529
 MonoBehaviour:
@@ -945,7 +975,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fda23d36354801347be69d199704ff1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  owner: {fileID: 0}
+  executeEveryTick: 0
   _value: 10
+  modifiers: []
   _propertyName: Dexterity
 --- !u!114 &1426220530
 MonoBehaviour:
@@ -959,7 +992,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fda23d36354801347be69d199704ff1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  owner: {fileID: 0}
+  executeEveryTick: 0
   _value: 10
+  modifiers: []
   _propertyName: Strength
 --- !u!114 &1426220531
 MonoBehaviour:
@@ -973,7 +1009,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a77ff7edebb66842aa4c2f9cd74ecb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  owner: {fileID: 0}
+  executeEveryTick: 0
   _value: 0
+  modifiers: []
   _propertyName: Armor
 --- !u!1 &3125963952385824790
 GameObject:

@@ -107,6 +107,7 @@ MonoBehaviour:
   guiIcon: {fileID: 0}
   startHidden: 1
   weight: 200
+  container: {fileID: 0}
   isCollidable: 1
   blocksLineOfSight: 1
   coversObjectsBeneath: 1
@@ -136,6 +137,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   onPickedUp:
+    m_PersistentCalls:
+      m_Calls: []
+  onDroppedObject:
+    m_PersistentCalls:
+      m_Calls: []
+  onDropped:
     m_PersistentCalls:
       m_Calls: []
   onCollision:
@@ -209,14 +216,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bca516410f363b04b9ed3e3d3eecd34f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemRates:
-  - item: {fileID: 491273678994927847, guid: aa79c56919e53d74ba13b5a51231375a, type: 3}
-    minQuantity: 1
-    maxQuantity: 1
-    probability: 0.05
-    onlySpawnOn: []
-    dontSpawnOn: []
-    requireSpawnable: 0
+  itemRates: []
 --- !u!114 &5911172150504259820
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -245,7 +245,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32a1aeab73ec2a544b64ed1450be1142, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  owner: {fileID: 0}
+  executeEveryTick: 0
   _value: 40
+  modifiers: []
   _propertyName: Health
 --- !u!114 &2041316919
 MonoBehaviour:
