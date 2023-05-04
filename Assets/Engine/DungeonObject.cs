@@ -107,33 +107,20 @@
         [Serializable]
         public class DungeonObjectEvent<T1, T2> : UnityEvent<DungeonObject, T1, T2> { }
 
-        [HideInInspector]
+        [Header("Events")]
         public DungeonObjectEvent OnSteppedOn;
-        [HideInInspector]
         public DungeonObjectEvent OnPreSteppedOn;
-        [HideInInspector]
         public DungeonObjectEvent<Tile, Tile> onMove;
-        [HideInInspector]
         public DungeonObjectEvent<Tile, Tile> onSetPosition;
-        [HideInInspector]
         public DungeonObjectEvent<Tile, Tile> onPreMove;
-        [HideInInspector]
         public DungeonObjectEvent<Tile, Tile> onPreSetPosition;
-        [HideInInspector]
         public DungeonObjectEvent<DungeonObject> onPickedUpObject;
-        [HideInInspector]
         public DungeonObjectEvent<DungeonObject> onPickedUp;
-        [HideInInspector]
         public DungeonObjectEvent<DungeonObject> onDroppedObject;
-        [HideInInspector]
         public DungeonObjectEvent<DungeonObject> onDropped;
-        [HideInInspector]
         public DungeonObjectEvent<bool> onCollision;
-        [HideInInspector]
         public DungeonObjectEvent onDeath;
-        [HideInInspector]
         public DungeonObjectEvent onSpawn;
-        [HideInInspector]
         public DungeonObjectEvent<int> onTakeDamage;
 
         virtual protected void Awake()
