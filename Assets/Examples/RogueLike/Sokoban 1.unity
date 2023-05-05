@@ -3443,6 +3443,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 189318971}
     m_Modifications:
+    - target: {fileID: -8321303421931612587, guid: a1814bae3c3e28d4197363a2cfe5a268, type: 3}
+      propertyPath: CanMoveDiagonal
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1920995248641060, guid: a1814bae3c3e28d4197363a2cfe5a268, type: 3}
       propertyPath: m_Name
       value: Boulder
@@ -3900,6 +3904,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 189318971}
     m_Modifications:
+    - target: {fileID: -8321303421931612587, guid: a1814bae3c3e28d4197363a2cfe5a268, type: 3}
+      propertyPath: CanMoveDiagonal
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1920995248641060, guid: a1814bae3c3e28d4197363a2cfe5a268, type: 3}
       propertyPath: m_Name
       value: Boulder
@@ -9966,6 +9974,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 189318971}
     m_Modifications:
+    - target: {fileID: -8321303421931612587, guid: a1814bae3c3e28d4197363a2cfe5a268, type: 3}
+      propertyPath: CanMoveDiagonal
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1920995248641060, guid: a1814bae3c3e28d4197363a2cfe5a268, type: 3}
       propertyPath: m_Name
       value: Boulder
@@ -13187,6 +13199,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 189318971}
     m_Modifications:
+    - target: {fileID: -8321303421931612587, guid: a1814bae3c3e28d4197363a2cfe5a268, type: 3}
+      propertyPath: CanMoveDiagonal
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1920995248641060, guid: a1814bae3c3e28d4197363a2cfe5a268, type: 3}
       propertyPath: m_Name
       value: Boulder
@@ -14271,6 +14287,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 189318971}
     m_Modifications:
+    - target: {fileID: -8321303421931612587, guid: a1814bae3c3e28d4197363a2cfe5a268, type: 3}
+      propertyPath: CanMoveDiagonal
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1920995248641060, guid: a1814bae3c3e28d4197363a2cfe5a268, type: 3}
       propertyPath: m_Name
       value: Boulder
@@ -14835,6 +14855,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 189318971}
     m_Modifications:
+    - target: {fileID: -8321303421931612587, guid: a1814bae3c3e28d4197363a2cfe5a268, type: 3}
+      propertyPath: CanMoveDiagonal
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1920995248641060, guid: a1814bae3c3e28d4197363a2cfe5a268, type: 3}
       propertyPath: m_Name
       value: Boulder
@@ -21148,6 +21172,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 189318971}
     m_Modifications:
+    - target: {fileID: -8321303421931612587, guid: a1814bae3c3e28d4197363a2cfe5a268, type: 3}
+      propertyPath: CanMoveDiagonal
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1920995248641060, guid: a1814bae3c3e28d4197363a2cfe5a268, type: 3}
       propertyPath: m_Name
       value: Boulder
@@ -28361,6 +28389,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 189318971}
     m_Modifications:
+    - target: {fileID: -8321303421931612587, guid: a1814bae3c3e28d4197363a2cfe5a268, type: 3}
+      propertyPath: CanMoveDiagonal
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1920995248641060, guid: a1814bae3c3e28d4197363a2cfe5a268, type: 3}
       propertyPath: m_Name
       value: Boulder
@@ -29215,6 +29247,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 189318971}
     m_Modifications:
+    - target: {fileID: -8321303421931612587, guid: a1814bae3c3e28d4197363a2cfe5a268, type: 3}
+      propertyPath: CanMoveDiagonal
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1920995248641060, guid: a1814bae3c3e28d4197363a2cfe5a268, type: 3}
       propertyPath: m_Name
       value: Boulder
@@ -29285,6 +29321,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 189318971}
     m_Modifications:
+    - target: {fileID: -8321303421931612587, guid: a1814bae3c3e28d4197363a2cfe5a268, type: 3}
+      propertyPath: CanMoveDiagonal
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1920995248641060, guid: a1814bae3c3e28d4197363a2cfe5a268, type: 3}
       propertyPath: m_Name
       value: Boulder
@@ -30890,6 +30930,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 189318971}
     m_Modifications:
+    - target: {fileID: -8321303421931612587, guid: a1814bae3c3e28d4197363a2cfe5a268, type: 3}
+      propertyPath: CanMoveDiagonal
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1920995248641060, guid: a1814bae3c3e28d4197363a2cfe5a268, type: 3}
       propertyPath: m_Name
       value: Boulder
@@ -30956,6 +31000,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1961674672}
     m_Modifications:
+    - target: {fileID: -8321303421931612587, guid: a1814bae3c3e28d4197363a2cfe5a268, type: 3}
+      propertyPath: CanMoveDiagonal
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1920995248641060, guid: a1814bae3c3e28d4197363a2cfe5a268, type: 3}
       propertyPath: m_Name
       value: Boulder
@@ -39400,6 +39448,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 189318971}
     m_Modifications:
+    - target: {fileID: -8321303421931612587, guid: a1814bae3c3e28d4197363a2cfe5a268, type: 3}
+      propertyPath: CanMoveDiagonal
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1920995248641060, guid: a1814bae3c3e28d4197363a2cfe5a268, type: 3}
       propertyPath: m_Name
       value: Boulder

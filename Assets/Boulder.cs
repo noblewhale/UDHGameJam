@@ -5,7 +5,8 @@ using UnityEngine;
 
 public class Boulder : MonoBehaviour
 {
-    
+    public bool CanMoveDiagonal = true;
+
     void Start()
     {
         
@@ -25,6 +26,12 @@ public class Boulder : MonoBehaviour
             var pusherPosition = ob.tilePosition;
 
             var pushDirection = boulderPosition - pusherPosition;
+
+            if (!CanMoveDiagonal && pushDirection.x != 0 && pushDirection.y != 0)
+            {
+                // Disallow diagonal boulder movement
+                return;
+            }
 
             var updatedBoulderPosition = boulderPosition + pushDirection;
 
