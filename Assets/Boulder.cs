@@ -1,58 +1,59 @@
-using Noble.TileEngine;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class Boulder : MonoBehaviour
+namespace Noble.DungeonCrawler
 {
-    public bool CanMoveDiagonal = true;
+    using Noble.TileEngine;
+    using UnityEngine;
 
-    void Start()
+    public class Boulder : MonoBehaviour
     {
-        
-    }
+        public bool CanMoveDiagonal = true;
 
-    public void PushBoulder(DungeonObject ob, bool isInstigator)
-    {
-        if (!isInstigator)
+        void Start()
         {
-            //reference to the boulder dungeon object
-            DungeonObject baseObject = GetComponent<DungeonObject>();
 
-            //Reference to boulder position 
-            var boulderPosition = baseObject.tilePosition;
+        }
 
-            //Reference to position of the thing pushing the boulder
-            var pusherPosition = ob.tilePosition;
-
-            var pushDirection = boulderPosition - pusherPosition;
-
-            if (!CanMoveDiagonal && pushDirection.x != 0 && pushDirection.y != 0)
+        public void PushBoulder(DungeonObject ob, bool isInstigator)
+        {
+            if (!isInstigator)
             {
-                // Disallow diagonal boulder movement
-                return;
-            }
+                //reference to the boulder dungeon object
+                DungeonObject baseObject = GetComponent<DungeonObject>();
 
-            var updatedBoulderPosition = boulderPosition + pushDirection;
+                //Reference to boulder position 
+                var boulderPosition = baseObject.tilePosition;
 
-            var potentialNewTile = Map.instance.GetTile(updatedBoulderPosition);
+                //Reference to position of the thing pushing the boulder
+                var pusherPosition = ob.tilePosition;
 
-            if (!potentialNewTile.IsCollidable())
-            {
-                Map.instance.MoveObject(baseObject, updatedBoulderPosition);
-                Map.instance.UpdateIsVisible(Player.instance.identity.tile, ob.Creature.effectiveViewDistance, true);
-                if (potentialNewTile.ContainsObjectOfType("Water") || potentialNewTile.ContainsObjectOfType("Acid"))
+                var pushDirection = boulderPosition - pusherPosition;
+
+                if (!CanMoveDiagonal && pushDirection.x != 0 && pushDirection.y != 0)
                 {
-                    var waterToDestroy = potentialNewTile.GetObjectOfType("Water");
-                    var acidToDestroy = potentialNewTile.GetObjectOfType("Acid");
-
-                    potentialNewTile.RemoveObject(waterToDestroy, true);
-                    potentialNewTile.RemoveObject(acidToDestroy, true);
-
-                    potentialNewTile.RemoveObject(baseObject, true);
+                    // Disallow diagonal boulder movement
+                    return;
                 }
 
-                Debug.Log("pushing");
+                var updatedBoulderPosition = boulderPosition + pushDirection;
+
+                var potentialNewTile = Map.instance.GetTile(updatedBoulderPosition);
+
+                if (!potentialNewTile.IsCollidable())
+                {
+                    Map.instance.MoveObject(baseObject, updatedBoulderPosition);
+                    Map.instance.UpdateIsVisible(Player.instance.identity.tile, ob.Creature.effectiveViewDistance, true);
+                    if (potentialNewTile.ContainsObjectOfType("Water") || potentialNewTile.ContainsObjectOfType("Acid"))
+                    {
+                        var waterToDestroy = potentialNewTile.GetObjectOfType("Water");
+                        var acidToDestroy = potentialNewTile.GetObjectOfType("Acid");
+
+                        potentialNewTile.RemoveObject(waterToDestroy, true);
+                        potentialNewTile.RemoveObject(acidToDestroy, true);
+
+                        potentialNewTile.RemoveObject(baseObject, true);
+                    }
+
+                    Debug.Log("pushing");
+                }
             }
         }
     }
