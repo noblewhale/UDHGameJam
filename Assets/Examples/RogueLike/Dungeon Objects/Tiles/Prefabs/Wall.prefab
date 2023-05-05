@@ -200,11 +200,16 @@ MonoBehaviour:
   isVisibleWhenNotInSight: 1
   pathingWeight: 0
   guiIcon: {fileID: 0}
+  startHidden: 1
+  weight: 3.4028235e+38
+  container: {fileID: 0}
   isCollidable: 1
   blocksLineOfSight: 1
   coversObjectsBeneath: 1
   preventsObjectSpawning: 1
-  autoAddToTileAtStart: 0
+  tile:
+    rid: -2
+  autoAddToTileAtStart: 1
   OnSteppedOn:
     m_PersistentCalls:
       m_Calls: []
@@ -229,6 +234,12 @@ MonoBehaviour:
   onPickedUp:
     m_PersistentCalls:
       m_Calls: []
+  onDroppedObject:
+    m_PersistentCalls:
+      m_Calls: []
+  onDropped:
+    m_PersistentCalls:
+      m_Calls: []
   onCollision:
     m_PersistentCalls:
       m_Calls: []
@@ -241,6 +252,11 @@ MonoBehaviour:
   onTakeDamage:
     m_PersistentCalls:
       m_Calls: []
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
 --- !u!1 &623971217689817633
 GameObject:
   m_ObjectHideFlags: 0
