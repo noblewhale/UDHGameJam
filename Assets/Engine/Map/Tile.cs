@@ -171,8 +171,11 @@
             foreach (var ob in objectList)
             {
                 ob.PreSteppedOn(creature);
+                
             }
+            
         }
+
 
         public void UpdateLighting()
         {
@@ -284,6 +287,11 @@
 
         public void RemoveObject(DungeonObject ob, bool destroyObject = false)
         {
+            if (ob == null)
+            {
+                return;
+            }
+
             ob.transform.parent = null;
             objectList.Remove(ob);
             if (destroyObject)
