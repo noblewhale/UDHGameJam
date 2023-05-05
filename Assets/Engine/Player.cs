@@ -14,6 +14,8 @@
         public static Creature Creature => Identity?.Creature;
         public static Equipment Equipment => Creature?.Equipment;
 
+        public bool randomSpawn = true;
+
         public virtual void Awake()
         {
             instance = this;
@@ -42,7 +44,15 @@
 
         void OnMapLoaded()
         {
-            Tile startTile = Map.instance.GetRandomTileThatAllowsSpawn();
+            Tile startTile;
+            if (randomSpawn)
+            {
+                startTile = Map.instance.GetRandomTileThatAllowsSpawn();
+            }
+            else
+            {
+                startTile = Map.instance.GetTileFromWorldPosition(identity.transform.position);
+            }
 
             startTile.AddObject(identity, false, 2);
             Map.instance.UpdateLighting();
