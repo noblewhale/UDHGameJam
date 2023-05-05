@@ -33,7 +33,7 @@ public class Boulder : MonoBehaviour
             if (!potentialNewTile.IsCollidable())
             {
                 Map.instance.MoveObject(baseObject, updatedBoulderPosition);
-
+                Map.instance.UpdateIsVisible(Player.instance.identity.tile, ob.Creature.effectiveViewDistance, true);
                 if (potentialNewTile.ContainsObjectOfType("Water") || potentialNewTile.ContainsObjectOfType("Acid"))
                 {
                     var waterToDestroy = potentialNewTile.GetObjectOfType("Water");

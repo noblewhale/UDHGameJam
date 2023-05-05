@@ -352,7 +352,21 @@
         {
             if (!tiles[newY][newX].IsCollidable())
             {
-                MoveObject(ob, newX, newY);
+                bool canMove = true;
+                // Diagonal movement
+                if (newX != ob.x && newY != ob.y)
+                {
+                    var adjacent1Pos = new Vector2Int(ob.x + Math.Sign(newX - ob.x), ob.y);
+                    var adjacent2Pos = new Vector2Int(ob.x, ob.y + Math.Sign(newY - ob.y));
+                    if (GetTile(adjacent1Pos).IsCollidable() && GetTile(adjacent2Pos).IsCollidable())
+                    {
+                        canMove = false;
+                    }
+                }
+                if (canMove)
+                {
+                    MoveObject(ob, newX, newY);
+                }
             }
             else
             {
