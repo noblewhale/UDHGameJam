@@ -5,10 +5,15 @@
     using UnityEngine;
     using UnityEngine.Events;
     using System.Linq;
-    
+    using UnityEngine.Tilemaps;
+
     public class DungeonObject : MonoBehaviour
     {
         public string objectName;
+
+        public Vector2 positionOffset;
+
+        public Tilemap tileMap;
 
         Creature _creature;
         public Creature Creature

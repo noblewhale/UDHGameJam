@@ -1,37 +1,47 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
-using UnityEngine;
-using UnityEngine.Tilemaps;
-
-[CreateAssetMenu]
-public class TestRuleTileScript : RuleTile 
+namespace Noble.DungeonCrawler
 {
-    public override bool StartUp(Vector3Int position, ITilemap tilemap, GameObject instantiatedGameObject)
+    using Noble.TileEngine;
+    using TreeEditor;
+    using UnityEditor;
+    using UnityEngine;
+    using UnityEngine.Tilemaps;
+
+    [CreateAssetMenu]
+    public class TestRuleTileScript : RuleTile
     {
-        bool good = base.StartUp(position, tilemap, instantiatedGameObject);
-
-        if (instantiatedGameObject != null)
+        public override bool StartUp(Vector3Int position, ITilemap tilemap, GameObject instantiatedGameObject)
         {
-            instantiatedGameObject.hideFlags &= ~HideFlags.HideInHierarchy;
+            bool good = base.StartUp(position, tilemap, instantiatedGameObject);
+
+            if (instantiatedGameObject != null)
+            {
+                instantiatedGameObject.hideFlags &= ~HideFlags.HideInHierarchy;
 #if UNITY_EDITOR
-            try { EditorApplication.DirtyHierarchyWindowSorting(); } catch { }
+                try { EditorApplication.DirtyHierarchyWindowSorting(); } catch { }
 #endif
+                // Undo gameobject rotation caused by rules because that's how we want it to work
+                instantiatedGameObject.transform.localRotation = Quaternion.identity;
+
+                DungeonObject ob = instantiatedGameObject.GetComponent<DungeonObject>();
+                if (ob)
+                {
+                    ob.tileMap = tilemap.GetComponent<Tilemap>();
+                }
+            }
+
+            return good;
         }
-
-
-        return good;
-    }
-    public override void GetTileData(Vector3Int position, ITilemap tilemap, ref TileData tileData)
-    {
-        if (tileData.gameObject != null)
+        public override void GetTileData(Vector3Int position, ITilemap tilemap, ref TileData tileData)
         {
-            tileData.gameObject.hideFlags &= ~HideFlags.HideInHierarchy;
+            if (tileData.gameObject != null)
+            {
+                tileData.gameObject.hideFlags &= ~HideFlags.HideInHierarchy;
 #if UNITY_EDITOR
-            try { EditorApplication.DirtyHierarchyWindowSorting(); } catch { }
+                try { EditorApplication.DirtyHierarchyWindowSorting(); } catch { }
 #endif
-        }
+            }
 
-        base.GetTileData(position, tilemap, ref tileData);
+            base.GetTileData(position, tilemap, ref tileData);
+        }
     }
 }
