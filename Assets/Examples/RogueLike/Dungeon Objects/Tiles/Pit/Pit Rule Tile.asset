@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9d1514134bc4fbd41bb739b1b9a49231, type: 3}
+  m_Script: {fileID: 11500000, guid: a7449fbc84a20fa45ba4205aa1850d49, type: 3}
   m_Name: Pit Rule Tile
   m_EditorClassIdentifier: 
   m_DefaultSprite: {fileID: 6675367224646880797, guid: 28cf03cc93619c24fa26295a39aba64d, type: 3}

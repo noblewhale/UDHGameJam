@@ -216,7 +216,7 @@
             bool isFirstPlacement = ob.tile == null;
 
             ob.transform.parent = map.layers[layer];
-            ob.transform.localPosition = new Vector3(localPosition.x, localPosition.y, 0);
+            ob.transform.localPosition = new Vector3(localPosition.x + ob.positionOffset.x, localPosition.y + ob.positionOffset.y, 0);
             ob.transform.localScale = Vector3.one;
             
             objectList.AddLast(ob);
@@ -297,6 +297,11 @@
             if (destroyObject)
             {
                 GameObject.Destroy(ob.gameObject);
+            }
+
+            if (ob.tileMap)
+            {
+                ob.tileMap.SetTile(ob.tileMap.WorldToCell(ob.transform.position), null);
             }
 
             if (AllowsSpawn())

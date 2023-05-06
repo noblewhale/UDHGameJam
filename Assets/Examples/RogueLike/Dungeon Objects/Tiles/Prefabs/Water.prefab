@@ -93,6 +93,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectName: Water
+  positionOffset: {x: 0.5, y: 0.5}
   illuminationRange: 0
   quantity: 1
   canBePickedUp: 0
@@ -100,7 +101,7 @@ MonoBehaviour:
   isVisibleWhenNotInSight: 1
   pathingWeight: 0
   guiIcon: {fileID: 0}
-  startHidden: 1
+  startHidden: 0
   weight: 3.4028235e+38
   container: {fileID: 0}
   isCollidable: 0
