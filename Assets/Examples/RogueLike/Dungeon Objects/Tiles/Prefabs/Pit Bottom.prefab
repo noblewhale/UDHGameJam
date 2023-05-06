@@ -146,6 +146,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageFlashColor: {r: 1, g: 0, b: 0, a: 1}
+  unityTileTint: {r: 0.6313726, g: 0.6313726, b: 0.6313726, a: 1}
 --- !u!1 &1920995248641060
 GameObject:
   m_ObjectHideFlags: 0

@@ -2,11 +2,16 @@
 {
     using System.Collections.Generic;
     using UnityEngine;
+    using UnityEngine.TextCore;
 
     public class Glyphs : MonoBehaviour
     {
         public Color damageFlashColor = Color.red;
         List<Glyph> _glyphs;
+        DungeonObject dungeonObject;
+
+        public Color unityTileTint = Color.white;
+
         public List<Glyph> glyphs
         {
             get
@@ -20,6 +25,11 @@
             }
         }
         bool isLit = true;
+
+        private void Start()
+        {
+            dungeonObject = GetComponentInParent<DungeonObject>();
+        }
 
         public void SetRevealed(bool isRevealed)
         {
@@ -69,10 +79,22 @@
             foreach (Glyph glyph in glyphs)
             {
                 if (glyph == null || glyph.sprite == null) continue;
+
                 glyph.sprite.color = glyph.originalColor - (Color.white - glyph.tint) - (Color.white - glyph.extraTint);
                 if (!isLit)
                 {
                     glyph.sprite.color = new Color(glyph.sprite.color.r / 2, glyph.sprite.color.g / 2, glyph.sprite.color.b / 2, glyph.sprite.color.a);
+                }
+
+                if (glyph == glyphs[0] && dungeonObject.tileMap)
+                {
+                    Color unityTileColor = unityTileTint;
+
+                    if (!isLit)
+                    {
+                        unityTileColor = new Color(unityTileColor.r / 2, unityTileColor.g / 2, unityTileColor.b / 2, unityTileColor.a);
+                    }
+                    dungeonObject.tileMap.SetColor(dungeonObject.tileMap.WorldToCell(dungeonObject.transform.position), unityTileColor);
                 }
             }
         }
