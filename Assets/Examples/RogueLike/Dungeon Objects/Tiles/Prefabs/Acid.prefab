@@ -93,6 +93,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectName: Acid
+  positionOffset: {x: 0.5, y: 0.5}
+  tileMap: {fileID: 0}
   illuminationRange: 0
   quantity: 1
   canBePickedUp: 0
@@ -194,7 +196,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -7552582706839291426, guid: 257b071673b80ca4da9b8b2c83829185, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -7552582706839291426, guid: 257b071673b80ca4da9b8b2c83829185, type: 3}
       propertyPath: m_LocalPosition.y
@@ -258,7 +260,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 7a592fceb3bb2a34fa768b6849dc07bb, type: 2}
     - target: {fileID: -599056329008485563, guid: 257b071673b80ca4da9b8b2c83829185, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1875093077422576309, guid: 257b071673b80ca4da9b8b2c83829185, type: 3}
       propertyPath: m_IsActive
@@ -308,13 +310,17 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 7a592fceb3bb2a34fa768b6849dc07bb, type: 2}
+    - target: {fileID: 7840073316944379380, guid: 257b071673b80ca4da9b8b2c83829185, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8033433800890569214, guid: 257b071673b80ca4da9b8b2c83829185, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8033433800890569214, guid: 257b071673b80ca4da9b8b2c83829185, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 4843985084834002234, guid: 257b071673b80ca4da9b8b2c83829185, type: 3}
