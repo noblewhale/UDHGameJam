@@ -14,13 +14,8 @@ RenderTexture:
   m_DownscaleFallback: 0
   m_IsAlphaChannelOptional: 0
   serializedVersion: 5
-<<<<<<< HEAD
   m_Width: 882
   m_Height: 496
-=======
-  m_Width: 1352
-  m_Height: 760
->>>>>>> 1172e9e024d5919b23fe8b11460c7db1501d57d9
   m_AntiAliasing: 1
   m_MipCount: -1
   m_DepthStencilFormat: 94
