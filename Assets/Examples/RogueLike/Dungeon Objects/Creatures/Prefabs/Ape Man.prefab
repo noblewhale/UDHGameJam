@@ -46,6 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageFlashColor: {r: 1, g: 0, b: 0, a: 1}
+  unityTileTint: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &7650685111929252365
 GameObject:
   m_ObjectHideFlags: 0
@@ -98,6 +99,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectName: Ape Man
+  positionOffset: {x: 0, y: 0}
+  tileMap: {fileID: 0}
   illuminationRange: 0
   quantity: 1
   canBePickedUp: 0
@@ -106,6 +109,8 @@ MonoBehaviour:
   pathingWeight: 0
   guiIcon: {fileID: 0}
   startHidden: 1
+  weight: 3.4028235e+38
+  container: {fileID: 0}
   isCollidable: 1
   blocksLineOfSight: 1
   coversObjectsBeneath: 1
@@ -135,6 +140,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   onPickedUp:
+    m_PersistentCalls:
+      m_Calls: []
+  onDroppedObject:
+    m_PersistentCalls:
+      m_Calls: []
+  onDropped:
     m_PersistentCalls:
       m_Calls: []
   onCollision:
@@ -208,14 +219,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bca516410f363b04b9ed3e3d3eecd34f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemRates:
-  - item: {fileID: 491273678994927847, guid: aa79c56919e53d74ba13b5a51231375a, type: 3}
-    minQuantity: 5
-    maxQuantity: 10
-    probability: 0.5
-    onlySpawnOn: []
-    dontSpawnOn: []
-    requireSpawnable: 0
+  itemRates: []
 --- !u!114 &5911172150504259820
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -244,7 +248,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32a1aeab73ec2a544b64ed1450be1142, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  owner: {fileID: 0}
+  executeEveryTick: 0
   _value: 1
+  modifiers: []
   _propertyName: Health
 --- !u!114 &2041316919
 MonoBehaviour:
