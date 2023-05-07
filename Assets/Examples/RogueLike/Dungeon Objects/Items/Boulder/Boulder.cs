@@ -51,8 +51,6 @@ namespace Noble.DungeonCrawler
 
                         potentialNewTile.RemoveObject(baseObject, true);
                     }
-
-                    Debug.Log("pushing");
                 }
             }
         }
