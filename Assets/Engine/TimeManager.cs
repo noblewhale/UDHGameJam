@@ -1,5 +1,6 @@
 ﻿namespace Noble.TileEngine
 {
+    using System;
     using System.Collections;
     using System.Collections.Generic;
     using UnityEngine;
@@ -16,6 +17,8 @@
         Tickable interruptingTickable = null;
 
         LinkedListNode<Tickable> currentTickableNode;
+
+        [NonSerialized]
         public Camera mapCamera;
 
         void Awake()

@@ -119,7 +119,7 @@
                     {
                         ob.SetInView(true, IsLit);
                     }
-                    if (ob.coversObjectsBeneath) break;
+                    if (IsLit && ob.coversObjectsBeneath) break;
                 }
             }
             else
@@ -146,7 +146,7 @@
                     {
                         ob.SetLit(isInView, isInView);
                     }
-                    if (ob.coversObjectsBeneath) break;
+                    if (isInView && ob.coversObjectsBeneath) break;
                 }
             }
             else
