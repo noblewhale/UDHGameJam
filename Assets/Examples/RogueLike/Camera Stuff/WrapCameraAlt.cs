@@ -1,5 +1,6 @@
 namespace Noble.DungeonCrawler
 {
+    using Noble.TileEngine;
     using UnityEngine;
 
     public class WrapCameraAlt : MonoBehaviour
@@ -13,6 +14,7 @@ namespace Noble.DungeonCrawler
         void Start()
         {
             centerCamera = GetComponent<Camera>();
+            TimeManager.instance.mapCamera = centerCamera;
             SetWrapWidth(wrapWidth, wrapCenter);
         }
 
