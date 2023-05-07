@@ -277,7 +277,7 @@ ScriptedImporter:
     mosaicPosition: {x: 76, y: 4}
     flatten: 0
     isImported: 1
-    isVisible: 0
+    isVisible: 1
   sharedRigPSDLayers: []
   pSDLayerImportSetting: []
   generateGOHierarchy: 1
