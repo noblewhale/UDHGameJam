@@ -148,7 +148,6 @@ namespace Noble.TileEngine
 				// Got past armor / defense
 				if (!weapon)
 				{
-                    Debug.Log("Target Hit");
                     targetCreature.baseObject.TakeDamage(1);
 				}
 			}
