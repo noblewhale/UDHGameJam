@@ -1,13 +1,12 @@
 namespace Noble.DungeonCrawler
 {
     using Noble.TileEngine;
-    using TreeEditor;
     using UnityEditor;
     using UnityEngine;
     using UnityEngine.Tilemaps;
 
     [CreateAssetMenu]
-    public class TestRuleTileScript : RuleTile
+    public class DungeonRuleTile : RuleTile
     {
         public override bool StartUp(Vector3Int position, ITilemap tilemap, GameObject instantiatedGameObject)
         {
