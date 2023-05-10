@@ -94,7 +94,10 @@
                     {
                         unityTileColor = new Color(unityTileColor.r / 2, unityTileColor.g / 2, unityTileColor.b / 2, unityTileColor.a);
                     }
-                    dungeonObject.tileMap.SetColor(dungeonObject.tileMap.WorldToCell(dungeonObject.transform.position), unityTileColor);
+                    if (dungeonObject.tileMap)
+                    {
+                        dungeonObject.tileMap.SetColor(dungeonObject.tileMap.WorldToCell(dungeonObject.transform.position), unityTileColor);
+                    }
                 }
             }
         }

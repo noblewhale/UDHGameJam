@@ -1,6 +1,5 @@
 namespace Noble.DungeonCrawler
 {
-    using Noble.TileEngine;
     using UnityEditor;
     using UnityEngine;
     using UnityEngine.Tilemaps;
@@ -8,39 +7,27 @@ namespace Noble.DungeonCrawler
     [CreateAssetMenu]
     public class DungeonRuleTile : RuleTile
     {
+        public bool isMask = false;
+
         public override bool StartUp(Vector3Int position, ITilemap tilemap, GameObject instantiatedGameObject)
         {
-            bool good = base.StartUp(position, tilemap, instantiatedGameObject);
+            base.StartUp(position, tilemap, instantiatedGameObject);
+
+            var tileMapComponent = tilemap.GetComponent<Tilemap>();
 
             if (instantiatedGameObject != null)
             {
+                // Some vudu to allow us to see the Tile's GameObject in the hierarchy
                 instantiatedGameObject.hideFlags &= ~HideFlags.HideInHierarchy;
 #if UNITY_EDITOR
                 try { EditorApplication.DirtyHierarchyWindowSorting(); } catch { }
 #endif
                 // Undo gameobject rotation caused by rules because that's how we want it to work
+                // The TileSpriteMask script handles rotating the masks to match the tile rotation
                 instantiatedGameObject.transform.localRotation = Quaternion.identity;
-
-                DungeonObject ob = instantiatedGameObject.GetComponent<DungeonObject>();
-                if (ob)
-                {
-                    ob.tileMap = tilemap.GetComponent<Tilemap>();
-                }
             }
 
-            return good;
-        }
-        public override void GetTileData(Vector3Int position, ITilemap tilemap, ref TileData tileData)
-        {
-            if (tileData.gameObject != null)
-            {
-                tileData.gameObject.hideFlags &= ~HideFlags.HideInHierarchy;
-#if UNITY_EDITOR
-                try { EditorApplication.DirtyHierarchyWindowSorting(); } catch { }
-#endif
-            }
-
-            base.GetTileData(position, tilemap, ref tileData);
+            return true;
         }
     }
 }

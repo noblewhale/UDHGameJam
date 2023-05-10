@@ -142,8 +142,8 @@ ScriptedImporter:
       serializedVersion: 2
       x: 4
       y: 148
-      width: 21
-      height: 18
+      width: 64
+      height: 64
     spriteID: 47337f769200a9242b1b65767f013217
     spriteBone: []
     spriteOutline: []
@@ -163,8 +163,8 @@ ScriptedImporter:
       serializedVersion: 2
       x: 4
       y: 220
-      width: 8
-      height: 21
+      width: 64
+      height: 64
     spriteID: e4216b6b120a6834dad31c710a71e084
     spriteBone: []
     spriteOutline: []
@@ -184,8 +184,8 @@ ScriptedImporter:
       serializedVersion: 2
       x: 4
       y: 292
-      width: 12
-      height: 10
+      width: 64
+      height: 64
     spriteID: 7fd39ead8d851a9469bd967995691f0b
     spriteBone: []
     spriteOutline: []
@@ -289,8 +289,8 @@ ScriptedImporter:
       serializedVersion: 2
       x: 76
       y: 148
-      width: 22
-      height: 25
+      width: 64
+      height: 64
     spriteID: 338787c4d3b713b42a09bf35c1622ef1
     spriteBone: []
     spriteOutline: []
@@ -329,10 +329,10 @@ ScriptedImporter:
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
-      x: 75
+      x: 76
       y: 292
-      width: 12
-      height: 4
+      width: 64
+      height: 64
     spriteID: beb4783bd777dc24387c1c39c736d35d
     spriteBone: []
     spriteOutline: []
@@ -592,7 +592,7 @@ ScriptedImporter:
   spriteCategoryList:
     categories: []
   spritePackingTag: 
-  resliceFromLayer: 0
+  resliceFromLayer: 1
   mosaicPSDLayers: []
   rigPSDLayers:
   - name: L_DL_D_DR_R_U

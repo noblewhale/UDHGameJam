@@ -116,6 +116,10 @@
                 }
                 totalArea.xMax += tileWidth;
                 totalArea.yMax += tileHeight;
+                totalArea.xMin = Mathf.FloorToInt(totalArea.xMin / tileWidth) * tileWidth;
+                totalArea.xMax = Mathf.FloorToInt(totalArea.xMax / tileWidth) * tileWidth;
+                totalArea.yMin = Mathf.FloorToInt(totalArea.yMin / tileHeight) * tileHeight;
+                totalArea.yMax = Mathf.FloorToInt(totalArea.yMax / tileHeight) * tileHeight;
                 width = (int)(totalArea.width / tileWidth);
                 height = (int)(totalArea.height / tileHeight);
             }

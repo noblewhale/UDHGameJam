@@ -285,4 +285,6 @@ ScriptedImporter:
   prefabAssetName: 
   spriteLibAssetName: 
   skeletonAssetName: 
-  secondarySpriteTextures: []
+  secondarySpriteTextures:
+  - name: _MaskTex
+    texture: {fileID: -8328923581568760697, guid: 28cf03cc93619c24fa26295a39aba64d, type: 3}

@@ -46,6 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageFlashColor: {r: 1, g: 0, b: 0, a: 1}
+  unityTileTint: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &1787452810539580
 GameObject:
   m_ObjectHideFlags: 0
@@ -192,6 +193,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectName: Floor
+  positionOffset: {x: 0, y: 0}
+  tileMap: {fileID: 0}
   illuminationRange: 0
   quantity: 1
   canBePickedUp: 0
