@@ -16,7 +16,7 @@ namespace Noble.TileEngine
             int newHealth = Mathf.Max(0, _value - damage);
             SetValue(newHealth);
 
-            if (newHealth == 0)
+            if (newHealth <= 0)
             {
                 ob.Die();
             }

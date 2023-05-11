@@ -58,6 +58,7 @@ GameObject:
   - component: {fileID: 4809128006189728}
   - component: {fileID: 114396989050233776}
   - component: {fileID: -4740341152010928660}
+  - component: {fileID: -8447055231008911787}
   m_Layer: 0
   m_Name: Water
   m_TagString: Untagged
@@ -115,7 +116,19 @@ MonoBehaviour:
   autoAddToTileAtStart: 1
   OnSteppedOn:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: -8447055231008911787}
+        m_TargetAssemblyTypeName: DrowningTrap, Assembly-CSharp
+        m_MethodName: onSteppedOn
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   OnPreSteppedOn:
     m_PersistentCalls:
       m_Calls: []
@@ -180,6 +193,18 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &-8447055231008911787
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1920995248641060}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf68c8c5e3f1a9c419e05e6ec7cb0cd2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3406680434798677988
 GameObject:
   m_ObjectHideFlags: 0

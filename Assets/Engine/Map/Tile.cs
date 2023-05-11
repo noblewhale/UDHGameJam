@@ -98,6 +98,16 @@
             return false;
         }
 
+        public T GetObjectWithComponent<T>() where T : MonoBehaviour
+        {
+            foreach (var hay in objectList)
+            {
+                if (hay.GetComponent<T>() != null) return hay.GetComponent<T>();
+            }
+
+            return null;
+        }
+
         public DungeonObject GetObjectOfType(string needle)
         {
             foreach (var hay in objectList)
