@@ -98,16 +98,6 @@
             return false;
         }
 
-        public T GetObjectWithComponent<T>() where T : MonoBehaviour
-        {
-            foreach (var hay in objectList)
-            {
-                if (hay.GetComponent<T>() != null) return hay.GetComponent<T>();
-            }
-
-            return null;
-        }
-
         public DungeonObject GetObjectOfType(string needle)
         {
             foreach (var hay in objectList)
@@ -225,7 +215,7 @@
         {
             bool isFirstPlacement = ob.tile == null;
 
-            ob.transform.parent = map.layers[layer];
+            ob.transform.parent = map.layers[layer].transform;
             ob.transform.localPosition = new Vector3(localPosition.x + ob.positionOffset.x, localPosition.y + ob.positionOffset.y, 0);
             ob.transform.localScale = Vector3.one;
             
@@ -309,9 +299,11 @@
                 GameObject.Destroy(ob.gameObject);
             }
 
-            if (ob.tileMap)
+            foreach (var layer in ob.associatedTilemaps)
             {
-                ob.tileMap.SetTile(ob.tileMap.WorldToCell(ob.transform.position), null);
+                var pos = layer.WorldToCell(ob.transform.position);
+                layer.SetTile(pos, null);
+                //ob.tileMap.SetTile(ob.tileMap.WorldToCell(ob.transform.position), null);
             }
 
             if (AllowsSpawn())

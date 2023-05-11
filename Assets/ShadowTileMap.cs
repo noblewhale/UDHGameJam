@@ -39,7 +39,10 @@ namespace Noble.DungeonCrawler
                         var dungeonObject = mapToCopy.GetInstantiatedObject(pos)?.GetComponent<DungeonObject>();
                         if (dungeonObject)
                         {
-                            dungeonObject.tileMap = myMap;
+                            if (!dungeonObject.associatedTilemaps.Contains(myMap))
+                            {
+                                dungeonObject.associatedTilemaps.Add(myMap);
+                            }
                         }
                     }
                 }
@@ -70,9 +73,9 @@ namespace Noble.DungeonCrawler
                         Undo.RegisterCompleteObjectUndo(myMap, "Added shadow tile");
                         myMap.SetTile(syncTile.position, shadowRuleTile);
                         var dungeonObject = mapToCopy.GetInstantiatedObject(syncTile.position)?.GetComponent<DungeonObject>();
-                        if (dungeonObject)
-                        { 
-                            dungeonObject.tileMap = myMap;
+                        if (!dungeonObject.associatedTilemaps.Contains(myMap))
+                        {
+                            dungeonObject.associatedTilemaps.Add(myMap);
                         }
                     }
                 }

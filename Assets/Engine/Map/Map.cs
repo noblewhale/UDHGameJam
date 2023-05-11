@@ -27,7 +27,7 @@
 
         public object isDirtyLock = new object();
 
-        public List<Transform> layers;
+        public List<Tilemap> layers;
 
         [NonSerialized]
         public Rect totalArea = new Rect();
@@ -75,8 +75,8 @@
         virtual public void Awake()
         {
             instance = this;
-            if (layers == null || layers.Count == 0) layers = GetComponentsInChildren<Tilemap>().Select(tm => tm.transform).ToList();
-            if (layers == null || layers.Count == 0) layers = new List<Transform>() { transform };
+            if (layers == null || layers.Count == 0) layers = GetComponentsInChildren<Tilemap>().ToList();
+            if (layers == null || layers.Count == 0) layers = new List<Tilemap>() { GetComponent<Tilemap>() };
         }
 
         virtual public void Start()
