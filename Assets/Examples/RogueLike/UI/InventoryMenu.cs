@@ -97,7 +97,7 @@ namespace Noble.DungeonCrawler
         {
             ReturnToDefaultMode();
             Tile tile = Map.instance.GetTile(Player.Identity.x, Player.Identity.y);
-            Player.Identity.transform.parent = Map.instance.layers[2];
+            Player.Identity.transform.parent = Map.instance.layers[2].transform;
             Player.Identity.transform.position = tile.position;
             Player.Identity.transform.localScale = Vector3.one;
             //tile.AddObject(Player.Identity, false, 2);

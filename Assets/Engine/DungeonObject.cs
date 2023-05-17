@@ -13,7 +13,7 @@
 
         public Vector2 positionOffset;
 
-        public Tilemap tileMap;
+        public List<Tilemap> associatedTilemaps = new List<Tilemap>();
 
         Creature _creature;
         public Creature Creature
@@ -143,7 +143,13 @@
         }
 
         virtual protected void Start()
-        { 
+        {
+            var parentLayer = GetComponentInParent<Tilemap>(true);
+            if (parentLayer != null)
+            {
+                associatedTilemaps.Add(parentLayer);
+            }
+
             map.OnPreMapLoaded += OnPreMapLoaded;
         }
 

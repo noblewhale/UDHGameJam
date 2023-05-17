@@ -86,17 +86,19 @@
                     glyph.sprite.color = new Color(glyph.sprite.color.r / 2, glyph.sprite.color.g / 2, glyph.sprite.color.b / 2, glyph.sprite.color.a);
                 }
 
-                if (glyph == glyphs[0] && dungeonObject.tileMap)
+                if (glyph == glyphs[0])
                 {
                     Color unityTileColor = unityTileTint;
 
-                    if (!isLit)
+                    foreach (var layer in dungeonObject.associatedTilemaps)
                     {
-                        unityTileColor = new Color(unityTileColor.r / 2, unityTileColor.g / 2, unityTileColor.b / 2, unityTileColor.a);
-                    }
-                    if (dungeonObject.tileMap)
-                    {
-                        dungeonObject.tileMap.SetColor(dungeonObject.tileMap.WorldToCell(dungeonObject.transform.position), unityTileColor);
+                        if (!isLit)
+                        {
+                            unityTileColor = new Color(unityTileColor.r / 2, unityTileColor.g / 2, unityTileColor.b / 2, unityTileColor.a);
+                        }
+                        var pos = layer.WorldToCell(dungeonObject.transform.position);
+                        layer.SetColor(pos, unityTileColor);
+                        //dungeonObject.tileMap.SetColor(dungeonObject.tileMap.WorldToCell(dungeonObject.transform.position), unityTileColor);
                     }
                 }
             }
