@@ -50,6 +50,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectName: Crystal
+  positionOffset: {x: 0, y: 0}
+  associatedTilemaps: []
   illuminationRange: 0
   quantity: 1
   canBePickedUp: 1
@@ -59,6 +61,7 @@ MonoBehaviour:
   guiIcon: {fileID: 3258308408430852396}
   startHidden: 1
   weight: 3.4028235e+38
+  container: {fileID: 0}
   isCollidable: 0
   blocksLineOfSight: 0
   coversObjectsBeneath: 0
@@ -88,6 +91,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   onPickedUp:
+    m_PersistentCalls:
+      m_Calls: []
+  onDroppedObject:
+    m_PersistentCalls:
+      m_Calls: []
+  onDropped:
     m_PersistentCalls:
       m_Calls: []
   onCollision:
@@ -221,8 +230,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 3
-  m_Sprite: {fileID: 252159869, guid: b4b1b5da527fe4545b9034fff910c5f0, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Sprite: {fileID: -7453471011783244602, guid: 77d0f57c24e465146a12d01e9211a851, type: 3}
+  m_Color: {r: 1, g: 0, b: 0.0072011948, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -314,7 +323,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 252159869, guid: b4b1b5da527fe4545b9034fff910c5f0, type: 3}
+  m_Sprite: {fileID: -7453471011783244602, guid: 77d0f57c24e465146a12d01e9211a851, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -414,6 +423,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageFlashColor: {r: 1, g: 0, b: 0, a: 1}
+  unityTileTint: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &6804841493309579244
 GameObject:
   m_ObjectHideFlags: 0

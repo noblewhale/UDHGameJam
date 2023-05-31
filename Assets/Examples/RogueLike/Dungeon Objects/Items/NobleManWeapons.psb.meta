@@ -370,7 +370,7 @@ ScriptedImporter:
     mosaicPosition: {x: 4, y: 76}
     flatten: 0
     isImported: 1
-    isVisible: 1
+    isVisible: 0
   - name: Coffee Cup
     spriteName: Coffee Cup
     isGroup: 0

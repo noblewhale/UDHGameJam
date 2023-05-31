@@ -486,7 +486,7 @@ ScriptedImporter:
     mosaicPosition: {x: 4, y: 216}
     flatten: 0
     isImported: 1
-    isVisible: 0
+    isVisible: 1
   - name: Legs
     spriteName: Legs
     isGroup: 0
@@ -496,7 +496,7 @@ ScriptedImporter:
     mosaicPosition: {x: 44, y: 76}
     flatten: 0
     isImported: 1
-    isVisible: 0
+    isVisible: 1
   - name: Fishing Left Arm
     spriteName: Fishing Left Arm
     isGroup: 0
@@ -506,7 +506,7 @@ ScriptedImporter:
     mosaicPosition: {x: 99, y: 214}
     flatten: 0
     isImported: 1
-    isVisible: 1
+    isVisible: 0
   - name: Fishing Right Arm
     spriteName: Fishing Right Arm
     isGroup: 0
@@ -516,7 +516,7 @@ ScriptedImporter:
     mosaicPosition: {x: 99, y: 238}
     flatten: 0
     isImported: 1
-    isVisible: 1
+    isVisible: 0
   - name: Right Arm
     spriteName: Right Arm
     isGroup: 0
@@ -526,7 +526,7 @@ ScriptedImporter:
     mosaicPosition: {x: 44, y: 99}
     flatten: 0
     isImported: 1
-    isVisible: 0
+    isVisible: 1
   - name: Left Arm,
     spriteName: Left Arm,
     isGroup: 0
@@ -536,7 +536,7 @@ ScriptedImporter:
     mosaicPosition: {x: 44, y: 128}
     flatten: 0
     isImported: 1
-    isVisible: 0
+    isVisible: 1
   - name: Body
     spriteName: Body
     isGroup: 0
@@ -546,7 +546,7 @@ ScriptedImporter:
     mosaicPosition: {x: 76, y: 214}
     flatten: 0
     isImported: 1
-    isVisible: 0
+    isVisible: 1
   - name: Layer 5
     spriteName: Layer 5
     isGroup: 0
