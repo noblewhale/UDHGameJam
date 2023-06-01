@@ -5,28 +5,48 @@ namespace Noble.DungeonCrawler
 
     public class PropertyOxygen : PropertyInt
     {
-        public override void StartAction()
-        {
-            base.StartAction();
+        public bool isDrowning = false;
+        public bool isHUDVisable = false;
+        private bool hideHUDNextTick = false;
 
-            bool isDrowning = owner.tile.ContainsObjectWithComponent<DrowningTrap>();
+        public override void FinishAction()
+        {
+            base.FinishAction();
+
+            if (hideHUDNextTick)
+            {
+                isHUDVisable = false;
+                hideHUDNextTick = false;
+            }
+
+            // Create bool for drowning if player is in a water tile or "DrowningTrap"
+            isDrowning = owner.tile.ContainsObjectWithComponent<DrowningTrap>();
 
             if (isDrowning)
             {
+                // Show Oxygen Counter
+                isHUDVisable = true;
+
+                // If player is in water tile take away one from oxygen counter
                 SetValue(GetValue() - 1);
 
+                // If oxygen counter is less than -1 then start taking damage
                 if (GetValue() <= -1)
                 {
-                    owner.TakeDamage(5);
+                    // Gets players current max health
+                    var maxHealth = owner.GetPropertyValue<int>("Max Health");
+                    // Sets damage to take at half of the players current health
+                    var drowningDamage = Mathf.FloorToInt(maxHealth * .5f);
+                    // Deals the drowning damage to the player
+                    owner.TakeDamage(drowningDamage);
                 }
-
-                Debug.Log("Glub");
             }
             else
             {
-                SetValue(3);
+                hideHUDNextTick = true;
 
-                Debug.Log("Inhale");
+                // If player is not in "DrowningTrap" then reset Oxygen Counter
+                SetValue(3); 
             }
         }
 
