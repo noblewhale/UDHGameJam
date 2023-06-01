@@ -156,6 +156,8 @@
                     }
                 }
 
+                Map.instance.ForEachTile(t => t.DestroyCondemned());
+
                 Time++;
                 //Map.instance.UpdateLighting();
 
