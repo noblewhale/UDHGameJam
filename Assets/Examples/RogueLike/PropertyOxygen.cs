@@ -1,6 +1,7 @@
 namespace Noble.DungeonCrawler
 {
     using Noble.TileEngine;
+    using Unity.VisualScripting;
     using UnityEngine;
 
     public class PropertyOxygen : PropertyInt
@@ -28,6 +29,25 @@ namespace Noble.DungeonCrawler
             {
                 // Show Oxygen Counter
                 isHUDVisable = true;
+
+                // Check if "Wet" property already exists;
+                IProperty wetPropertyInterface;
+                PropertyFixedDuration wetProperty;
+                bool hasWetProperty = owner.Properties.TryGetValue("Wet", out wetPropertyInterface);
+
+                if (hasWetProperty)
+                {
+                    // Property already exists, just get it
+                    wetProperty = (PropertyFixedDuration)wetPropertyInterface;
+                }
+                else
+                {
+                    // Property does not exist, add it
+                    wetProperty = owner.AddProperty<PropertyFixedDuration>("Wet");
+                }
+
+                // Set the wet duration to 5
+                wetProperty.SetValue(5);
 
                 // If player is in water tile take away one from oxygen counter
                 SetValue(GetValue() - 1);
