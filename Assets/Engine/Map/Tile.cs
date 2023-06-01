@@ -295,13 +295,18 @@
                 objectList.Remove(objectToBeRemoved);
 
                 if (objectToBeRemoved.condemned)
-                { 
+                {
                     GameObject.Destroy(objectToBeRemoved.gameObject); 
+                }
+
+                foreach (var layer in objectToBeRemoved.associatedTilemaps)
+                {
+                    var pos = layer.WorldToCell(objectToBeRemoved.transform.position);
+                    layer.SetTile(pos, null);
                 }
             }
 
             objectsToBeRemoved.Clear();
-            
         }
 
 
@@ -320,13 +325,6 @@
             {
                 ob.gameObject.SetActive(false);
                 ob.condemned = true;
-            }
-
-            foreach (var layer in ob.associatedTilemaps)
-            {
-                var pos = layer.WorldToCell(ob.transform.position);
-                layer.SetTile(pos, null);
-                //ob.tileMap.SetTile(ob.tileMap.WorldToCell(ob.transform.position), null);
             }
 
             if (AllowsSpawn())
