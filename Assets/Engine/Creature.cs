@@ -88,14 +88,11 @@
 
         void OnPreMove(DungeonObject _, Tile oldTile, Tile newTile)
         {
-            newTile.PreStepOn(baseObject);
         }
 
         void OnMove(DungeonObject _, Tile oldTile, Tile newTile)
         {
             lastDirectionAttackedOrMoved = GetDirection(oldTile.tilePosition, newTile.tilePosition);
-
-            newTile.StepOn(baseObject);
         }
 
         public Direction GetDirection(Vector2Int start, Vector2Int end)

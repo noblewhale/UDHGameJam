@@ -366,6 +366,8 @@
                 onPreSetPosition?.Invoke(this, tile, newTile);
             }
 
+            newTile.PreStepOn(this);
+
             previousTile = tile;
             tile = newTile;
 
@@ -387,6 +389,8 @@
 
             if (isMove && onMove != null) onMove.Invoke(this, previousTile, tile);
             if (onSetPosition != null) onSetPosition.Invoke(this, previousTile, tile);
+
+            newTile.StepOn(this);
         }
     }
 }
