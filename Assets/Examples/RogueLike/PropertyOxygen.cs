@@ -5,9 +5,9 @@ namespace Noble.DungeonCrawler
 
     public class PropertyOxygen : PropertyInt
     {
-        public override void StartAction()
+        public override void FinishAction()
         {
-            base.StartAction();
+            base.FinishAction();
 
             bool isDrowning = owner.tile.ContainsObjectWithComponent<DrowningTrap>();
 
