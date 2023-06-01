@@ -6,6 +6,8 @@
     using UnityEngine.Events;
     using System.Linq;
     using UnityEngine.Tilemaps;
+    using static UnityEngine.UI.GridLayoutGroup;
+    using NUnit.Framework.Internal;
 
     public class DungeonObject : MonoBehaviour
     {
@@ -181,6 +183,31 @@
             Properties.TryGetValue(propertyName, out IProperty prop);
             if (prop == null) return default(T);
             else return ((Property<T>)prop).GetValue();
+        }
+                
+        public T AddProperty<T>(string propertyName) where T : TickableBehaviour, IProperty
+        {
+            var newProperty = gameObject.AddComponent<T>();
+            newProperty.propertyName = propertyName;
+            Properties.Add(propertyName, newProperty);
+            var tickable = gameObject.GetComponent<Tickable>();
+            if (tickable)
+            {
+                tickable.behaviours.Add(newProperty);
+            }
+
+            return newProperty;
+        }
+
+        public void RemoveProperty<T>(T property) where T : TickableBehaviour, IProperty
+        {
+            Properties.Remove(property.propertyName);
+            var tickable = gameObject.GetComponent<Tickable>();
+            if (tickable)
+            {
+                tickable.behaviours.Remove(property);
+            }
+            Destroy(property);
         }
 
         public void UpdateLighting()
