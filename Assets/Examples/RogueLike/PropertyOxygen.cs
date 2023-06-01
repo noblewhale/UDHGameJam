@@ -5,6 +5,7 @@ namespace Noble.DungeonCrawler
 
     public class PropertyOxygen : PropertyInt
     {
+
         public bool isDrowning = false;
         public bool isHUDVisable = false;
         private bool hideHUDNextTick = false;
@@ -18,6 +19,7 @@ namespace Noble.DungeonCrawler
                 isHUDVisable = false;
                 hideHUDNextTick = false;
             }
+
 
             // Create bool for drowning if player is in a water tile or "DrowningTrap"
             isDrowning = owner.tile.ContainsObjectWithComponent<DrowningTrap>();
