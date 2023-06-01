@@ -15,6 +15,8 @@
 
         public Vector2 positionOffset;
 
+        public bool condemned = false;
+
         public List<Tilemap> associatedTilemaps = new List<Tilemap>();
 
         Creature _creature;

@@ -28,7 +28,7 @@
         public Vector2 position => map.totalArea.min + tilePosition * map.tileDimensions;
 
         // New list of condemned objects to be removed
-        List<DungeonObject> condemnedObjects = new();
+        List<DungeonObject> objectsToBeRemoved = new();
 
         public void Init(Map map, int x, int y)
         {
@@ -288,12 +288,19 @@
             if (tail != pivot) Sort(pivot.Next, tail, valueGetter);
         }
 
-        public void DestroyCondemned()
+        public void RemovePendingObjects()
         {
-            foreach (var condemnedObject in condemnedObjects)
+            foreach (var objectToBeRemoved in objectsToBeRemoved)
             {
-                objectList.Remove(condemnedObject);
+                objectList.Remove(objectToBeRemoved);
+
+                if (objectToBeRemoved.condemned)
+                { 
+                    GameObject.Destroy(objectToBeRemoved.gameObject); 
+                }
             }
+
+            objectsToBeRemoved.Clear();
             
         }
 
@@ -307,13 +314,12 @@
 
             ob.transform.parent = null;
 
-            condemnedObjects.Add(ob);
-            ob.gameObject.SetActive(false);
-
+            objectsToBeRemoved.Add(ob);
             
             if (destroyObject)
             {
-                GameObject.Destroy(ob.gameObject);
+                ob.gameObject.SetActive(false);
+                ob.condemned = true;
             }
 
             foreach (var layer in ob.associatedTilemaps)

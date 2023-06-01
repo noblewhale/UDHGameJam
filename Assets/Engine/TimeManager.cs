@@ -156,7 +156,7 @@
                     }
                 }
 
-                Map.instance.ForEachTile(t => t.DestroyCondemned());
+                Map.instance.ForEachTile(t => t.RemovePendingObjects());
 
                 Time++;
                 //Map.instance.UpdateLighting();
