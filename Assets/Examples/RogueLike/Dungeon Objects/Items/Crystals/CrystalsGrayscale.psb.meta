@@ -236,7 +236,7 @@ ScriptedImporter:
     mosaicPosition: {x: 24, y: 4}
     flatten: 0
     isImported: 1
-    isVisible: 1
+    isVisible: 0
   - name: Grayscale 3
     spriteName: Grayscale 3
     isGroup: 0
@@ -246,7 +246,7 @@ ScriptedImporter:
     mosaicPosition: {x: 4, y: 4}
     flatten: 0
     isImported: 1
-    isVisible: 1
+    isVisible: 0
   sharedRigPSDLayers: []
   pSDLayerImportSetting: []
   generateGOHierarchy: 1

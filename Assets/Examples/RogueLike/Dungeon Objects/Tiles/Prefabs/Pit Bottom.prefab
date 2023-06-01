@@ -193,9 +193,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ddd0c896d8f310e46a0e98eca91558d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectName: Floor
+  objectName: Pit
   positionOffset: {x: 0.5, y: 0.5}
-  tileMap: {fileID: 0}
+  associatedTilemaps: []
   illuminationRange: 0
   quantity: 1
   canBePickedUp: 0
