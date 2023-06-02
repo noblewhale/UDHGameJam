@@ -29,9 +29,12 @@ public class Fish : MonoBehaviour
         }
         else
         {
-            var possibleWaterDestination = UnityEngine.Random.Range(0,adjacentWater.Count);
+            if (stepper.GetComponent<Creature>() != null || stepper.objectName == "Boulder")
+            {
+                var possibleWaterDestination = UnityEngine.Random.Range(0, adjacentWater.Count);
 
-            //Map.instance.MoveObject(threatenedFish, adjacentWater[possibleWaterDestination].tilePosition);
+                Map.instance.MoveObject(threatenedFish, adjacentWater[possibleWaterDestination].tilePosition);
+            }
         }
 
         
@@ -41,7 +44,7 @@ public class Fish : MonoBehaviour
     {
         var adjacentTile = Map.instance.GetTile(threatenedFishTile.x + x, threatenedFishTile.y + y);
 
-        if (adjacentTile.ContainsObjectOfType("Water"))
+        if (adjacentTile.ContainsObjectOfType("Water") && !adjacentTile.ContainsObjectOfType("Fish Swimming"))
         {
             adjacentWater.Add(adjacentTile);
         }
