@@ -165,6 +165,7 @@
         {
             foreach (var ob in objectList)
             {
+                if (creature == ob) continue;
                 ob.SteppedOn(creature);
             }
         }
@@ -173,10 +174,9 @@
         {
             foreach (var ob in objectList)
             {
+                if (creature == ob) continue;
                 ob.PreSteppedOn(creature);
-                
             }
-            
         }
 
 
