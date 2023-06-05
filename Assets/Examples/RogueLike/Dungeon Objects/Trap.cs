@@ -28,7 +28,7 @@
             TimeManager.instance.ForceNextAction(owner.GetComponent<Tickable>());
         }
 
-        public override bool ContinueSubAction(ulong time)
+        /*public override bool ContinueSubAction(ulong time)
         {
             if (doDamage)
             {
@@ -47,7 +47,7 @@
 
             return true;
         }
-
+        */
         public override void FinishSubAction(ulong time)
         {
             if (doDamage)
@@ -56,7 +56,7 @@
                 {
                     if (dungeonObject.canTakeDamage)
                     {
-                        dungeonObject.DamageFlash(1);
+                        
                         dungeonObject.TakeDamage(Mathf.RoundToInt(Random.Range(minDamage, maxDamage)));
                         var healthProperty = dungeonObject.GetProperty<int>("Health");
                         int currentHealth = healthProperty.GetValue();

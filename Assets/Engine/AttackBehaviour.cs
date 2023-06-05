@@ -94,11 +94,11 @@ namespace Noble.TileEngine
 						case Direction.DOWN_RIGHT: glyphs.transform.localPosition = originalPosition + VectorUtil.DownRight * offset; break;
 					}
 				}
-				if (attackWillHit && targetCreature)
+				/*if (attackWillHit && targetCreature)
 				{
 					targetCreature.baseObject.DamageFlash(identityCreature.attackAnimationTime / identityCreature.attackAnimationDuration);
 				}
-
+				*/
 				identityCreature.attackAnimationTime += Time.deltaTime;
 
 				isCreatureDone = false;
@@ -144,7 +144,7 @@ namespace Noble.TileEngine
 
 			if (attackWillHit && targetCreature)
 			{
-				targetCreature.baseObject.DamageFlash(1);
+				
 				// Got past armor / defense
 				if (!weapon)
 				{

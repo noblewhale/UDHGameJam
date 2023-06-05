@@ -8,6 +8,7 @@
     using UnityEngine.Tilemaps;
     using static UnityEngine.UI.GridLayoutGroup;
     using NUnit.Framework.Internal;
+    using System.Collections;
 
     public class DungeonObject : MonoBehaviour
     {
@@ -295,16 +296,28 @@
             OnPreSteppedOn?.Invoke(creature);
         }
 
-        public void DamageFlash(float animationTime)
-        {
-            glyphs.DamageFlash(animationTime);
-        }
-
         public void TakeDamage(int v)
         {
             if (!canTakeDamage) return;
 
             onTakeDamage.Invoke(this, v);
+
+            StartCoroutine(DamageFlash());
+        }
+
+        IEnumerator DamageFlash()
+        {
+            float damageFlashDuration = .4f;
+            float damageFlashStartTime = Time.time;
+
+            while (Time.time - damageFlashStartTime < damageFlashDuration)
+            {
+                float animationTime = (Time.time - damageFlashStartTime) / damageFlashDuration;
+
+                glyphs.DamageFlash(animationTime);
+
+                yield return new WaitForEndOfFrame();
+            }
         }
 
         virtual public void Die()

@@ -35,7 +35,7 @@
                 if (roll > defenderDex + defenderArmor)
                 {
                     // Got past armor / defense
-                    targetCreature.baseObject.DamageFlash(1);
+                    
 
                     int damage = Random.Range(minBaseDamage, maxBaseDamage + 1);
                     targetCreature.baseObject.TakeDamage(damage);
