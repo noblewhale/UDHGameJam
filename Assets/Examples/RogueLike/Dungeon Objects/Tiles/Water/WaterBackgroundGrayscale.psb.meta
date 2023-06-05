@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 257b071673b80ca4da9b8b2c83829185
+guid: 90b1d4886a8b7b041b89b9fb7a8f6f73
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -28,7 +28,7 @@ ScriptedImporter:
     ignoreMasterTextureLimit: 0
     nPOTScale: 1
     sRGBTexture: 1
-    spriteMode: 2
+    spriteMode: 1
     spriteExtrude: 1
     spriteMeshType: 0
     alignment: 0
@@ -68,18 +68,18 @@ ScriptedImporter:
     textureFormatSet: 0
     applyGammaDecoding: 0
   spriteImportData:
-  - name: 
+  - name: WaterBackgroundGrayscale_1
     originalName: 
-    pivot: {x: 0, y: 0}
+    pivot: {x: 0.5, y: 0.5}
     alignment: 0
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
       x: 0
       y: 0
-      width: 0
-      height: 0
-    spriteID: 
+      width: 64
+      height: 64
+    spriteID: 3e76f06fadd57894190fd3d8dc7a059f
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -89,125 +89,20 @@ ScriptedImporter:
     tessellationDetail: 0
     parentGroupIndex: -1
     uvTransform: {x: 0, y: 0}
-  mosaicSpriteImportData:
-  - name: Waves 2
-    originalName: 
-    pivot: {x: 0.5, y: 0.5}
-    alignment: 0
-    border: {x: 0, y: 0, z: 0, w: 0}
-    rect:
-      serializedVersion: 2
-      x: 4
-      y: 144
-      width: 52
-      height: 53
-    spriteID: 3527af62b2d7b5646b4e6a445f0c281f
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    parentGroupIndex: -1
-    uvTransform: {x: -4, y: 141}
-  - name: Waves 1
-    originalName: 
-    pivot: {x: 0.5, y: 0.5}
-    alignment: 0
-    border: {x: 0, y: 0, z: 0, w: 0}
-    rect:
-      serializedVersion: 2
-      x: 4
-      y: 76
-      width: 64
-      height: 60
-    spriteID: bfc91ffe19f1dcb499cdd810b7de2ea4
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    parentGroupIndex: -1
-    uvTransform: {x: 4, y: 72}
-  - name: Texture
-    originalName: 
-    pivot: {x: 0.5, y: 0.5}
-    alignment: 0
-    border: {x: 0, y: 0, z: 0, w: 0}
-    rect:
-      serializedVersion: 2
-      x: 4
-      y: 4
-      width: 64
-      height: 64
-    spriteID: a80db072b4680044d8b225c5810131e9
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    parentGroupIndex: -1
-    uvTransform: {x: 4, y: 4}
+  mosaicSpriteImportData: []
   rigSpriteImportData:
-  - name: Waves 2
+  - name: Texture Grayscale
     originalName: 
-    pivot: {x: 0.5, y: 0.5}
-    alignment: 0
-    border: {x: 0, y: 0, z: 0, w: 0}
-    rect:
-      serializedVersion: 2
-      x: 4
-      y: 144
-      width: 52
-      height: 53
-    spriteID: 05f223376966b5f4b9b51e897d6e0eb0
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    parentGroupIndex: -1
-    uvTransform: {x: -4, y: 141}
-  - name: Waves 1
-    originalName: 
-    pivot: {x: 0.5, y: 0.5}
-    alignment: 0
-    border: {x: 0, y: 0, z: 0, w: 0}
-    rect:
-      serializedVersion: 2
-      x: 4
-      y: 76
-      width: 64
-      height: 60
-    spriteID: c64def4eec13e664e9ad8b6f28aec899
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    parentGroupIndex: -1
-    uvTransform: {x: 4, y: 72}
-  - name: Texture
-    originalName: 
-    pivot: {x: 0.5, y: 0.5}
-    alignment: 0
+    pivot: {x: 0, y: 0}
+    alignment: 6
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
       x: 4
       y: 4
-      width: 64
-      height: 64
-    spriteID: ec5757b01b7796c4eb73e5b5f6a28746
+      width: 12
+      height: 24
+    spriteID: 3bedbf4793304f54e950cec0c07621f3
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -278,7 +173,8 @@ ScriptedImporter:
     categories: []
   spritePackingTag: 
   resliceFromLayer: 0
-  mosaicPSDLayers:
+  mosaicPSDLayers: []
+  rigPSDLayers:
   - name: Water
     spriteName: 
     isGroup: 1
@@ -289,73 +185,12 @@ ScriptedImporter:
     flatten: 0
     isImported: 0
     isVisible: 1
-  - name: Waves 2
-    spriteName: Waves 2
+  - name: Texture Grayscale
+    spriteName: Texture Grayscale
     isGroup: 0
     parentIndex: 0
-    spriteID: 3527af62b2d7b5646b4e6a445f0c281f
-    layerID: 27
-    mosaicPosition: {x: 4, y: 144}
-    flatten: 0
-    isImported: 1
-    isVisible: 0
-  - name: Waves 1
-    spriteName: Waves 1
-    isGroup: 0
-    parentIndex: 0
-    spriteID: bfc91ffe19f1dcb499cdd810b7de2ea4
-    layerID: 25
-    mosaicPosition: {x: 4, y: 76}
-    flatten: 0
-    isImported: 1
-    isVisible: 1
-  - name: Texture
-    spriteName: Texture
-    isGroup: 0
-    parentIndex: 0
-    spriteID: a80db072b4680044d8b225c5810131e9
-    layerID: 19
-    mosaicPosition: {x: 4, y: 4}
-    flatten: 0
-    isImported: 1
-    isVisible: 1
-  rigPSDLayers:
-  - name: Water
-    spriteName: 
-    isGroup: 1
-    parentIndex: -1
-    spriteID: d3ca7922989d4c449b04cb04d8a65b10
-    layerID: 28
-    mosaicPosition: {x: 0, y: 0}
-    flatten: 0
-    isImported: 0
-    isVisible: 1
-  - name: Waves 2
-    spriteName: Waves 2
-    isGroup: 0
-    parentIndex: 0
-    spriteID: 05f223376966b5f4b9b51e897d6e0eb0
-    layerID: 27
-    mosaicPosition: {x: 4, y: 144}
-    flatten: 0
-    isImported: 1
-    isVisible: 1
-  - name: Waves 1
-    spriteName: Waves 1
-    isGroup: 0
-    parentIndex: 0
-    spriteID: c64def4eec13e664e9ad8b6f28aec899
-    layerID: 25
-    mosaicPosition: {x: 4, y: 76}
-    flatten: 0
-    isImported: 1
-    isVisible: 1
-  - name: Texture
-    spriteName: Texture
-    isGroup: 0
-    parentIndex: 0
-    spriteID: ec5757b01b7796c4eb73e5b5f6a28746
-    layerID: 19
+    spriteID: 3bedbf4793304f54e950cec0c07621f3
+    layerID: 30
     mosaicPosition: {x: 4, y: 4}
     flatten: 0
     isImported: 1

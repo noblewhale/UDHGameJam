@@ -41,15 +41,17 @@ namespace Noble.DungeonCrawler
                 {
                     Map.instance.MoveObject(baseObject, updatedBoulderPosition);
                     Map.instance.UpdateIsVisible(Player.instance.identity.tile, ob.Creature.effectiveViewDistance, true);
-                    if (potentialNewTile.ContainsObjectOfType("Water") || potentialNewTile.ContainsObjectOfType("Acid") || potentialNewTile.ContainsObjectOfType("Pit"))
+                    if (potentialNewTile.ContainsObjectOfType("Water") || potentialNewTile.ContainsObjectOfType("Acid") || potentialNewTile.ContainsObjectOfType("Pit") || potentialNewTile.ContainsObjectOfType("Lava"))
                     {
                         var waterToDestroy = potentialNewTile.GetObjectOfType("Water");
                         var acidToDestroy = potentialNewTile.GetObjectOfType("Acid");
                         var pitToDestroy = potentialNewTile.GetObjectOfType("Pit");
+                        var lavaToDestroy = potentialNewTile.GetObjectOfType("Lava");
 
                         potentialNewTile.RemoveObject(waterToDestroy, true);
                         potentialNewTile.RemoveObject(acidToDestroy, true);
                         potentialNewTile.RemoveObject(pitToDestroy, true);
+                        potentialNewTile.RemoveObject(lavaToDestroy, true);
 
                         potentialNewTile.RemoveObject(baseObject, true);
                     }
