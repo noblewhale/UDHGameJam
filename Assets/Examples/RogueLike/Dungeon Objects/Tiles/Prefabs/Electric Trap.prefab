@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageFlashColor: {r: 1, g: 0, b: 0, a: 1}
-  glyphs: []
+  unityTileTint: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &782521500238727707
 GameObject:
   m_ObjectHideFlags: 0
@@ -146,7 +146,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tint: {r: 1, g: 1, b: 1, a: 1}
   extraTint: {r: 1, g: 1, b: 1, a: 1}
-  isLit: 0
+  originalColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &782669381358316547
 GameObject:
   m_ObjectHideFlags: 0
@@ -194,9 +194,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ddd0c896d8f310e46a0e98eca91558d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectName: Floor
-  viewDistance: 4
+  objectName: Electric Trap
+  positionOffset: {x: 0, y: 0}
+  condemned: 0
+  associatedTilemaps: []
   illuminationRange: 0
+  quantity: 1
+  canBePickedUp: 0
+  canTakeDamage: 0
+  isVisibleWhenNotInSight: 1
+  pathingWeight: 999
+  guiIcon: {fileID: 0}
+  startHidden: 1
+  weight: 3.4028235e+38
+  container: {fileID: 0}
+  isCollidable: 0
+  blocksLineOfSight: 0
+  coversObjectsBeneath: 1
+  preventsObjectSpawning: 1
+  tile:
+    rid: -2
+  autoAddToTileAtStart: 1
   OnSteppedOn:
     m_PersistentCalls:
       m_Calls:
@@ -212,26 +230,50 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  originalGlyphPosition: {x: 0, y: 0, z: 0}
-  map: {fileID: 0}
-  position: {x: 0, y: 0}
-  previousX: 0
-  previousY: 0
-  quantity: 1
-  canBePickedUp: 0
-  isAlwaysLit: 0
-  canTakeDamage: 0
-  isVisibleWhenNotInSight: 1
-  pathingWeight: 999
-  guiIcon: {fileID: 0}
-  health: 1
-  isCollidable: 0
-  blocksLineOfSight: 0
-  coversObjectsBeneath: 1
-  preventsObjectSpawning: 1
-  hasBeenSeen: 0
-  hasDoneDamageFlash: 0
-  tile: {fileID: 0}
+  OnPreSteppedOn:
+    m_PersistentCalls:
+      m_Calls: []
+  onMove:
+    m_PersistentCalls:
+      m_Calls: []
+  onSetPosition:
+    m_PersistentCalls:
+      m_Calls: []
+  onPreMove:
+    m_PersistentCalls:
+      m_Calls: []
+  onPreSetPosition:
+    m_PersistentCalls:
+      m_Calls: []
+  onPickedUpObject:
+    m_PersistentCalls:
+      m_Calls: []
+  onPickedUp:
+    m_PersistentCalls:
+      m_Calls: []
+  onDroppedObject:
+    m_PersistentCalls:
+      m_Calls: []
+  onDropped:
+    m_PersistentCalls:
+      m_Calls: []
+  onCollision:
+    m_PersistentCalls:
+      m_Calls: []
+  onDeath:
+    m_PersistentCalls:
+      m_Calls: []
+  onSpawn:
+    m_PersistentCalls:
+      m_Calls: []
+  onTakeDamage:
+    m_PersistentCalls:
+      m_Calls: []
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
 --- !u!114 &-1278360561454309812
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -244,8 +286,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: caa46d90b6820d3418907977bb3d14c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  owner: {fileID: 0}
+  executeEveryTick: 0
   delay: 0.25
   knockBack: 1
+  minDamage: 1
+  maxDamage: 1
+  damageChance: 1
 --- !u!114 &2765191163200258669
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -262,5 +309,6 @@ MonoBehaviour:
   lastActionTime: 0
   behaviours: []
   owner: {fileID: 0}
+  currentBehaviours: []
   markedForRemoval: 0
   nextBehaviour: {fileID: 0}
